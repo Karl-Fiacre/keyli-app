@@ -40,8 +40,8 @@ Rate Limiting                    → limiter les tentatives sur /auth,
                                    endpoint Edge Function exposé publiquement
 Turnstile (CAPTCHA)              → à intégrer sur Auth.tsx (inscription) et
                                    le formulaire d'inscription pilote —
-                                   alimente aussi signup_attempts_keyli déjà
-                                   existant (anti-abus déjà partiellement
+                                   complète signup_attempts_keyli (table du
+                                   schéma cible, à créer — anti-abus déjà
                                    pensé côté produit, Turnstile le renforce
                                    côté réseau)
 Bot Management                   → plan payant, pas nécessaire au lancement

@@ -44,6 +44,10 @@ au cas par cas (proposer : 400 validation, 401 non authentifié, 403 rôle
 non autorisé, 404 non trouvé, 409 conflit métier, 422 règle métier violée).
 
 ## Tests
-Playwright déjà configuré (`playwright.config.ts`) — écrire un test
+Base de données : tests RLS en pgTAP dans `supabase/tests/`, un fichier par
+table, rejoués en CI (voir SETUP.md) — obligatoires pour toute nouvelle
+policy.
+Web : Playwright (à installer au premier parcours critique — il était
+configuré dans l'ancien pilote) (`playwright.config.ts`) — écrire un test
 end-to-end pour tout nouveau parcours critique (paiement, vérification,
 changement de forfait), pas uniquement pour les nouvelles pages UI.

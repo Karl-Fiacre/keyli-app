@@ -47,6 +47,13 @@ nommage/logique) contenait des tables et enums en double (`properties` ET
 `_keyli`. PostGIS activé dès le départ pour la géolocalisation — voir
 MODULES/geolocalisation.md.
 
+## ⚠️ Nouveau dépôt de code — décision du 2026-09-28
+Le web est reconstruit dans un **nouveau projet** React/Vite/TypeScript, pas
+repris de l'ancien pilote. Toute mention de code « existant » ou « déjà en
+place » dans ce paquet (pages, hooks, Edge Functions, Playwright, tokens CSS,
+dépendances) désigne l'ancien pilote : seul fait foi ce qui est coché dans
+`etat_avancement.md`.
+
 ## Règle absolue — Logo
 Le logo Keyli (clé + toit) et le badge de vérification sont deux assets distincts
 à usage différent — voir LOGO.md. Ne jamais réinventer un tracé approximatif.

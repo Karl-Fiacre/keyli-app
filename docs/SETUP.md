@@ -26,8 +26,13 @@ final visé, à consulter module par module, jamais à exécuter tel quel.
        migration** — jamais RLS activée sans policy, même temporairement
 5. [ ] `supabase gen types typescript` → régénérer
        `src/integrations/supabase/types.ts`
-6. [ ] Tester la table avec un compte de chaque rôle concerné avant de
-       passer au module suivant
+6. [ ] Écrire les tests RLS de la table en pgTAP dans `supabase/tests/`
+       (modèle : `profiles_keyli_rls.test.sql`) — un cas par rôle concerné,
+       dont « un utilisateur ne lit/modifie pas les données d'un autre » —
+       puis `npm run db:reset && npm run db:test` en local (Postgres seul,
+       Docker). La CI les rejoue à chaque push.
+7. [ ] Pousser la migration sur le projet distant (`npx supabase db push`)
+       seulement une fois les tests verts
 
 ## Identifiants — rappel de sécurité
 Seuls **l'URL du projet** et la **clé anon publique** doivent être transmis

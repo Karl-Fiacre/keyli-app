@@ -3,7 +3,9 @@
 Versions extraites de `package.json` réel au moment de la rédaction —
 vérifier `package.json` avant d'ajouter une dépendance, ne pas assumer.
 
-## Web / PWA (existant)
+## Web / PWA
+Versions de l'ancien pilote, reprises pour le nouveau projet (2026-09-28) —
+une dépendance n'est installée qu'au moment où un module en a besoin.
 ```
 React 18.3 + TypeScript 5.8 + Vite 5.4
 TailwindCSS 3.4 + tailwindcss-animate (Shadcn/ui)

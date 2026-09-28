@@ -4,10 +4,11 @@
 ```sql
 ('user', 'owner', 'agency', 'admin')
 ```
-⚠️ `profiles_keyli.role_keyli` est stocké en `TEXT`, pas en type `user_role_keyli`
-— aucune contrainte de base ne garantit qu'une valeur hors de cet enum ne soit
-insérée. Valider côté application (Zod) tant que la colonne n'est pas migrée
-vers le type enum.
+Dans le nouveau schéma, `profiles_keyli.role_keyli` est bien typé
+`user_role_keyli` (c'était un `TEXT` dans l'ancien pilote). Le client ne
+peut jamais le modifier : rôle fixé à l'inscription par trigger (`admin`
+refusé), puis modifiable côté serveur uniquement — voir DATABASE.md,
+décision « sécurité de profiles_keyli ».
 
 ## user (chercheur de bien)
 - Recherche et consultation d'annonces
