@@ -1,0 +1,46 @@
+# Pipeline CI de base (Phase 0, docs/calendrier.md) — à chaque push et PR :
+#  - web : lint + build (le build inclut la vérification TypeScript)
+#  - base : migrations rejouées sur un Postgres Supabase vierge, tests RLS
+#    pgTAP, et contrôle que types.ts a bien été régénéré après la dernière
+#    migration.
+# Pas d'étape de déploiement tant que l'hébergement n'est pas acté
+# (docs/MODULES/hebergement-securite.md).
+name: CI
+
+on:
+  push:
+    branches: [main, 'feature/**']
+  pull_request:
+    branches: [main]
+
+jobs:
+  web:
+    name: Lint et build web
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+
+  database:
+    name: Migrations et tests RLS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          # Même version que la dépendance « supabase » du package.json
+          version: 2.118.0
+      - name: Démarrer Postgres et appliquer les migrations
+        run: supabase db start
+      - name: Tests RLS (pgTAP)
+        run: supabase test db
+      - name: Vérifier que types.ts est à jour
+        run: |
+          supabase gen types typescript --local --schema public > src/integrations/supabase/types.ts
+          git diff --exit-code -- src/integrations/supabase/types.ts
