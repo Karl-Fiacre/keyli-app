@@ -23,7 +23,7 @@ conversation précédente, elle ne persiste pas.
 
 ## Fichiers/tables terminés
 
-- [ ] `.env` configuré (en attente de l'URL et de la clé anon)
+- [x] `.env` configuré (2026-10-01) — connexion au projet distant vérifiée
 - [x] Extension PostGIS — migration `20260928120000_extensions_keyli.sql`
       (2026-09-28, appliquée sur le distant le 2026-10-01)
 - [x] `profiles_keyli` + enum `user_role_keyli` + trigger d'inscription +
@@ -219,7 +219,9 @@ concernés :
 - Constat : après un redémarrage de la machine, le conteneur
   `supabase_db_keyli` reste arrêté alors que le CLI le croit actif —
   `docker start supabase_db_keyli` le relance.
-- Reste : `.env`, config Auth du distant, fusion dans `main`.
+- Ensuite : `.env` créé (connexion vérifiée, anon refusé sur
+  `profiles_keyli`, confirmation d'email active sur le distant) ; Phase 0
+  fusionnée dans `main`, CI verte.
 
 ---
 
