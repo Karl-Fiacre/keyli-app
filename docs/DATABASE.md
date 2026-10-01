@@ -431,6 +431,31 @@ Accès :
   publication, registre de commerce obligatoire pour une agence.
 Tests : `supabase/tests/properties_keyli_rls.test.sql`.
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — abonnements, transactions, tentatives de paiement
+Créées le 2026-10-02 (migration `20261002150000_abonnements_keyli.sql`), avec
+les enums `subscription_status_keyli` et `transaction_status_keyli`. Écarts
+avec le schéma de référence (décisions du porteur de projet) :
+- `subscriptions_keyli` : **formule personnalisée Grande Agence** —
+  `prix_depassement_negocie DECIMAL(10,2)` (prix par annonce au-delà de 30),
+  `montant_depassement_negocie DECIMAL(10,2)` (forfait mensuel au-delà de 30),
+  `conditions_negociees TEXT` ; tous facultatifs, réservés au forfait
+  `grande_agence`, négociés avec le super_admin.
+- **Un seul abonnement actif par compte** : index unique partiel
+  `uq_subscriptions_keyli_un_actif`. CHECK `end_date > start_date`.
+- `payment_attempts_keyli` : `plan_type TEXT` remplacé par
+  `plan_id UUID → plans_keyli` ; `status` contrôlé (`initiated`, `success`,
+  `failed`, `abandoned`).
+- `transactions_keyli` : `paystack_ref` unique (webhook rejoué sans doublon).
+Garde-fous (trigger `validate_subscription_keyli`, valables même pour les
+écritures serveur) : abonnement réservé aux rôles `owner`/`agency` ; une
+agence ne prend jamais le forfait Propriétaire ; souscription uniquement à un
+forfait actif ; formule négociée seulement en Grande Agence.
+Accès : chacun lit ses abonnements, transactions et tentatives ; **aucune
+écriture côté client** (Edge Functions Paystack et admin uniquement). Un
+abonné lit son forfait même désactivé depuis (policy ajoutée sur
+`plans_keyli`).
+Tests : `supabase/tests/abonnements_keyli_rls.test.sql`.
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — documents_keyli + bucket documents_keyli
 Créés le 2026-10-02 (migration `20261002140000_documents_keyli.sql`), avec les
 enums `document_type_keyli` et `document_status_keyli`. Colonnes identiques
