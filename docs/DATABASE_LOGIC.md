@@ -19,6 +19,7 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Agence/Propriétaire — visites à venir | `visits_keyli WHERE scheduled_by = uid AND scheduled_at > now()` | `idx_visits_scheduled_by` (déjà présent) |
 | Chercheur — favoris | `favorites_keyli WHERE user_id = uid JOIN properties_keyli` | à ajouter si lenteur : `(user_id)` déjà couvert par la contrainte UNIQUE |
 | Chercheur — alertes actives | `search_alerts_keyli WHERE user_id = uid AND actif = true` | à ajouter si lenteur : `(user_id, actif)` |
+| Page tarifs / choix de forfait (public) | `plans_keyli WHERE actif = true ORDER BY seuil_min` (RLS filtre déjà `actif`) | aucun — 3 lignes |
 | Formulaire de publication — sélecteur quartier | `quartiers_keyli JOIN communes_keyli ORDER BY commune, quartier` | `idx_quartiers_commune` (déjà présent) — liste fermée, mise en cache client raisonnable (change rarement) |
 
 **Toute nouvelle requête ajoutée en cours de développement doit être ajoutée

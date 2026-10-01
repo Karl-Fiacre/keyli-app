@@ -33,7 +33,9 @@ conversation précédente, elle ne persiste pas.
       (`src/integrations/supabase/`) — 2026-09-28
 - [x] CI GitHub Actions (lint, build, migrations, tests RLS, contrôle de
       `types.ts`) — `.github/workflows/ci.yml`, 2026-09-28
-- [ ] `plans_keyli` (+ seed 3 forfaits)
+- [x] `plans_keyli` (+ seed 3 forfaits) — migration
+      `20261001120000_plans_keyli.sql`, local + distant (2026-10-01), 12 tests
+      pgTAP verts ; lecture anon vérifiée via l'API REST, écriture refusée
 - [ ] `communes_keyli` / `quartiers_keyli` (+ seed)
 - [ ] `agency_agents_keyli`
 - [ ] `properties_keyli` / `property_media_keyli`
@@ -78,10 +80,11 @@ concernés :
   annonces/notation.
 - **Synchronisation de `profiles_keyli.email`** si l'utilisateur change son
   email dans Supabase Auth — aucun mécanisme pour l'instant.
-- **Forfaits (à régler au module pricing)** : `grande_agence` a
-  `seuil_max = NULL` mais un `prix_depassement_unitaire` (jamais
-  applicable) ; `agence_moyenne` n'a pas de prix de dépassement —
-  comportement à la 11e annonce non documenté.
+- **Forfait Grande Agence (à trancher avant `check-subscription-overage`)** :
+  `seuil_max = NULL` (illimité) mais `prix_depassement_unitaire = 1000` —
+  au-delà de quel volume ce prix s'applique-t-il ? (le cas Agence Moyenne
+  est réglé par `MODULES/pricing.md` : pas de facturation, recommandation
+  de montée de gamme).
 - **Documents cités mais absents** : `Keyli_Repertoire_Fichiers_Sources_Definitif.docx`,
   `Keyli_Calendrier_Definitif.docx`, `keyli_dashboards_preview.html`.
 - **Hébergement web non confirmé** — recommandation Cloudflare Pages
@@ -95,14 +98,15 @@ concernés :
 
 ## Prochaine étape recommandée
 
-1. Phase 0 fusionnée dans `main` le 2026-10-01 (CI verte), `.env` en place.
+1. Phase 0 fusionnée dans `main` le 2026-10-01 (CI verte), `.env` en place ;
+   `plans_keyli` créée le même jour.
 2. Workflow de migration : `npm run db:reset && npm run db:test` en local,
    puis `npx supabase db push --linked` et
    `npx supabase test db --linked` sur le distant.
 3. Suite de la Phase 0 (calendrier) : validation serveur de la taille/format
    des documents uploadés — dépend de `documents_keyli` et du stockage,
    donc du module vérification ; à caler avec le porteur de projet.
-4. Puis `plans_keyli` (+ seed), `communes_keyli`/`quartiers_keyli` (+ seed),
+4. Puis `communes_keyli`/`quartiers_keyli` (+ seed),
    `agency_agents_keyli`, `properties_keyli` — ordre de
    `reference/schema_cible_reference.sql`.
 
