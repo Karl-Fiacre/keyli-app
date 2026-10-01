@@ -399,6 +399,14 @@ supplémentaire (le compte agence reste seul propriétaire de ses données).
 `agent_id` est nullable : une annonce peut rester non attribuée à un agent
 précis.
 
+**Créée le 2026-10-01** (migration `20261001150000_agency_agents_keyli.sql`).
+Accès : une agence lit, crée, renomme et désactive SES agents ; création et
+modification réservées au rôle `agency` ; aucune suppression (un agent qui
+part est désactivé, `actif = false`, pour garder l'historique) ;
+`agency_user_id` non modifiable après création. Fonction
+`current_user_role_keyli()` (SECURITY DEFINER) introduite pour les policies
+par rôle — réutilisable. Tests : `supabase/tests/agency_agents_keyli_rls.test.sql`.
+
 ## ⚠️ DÉCISION ACTÉE — communes_keyli / quartiers_keyli (Option A, normalisation)
 `neighborhood` (TEXT libre) remplacé par une hiérarchie fermée à deux
 niveaux — corrige à la fois le risque de variantes orthographiques et la
