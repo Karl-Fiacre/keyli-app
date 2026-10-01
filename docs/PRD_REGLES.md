@@ -44,8 +44,9 @@ résumé, pas la source primaire.
       supplémentaire, soit une formule personnalisée négociée avec le super_admin
 - [ ] Prix identique à volume égal, quel que soit le type de compte affiché
       — c'est le VOLUME qui détermine le forfait, pas le rôle en soi
-- [ ] Compte agence (registre de commerce vérifié) ne peut PAS s'inscrire au
-      forfait Propriétaire, même à faible volume
+- [x] Compte agence (registre de commerce vérifié) ne peut PAS s'inscrire au
+      forfait Propriétaire, même à faible volume — trigger
+      `validate_subscription_keyli`, testé
 - [ ] Annonce archivée puis republiée = compte comme nouvelle annonce du
       mois (anti-contournement du seuil)
 - [ ] Dépassement de seuil facturé au même cycle que l'abonnement, pas en

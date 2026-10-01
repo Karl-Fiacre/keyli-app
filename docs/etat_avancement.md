@@ -54,6 +54,10 @@ conversation précédente, elle ne persiste pas.
       migration `20261002140000_documents_keyli.sql`, local + distant
       (2026-10-02), 24 tests pgTAP verts (113 au total). Critère Phase 0
       « fichier surdimensionné rejeté côté serveur » prouvé sur le distant
+- [x] `subscriptions_keyli` / `transactions_keyli` / `payment_attempts_keyli`
+      (+ formule négociée Grande Agence, un seul abonnement actif) —
+      migration `20261002150000_abonnements_keyli.sql`, local + distant
+      (2026-10-02), 22 tests pgTAP verts (135 au total)
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -98,8 +102,13 @@ concernés :
 - **Republication d'une annonce archivée** : doit compter comme nouvelle
   annonce du mois (PRD) — mécanisme à définir avec
   `check-subscription-overage`.
-- **Limite de forfait à la publication** : non appliquée tant que
-  `subscriptions_keyli` n'existe pas.
+- **Limite de forfait à la publication** : les tables existent, mais le
+  contrôle (Edge Function `check-subscription-overage` ou passage de la
+  publication par le serveur) reste à concevoir — aujourd'hui une annonce
+  se publie par écriture directe sans vérification du forfait.
+- **Clés Paystack** : nécessaires pour les Edge Functions
+  `handle-paystack-payment` / `paystack-webhook` (secrets d'Edge Functions,
+  jamais dans `.env`).
 - **Registre agence obligatoire avant publication** : `documents_keyli`
   existe, mais la règle (registre `approved` requis pour publier) n'est pas
   encore branchée sur la policy d'insertion de `properties_keyli` — à faire
@@ -129,9 +138,9 @@ concernés :
 3. Suite de la Phase 0 (calendrier) : validation serveur de la taille/format
    des documents uploadés — dépend de `documents_keyli` et du stockage,
    donc du module vérification ; à caler avec le porteur de projet.
-4. Puis `subscriptions_keyli` /
-   `transactions_keyli` / `payment_attempts_keyli` — ordre de
-   `reference/schema_cible_reference.sql`.
+4. Puis `ratings_keyli`, `messages_keyli`, `reports_keyli` — ordre de
+   `reference/schema_cible_reference.sql` ; ou, avant, le contrôle du forfait
+   à la publication (voir blocages).
 
 ---
 

@@ -45,7 +45,8 @@ Grande Agence     25 000 XOF/mois  11-30 annonces (plafond fixé le 2026-10-01)
       (a) 1 000 XOF par annonce supplémentaire (`prix_depassement_unitaire`),
       (b) formule personnalisée négociée avec le super_admin. La formule (b) est
       propre à un abonnement, pas au forfait : à modéliser dans
-      `subscriptions_keyli` (ex. montant de dépassement négocié), et
+      `subscriptions_keyli` — fait le 2026-10-02 : `prix_depassement_negocie`
+      et/ou `montant_depassement_negocie` (+ `conditions_negociees`), et
       `check-subscription-overage` ne facture pas à l'unité un abonnement
       sous formule personnalisée.
 - [ ] Si `prix_depassement_unitaire` est NULL (Agence Moyenne, palier fixe
