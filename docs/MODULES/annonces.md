@@ -34,12 +34,24 @@ Table : `properties_keyli` + `property_media_keyli`.
       ne pas en recréer un nouveau pour l'Accueil enrichi
 
 ## Règles
-- [ ] `main_image_url` doit toujours correspondre à la première entrée
-      `property_media_keyli` (order_index = 0) — pas une valeur indépendante
-      à resynchroniser manuellement
-- [ ] Suppression d'une annonce : décision de soft-delete vs hard-delete non
-      tranchée dans ce lot — demander avant d'implémenter (impact sur
-      l'historique des transactions/ratings liés)
+- [x] `main_image_url` = première image (plus petit `order_index`) de
+      `property_media_keyli`, recalculé par le trigger
+      `sync_main_image_keyli` à chaque écriture de média ; non modifiable
+      par le client (testé)
+- [x] Suppression d'une annonce : **jamais** — archivage via
+      `properties_keyli.archived_at` (décision du 2026-10-02). Une annonce
+      archivée disparaît des recherches, reste visible de son propriétaire,
+      et conserve notes, messages, leads et historique de tendance. Aucune
+      suppression possible côté client (testé).
+- [x] Une annonce non vérifiée est publique, sans badge « Vérifié »
+      (décision du 2026-10-02) ; `is_verified` n'est modifiable que par
+      l'admin (testé).
+- [x] Point GPS obligatoire (`geolocation NOT NULL`, décision du
+      2026-10-02) — le formulaire de publication doit imposer sa saisie.
+- [ ] Republication d'une annonce archivée = nouvelle annonce du mois
+      (PRD_REGLES.md) : mécanisme de comptage à définir avec
+      `check-subscription-overage` (remettre `archived_at` à NULL ne laisse
+      pas de trace datée en l'état)
 
 ## Favoris (favorites_keyli)
 ⚠️ Table trouvée manquante lors d'un rescan — le cœur cliquable des

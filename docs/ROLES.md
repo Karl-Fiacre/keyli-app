@@ -2,7 +2,7 @@
 
 ## Enum réel : user_role_keyli
 ```sql
-('user', 'owner', 'agency', 'admin')
+('user', 'owner', 'agency', 'admin', 'super_admin')   -- super_admin ajouté le 2026-10-02
 ```
 Dans le nouveau schéma, `profiles_keyli.role_keyli` est bien typé
 `user_role_keyli` (c'était un `TEXT` dans l'ancien pilote). Le client ne
@@ -39,6 +39,27 @@ décision « sécurité de profiles_keyli ».
   être écrite, pas seulement les suppressions
 - Gestion des templates marketing (`marketing_templates_keyli`)
 - Suivi des inscriptions pilote (`inscription_pilot_keyli`)
+
+## super_admin (décision du porteur de projet, 2026-10-01/02)
+Rôle supérieur à `admin` : tous les droits de l'admin, plus :
+- Nommer / retirer les admins (seul à attribuer le rôle `admin`)
+- Modifier les forfaits (`plans_keyli` : prix, seuils)
+- Négocier et valider les formules personnalisées de dépassement
+  (Grande Agence au-delà de 30 annonces, voir MODULES/pricing.md)
+- Lire le journal d'audit complet (`audit_logs_keyli`), actions des admins
+  comprises
+- Générer les rapports et analyses
+- Gérer les litiges
+- Importer / gérer les clés API (intégrations tierces)
+- Sécurité informatique
+- Juridique : mentions légales, politique de confidentialité, conditions
+  générales d'utilisation
+- Autres droits à trancher au moment opportun
+
+Jamais attribuable à l'inscription (refusé par le trigger, testé) — SQL
+direct uniquement. Seul le rôle existe en base pour l'instant
+(migration `20261002120000_role_super_admin_keyli.sql`) : ces droits seront
+implémentés avec le module admin (policies, Edge Functions).
 
 ## Règle de vérification par rôle
 ```

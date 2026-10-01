@@ -8,7 +8,7 @@ transactionnelles, et comment éviter les incohérences entre tables.
 
 | Écran / rôle | Requête (esquisse) | Index requis |
 |---|---|---|
-| Chercheur — recherche | `properties_keyli` filtré prix/type/quartier_id, `is_verified` | `(quartier_id, type, price)` |
+| Chercheur — recherche | `properties_keyli` filtré prix/type/quartier_id, `is_verified` (la RLS exclut déjà les annonces archivées) | `idx_properties_recherche (quartier_id, type, price)` — créé |
 | Chercheur — recherche par rayon | `ST_DWithin(geolocation, point, rayon)` | `idx_properties_geolocation` (GiST, déjà dans le schéma de référence) |
 | Propriétaire — dashboard | `properties_keyli WHERE owner_id = uid` | `idx_properties_owner` (déjà présent) |
 | Agence — dashboard, pipeline | `properties_keyli` + `messages_keyli` par `agent_id` | `idx_properties_agent` (déjà présent) |

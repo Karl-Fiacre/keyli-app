@@ -57,6 +57,50 @@ export type Database = {
                   Relationships: [
                     
                   ]
+                },"properties_keyli": {
+                  Row: {
+                    "agent_id": string | null,"archived_at": string | null,"area_m2": number | null,"bathrooms": number | null,"city": string,"contacts_count": number | null,"created_at": string | null,"description": string | null,"furnished": boolean | null,"geolocation": unknown,"id": string,"is_verified": boolean | null,"main_image_url": string | null,"owner_id": string,"price": number,"quartier_id": string | null,"rooms": number | null,"status": Database["public"]['Enums']["property_status_keyli"],"title": string,"type": Database["public"]['Enums']["property_type_keyli"],"updated_at": string | null,"video_url": string | null,"views_count": number | null
+                  }
+                  Insert: {
+                    "agent_id"?: string | null,"archived_at"?: string | null,"area_m2"?: number | null,"bathrooms"?: number | null,"city": string,"contacts_count"?: number | null,"created_at"?: string | null,"description"?: string | null,"furnished"?: boolean | null,"geolocation": unknown,"id"?: string,"is_verified"?: boolean | null,"main_image_url"?: string | null,"owner_id": string,"price": number,"quartier_id"?: string | null,"rooms"?: number | null,"status": Database["public"]['Enums']["property_status_keyli"],"title": string,"type": Database["public"]['Enums']["property_type_keyli"],"updated_at"?: string | null,"video_url"?: string | null,"views_count"?: number | null
+                  }
+                  Update: {
+                    "agent_id"?: string | null,"archived_at"?: string | null,"area_m2"?: number | null,"bathrooms"?: number | null,"city"?: string,"contacts_count"?: number | null,"created_at"?: string | null,"description"?: string | null,"furnished"?: boolean | null,"geolocation"?: unknown,"id"?: string,"is_verified"?: boolean | null,"main_image_url"?: string | null,"owner_id"?: string,"price"?: number,"quartier_id"?: string | null,"rooms"?: number | null,"status"?: Database["public"]['Enums']["property_status_keyli"],"title"?: string,"type"?: Database["public"]['Enums']["property_type_keyli"],"updated_at"?: string | null,"video_url"?: string | null,"views_count"?: number | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "properties_keyli_agent_id_fkey"
+      columns: ["agent_id"]
+isOneToOne: false
+      referencedRelation: "agency_agents_keyli"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "properties_keyli_quartier_id_fkey"
+      columns: ["quartier_id"]
+isOneToOne: false
+      referencedRelation: "quartiers_keyli"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"property_media_keyli": {
+                  Row: {
+                    "created_at": string | null,"id": string,"media_type": string | null,"order_index": number | null,"property_id": string | null,"url": string
+                  }
+                  Insert: {
+                    "created_at"?: string | null,"id"?: string,"media_type"?: string | null,"order_index"?: number | null,"property_id"?: string | null,"url": string
+                  }
+                  Update: {
+                    "created_at"?: string | null,"id"?: string,"media_type"?: string | null,"order_index"?: number | null,"property_id"?: string | null,"url"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "property_media_keyli_property_id_fkey"
+      columns: ["property_id"]
+isOneToOne: false
+      referencedRelation: "properties_keyli"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"quartiers_keyli": {
                   Row: {
                     "commune_id": string,"created_at": string | null,"id": string,"nom": string
@@ -87,7 +131,7 @@ isOneToOne: false
                            }
           }
           Enums: {
-            "user_role_keyli": "user"|"owner"|"agency"|"admin"
+            "property_status_keyli": "a_louer"|"a_vendre","property_type_keyli": "maison"|"duplex"|"villa"|"appartement"|"studio"|"residence_meublee"|"auberge"|"hotel"|"bureau"|"magasin","user_role_keyli": "user"|"owner"|"agency"|"admin"|"super_admin"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -203,7 +247,7 @@ export type CompositeTypes<
 export const Constants = {
   "public": {
           Enums: {
-            "user_role_keyli": ["user", "owner", "agency", "admin"]
+            "property_status_keyli": ["a_louer", "a_vendre"],"property_type_keyli": ["maison", "duplex", "villa", "appartement", "studio", "residence_meublee", "auberge", "hotel", "bureau", "magasin"],"user_role_keyli": ["user", "owner", "agency", "admin", "super_admin"]
           }
         }
 } as const

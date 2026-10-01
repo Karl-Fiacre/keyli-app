@@ -40,7 +40,7 @@ résumé, pas la source primaire.
 - [ ] Forfait Agence Moyenne : 15 000 XOF/mois, 5 à 10 annonces
 - [ ] Forfait Grande Agence : 25 000 XOF/mois, 11 à 30 annonces (plafond
       fixé le 2026-10-01). Au-delà de 30 : soit 1 000 XOF par annonce
-      supplémentaire, soit une formule personnalisée négociée avec l'admin
+      supplémentaire, soit une formule personnalisée négociée avec le super_admin
 - [ ] Prix identique à volume égal, quel que soit le type de compte affiché
       — c'est le VOLUME qui détermine le forfait, pas le rôle en soi
 - [ ] Compte agence (registre de commerce vérifié) ne peut PAS s'inscrire au
