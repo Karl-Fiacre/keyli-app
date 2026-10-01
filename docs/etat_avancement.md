@@ -60,13 +60,9 @@ concernés :
 
 ## Blocages / questions en attente
 
-- **`.env`** — à créer par le porteur de projet depuis `.env.example` :
-  `VITE_SUPABASE_URL=https://zcqirdowjussoaevqlbd.supabase.co` et la clé
-  anon (Dashboard → Project Settings → API).
-- **Config Auth du projet distant** non alignée sur `supabase/config.toml`
-  (qui ne s'applique qu'en local) : vérifier dans le Dashboard que la
-  confirmation d'email est active et renseigner Site URL / Redirect URLs
-  une fois l'hébergement choisi.
+- **Site URL / Redirect URLs du projet distant** à renseigner une fois
+  l'hébergement choisi (la confirmation d'email est bien active sur le
+  distant, vérifié le 2026-10-01).
 - **Inscription de bout en bout non testée** : pas encore d'écran
   d'inscription (Sprint 1) ; le trigger est couvert par les tests pgTAP.
 - **Ancien dépôt `Karl-Fiacre/keyli`** : un fichier `.env` y est versionné
@@ -99,8 +95,7 @@ concernés :
 
 ## Prochaine étape recommandée
 
-1. Configurer `.env` ; fusionner `feature/phase-0-fondations` dans `main`
-   (CI verte, migrations en place sur le distant).
+1. Phase 0 fusionnée dans `main` le 2026-10-01 (CI verte), `.env` en place.
 2. Workflow de migration : `npm run db:reset && npm run db:test` en local,
    puis `npx supabase db push --linked` et
    `npx supabase test db --linked` sur le distant.
