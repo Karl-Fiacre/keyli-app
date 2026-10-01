@@ -5,7 +5,20 @@ export type Database = {
   
   "public": {
           Tables: {
-            "plans_keyli": {
+            "communes_keyli": {
+                  Row: {
+                    "created_at": string | null,"id": string,"nom": string
+                  }
+                  Insert: {
+                    "created_at"?: string | null,"id"?: string,"nom": string
+                  }
+                  Update: {
+                    "created_at"?: string | null,"id"?: string,"nom"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"plans_keyli": {
                   Row: {
                     "actif": boolean | null,"code": string,"created_at": string | null,"id": string,"nom": string,"prix_depassement_unitaire": number | null,"prix_mensuel": number,"seuil_max": number | null,"seuil_min": number,"updated_at": string | null
                   }
@@ -30,6 +43,25 @@ export type Database = {
                   }
                   Relationships: [
                     
+                  ]
+                },"quartiers_keyli": {
+                  Row: {
+                    "commune_id": string,"created_at": string | null,"id": string,"nom": string
+                  }
+                  Insert: {
+                    "commune_id": string,"created_at"?: string | null,"id"?: string,"nom": string
+                  }
+                  Update: {
+                    "commune_id"?: string,"created_at"?: string | null,"id"?: string,"nom"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "quartiers_keyli_commune_id_fkey"
+      columns: ["commune_id"]
+isOneToOne: false
+      referencedRelation: "communes_keyli"
+      referencedColumns: ["id"]
+    }
                   ]
                 }
           }
