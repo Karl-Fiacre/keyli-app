@@ -11,7 +11,7 @@ create extension if not exists pgtap with schema extensions;
 set local role postgres;
 set local search_path = "$user", public, extensions;
 
-select plan(17);
+select plan(18);
 
 -- ------------------------------------------------------------
 -- Structure
@@ -45,6 +45,12 @@ select throws_ok(
        ('33333333-3333-3333-3333-333333333333', 'pirate@test.local', '{"role_keyli": "admin"}') $$,
   '22023', null,
   'Inscription avec le rôle admin refusée'
+);
+select throws_ok(
+  $$ insert into auth.users (id, email, raw_user_meta_data) values
+       ('55555555-5555-5555-5555-555555555555', 'pirate2@test.local', '{"role_keyli": "super_admin"}') $$,
+  '22023', null,
+  'Inscription avec le rôle super_admin refusée'
 );
 select throws_ok(
   $$ insert into auth.users (id, email, raw_user_meta_data) values

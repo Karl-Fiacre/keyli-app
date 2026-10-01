@@ -44,7 +44,12 @@ conversation précédente, elle ne persiste pas.
       local + distant (2026-10-01), 16 tests pgTAP verts
 - [x] Plafond Grande Agence = 30 — migration
       `20261001140000_plafond_grande_agence_keyli.sql` (2026-10-01)
-- [ ] `properties_keyli` / `property_media_keyli`
+- [x] Rôle `super_admin` — migration `20261002120000_role_super_admin_keyli.sql`
+      (2026-10-02) ; droits listés dans `ROLES.md`, à implémenter au module admin
+- [x] `properties_keyli` / `property_media_keyli` (+ enums type/statut,
+      trigger image principale, archivage) — migration
+      `20261002130000_properties_keyli.sql`, local + distant (2026-10-02),
+      28 tests pgTAP verts (89 au total)
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -86,10 +91,11 @@ concernés :
   annonces/notation.
 - **Synchronisation de `profiles_keyli.email`** si l'utilisateur change son
   email dans Supabase Auth — aucun mécanisme pour l'instant.
-- **« Super admin »** : la décision du 2026-10-01 sur la formule
-  personnalisée Grande Agence parle de négociation « avec le super admin ».
-  Ce rôle n'existe pas (`user_role_keyli` n'a que `admin`) — noté « admin »
-  en attendant confirmation.
+- **Republication d'une annonce archivée** : doit compter comme nouvelle
+  annonce du mois (PRD) — mécanisme à définir avec
+  `check-subscription-overage`.
+- **Limite de forfait et registre agence à la publication** : non appliqués
+  tant que `subscriptions_keyli` et `documents_keyli` n'existent pas.
 - **Documents cités mais absents** : `Keyli_Repertoire_Fichiers_Sources_Definitif.docx`,
   `Keyli_Calendrier_Definitif.docx`, `keyli_dashboards_preview.html`.
 - **Hébergement web non confirmé** — recommandation Cloudflare Pages
@@ -112,7 +118,9 @@ concernés :
 3. Suite de la Phase 0 (calendrier) : validation serveur de la taille/format
    des documents uploadés — dépend de `documents_keyli` et du stockage,
    donc du module vérification ; à caler avec le porteur de projet.
-4. Puis `properties_keyli` / `property_media_keyli` — ordre de
+4. Puis `documents_keyli` (module vérification, avec la validation serveur
+   taille/format prévue en Phase 0), puis `subscriptions_keyli` /
+   `transactions_keyli` / `payment_attempts_keyli` — ordre de
    `reference/schema_cible_reference.sql`.
 
 ---

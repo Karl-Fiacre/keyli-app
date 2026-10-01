@@ -22,7 +22,7 @@ Propriétaire      5 000 XOF/mois   1-4 annonces
 Agence Moyenne    15 000 XOF/mois  5-10 annonces
 Grande Agence     25 000 XOF/mois  11-30 annonces (plafond fixé le 2026-10-01)
                                    au-delà de 30 : 1 000 XOF/annonce OU formule
-                                   personnalisée négociée avec l'admin
+                                   personnalisée négociée avec le super_admin
 ```
 
 ## Flux paiement
@@ -43,7 +43,7 @@ Grande Agence     25 000 XOF/mois  11-30 annonces (plafond fixé le 2026-10-01)
       Agence) → facturer au même cycle que l'abonnement
 - [ ] Grande Agence au-delà de 30 : deux voies, au choix de l'agence —
       (a) 1 000 XOF par annonce supplémentaire (`prix_depassement_unitaire`),
-      (b) formule personnalisée négociée avec l'admin. La formule (b) est
+      (b) formule personnalisée négociée avec le super_admin. La formule (b) est
       propre à un abonnement, pas au forfait : à modéliser dans
       `subscriptions_keyli` (ex. montant de dépassement négocié), et
       `check-subscription-overage` ne facture pas à l'unité un abonnement

@@ -407,6 +407,30 @@ part est désactivé, `actif = false`, pour garder l'historique) ;
 `current_user_role_keyli()` (SECURITY DEFINER) introduite pour les policies
 par rôle — réutilisable. Tests : `supabase/tests/agency_agents_keyli_rls.test.sql`.
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — properties_keyli / property_media_keyli
+Créées le 2026-10-02 (migration `20261002130000_properties_keyli.sql`), avec
+les enums `property_type_keyli` et `property_status_keyli`. Écarts avec le
+schéma de référence :
+- **`archived_at TIMESTAMPTZ`** (nouvelle colonne) : NULL = publiée,
+  renseignée = archivée. Une annonce n'est jamais supprimée.
+- **`geolocation geography(Point, 4326) NOT NULL`** : point GPS obligatoire
+  (MODULES/geolocalisation.md).
+- Index de recherche composite `idx_properties_recherche (quartier_id, type,
+  price)` à la place de l'index simple sur `quartier_id` (qu'il couvre).
+- Index `idx_property_media_property (property_id, order_index)`.
+Accès :
+- Lecture publique de toute annonce non archivée, vérifiée ou non ; le
+  propriétaire voit aussi ses archivées. Médias visibles si l'annonce l'est.
+- Publication et modification : rôles `owner` et `agency`, pour leur propre
+  compte ; `agent_id` doit appartenir à l'agence qui publie.
+- Non modifiables par le client : `is_verified` (admin), `views_count`,
+  `contacts_count` (trigger analytics), `main_image_url` (trigger
+  `sync_main_image_keyli`), `owner_id` après création. Aucune suppression
+  d'annonce ; un média, lui, peut être retiré.
+- Pas encore appliqué (tables manquantes) : limite du forfait à la
+  publication, registre de commerce obligatoire pour une agence.
+Tests : `supabase/tests/properties_keyli_rls.test.sql`.
+
 ## ⚠️ DÉCISION ACTÉE — communes_keyli / quartiers_keyli (Option A, normalisation)
 `neighborhood` (TEXT libre) remplacé par une hiérarchie fermée à deux
 niveaux — corrige à la fois le risque de variantes orthographiques et la
