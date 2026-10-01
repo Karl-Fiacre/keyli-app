@@ -4,6 +4,13 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 
+-- Sur le projet distant, `supabase test db --linked` se connecte avec un
+-- rôle temporaire (cli_login_postgres) sans droit USAGE sur le schéma
+-- extensions où vit pgTAP : on se place en postgres, comme en local, et on
+-- ajoute extensions au search_path — le temps de la transaction seulement.
+set local role postgres;
+set local search_path = "$user", public, extensions;
+
 select plan(17);
 
 -- ------------------------------------------------------------
@@ -113,7 +120,7 @@ select throws_ok(
   'Un utilisateur ne peut pas supprimer de profil'
 );
 
-reset role;
+set local role postgres;
 
 select is(
   (select first_name from public.profiles_keyli
@@ -137,7 +144,7 @@ select throws_ok(
   '42501', null,
   'Un visiteur anonyme ne peut pas lire les profils'
 );
-reset role;
+set local role postgres;
 
 select * from finish();
 rollback;

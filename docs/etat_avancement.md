@@ -15,8 +15,9 @@ conversation précédente, elle ne persiste pas.
 - **Dépôt Git** : nouveau projet, dépôt privé
   https://github.com/Karl-Fiacre/keyli-app (`Karl-Fiacre/keyli` = ancien
   pilote, conservé comme référence, ne rien y pousser)
-- **Projet Supabase distant** : créé, vide — **pas encore relié au dépôt**,
-  aucune migration poussée (voir blocages)
+- **Projet Supabase distant** : « Keyli App », ref `zcqirdowjussoaevqlbd`
+  (région eu-west-3, Paris), relié au dépôt le 2026-10-01 — 2 migrations
+  appliquées, 17/17 tests RLS verts sur le distant
 - **Base locale** : `npm run db:start` (conteneur Postgres Supabase seul,
   ports par défaut 543xx) — les 2 migrations y passent, 17/17 tests RLS verts
 
@@ -24,10 +25,10 @@ conversation précédente, elle ne persiste pas.
 
 - [ ] `.env` configuré (en attente de l'URL et de la clé anon)
 - [x] Extension PostGIS — migration `20260928120000_extensions_keyli.sql`
-      (2026-09-28, local uniquement, pas encore sur le projet distant)
+      (2026-09-28, appliquée sur le distant le 2026-10-01)
 - [x] `profiles_keyli` + enum `user_role_keyli` + trigger d'inscription +
       RLS + tests pgTAP — migration `20260928120100_profiles_keyli.sql`
-      (2026-09-28, local uniquement, pas encore sur le projet distant)
+      (2026-09-28, appliquée sur le distant le 2026-10-01, tests verts)
 - [x] Projet web React/Vite/TypeScript, client Supabase typé
       (`src/integrations/supabase/`) — 2026-09-28
 - [x] CI GitHub Actions (lint, build, migrations, tests RLS, contrôle de
@@ -59,13 +60,15 @@ concernés :
 
 ## Blocages / questions en attente
 
-- **Projet Supabase distant non relié** — à faire par le porteur de projet
-  (identifiants personnels, jamais transmis dans le chat) :
-  `npx supabase login` puis `npx supabase link --project-ref <ref>` (mot de
-  passe Postgres saisi directement dans le terminal). Ensuite, Claude Code
-  peut pousser les migrations (`npx supabase db push`).
-- **`.env`** — URL du projet et clé anon à transmettre (ou à placer soi-même
-  dans `.env` depuis `.env.example`).
+- **`.env`** — à créer par le porteur de projet depuis `.env.example` :
+  `VITE_SUPABASE_URL=https://zcqirdowjussoaevqlbd.supabase.co` et la clé
+  anon (Dashboard → Project Settings → API).
+- **Config Auth du projet distant** non alignée sur `supabase/config.toml`
+  (qui ne s'applique qu'en local) : vérifier dans le Dashboard que la
+  confirmation d'email est active et renseigner Site URL / Redirect URLs
+  une fois l'hébergement choisi.
+- **Inscription de bout en bout non testée** : pas encore d'écran
+  d'inscription (Sprint 1) ; le trigger est couvert par les tests pgTAP.
 - **Ancien dépôt `Karl-Fiacre/keyli`** : un fichier `.env` y est versionné
   (contenu non ouvert). S'il contient autre chose que l'URL et la clé anon
   (clé `service_role` notamment), considérer la clé comme exposée et la
@@ -96,10 +99,11 @@ concernés :
 
 ## Prochaine étape recommandée
 
-1. Relier le projet Supabase distant (voir blocage ci-dessus), pousser les
-   2 migrations, configurer `.env`, vérifier l'inscription de bout en bout.
-2. Fusionner `feature/phase-0-fondations` dans `main` une fois la CI verte
-   et les migrations en place sur le projet distant.
+1. Configurer `.env` ; fusionner `feature/phase-0-fondations` dans `main`
+   (CI verte, migrations en place sur le distant).
+2. Workflow de migration : `npm run db:reset && npm run db:test` en local,
+   puis `npx supabase db push --linked` et
+   `npx supabase test db --linked` sur le distant.
 3. Suite de la Phase 0 (calendrier) : validation serveur de la taille/format
    des documents uploadés — dépend de `documents_keyli` et du stockage,
    donc du module vérification ; à caler avec le porteur de projet.
@@ -201,6 +205,21 @@ concernés :
   du projet distant, `.env`, `.env` versionné dans l'ancien dépôt, Vite 5)
 - Prochaine étape recommandée : voir « Prochaine étape recommandée »
   ci-dessus
+
+### Session du 2026-10-01 — liaison du projet Supabase distant
+- Phase/semaine calendrier : Phase 0
+- Fait : dossier relié au projet « Keyli App » (`zcqirdowjussoaevqlbd`) —
+  le CLI passe par un rôle de connexion temporaire, aucun mot de passe
+  Postgres nécessaire ; schéma `public` distant vérifié vide puis 2
+  migrations poussées ; types générés depuis le distant identiques au local
+  (hors mise en forme) ; 17/17 tests RLS verts sur le distant et en local.
+- Correctif : sur le distant, le rôle temporaire `cli_login_postgres` n'a
+  pas USAGE sur le schéma `extensions` (où vit pgTAP) — le test se place
+  en `postgres` (`set local role postgres`), comme en local.
+- Constat : après un redémarrage de la machine, le conteneur
+  `supabase_db_keyli` reste arrêté alors que le CLI le croit actif —
+  `docker start supabase_db_keyli` le relance.
+- Reste : `.env`, config Auth du distant, fusion dans `main`.
 
 ---
 
