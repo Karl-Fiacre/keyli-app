@@ -20,7 +20,9 @@ d'enum `subscription_plan_keyli` dans le nouveau schéma.
 ```
 Propriétaire      5 000 XOF/mois   1-4 annonces
 Agence Moyenne    15 000 XOF/mois  5-10 annonces
-Grande Agence     25 000 XOF/mois  >10 annonces (gros volume sur devis)
+Grande Agence     25 000 XOF/mois  11-30 annonces (plafond fixé le 2026-10-01)
+                                   au-delà de 30 : 1 000 XOF/annonce OU formule
+                                   personnalisée négociée avec l'admin
 ```
 
 ## Flux paiement
@@ -39,6 +41,13 @@ Grande Agence     25 000 XOF/mois  >10 annonces (gros volume sur devis)
       `plans_keyli.seuil_max` du forfait courant
 - [ ] Si `prix_depassement_unitaire` est renseigné (Propriétaire, Grande
       Agence) → facturer au même cycle que l'abonnement
+- [ ] Grande Agence au-delà de 30 : deux voies, au choix de l'agence —
+      (a) 1 000 XOF par annonce supplémentaire (`prix_depassement_unitaire`),
+      (b) formule personnalisée négociée avec l'admin. La formule (b) est
+      propre à un abonnement, pas au forfait : à modéliser dans
+      `subscriptions_keyli` (ex. montant de dépassement négocié), et
+      `check-subscription-overage` ne facture pas à l'unité un abonnement
+      sous formule personnalisée.
 - [ ] Si `prix_depassement_unitaire` est NULL (Agence Moyenne, palier fixe
       sans dépassement à l'unité) → pas de facturation automatique, recommander
       directement la montée de gamme vers Grande Agence

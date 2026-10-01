@@ -11,7 +11,7 @@ données réelles du pilote** une fois celui-ci lancé.
 | Propriétaire Test 1 | `owner` | Vérifié, 2 biens actifs (dans le seuil du forfait Propriétaire) |
 | Propriétaire Test 2 | `owner` | Non vérifié (pour tester le stepper de vérification en cours) |
 | Agence Test 1 | `agency` | Vérifiée (registre de commerce), forfait Agence Moyenne, 3 agents internes |
-| Agence Test 2 | `agency` | Vérifiée, forfait Grande Agence, volume élevé (>10 annonces, pour tester le dépassement) |
+| Agence Test 2 | `agency` | Vérifiée, forfait Grande Agence, volume élevé (>30 annonces, pour tester le dépassement) |
 | Admin Test | `admin` | Gère vérification et modération |
 
 **Comment créer ces comptes** : via le flux normal d'inscription
