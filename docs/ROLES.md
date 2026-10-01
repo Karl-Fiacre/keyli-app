@@ -66,6 +66,5 @@ implémentés avec le module admin (policies, Edge Functions).
 owner  → document_type_keyli IN ('acd', 'extrait_naissance', 'cert_residence')
 agency → document_type_keyli = 'registre' (registre de commerce) obligatoire
 ```
-Cette distinction n'est pas encore appliquée en base (pas de contrainte
-`CHECK` liant `role_keyli` et `doc_type` accepté) — à valider côté
-application tant que la contrainte SQL n'existe pas.
+Appliquée en base depuis le 2026-10-02 par la policy INSERT de
+`documents_keyli` (testé) — pas seulement côté application.

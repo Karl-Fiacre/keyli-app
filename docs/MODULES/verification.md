@@ -9,9 +9,9 @@ Table : `documents_keyli`.
 ```
 1. Upload document (owner: acd/extrait_naissance/cert_residence ;
    agency: registre OBLIGATOIRE)
-2. Limite de taille/format appliquée côté serveur (Supabase Storage policy
-   ou Edge Function — vérifier laquelle est en place avant d'en ajouter une
-   seconde redondante)
+2. Limite de taille/format appliquée côté serveur par le bucket Storage
+   privé `documents_keyli` : 5 Mo, PDF / JPEG / PNG (décision du
+   2026-10-02, pas d'Edge Function — ne pas en ajouter une redondante)
 3. documents_keyli.status = 'pending'
 4. Admin traite via AdminVerifications.tsx → approved | rejected
 5. Si rejected → review_notes OBLIGATOIRE (jamais de rejet silencieux)
@@ -24,8 +24,10 @@ Table : `documents_keyli`.
 ## Règles
 - [ ] agency → document_type = 'registre' est un prérequis à toute
       publication, pas optionnel comme pour owner
-- [ ] Un document approved ne peut pas être re-soumis pour le même
-      `doc_type` sans action admin explicite (éviter les doublons en attente)
+- [x] Un document approved ne peut pas être re-soumis pour le même
+      `doc_type` (et le même bien pour un ACD) sans action admin explicite —
+      index unique partiel, testé
+- [x] Rejet → `review_notes` obligatoire : contrainte CHECK, testée
 - [ ] Le contrôle humain reste systématique — aucune auto-approbation, même
       si un futur contrôle automatisé (OCR, détection de fraude) est ajouté
       (voir PRD 13 "Fraude documentaire à la vérification")
