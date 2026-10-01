@@ -5,7 +5,20 @@ export type Database = {
   
   "public": {
           Tables: {
-            "communes_keyli": {
+            "agency_agents_keyli": {
+                  Row: {
+                    "actif": boolean | null,"agency_user_id": string,"created_at": string | null,"id": string,"nom": string
+                  }
+                  Insert: {
+                    "actif"?: boolean | null,"agency_user_id": string,"created_at"?: string | null,"id"?: string,"nom": string
+                  }
+                  Update: {
+                    "actif"?: boolean | null,"agency_user_id"?: string,"created_at"?: string | null,"id"?: string,"nom"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"communes_keyli": {
                   Row: {
                     "created_at": string | null,"id": string,"nom": string
                   }
@@ -69,7 +82,9 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            [_ in never]: never
+            "current_user_role_keyli":
+{ Args: Record<PropertyKey, never>; Returns: Database["public"]['Enums']["user_role_keyli"]
+                           }
           }
           Enums: {
             "user_role_keyli": "user"|"owner"|"agency"|"admin"

@@ -40,7 +40,10 @@ conversation précédente, elle ne persiste pas.
       17 quartiers) — migration `20261001130000_communes_quartiers_keyli.sql`,
       local + distant (2026-10-01), 15 tests pgTAP verts ; lecture anon et
       refus d'écriture vérifiés via l'API REST
-- [ ] `agency_agents_keyli`
+- [x] `agency_agents_keyli` — migration `20261001150000_agency_agents_keyli.sql`,
+      local + distant (2026-10-01), 16 tests pgTAP verts
+- [x] Plafond Grande Agence = 30 — migration
+      `20261001140000_plafond_grande_agence_keyli.sql` (2026-10-01)
 - [ ] `properties_keyli` / `property_media_keyli`
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
@@ -83,11 +86,10 @@ concernés :
   annonces/notation.
 - **Synchronisation de `profiles_keyli.email`** si l'utilisateur change son
   email dans Supabase Auth — aucun mécanisme pour l'instant.
-- **Forfait Grande Agence (à trancher avant `check-subscription-overage`)** :
-  `seuil_max = NULL` (illimité) mais `prix_depassement_unitaire = 1000` —
-  au-delà de quel volume ce prix s'applique-t-il ? (le cas Agence Moyenne
-  est réglé par `MODULES/pricing.md` : pas de facturation, recommandation
-  de montée de gamme).
+- **« Super admin »** : la décision du 2026-10-01 sur la formule
+  personnalisée Grande Agence parle de négociation « avec le super admin ».
+  Ce rôle n'existe pas (`user_role_keyli` n'a que `admin`) — noté « admin »
+  en attendant confirmation.
 - **Documents cités mais absents** : `Keyli_Repertoire_Fichiers_Sources_Definitif.docx`,
   `Keyli_Calendrier_Definitif.docx`, `keyli_dashboards_preview.html`.
 - **Hébergement web non confirmé** — recommandation Cloudflare Pages
@@ -102,14 +104,15 @@ concernés :
 ## Prochaine étape recommandée
 
 1. Phase 0 fusionnée dans `main` le 2026-10-01 (CI verte), `.env` en place ;
-   `plans_keyli` et `communes_keyli`/`quartiers_keyli` créées le même jour.
+   `plans_keyli`, `communes_keyli`/`quartiers_keyli`, `agency_agents_keyli`
+   créées le même jour ; plafond Grande Agence fixé à 30.
 2. Workflow de migration : `npm run db:reset && npm run db:test` en local,
    puis `npx supabase db push --linked` et
    `npx supabase test db --linked` sur le distant.
 3. Suite de la Phase 0 (calendrier) : validation serveur de la taille/format
    des documents uploadés — dépend de `documents_keyli` et du stockage,
    donc du module vérification ; à caler avec le porteur de projet.
-4. Puis `agency_agents_keyli`, `properties_keyli` — ordre de
+4. Puis `properties_keyli` / `property_media_keyli` — ordre de
    `reference/schema_cible_reference.sql`.
 
 ---

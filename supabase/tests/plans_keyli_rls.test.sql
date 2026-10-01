@@ -24,7 +24,7 @@ select results_eq(
        from public.plans_keyli order by seuil_min $$,
   $$ values ('proprietaire'::text,   1,  4::integer,    5000.00::numeric,  1500.00::numeric),
             ('agence_moyenne'::text, 5,  10::integer,   15000.00::numeric, null::numeric),
-            ('grande_agence'::text,  11, null::integer, 25000.00::numeric, 1000.00::numeric) $$,
+            ('grande_agence'::text,  11, 30::integer,   25000.00::numeric, 1000.00::numeric) $$,
   'Les 3 forfaits du PRD sont présents avec les bons seuils et prix'
 );
 

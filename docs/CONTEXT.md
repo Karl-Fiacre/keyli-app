@@ -30,8 +30,8 @@ Médias : Cloudinary — Paiements : Paystack
 5. Le logo Keyli n'apparaît jamais confondu avec le badge de vérification
    des biens — deux assets distincts, deux usages distincts (voir LOGO.md).
 6. Prix par forfait : Propriétaire 5 000 XOF/mois (1-4 annonces), Agence
-   Moyenne 15 000 XOF/mois (5-10), Grande Agence 25 000 XOF/mois (>10,
-   gros volume sur devis) — voir PRD_REGLES.md pour les règles de calcul.
+   Moyenne 15 000 XOF/mois (5-10), Grande Agence 25 000 XOF/mois (11-30 ;
+   au-delà : 1 000 XOF/annonce ou formule négociée) — voir PRD_REGLES.md pour les règles de calcul.
 7. Commentaires de code en français, noms de variables/fonctions en
    camelCase anglais (cohérence avec le code déjà existant).
 

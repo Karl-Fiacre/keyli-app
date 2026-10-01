@@ -345,7 +345,7 @@ CREATE TABLE plans_keyli (
   code                        TEXT UNIQUE NOT NULL,   -- 'proprietaire' | 'agence_moyenne' | 'grande_agence'
   nom                         TEXT NOT NULL,
   seuil_min                   INTEGER NOT NULL,
-  seuil_max                   INTEGER,                -- NULL = illimité (grande agence, sur devis au-delà)
+  seuil_max                   INTEGER,                -- NULL = illimité (aucun forfait depuis le 2026-10-01 : grande agence = 30)
   prix_mensuel                NUMERIC(10,2) NOT NULL,
   prix_depassement_unitaire   NUMERIC(10,2),           -- prix par annonce au-delà du seuil
   actif                       BOOLEAN DEFAULT true,
@@ -363,6 +363,8 @@ INSERT INTO plans_keyli (code, nom, seuil_min, seuil_max, prix_mensuel, prix_dep
   ('proprietaire',    'Propriétaire',    1,  4,    5000,  1500),
   ('agence_moyenne',  'Agence Moyenne',  5,  10,   15000, NULL),  -- pas de dépassement unitaire, palier fixe
   ('grande_agence',   'Grande Agence',   11, NULL, 25000, 1000);
+-- ⚠️ seuil_max de grande_agence passé à 30 le 2026-10-01 (décision du porteur
+-- de projet, migration 20261001140000_plafond_grande_agence_keyli.sql)
 ```
 `subscription_plan_keyli` (l'enum) n'est plus utilisé dans le nouveau schéma
 — ne pas le recréer par réflexe de cohérence avec l'ancien.
