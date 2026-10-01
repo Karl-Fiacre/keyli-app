@@ -109,7 +109,7 @@ concernés :
 3. Suite de la Phase 0 (calendrier) : validation serveur de la taille/format
    des documents uploadés — dépend de `documents_keyli` et du stockage,
    donc du module vérification ; à caler avec le porteur de projet.
-4. Puis    `agency_agents_keyli`, `properties_keyli` — ordre de
+4. Puis `agency_agents_keyli`, `properties_keyli` — ordre de
    `reference/schema_cible_reference.sql`.
 
 ---
