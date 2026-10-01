@@ -5,7 +5,20 @@ export type Database = {
   
   "public": {
           Tables: {
-            "profiles_keyli": {
+            "plans_keyli": {
+                  Row: {
+                    "actif": boolean | null,"code": string,"created_at": string | null,"id": string,"nom": string,"prix_depassement_unitaire": number | null,"prix_mensuel": number,"seuil_max": number | null,"seuil_min": number,"updated_at": string | null
+                  }
+                  Insert: {
+                    "actif"?: boolean | null,"code": string,"created_at"?: string | null,"id"?: string,"nom": string,"prix_depassement_unitaire"?: number | null,"prix_mensuel": number,"seuil_max"?: number | null,"seuil_min": number,"updated_at"?: string | null
+                  }
+                  Update: {
+                    "actif"?: boolean | null,"code"?: string,"created_at"?: string | null,"id"?: string,"nom"?: string,"prix_depassement_unitaire"?: number | null,"prix_mensuel"?: number,"seuil_max"?: number | null,"seuil_min"?: number,"updated_at"?: string | null
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"profiles_keyli": {
                   Row: {
                     "created_at": string | null,"email": string,"first_name": string | null,"id": string,"id_number": string | null,"id_validity_date": string | null,"last_name": string | null,"phone": string | null,"photo_url": string | null,"rating_avg": number | null,"role_keyli": Database["public"]['Enums']["user_role_keyli"],"updated_at": string | null,"user_id": string,"verification_date": string | null,"verified": boolean | null
                   }

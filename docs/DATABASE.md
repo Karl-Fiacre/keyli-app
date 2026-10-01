@@ -367,6 +367,13 @@ INSERT INTO plans_keyli (code, nom, seuil_min, seuil_max, prix_mensuel, prix_dep
 `subscription_plan_keyli` (l'enum) n'est plus utilisé dans le nouveau schéma
 — ne pas le recréer par réflexe de cohérence avec l'ancien.
 
+**Créée le 2026-10-01** (migration `20261001120000_plans_keyli.sql`, seed
+inclus). Accès : lecture publique (`anon` + `authenticated`) des seuls
+forfaits `actif = true` ; aucune écriture côté client (privilèges retirés)
+— modification par SQL direct ou future Edge Function admin. L'accès d'un
+abonné à un forfait désactivé depuis sa souscription sera ouvert avec
+`subscriptions_keyli`. Tests : `supabase/tests/plans_keyli_rls.test.sql`.
+
 ## ⚠️ DÉCISION ACTÉE — agents internes à l'agence (pas de compte séparé)
 Un seul compte de connexion par agence (`role_keyli = 'agency'`) — les agents
 ne se connectent jamais individuellement. Une petite table de référence,
