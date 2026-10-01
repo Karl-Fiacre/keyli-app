@@ -13,7 +13,7 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Propriétaire — dashboard | `properties_keyli WHERE owner_id = uid` | `idx_properties_owner` (déjà présent) |
 | Agence — dashboard, pipeline | `properties_keyli` + `messages_keyli` par `agent_id` | `idx_properties_agent` (déjà présent) |
 | Agence — performance équipe | `properties_keyli JOIN agency_agents_keyli ON agent_id` | à ajouter si lenteur observée : `(agent_id, created_at)` |
-| Admin — file de vérification | `documents_keyli WHERE status = 'pending' ORDER BY created_at` | `(status, created_at)` |
+| Admin — file de vérification | `documents_keyli WHERE status = 'pending' ORDER BY created_at` | `idx_documents_status_date (status, created_at)` — créé |
 | Tracking vues (tout écran bien) | `INSERT property_interactions_keyli` | déjà indexé (property_id, type, quartier_id) |
 | Agence — pipeline de leads | `leads_keyli WHERE owner_id = uid ORDER BY stage` | `idx_leads_owner_stage` (déjà présent) |
 | Agence/Propriétaire — visites à venir | `visits_keyli WHERE scheduled_by = uid AND scheduled_at > now()` | `idx_visits_scheduled_by` (déjà présent) |

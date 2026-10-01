@@ -50,6 +50,10 @@ conversation précédente, elle ne persiste pas.
       trigger image principale, archivage) — migration
       `20261002130000_properties_keyli.sql`, local + distant (2026-10-02),
       28 tests pgTAP verts (89 au total)
+- [x] `documents_keyli` (+ enums, bucket privé 5 Mo PDF/JPEG/PNG) —
+      migration `20261002140000_documents_keyli.sql`, local + distant
+      (2026-10-02), 24 tests pgTAP verts (113 au total). Critère Phase 0
+      « fichier surdimensionné rejeté côté serveur » prouvé sur le distant
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -94,8 +98,15 @@ concernés :
 - **Republication d'une annonce archivée** : doit compter comme nouvelle
   annonce du mois (PRD) — mécanisme à définir avec
   `check-subscription-overage`.
-- **Limite de forfait et registre agence à la publication** : non appliqués
-  tant que `subscriptions_keyli` et `documents_keyli` n'existent pas.
+- **Limite de forfait à la publication** : non appliquée tant que
+  `subscriptions_keyli` n'existe pas.
+- **Registre agence obligatoire avant publication** : `documents_keyli`
+  existe, mais la règle (registre `approved` requis pour publier) n'est pas
+  encore branchée sur la policy d'insertion de `properties_keyli` — à faire
+  avec le module admin, sans quoi aucune agence ne pourrait publier tant que
+  la revue n'existe pas.
+- **Revue des documents (admin)** : approbation/rejet, passage de
+  `verified` / `is_verified`, audit — module admin.
 - **Documents cités mais absents** : `Keyli_Repertoire_Fichiers_Sources_Definitif.docx`,
   `Keyli_Calendrier_Definitif.docx`, `keyli_dashboards_preview.html`.
 - **Hébergement web non confirmé** — recommandation Cloudflare Pages
@@ -118,8 +129,7 @@ concernés :
 3. Suite de la Phase 0 (calendrier) : validation serveur de la taille/format
    des documents uploadés — dépend de `documents_keyli` et du stockage,
    donc du module vérification ; à caler avec le porteur de projet.
-4. Puis `documents_keyli` (module vérification, avec la validation serveur
-   taille/format prévue en Phase 0), puis `subscriptions_keyli` /
+4. Puis `subscriptions_keyli` /
    `transactions_keyli` / `payment_attempts_keyli` — ordre de
    `reference/schema_cible_reference.sql`.
 

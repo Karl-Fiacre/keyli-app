@@ -32,8 +32,9 @@ résumé, pas la source primaire.
 ## MODULE VÉRIFICATION (documents_keyli)
 - [ ] owner → document_type IN (acd, extrait_naissance, cert_residence)
 - [ ] agency → document_type = registre (registre de commerce) OBLIGATOIRE
-- [ ] Limite de taille/format appliquée côté serveur, pas seulement interface
-- [ ] Rejet de document → commentaire obligatoire (`review_notes`)
+- [x] Limite de taille/format appliquée côté serveur (bucket privé, 5 Mo,
+      PDF/JPEG/PNG — prouvé sur le distant le 2026-10-02)
+- [x] Rejet de document → commentaire obligatoire (`review_notes`, contrainte CHECK)
 
 ## MODULE PRICING (subscriptions_keyli)
 - [ ] Forfait Propriétaire : 5 000 XOF/mois, 1 à 4 annonces incluses

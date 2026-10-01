@@ -431,6 +431,31 @@ Accès :
   publication, registre de commerce obligatoire pour une agence.
 Tests : `supabase/tests/properties_keyli_rls.test.sql`.
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — documents_keyli + bucket documents_keyli
+Créés le 2026-10-02 (migration `20261002140000_documents_keyli.sql`), avec les
+enums `document_type_keyli` et `document_status_keyli`. Colonnes identiques
+au schéma de référence ; `file_url` contient le **chemin** de l'objet dans le
+bucket privé (`<user_id>/<fichier>`), pas une URL publique. Ajouts :
+- Contrainte `documents_keyli_rejet_commente` : un rejet exige un
+  `review_notes` non vide (jamais de rejet silencieux).
+- Index unique partiel `uq_documents_keyli_en_cours (user_id, doc_type,
+  property_id) NULLS NOT DISTINCT WHERE status IN ('pending','approved')` :
+  pas de doublon en attente/approuvé (un ACD par bien) ; un rejeté se redépose.
+- Index `idx_documents_status_date (status, created_at)` (file admin).
+- **Bucket Storage `documents_keyli`** : privé, 5 Mo max, PDF / JPEG / PNG
+  (décision du 2026-10-02) — limite appliquée par l'API Storage à chaque
+  envoi, prouvée sur le projet distant (6 Mo → EntityTooLarge, .exe →
+  InvalidMimeType).
+Accès :
+- Dépôt pour soi-même : `owner` → acd / extrait_naissance / cert_residence ;
+  `agency` → registre ; fichier dans son propre dossier ; bien éventuel lui
+  appartenant. Statut forcé à `pending`.
+- Lecture de ses propres documents et fichiers uniquement. Aucune
+  modification ni suppression côté client (fichier non remplaçable).
+- Revue (approbation/rejet, `verified`/`is_verified`, audit) : côté serveur,
+  avec le module admin — pas encore implémentée.
+Tests : `supabase/tests/documents_keyli_rls.test.sql`.
+
 ## ⚠️ DÉCISION ACTÉE — communes_keyli / quartiers_keyli (Option A, normalisation)
 `neighborhood` (TEXT libre) remplacé par une hiérarchie fermée à deux
 niveaux — corrige à la fois le risque de variantes orthographiques et la
