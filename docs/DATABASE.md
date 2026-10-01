@@ -432,4 +432,11 @@ Ne jamais laisser un formulaire de publication d'annonce créer un nouveau
 quartier à la volée — la liste reste fermée par design (voir
 MODULES/quartiers-tendance.md).
 
+**Créées le 2026-10-01** (migration
+`20261001130000_communes_quartiers_keyli.sql`, seed inclus : 13 communes,
+17 quartiers). Accès : lecture publique (`anon` + `authenticated`) ; aucune
+écriture côté client (privilèges retirés) — ajout de quartiers par SQL
+direct ou future Edge Function admin. Tests :
+`supabase/tests/communes_quartiers_keyli_rls.test.sql`.
+
 

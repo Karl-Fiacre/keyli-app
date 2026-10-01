@@ -36,7 +36,10 @@ conversation précédente, elle ne persiste pas.
 - [x] `plans_keyli` (+ seed 3 forfaits) — migration
       `20261001120000_plans_keyli.sql`, local + distant (2026-10-01), 12 tests
       pgTAP verts ; lecture anon vérifiée via l'API REST, écriture refusée
-- [ ] `communes_keyli` / `quartiers_keyli` (+ seed)
+- [x] `communes_keyli` / `quartiers_keyli` (+ seed : 13 communes,
+      17 quartiers) — migration `20261001130000_communes_quartiers_keyli.sql`,
+      local + distant (2026-10-01), 15 tests pgTAP verts ; lecture anon et
+      refus d'écriture vérifiés via l'API REST
 - [ ] `agency_agents_keyli`
 - [ ] `properties_keyli` / `property_media_keyli`
 
@@ -99,15 +102,14 @@ concernés :
 ## Prochaine étape recommandée
 
 1. Phase 0 fusionnée dans `main` le 2026-10-01 (CI verte), `.env` en place ;
-   `plans_keyli` créée le même jour.
+   `plans_keyli` et `communes_keyli`/`quartiers_keyli` créées le même jour.
 2. Workflow de migration : `npm run db:reset && npm run db:test` en local,
    puis `npx supabase db push --linked` et
    `npx supabase test db --linked` sur le distant.
 3. Suite de la Phase 0 (calendrier) : validation serveur de la taille/format
    des documents uploadés — dépend de `documents_keyli` et du stockage,
    donc du module vérification ; à caler avec le porteur de projet.
-4. Puis `communes_keyli`/`quartiers_keyli` (+ seed),
-   `agency_agents_keyli`, `properties_keyli` — ordre de
+4. Puis `agency_agents_keyli`, `properties_keyli` — ordre de
    `reference/schema_cible_reference.sql`.
 
 ---
