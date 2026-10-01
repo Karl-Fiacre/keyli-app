@@ -9,7 +9,12 @@ Keyli_Repertoire_Fichiers_Sources_Definitif.docx, sections 7-9.
 Composant/Page → Hook métier → Client Supabase → RLS (Postgres) → Edge Function (si logique serveur sensible)
 ```
 
-## Arborescence réelle (existant)
+## Arborescence de l'ancien pilote (référence)
+> ⚠️ **Décision du 2026-09-28 — nouveau projet.** Le code de l'ancien pilote
+> n'est PAS repris : cette arborescence décrit l'ancien pilote et sert de référence de
+> nommage. Rien de ce qui est marqué « existant » n'existe dans le nouveau
+> dépôt tant que ce n'est pas coché dans `etat_avancement.md`.
+
 ```
 supabase/
 ├── migrations/            32 fichiers SQL — voir DATABASE.md pour le schéma consolidé

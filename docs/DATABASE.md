@@ -313,6 +313,31 @@ vérifier (ex. `ratings_keyli` a une policy `SELECT` publique intentionnelle :
 - `property_interactions_keyli` (tracking vues/clics) — voir
   MODULES/analytics-tracking.md, schéma complet déjà spécifié.
 
+## ⚠️ DÉCISION ACTÉE (2026-09-28) — sécurité de profiles_keyli
+La policy `FOR ALL USING (auth.uid() = user_id)` du schéma de référence
+laissait un utilisateur modifier son propre `role_keyli` (→ `admin`),
+`verified` ou `rating_avg`. Remplacée, dans la migration
+`20260928120100_profiles_keyli.sql`, par :
+- **Création par trigger** `on_auth_user_created_keyli` (fonction
+  `handle_new_user_keyli`, SECURITY DEFINER) à chaque insertion dans
+  `auth.users`. Métadonnées lues dans `options.data` du signUp :
+  `role_keyli`, `first_name`, `last_name`, `phone`. Seuls `user`, `owner`,
+  `agency` sont acceptés ; `admin` ou rôle inconnu → l'inscription échoue ;
+  rôle absent → `user`.
+- **Lecture** : son propre profil uniquement (aucune lecture publique pour
+  l'instant — à décider avec annonces/notation, sans jamais exposer email,
+  téléphone ni pièce d'identité).
+- **Modification** : son propre profil, et seulement `first_name`,
+  `last_name`, `phone`, `photo_url` (privilèges par colonne). `role_keyli`,
+  `verified`, `verification_date`, `rating_avg`, `email`, `id_number`,
+  `id_validity_date` : serveur uniquement (Edge Function ou admin).
+- **Aucun INSERT/DELETE** côté client. `anon` n'a aucun droit sur la table.
+- Création d'un admin : SQL direct uniquement (seul chemin d'élévation de
+  rôle tant qu'un back-office dédié n'est pas décidé, voir MODULES/auth.md).
+- `updated_at` mis à jour par le trigger générique `set_updated_at_keyli()`,
+  à réutiliser sur les prochaines tables.
+Tests : `supabase/tests/profiles_keyli_rls.test.sql` (pgTAP, rejoués en CI).
+
 ## ⚠️ DÉCISION ACTÉE — plans_keyli remplace subscription_plan_keyli (Option B)
 ```sql
 CREATE TABLE plans_keyli (

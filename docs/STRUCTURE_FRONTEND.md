@@ -4,7 +4,12 @@ Détail complet fichier par fichier : voir
 Keyli_Repertoire_Fichiers_Sources_Definitif.docx (source de vérité). Ce
 document donne la vue d'ensemble à garder en tête pendant le codage.
 
-## Web (React + Vite) — existant, 27 pages
+## Web (React + Vite) — ancien pilote, 27 pages (référence)
+> ⚠️ **Décision du 2026-09-28 — nouveau projet.** Le code de l'ancien pilote
+> n'est PAS repris : cette arborescence décrit l'ancien pilote et sert de référence de
+> nommage. Rien de ce qui est marqué « existant » n'existe dans le nouveau
+> dépôt tant que ce n'est pas coché dans `etat_avancement.md`.
+
 ```
 src/
 ├── pages/
