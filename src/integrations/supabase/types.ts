@@ -50,6 +50,25 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"messages_keyli": {
+                  Row: {
+                    "body": string,"created_at": string | null,"from_user": string,"id": string,"property_id": string | null,"read": boolean | null,"to_user": string
+                  }
+                  Insert: {
+                    "body": string,"created_at"?: string | null,"from_user": string,"id"?: string,"property_id"?: string | null,"read"?: boolean | null,"to_user": string
+                  }
+                  Update: {
+                    "body"?: string,"created_at"?: string | null,"from_user"?: string,"id"?: string,"property_id"?: string | null,"read"?: boolean | null,"to_user"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "messages_keyli_property_id_fkey"
+      columns: ["property_id"]
+isOneToOne: false
+      referencedRelation: "properties_keyli"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"payment_attempts_keyli": {
                   Row: {
                     "amount": number | null,"created_at": string | null,"email": string | null,"error_message": string | null,"id": string,"paystack_reference": string | null,"plan_id": string | null,"status": string | null,"user_id": string | null
@@ -183,6 +202,44 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"ratings_keyli": {
+                  Row: {
+                    "comment": string | null,"created_at": string | null,"id": string,"property_id": string,"rated_user_id": string,"rater_id": string,"rating": number | null,"updated_at": string | null
+                  }
+                  Insert: {
+                    "comment"?: string | null,"created_at"?: string | null,"id"?: string,"property_id": string,"rated_user_id": string,"rater_id": string,"rating"?: number | null,"updated_at"?: string | null
+                  }
+                  Update: {
+                    "comment"?: string | null,"created_at"?: string | null,"id"?: string,"property_id"?: string,"rated_user_id"?: string,"rater_id"?: string,"rating"?: number | null,"updated_at"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "ratings_keyli_property_id_fkey"
+      columns: ["property_id"]
+isOneToOne: false
+      referencedRelation: "properties_keyli"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"reports_keyli": {
+                  Row: {
+                    "created_at": string | null,"id": string,"property_id": string | null,"reason": string,"reporter_id": string,"status": Database["public"]['Enums']["report_status_keyli"] | null,"updated_at": string | null
+                  }
+                  Insert: {
+                    "created_at"?: string | null,"id"?: string,"property_id"?: string | null,"reason": string,"reporter_id": string,"status"?: Database["public"]['Enums']["report_status_keyli"] | null,"updated_at"?: string | null
+                  }
+                  Update: {
+                    "created_at"?: string | null,"id"?: string,"property_id"?: string | null,"reason"?: string,"reporter_id"?: string,"status"?: Database["public"]['Enums']["report_status_keyli"] | null,"updated_at"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "reports_keyli_property_id_fkey"
+      columns: ["property_id"]
+isOneToOne: false
+      referencedRelation: "properties_keyli"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"subscriptions_keyli": {
                   Row: {
                     "amount": number,"conditions_negociees": string | null,"created_at": string | null,"end_date": string,"id": string,"montant_depassement_negocie": number | null,"paystack_payment_id": string | null,"plan_id": string,"prix_depassement_negocie": number | null,"start_date": string,"status": Database["public"]['Enums']["subscription_status_keyli"] | null,"updated_at": string | null,"user_id": string
@@ -227,7 +284,10 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            "current_user_role_keyli":
+            "a_recu_message_de_keyli":
+{ Args: { "p_auteur": string,"p_property": string }; Returns: boolean
+                           },
+"current_user_role_keyli":
 { Args: Record<PropertyKey, never>; Returns: Database["public"]['Enums']["user_role_keyli"]
                            },
 "etat_publication_keyli":
@@ -242,7 +302,7 @@ isOneToOne: false
                            }
           }
           Enums: {
-            "document_status_keyli": "pending"|"approved"|"rejected","document_type_keyli": "acd"|"registre"|"extrait_naissance"|"cert_residence","property_status_keyli": "a_louer"|"a_vendre","property_type_keyli": "maison"|"duplex"|"villa"|"appartement"|"studio"|"residence_meublee"|"auberge"|"hotel"|"bureau"|"magasin","subscription_status_keyli": "active"|"expired"|"canceled","transaction_status_keyli": "pending"|"completed"|"failed","user_role_keyli": "user"|"owner"|"agency"|"admin"|"super_admin"
+            "document_status_keyli": "pending"|"approved"|"rejected","document_type_keyli": "acd"|"registre"|"extrait_naissance"|"cert_residence","property_status_keyli": "a_louer"|"a_vendre","property_type_keyli": "maison"|"duplex"|"villa"|"appartement"|"studio"|"residence_meublee"|"auberge"|"hotel"|"bureau"|"magasin","report_status_keyli": "pending"|"reviewed"|"resolved","subscription_status_keyli": "active"|"expired"|"canceled","transaction_status_keyli": "pending"|"completed"|"failed","user_role_keyli": "user"|"owner"|"agency"|"admin"|"super_admin"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -358,7 +418,7 @@ export type CompositeTypes<
 export const Constants = {
   "public": {
           Enums: {
-            "document_status_keyli": ["pending", "approved", "rejected"],"document_type_keyli": ["acd", "registre", "extrait_naissance", "cert_residence"],"property_status_keyli": ["a_louer", "a_vendre"],"property_type_keyli": ["maison", "duplex", "villa", "appartement", "studio", "residence_meublee", "auberge", "hotel", "bureau", "magasin"],"subscription_status_keyli": ["active", "expired", "canceled"],"transaction_status_keyli": ["pending", "completed", "failed"],"user_role_keyli": ["user", "owner", "agency", "admin", "super_admin"]
+            "document_status_keyli": ["pending", "approved", "rejected"],"document_type_keyli": ["acd", "registre", "extrait_naissance", "cert_residence"],"property_status_keyli": ["a_louer", "a_vendre"],"property_type_keyli": ["maison", "duplex", "villa", "appartement", "studio", "residence_meublee", "auberge", "hotel", "bureau", "magasin"],"report_status_keyli": ["pending", "reviewed", "resolved"],"subscription_status_keyli": ["active", "expired", "canceled"],"transaction_status_keyli": ["pending", "completed", "failed"],"user_role_keyli": ["user", "owner", "agency", "admin", "super_admin"]
           }
         }
 } as const

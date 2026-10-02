@@ -5,7 +5,7 @@ Fichiers concernés : `src/pages/Messages.tsx`,
 Table : `messages_keyli`.
 
 ## Règle centrale
-- [ ] AUCUN paywall — ni sur l'envoi, ni sur la réception, ni sur la
+- [x] AUCUN paywall — ni sur l'envoi, ni sur la réception, ni sur la
       consultation des coordonnées. Décision explicite (PRD 11.3) : les
       propriétaires/agences paient déjà pour être vus, faire payer la
       demande contredirait ce qu'ils achètent. Ne jamais réintroduire de
@@ -19,14 +19,18 @@ Table : `messages_keyli`.
    de la messagerie interne
 ```
 
-## ⚠️ Point à vérifier avant de coder une requête
-La colonne `messages_keyli.from_user`/`to_user` référence `auth.users(id)`
-dans la migration trouvée, mais le reste du schéma `_keyli` référence tantôt
-`auth.users` tantôt `profiles_keyli` selon la table. Vérifier la migration
-exacte de `messages_keyli` avant d'écrire une jointure — ne pas assumer.
+## Références (vérifié sur le nouveau schéma, 2026-10-02)
+`from_user` / `to_user` référencent `auth.users(id)` ; pour afficher un nom,
+joindre `profiles_keyli` sur `profiles_keyli.user_id`.
+
+## Anti-démarchage (2026-10-02)
+Premier contact uniquement au sujet d'une annonce et vers son propriétaire ;
+ensuite réponse seulement à quelqu'un qui nous a déjà écrit sur ce bien
+(testé). Un message ne se modifie ni ne se supprime.
 
 ## Règles
 - [ ] `read` passe à `true` uniquement à l'ouverture réelle du fil par le
-      destinataire, pas à l'affichage dans une liste
+      destinataire, pas à l'affichage dans une liste (en base : seul le
+      destinataire peut modifier `read`, testé)
 - [ ] Badge "nouveau message" (MessagePreviewList) compte les messages
       `read = false` où l'utilisateur courant est `to_user`

@@ -63,6 +63,10 @@ conversation précédente, elle ne persiste pas.
       `accepte_depassement`) — migration
       `20261002160000_limite_forfait_publication_keyli.sql`, local + distant
       (2026-10-02), 26 tests pgTAP verts (161 au total)
+- [x] `messages_keyli` / `ratings_keyli` / `reports_keyli` (+ enum
+      `report_status_keyli`, moyenne par trigger, anti-démarchage) —
+      migration `20261002170000_notes_messages_signalements_keyli.sql`,
+      local + distant (2026-10-02), 27 tests pgTAP verts (188 au total)
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -100,8 +104,13 @@ concernés :
   Windows) — correctif seulement en Vite 8 (version majeure). Aucune faille
   sur les dépendances de production. Montée de version à décider.
 - **Lecture publique d'un profil** (nom du propriétaire, note moyenne sur
-  une annonce) — non autorisée pour l'instant, à décider avec les modules
-  annonces/notation.
+  une annonce) — toujours non autorisée : les notes sont publiques mais
+  `rating_avg` et le nom restent dans `profiles_keyli`, lisible par son seul
+  titulaire. À trancher avant les écrans annonce / profil public (vue
+  limitée sans email, téléphone ni pièce).
+- **Notation d'un second locataire** : `UNIQUE(property_id, rater_id)` du
+  schéma de référence empêche un propriétaire de noter deux locataires
+  successifs du même bien.
 - **Synchronisation de `profiles_keyli.email`** si l'utilisateur change son
   email dans Supabase Auth — aucun mécanisme pour l'instant.
 - **Republication d'une annonce archivée** : doit compter comme nouvelle
@@ -142,7 +151,9 @@ concernés :
 3. Suite de la Phase 0 (calendrier) : validation serveur de la taille/format
    des documents uploadés — dépend de `documents_keyli` et du stockage,
    donc du module vérification ; à caler avec le porteur de projet.
-4. Puis `ratings_keyli`, `messages_keyli`, `reports_keyli` — ordre de
+4. Puis `audit_logs_keyli`, `feedback_keyli`, `inscription_pilot_keyli`,
+   `onboarding_checklists_keyli`, `marketing_templates_keyli`,
+   `signup_attempts_keyli` (module admin) — ordre de
    `reference/schema_cible_reference.sql`.
 
 ---
