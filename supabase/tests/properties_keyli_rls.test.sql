@@ -23,6 +23,14 @@ insert into public.agency_agents_keyli (agency_user_id, nom) values
   ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Mariam Koné'),
   ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'Agent agence 2');
 
+-- Abonnements actifs : la publication exige un forfait en cours
+-- (migration 20261002160000_limite_forfait_publication_keyli.sql)
+insert into public.subscriptions_keyli (user_id, plan_id, amount, start_date, end_date)
+select u.id, p.id, p.prix_mensuel, now() - interval '1 day', now() + interval '1 month'
+  from (values ('cccccccc-cccc-cccc-cccc-cccccccccccc'::uuid, 'proprietaire'),
+               ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'::uuid, 'agence_moyenne')) as u(id, code)
+  join public.plans_keyli p on p.code = u.code;
+
 -- Identifiant réel de l'agent de B : un attaquant passerait l'UUID brut,
 -- pas une recherche par nom (que la RLS lui masque)
 select set_config('test.agent_b',

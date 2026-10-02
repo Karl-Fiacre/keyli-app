@@ -431,6 +431,40 @@ Accès :
   publication, registre de commerce obligatoire pour une agence.
 Tests : `supabase/tests/properties_keyli_rls.test.sql`.
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — limite du forfait à la publication
+Migration `20261002160000_limite_forfait_publication_keyli.sql`. Contrôle par
+**trigger en base** `controler_publication_keyli` (BEFORE INSERT/UPDATE sur
+`properties_keyli`) — remplace la détection prévue dans l'Edge Function
+`check-subscription-overage`.
+- **Comptage** (PRD §11.2) : chaque mise en ligne active à un moment du cycle
+  de l'abonnement actif compte ; archivée puis republiée = nouvelle mise en
+  ligne. Journal : nouvelle table `property_publications_keyli` (id,
+  property_id, owner_id, subscription_id, published_at, unpublished_at,
+  hors_forfait, prix_depassement figé, created_at), écrite par trigger
+  uniquement, lisible par son propriétaire.
+- **Sans abonnement actif** (statut `active` ET dans ses dates) : publication
+  refusée — code `KY001`.
+- **Au-delà du seuil, forfait avec prix de dépassement** (Propriétaire
+  1 500 XOF, Grande Agence 1 000 XOF ou `prix_depassement_negocie`) : refus
+  `KY003` tant que l'utilisateur n'a pas mis `accepte_depassement = true`
+  sur CETTE publication ; le prix est alors figé dans le journal pour la
+  facturation au cycle.
+- **Agence Moyenne au-delà de 10** : refus `KY002` (montée de gamme vers
+  Grande Agence), même avec accord.
+- **Grande Agence avec `montant_depassement_negocie`** : couverte, marquée
+  hors forfait sans prix unitaire, sans accord à l'unité.
+- Nouvelle colonne `properties_keyli.accepte_depassement BOOLEAN NOT NULL
+  DEFAULT false` : accord ponctuel, toujours remis à `false` par le trigger.
+- Fonctions : `evaluer_publication_keyli(uuid)` (interne, non exposée) et
+  `etat_publication_keyli()` (RPC de l'utilisateur connecté : statut,
+  forfait, seuil, mises en ligne du cycle, prix du prochain dépassement)
+  — source unique pour le trigger et l'écran.
+- Verrou consultatif par compte : deux publications simultanées ne
+  dépassent pas le seuil ensemble.
+Reste hors base : facturation effective des dépassements au cycle et
+recommandation après 2 mois consécutifs (Edge Function, avec Paystack).
+Tests : `supabase/tests/limite_forfait_publication_keyli.test.sql`.
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — abonnements, transactions, tentatives de paiement
 Créées le 2026-10-02 (migration `20261002150000_abonnements_keyli.sql`), avec
 les enums `subscription_status_keyli` et `transaction_status_keyli`. Écarts

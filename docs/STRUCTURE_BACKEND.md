@@ -44,9 +44,10 @@ src/integrations/supabase/
 ```
 calculate-quartier-trends       → agrégation recherches/prix par quartier
                                    (voir MODULES/quartiers-tendance.md, DATABASE.md)
-check-subscription-overage      → détection de dépassement de seuil de forfait,
-                                   déclenche la recommandation de montée de gamme
-                                   (PRD 11.2, règle 4)
+check-subscription-overage      → facturation des dépassements enregistrés par le
+                                   trigger controler_publication_keyli (la détection
+                                   est en base depuis le 2026-10-02) et
+                                   recommandation de montée de gamme (PRD 11.2, règle 4)
 ```
 Ne pas nommer différemment sans mettre à jour ce fichier et
 STRUCTURE_FRONTEND.md en même temps — les deux doivent rester synchrones.
