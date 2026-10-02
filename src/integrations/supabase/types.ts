@@ -18,6 +18,19 @@ export type Database = {
                   Relationships: [
                     
                   ]
+                },"audit_logs_keyli": {
+                  Row: {
+                    "action": string,"admin_id": string,"created_at": string | null,"details": Json | null,"entity_id": string | null,"entity_type": string,"id": string
+                  }
+                  Insert: {
+                    "action": string,"admin_id": string,"created_at"?: string | null,"details"?: Json | null,"entity_id"?: string | null,"entity_type": string,"id"?: string
+                  }
+                  Update: {
+                    "action"?: string,"admin_id"?: string,"created_at"?: string | null,"details"?: Json | null,"entity_id"?: string | null,"entity_type"?: string,"id"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"communes_keyli": {
                   Row: {
                     "created_at": string | null,"id": string,"nom": string
@@ -50,6 +63,45 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"feedback_keyli": {
+                  Row: {
+                    "admin_response": string | null,"created_at": string | null,"id": string,"message": string,"status": string | null,"subject": string,"type": string | null,"updated_at": string | null,"user_id": string
+                  }
+                  Insert: {
+                    "admin_response"?: string | null,"created_at"?: string | null,"id"?: string,"message": string,"status"?: string | null,"subject": string,"type"?: string | null,"updated_at"?: string | null,"user_id": string
+                  }
+                  Update: {
+                    "admin_response"?: string | null,"created_at"?: string | null,"id"?: string,"message"?: string,"status"?: string | null,"subject"?: string,"type"?: string | null,"updated_at"?: string | null,"user_id"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"inscription_pilot_keyli": {
+                  Row: {
+                    "budget": number | null,"city": string | null,"created_at": string | null,"email": string,"first_name": string | null,"id": string,"last_name": string | null,"message": string | null,"phone": string | null,"priority_level": Database["public"]['Enums']["priority_level_keyli"] | null,"property_type": Database["public"]['Enums']["property_type_keyli"] | null,"source": string | null,"status": Database["public"]['Enums']["inscription_status_keyli"] | null,"updated_at": string | null
+                  }
+                  Insert: {
+                    "budget"?: number | null,"city"?: string | null,"created_at"?: string | null,"email": string,"first_name"?: string | null,"id"?: string,"last_name"?: string | null,"message"?: string | null,"phone"?: string | null,"priority_level"?: Database["public"]['Enums']["priority_level_keyli"] | null,"property_type"?: Database["public"]['Enums']["property_type_keyli"] | null,"source"?: string | null,"status"?: Database["public"]['Enums']["inscription_status_keyli"] | null,"updated_at"?: string | null
+                  }
+                  Update: {
+                    "budget"?: number | null,"city"?: string | null,"created_at"?: string | null,"email"?: string,"first_name"?: string | null,"id"?: string,"last_name"?: string | null,"message"?: string | null,"phone"?: string | null,"priority_level"?: Database["public"]['Enums']["priority_level_keyli"] | null,"property_type"?: Database["public"]['Enums']["property_type_keyli"] | null,"source"?: string | null,"status"?: Database["public"]['Enums']["inscription_status_keyli"] | null,"updated_at"?: string | null
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"marketing_templates_keyli": {
+                  Row: {
+                    "content": string,"created_at": string | null,"created_by": string | null,"id": string,"image_url": string | null,"name": string,"target_audience": string | null,"title": string | null,"type": string,"updated_at": string | null
+                  }
+                  Insert: {
+                    "content": string,"created_at"?: string | null,"created_by"?: string | null,"id"?: string,"image_url"?: string | null,"name": string,"target_audience"?: string | null,"title"?: string | null,"type": string,"updated_at"?: string | null
+                  }
+                  Update: {
+                    "content"?: string,"created_at"?: string | null,"created_by"?: string | null,"id"?: string,"image_url"?: string | null,"name"?: string,"target_audience"?: string | null,"title"?: string | null,"type"?: string,"updated_at"?: string | null
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"messages_keyli": {
                   Row: {
                     "body": string,"created_at": string | null,"from_user": string,"id": string,"property_id": string | null,"read": boolean | null,"to_user": string
@@ -68,6 +120,19 @@ isOneToOne: false
       referencedRelation: "properties_keyli"
       referencedColumns: ["id"]
     }
+                  ]
+                },"onboarding_checklists_keyli": {
+                  Row: {
+                    "completed": boolean | null,"completed_at": string | null,"created_at": string | null,"id": string,"notes": string | null,"step": string,"updated_at": string | null,"user_id": string
+                  }
+                  Insert: {
+                    "completed"?: boolean | null,"completed_at"?: string | null,"created_at"?: string | null,"id"?: string,"notes"?: string | null,"step": string,"updated_at"?: string | null,"user_id": string
+                  }
+                  Update: {
+                    "completed"?: boolean | null,"completed_at"?: string | null,"created_at"?: string | null,"id"?: string,"notes"?: string | null,"step"?: string,"updated_at"?: string | null,"user_id"?: string
+                  }
+                  Relationships: [
+                    
                   ]
                 },"payment_attempts_keyli": {
                   Row: {
@@ -240,6 +305,19 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"signup_attempts_keyli": {
+                  Row: {
+                    "completed": boolean | null,"completed_at": string | null,"created_at": string | null,"email": string | null,"error_message": string | null,"first_name": string | null,"id": string,"last_name": string | null,"phone": string | null,"role": string | null,"step_reached": string | null,"user_agent": string | null
+                  }
+                  Insert: {
+                    "completed"?: boolean | null,"completed_at"?: string | null,"created_at"?: string | null,"email"?: string | null,"error_message"?: string | null,"first_name"?: string | null,"id"?: string,"last_name"?: string | null,"phone"?: string | null,"role"?: string | null,"step_reached"?: string | null,"user_agent"?: string | null
+                  }
+                  Update: {
+                    "completed"?: boolean | null,"completed_at"?: string | null,"created_at"?: string | null,"email"?: string | null,"error_message"?: string | null,"first_name"?: string | null,"id"?: string,"last_name"?: string | null,"phone"?: string | null,"role"?: string | null,"step_reached"?: string | null,"user_agent"?: string | null
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"subscriptions_keyli": {
                   Row: {
                     "amount": number,"conditions_negociees": string | null,"created_at": string | null,"end_date": string,"id": string,"montant_depassement_negocie": number | null,"paystack_payment_id": string | null,"plan_id": string,"prix_depassement_negocie": number | null,"start_date": string,"status": Database["public"]['Enums']["subscription_status_keyli"] | null,"updated_at": string | null,"user_id": string
@@ -287,8 +365,20 @@ isOneToOne: false
             "a_recu_message_de_keyli":
 { Args: { "p_auteur": string,"p_property": string }; Returns: boolean
                            },
+"admin_reviser_document_keyli":
+{ Args: { "p_decision": Database["public"]['Enums']["document_status_keyli"],"p_document": string,"p_notes"?: string }; Returns: undefined
+                           },
+"admin_traiter_signalement_keyli":
+{ Args: { "p_note"?: string,"p_report": string,"p_statut": Database["public"]['Enums']["report_status_keyli"] }; Returns: undefined
+                           },
 "current_user_role_keyli":
 { Args: Record<PropertyKey, never>; Returns: Database["public"]['Enums']["user_role_keyli"]
+                           },
+"est_admin_keyli":
+{ Args: Record<PropertyKey, never>; Returns: boolean
+                           },
+"est_super_admin_keyli":
+{ Args: Record<PropertyKey, never>; Returns: boolean
                            },
 "etat_publication_keyli":
 { Args: Record<PropertyKey, never>; Returns: {
@@ -299,10 +389,22 @@ isOneToOne: false
 { Args: { "p_owner": string }; Returns: {
               "plan_code": string,"prix_depassement": number,"publications_cycle": number,"seuil_max": number,"statut": string,"subscription_id": string
             }[]
+                           },
+"journaliser_keyli":
+{ Args: { "p_action": string,"p_details"?: Json,"p_entity_id": string,"p_entity_type": string }; Returns: undefined
+                           },
+"super_admin_changer_role_keyli":
+{ Args: { "p_role": Database["public"]['Enums']["user_role_keyli"],"p_user": string }; Returns: undefined
+                           },
+"super_admin_formule_negociee_keyli":
+{ Args: { "p_conditions": string,"p_montant_depassement_negocie": number,"p_prix_depassement_negocie": number,"p_subscription": string }; Returns: undefined
+                           },
+"super_admin_modifier_forfait_keyli":
+{ Args: { "p_actif": boolean,"p_plan": string,"p_prix_depassement_unitaire": number,"p_prix_mensuel": number,"p_seuil_max": number,"p_seuil_min": number }; Returns: undefined
                            }
           }
           Enums: {
-            "document_status_keyli": "pending"|"approved"|"rejected","document_type_keyli": "acd"|"registre"|"extrait_naissance"|"cert_residence","property_status_keyli": "a_louer"|"a_vendre","property_type_keyli": "maison"|"duplex"|"villa"|"appartement"|"studio"|"residence_meublee"|"auberge"|"hotel"|"bureau"|"magasin","report_status_keyli": "pending"|"reviewed"|"resolved","subscription_status_keyli": "active"|"expired"|"canceled","transaction_status_keyli": "pending"|"completed"|"failed","user_role_keyli": "user"|"owner"|"agency"|"admin"|"super_admin"
+            "document_status_keyli": "pending"|"approved"|"rejected","document_type_keyli": "acd"|"registre"|"extrait_naissance"|"cert_residence","inscription_status_keyli": "en_attente"|"contacte"|"converti"|"rejete","priority_level_keyli": "haute"|"moyenne"|"basse","property_status_keyli": "a_louer"|"a_vendre","property_type_keyli": "maison"|"duplex"|"villa"|"appartement"|"studio"|"residence_meublee"|"auberge"|"hotel"|"bureau"|"magasin","report_status_keyli": "pending"|"reviewed"|"resolved","subscription_status_keyli": "active"|"expired"|"canceled","transaction_status_keyli": "pending"|"completed"|"failed","user_role_keyli": "user"|"owner"|"agency"|"admin"|"super_admin"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -418,7 +520,7 @@ export type CompositeTypes<
 export const Constants = {
   "public": {
           Enums: {
-            "document_status_keyli": ["pending", "approved", "rejected"],"document_type_keyli": ["acd", "registre", "extrait_naissance", "cert_residence"],"property_status_keyli": ["a_louer", "a_vendre"],"property_type_keyli": ["maison", "duplex", "villa", "appartement", "studio", "residence_meublee", "auberge", "hotel", "bureau", "magasin"],"report_status_keyli": ["pending", "reviewed", "resolved"],"subscription_status_keyli": ["active", "expired", "canceled"],"transaction_status_keyli": ["pending", "completed", "failed"],"user_role_keyli": ["user", "owner", "agency", "admin", "super_admin"]
+            "document_status_keyli": ["pending", "approved", "rejected"],"document_type_keyli": ["acd", "registre", "extrait_naissance", "cert_residence"],"inscription_status_keyli": ["en_attente", "contacte", "converti", "rejete"],"priority_level_keyli": ["haute", "moyenne", "basse"],"property_status_keyli": ["a_louer", "a_vendre"],"property_type_keyli": ["maison", "duplex", "villa", "appartement", "studio", "residence_meublee", "auberge", "hotel", "bureau", "magasin"],"report_status_keyli": ["pending", "reviewed", "resolved"],"subscription_status_keyli": ["active", "expired", "canceled"],"transaction_status_keyli": ["pending", "completed", "failed"],"user_role_keyli": ["user", "owner", "agency", "admin", "super_admin"]
           }
         }
 } as const

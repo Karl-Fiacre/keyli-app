@@ -23,6 +23,9 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Messagerie — badge non lus | `messages_keyli WHERE to_user = uid AND read = false` | `idx_messages_destinataire_non_lus` — créé |
 | Messagerie — fil d'une annonce | `messages_keyli WHERE property_id = ? AND uid IN (from_user, to_user) ORDER BY created_at` | `idx_messages_fil` — créé |
 | Admin — file de modération | `reports_keyli WHERE status = 'pending' ORDER BY created_at` | `idx_reports_status_date` — créé |
+| Admin — journal d'audit | `audit_logs_keyli ORDER BY created_at DESC` (RLS : admin = ses entrées, super_admin = tout) | `idx_audit_created`, `idx_audit_admin`, `idx_audit_entity` — créés |
+| Admin — retours utilisateurs | `feedback_keyli WHERE status = 'pending' ORDER BY created_at` | `idx_feedback_status_date` — créé |
+| Admin — file pilote | `inscription_pilot_keyli WHERE status = ? ORDER BY priority_level, created_at` | `idx_inscription_pilot_file` — créé |
 | Page tarifs / choix de forfait (public) | `plans_keyli WHERE actif = true ORDER BY seuil_min` (RLS filtre déjà `actif`) | aucun — 3 lignes |
 | Formulaire de publication — sélecteur quartier | `quartiers_keyli JOIN communes_keyli ORDER BY commune, quartier` | `idx_quartiers_commune` (déjà présent) — liste fermée, mise en cache client raisonnable (change rarement) |
 

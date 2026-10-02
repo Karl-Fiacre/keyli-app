@@ -67,6 +67,13 @@ conversation précédente, elle ne persiste pas.
       `report_status_keyli`, moyenne par trigger, anti-démarchage) —
       migration `20261002170000_notes_messages_signalements_keyli.sql`,
       local + distant (2026-10-02), 27 tests pgTAP verts (188 au total)
+- [x] Module admin : `audit_logs_keyli`, actions sensibles en fonctions SQL
+      auditées, lecture admin, `feedback_keyli`, `inscription_pilot_keyli`,
+      `onboarding_checklists_keyli`, `marketing_templates_keyli`,
+      `signup_attempts_keyli`, registre obligatoire pour publier (KY004) —
+      migrations `20261002180000_admin_fondations_keyli.sql` et
+      `20261002190000_admin_backoffice_keyli.sql`, local + distant
+      (2026-10-02), 47 tests pgTAP verts (235 au total)
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -122,13 +129,13 @@ concernés :
 - **Clés Paystack** : nécessaires pour les Edge Functions
   `handle-paystack-payment` / `paystack-webhook` (secrets d'Edge Functions,
   jamais dans `.env`).
-- **Registre agence obligatoire avant publication** : `documents_keyli`
-  existe, mais la règle (registre `approved` requis pour publier) n'est pas
-  encore branchée sur la policy d'insertion de `properties_keyli` — à faire
-  avec le module admin, sans quoi aucune agence ne pourrait publier tant que
-  la revue n'existe pas.
-- **Revue des documents (admin)** : approbation/rejet, passage de
-  `verified` / `is_verified`, audit — module admin.
+- **Retrait de vérification** : un document approuvé ne se révise pas ;
+  aucun mécanisme pour retirer `verified` / `is_verified` (fraude découverte
+  après coup) — à décider.
+- **Suspension de compte** : prévue dans admin.md, aucune règle ni
+  fonction pour l'instant.
+- **Droits super_admin restants** : rapports/analyses, litiges, clés API,
+  sécurité, textes juridiques (voir ROLES.md).
 - **Documents cités mais absents** : `Keyli_Repertoire_Fichiers_Sources_Definitif.docx`,
   `Keyli_Calendrier_Definitif.docx`, `keyli_dashboards_preview.html`.
 - **Hébergement web non confirmé** — recommandation Cloudflare Pages
@@ -151,10 +158,9 @@ concernés :
 3. Suite de la Phase 0 (calendrier) : validation serveur de la taille/format
    des documents uploadés — dépend de `documents_keyli` et du stockage,
    donc du module vérification ; à caler avec le porteur de projet.
-4. Puis `audit_logs_keyli`, `feedback_keyli`, `inscription_pilot_keyli`,
-   `onboarding_checklists_keyli`, `marketing_templates_keyli`,
-   `signup_attempts_keyli` (module admin) — ordre de
-   `reference/schema_cible_reference.sql`.
+4. Puis `leads_keyli` / `visits_keyli`, `favorites_keyli` /
+   `search_alerts_keyli`, `property_interactions_keyli` (analytics) —
+   ordre de `reference/schema_cible_reference.sql`.
 
 ---
 
