@@ -39,6 +39,12 @@ select u.id, p.id, p.prix_mensuel, u.debut, u.debut + interval '1 month', u.prix
   ) as u(id, code, debut, prix_nego, montant_nego)
   join public.plans_keyli p on p.code = u.code;
 
+-- Registre de commerce approuvé : obligatoire pour qu'une agence publie
+-- (migration 20261002190000_admin_backoffice_keyli.sql)
+insert into public.documents_keyli (user_id, doc_type, file_url, status)
+select id, 'registre', id::text || '/registre.pdf', 'approved'
+  from unnest(array['11111111-0000-0000-0000-000000000002', '11111111-0000-0000-0000-000000000003', '11111111-0000-0000-0000-000000000004']::uuid[]) as id;
+
 -- Publie n annonces pour le compte connecté (accord de dépassement optionnel)
 create function pg_temp.publier(n integer, accord boolean default false) returns void
 language sql as $$

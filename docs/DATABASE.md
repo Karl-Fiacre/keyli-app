@@ -431,6 +431,53 @@ Accès :
   publication, registre de commerce obligatoire pour une agence.
 Tests : `supabase/tests/properties_keyli_rls.test.sql`.
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — module admin
+Migrations `20261002180000_admin_fondations_keyli.sql` et
+`20261002190000_admin_backoffice_keyli.sql`. Décisions du porteur de projet :
+- **Actions sensibles = fonctions SQL (RPC)** qui vérifient le rôle,
+  exécutent l'action et écrivent l'audit dans la même transaction
+  (remplacent les Edge Functions prévues pour ces actions). Aucun privilège
+  d'écriture directe pour les admins sur les tables sensibles.
+  - `admin_reviser_document_keyli(document, decision, notes)` (admin) :
+    seulement un document `pending` ; ACD approuvé → `properties_keyli.is_verified` ;
+    propriétaire vérifié = extrait_naissance ET cert_residence approuvés ;
+    agence vérifiée = registre approuvé (`profiles_keyli.verified`,
+    `verification_date`).
+  - `admin_traiter_signalement_keyli(report, statut, note)` (admin).
+  - `super_admin_changer_role_keyli(user, role)` : nomme / retire les admins ;
+    jamais `super_admin` (SQL direct uniquement), jamais son propre rôle ni
+    celui d'un super_admin.
+  - `super_admin_modifier_forfait_keyli(...)` et
+    `super_admin_formule_negociee_keyli(...)` (avant/après dans l'audit).
+- Fonctions de rôle `est_admin_keyli()` (admin ou super_admin) et
+  `est_super_admin_keyli()`.
+- **`audit_logs_keyli`** (colonnes et index du schéma de référence) : écrit
+  uniquement par les fonctions d'action (`journaliser_keyli`, interne) ;
+  un admin lit ses propres entrées, le super_admin lit tout ; aucune
+  modification ni suppression.
+- **Lecture admin** ajoutée sur profils, annonces (archivées comprises),
+  médias, agents, documents (+ fichiers du bucket), abonnements,
+  transactions, tentatives, mises en ligne, signalements, forfaits
+  désactivés. Les messages privés restent inaccessibles à l'admin.
+- **Back-office** (colonnes du schéma de référence, enums
+  `inscription_status_keyli`, `priority_level_keyli`) — écriture admin directe,
+  actions non sensibles :
+  - `feedback_keyli` : l'utilisateur envoie et lit ses retours ; l'admin lit
+    tout et répond (`status`, `admin_response`).
+  - `inscription_pilot_keyli` : formulaire public (visiteurs compris), statut
+    et priorité par défaut ; lecture et suivi par l'admin.
+  - `onboarding_checklists_keyli` : étapes posées par l'admin, cochées par
+    l'utilisateur.
+  - `marketing_templates_keyli` : admin uniquement ; `created_by` rempli
+    automatiquement (`DEFAULT auth.uid()`, ajout au schéma de référence).
+  - `signup_attempts_keyli` : ajout seulement depuis le formulaire
+    d'inscription (visiteurs compris), lecture admin ; `completed` côté
+    serveur.
+- **Registre obligatoire pour publier** (agence) : statut `registre_requis`
+  dans `evaluer_publication_keyli`, refus `KY004` dans le trigger de
+  publication.
+Tests : `supabase/tests/admin_keyli.test.sql`.
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — messagerie, notation, signalements
 Créées le 2026-10-02 (migration `20261002170000_notes_messages_signalements_keyli.sql`),
 avec l'enum `report_status_keyli`. Colonnes du schéma de référence, plus :

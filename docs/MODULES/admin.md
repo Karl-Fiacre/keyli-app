@@ -9,18 +9,24 @@ Tables : `audit_logs_keyli`, `feedback_keyli`, `reports_keyli`,
 `onboarding_checklists_keyli`.
 
 ## Journal d'audit (audit_logs_keyli)
-- [ ] Toute action admin sensible (validation/rejet document, suspension de
-      compte, modification manuelle de statut) écrite avec `admin_id`,
-      `action`, `entity_type`, `entity_id`, `details` (JSONB)
-- [ ] Ne jamais faire de modification admin directe en base sans passer par
-      le code applicatif qui écrit l'entrée d'audit correspondante
+- [x] Toute action admin sensible passe par une fonction SQL
+      (`admin_reviser_document_keyli`, `admin_traiter_signalement_keyli`,
+      `super_admin_changer_role_keyli`, `super_admin_modifier_forfait_keyli`,
+      `super_admin_formule_negociee_keyli`) qui écrit l'audit dans la même
+      transaction (décision du 2026-10-02, testé)
+- [x] Aucune écriture admin directe possible sur les tables sensibles
+      (aucun privilège) ; journal non modifiable
+- [x] Lecture : admin = ses entrées, super_admin = tout
+- [ ] Suspension de compte : aucune règle produit ni fonction pour
+      l'instant
 
 ## Modération (reports_keyli)
 ```
 report_status_keyli : pending → reviewed → resolved
 ```
-- [ ] Un signalement `pending` doit apparaître dans une file admin visible
-      dès sa création — pas de traitement uniquement par requête manuelle
+- [x] Un signalement `pending` est lisible par l'admin dès sa création
+      (index `idx_reports_status_date`) ; traitement via
+      `admin_traiter_signalement_keyli`
 
 ## Suivi du pilote (PilotDashboard.tsx, inscription_pilot_keyli)
 - [ ] `inscription_status_keyli` : en_attente → contacte → converti | rejete

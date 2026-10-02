@@ -26,8 +26,8 @@ résumé, pas la source primaire.
 - [x] Publication bloquée au-delà du seuil du forfait sans facturation de
       dépassement confirmée (trigger `controler_publication_keyli`, accord
       `accepte_depassement`, testé)
-- [ ] `is_verified = true` uniquement après validation admin des documents
-      liés — jamais positionné par le propriétaire/agence lui-même
+- [x] `is_verified = true` uniquement après validation admin des documents
+      liés — jamais positionné par le propriétaire/agence lui-même (testé)
 - [ ] Badge « Vérifié » affiché uniquement si `is_verified = true`
 
 ## MODULE VÉRIFICATION (documents_keyli)
@@ -77,7 +77,8 @@ résumé, pas la source primaire.
       pas restreindre par erreur
 
 ## MODULE ADMIN
-- [ ] Toute action admin sensible écrite dans `audit_logs_keyli`
+- [x] Toute action admin sensible écrite dans `audit_logs_keyli` (fonctions
+      SQL, même transaction, testé)
 - [ ] File de vérification traitée avant onboarding du panel pilote
       (prérequis calendrier, voir Calendrier Définitif Phase 1)
 

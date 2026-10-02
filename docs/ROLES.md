@@ -57,7 +57,14 @@ Rôle supérieur à `admin` : tous les droits de l'admin, plus :
 - Autres droits à trancher au moment opportun
 
 Jamais attribuable à l'inscription (refusé par le trigger, testé) — SQL
-direct uniquement. Seul le rôle existe en base pour l'instant
+direct uniquement.
+
+Implémenté le 2026-10-02 (module admin) : nommer/retirer les admins
+(`super_admin_changer_role_keyli`), modifier les forfaits
+(`super_admin_modifier_forfait_keyli`), formules négociées
+(`super_admin_formule_negociee_keyli`), lecture du journal d'audit complet.
+Restent à implémenter : rapports et analyses, litiges, clés API, sécurité
+informatique, textes juridiques. Seul le rôle existe en base pour l'instant
 (migration `20261002120000_role_super_admin_keyli.sql`) : ces droits seront
 implémentés avec le module admin (policies, Edge Functions).
 

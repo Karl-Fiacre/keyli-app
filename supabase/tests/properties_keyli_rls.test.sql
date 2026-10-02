@@ -31,6 +31,12 @@ select u.id, p.id, p.prix_mensuel, now() - interval '1 day', now() + interval '1
                ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'::uuid, 'agence_moyenne')) as u(id, code)
   join public.plans_keyli p on p.code = u.code;
 
+-- Registre de commerce approuvé : obligatoire pour qu'une agence publie
+-- (migration 20261002190000_admin_backoffice_keyli.sql)
+insert into public.documents_keyli (user_id, doc_type, file_url, status)
+select id, 'registre', id::text || '/registre.pdf', 'approved'
+  from unnest(array['aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa']::uuid[]) as id;
+
 -- Identifiant réel de l'agent de B : un attaquant passerait l'UUID brut,
 -- pas une recherche par nom (que la RLS lui masque)
 select set_config('test.agent_b',
