@@ -23,6 +23,14 @@ insert into auth.users (id, email, raw_user_meta_data) values
   ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'agence@test.local', '{"role_keyli": "agency"}'),
   ('dddddddd-dddd-dddd-dddd-dddddddddddd', 'chercheur@test.local', '{}');
 
+-- Abonnements actifs : la publication exige un forfait en cours
+-- (migration 20261002160000_limite_forfait_publication_keyli.sql)
+insert into public.subscriptions_keyli (user_id, plan_id, amount, start_date, end_date)
+select u.id, p.id, p.prix_mensuel, now() - interval '1 day', now() + interval '1 month'
+  from (values ('cccccccc-cccc-cccc-cccc-cccccccccccc'::uuid, 'proprietaire'),
+               ('eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee'::uuid, 'proprietaire')) as u(id, code)
+  join public.plans_keyli p on p.code = u.code;
+
 insert into public.properties_keyli (owner_id, title, type, status, price, city, geolocation) values
   ('cccccccc-cccc-cccc-cccc-cccccccccccc', 'Villa P1', 'villa', 'a_vendre', 1, 'Abidjan', 'SRID=4326;POINT(-3.96 5.36)'),
   ('cccccccc-cccc-cccc-cccc-cccccccccccc', 'Villa P2', 'villa', 'a_vendre', 1, 'Abidjan', 'SRID=4326;POINT(-3.97 5.37)'),

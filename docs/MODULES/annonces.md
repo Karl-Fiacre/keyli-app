@@ -8,10 +8,13 @@ Table : `properties_keyli` + `property_media_keyli`.
 
 ## Publication (CreateProperty.tsx)
 ```
-1. Vérifier le nombre d'annonces actives de l'utilisateur (owner_id)
-2. Si >= seuil du forfait en cours → bloquer OU facturer le dépassement
-   (voir MODULES/pricing.md — ne pas décider seul lequel des deux sans
-   vérifier l'implémentation de check-subscription-overage)
+1. Appeler la RPC `etat_publication_keyli()` : afficher le compteur du
+   cycle et, si statut = `depassement`, demander l'accord explicite
+   (prix affiché) ; si `bloquee`, proposer Grande Agence ; si
+   `sans_abonnement`, rediriger vers Subscription.tsx
+2. Publier avec `accepte_depassement = true` seulement après cet accord —
+   le trigger en base refait le contrôle (codes KY001/KY002/KY003) ; ne
+   jamais refaire le calcul côté client
 3. Formulaire : titre, type (property_type_keyli), status (à_louer/à_vendre),
    prix, description, ville, quartier, superficie, pièces, salles de bain,
    meublé, avantages/proximités
@@ -48,10 +51,9 @@ Table : `properties_keyli` + `property_media_keyli`.
       l'admin (testé).
 - [x] Point GPS obligatoire (`geolocation NOT NULL`, décision du
       2026-10-02) — le formulaire de publication doit imposer sa saisie.
-- [ ] Republication d'une annonce archivée = nouvelle annonce du mois
-      (PRD_REGLES.md) : mécanisme de comptage à définir avec
-      `check-subscription-overage` (remettre `archived_at` à NULL ne laisse
-      pas de trace datée en l'état)
+- [x] Republication d'une annonce archivée = nouvelle annonce du mois :
+      chaque mise en ligne est journalisée dans `property_publications_keyli`
+      (testé)
 
 ## Favoris (favorites_keyli)
 ⚠️ Table trouvée manquante lors d'un rescan — le cœur cliquable des

@@ -36,9 +36,15 @@ Grande Agence     25 000 XOF/mois  11-30 annonces (plafond fixé le 2026-10-01)
    transaction confirmée correspondante)
 ```
 
-## Dépassement de seuil (à construire — Edge Function check-subscription-overage)
-- [ ] Détection au moment de la publication d'une annonce dépassant
-      `plans_keyli.seuil_max` du forfait courant
+## Dépassement de seuil
+Détection et contrôle faits **en base** depuis le 2026-10-02 (trigger
+`controler_publication_keyli`, voir DATABASE.md) : sans abonnement → refus
+KY001 ; Agence Moyenne > 10 → refus KY002 ; dépassement facturable → accord
+explicite requis (KY003), prix figé dans `property_publications_keyli`.
+Reste à construire (Edge Function `check-subscription-overage`) : la
+facturation des dépassements au cycle et la recommandation à 2 mois.
+- [x] Détection au moment de la publication d'une annonce dépassant
+      `plans_keyli.seuil_max` du forfait courant (trigger, testé)
 - [ ] Si `prix_depassement_unitaire` est renseigné (Propriétaire, Grande
       Agence) → facturer au même cycle que l'abonnement
 - [ ] Grande Agence au-delà de 30 : deux voies, au choix de l'agence —

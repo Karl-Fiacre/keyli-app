@@ -19,6 +19,7 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Agence/Propriétaire — visites à venir | `visits_keyli WHERE scheduled_by = uid AND scheduled_at > now()` | `idx_visits_scheduled_by` (déjà présent) |
 | Chercheur — favoris | `favorites_keyli WHERE user_id = uid JOIN properties_keyli` | à ajouter si lenteur : `(user_id)` déjà couvert par la contrainte UNIQUE |
 | Chercheur — alertes actives | `search_alerts_keyli WHERE user_id = uid AND actif = true` | à ajouter si lenteur : `(user_id, actif)` |
+| Formulaire de publication — compteur « x/seuil », demande d'accord de dépassement | RPC `etat_publication_keyli()` | `idx_publications_owner_periode (owner_id, published_at, unpublished_at)` — créé |
 | Page tarifs / choix de forfait (public) | `plans_keyli WHERE actif = true ORDER BY seuil_min` (RLS filtre déjà `actif`) | aucun — 3 lignes |
 | Formulaire de publication — sélecteur quartier | `quartiers_keyli JOIN communes_keyli ORDER BY commune, quartier` | `idx_quartiers_commune` (déjà présent) — liste fermée, mise en cache client raisonnable (change rarement) |
 
@@ -48,7 +49,14 @@ handle-paystack-payment (Edge Function existante)
     déclenché par la confirmation Paystack, qui le fait — ne jamais activer
     un abonnement avant confirmation réelle du paiement)
 
-check-subscription-overage (Edge Function à créer — voir MODULES/pricing.md)
+controler_publication_keyli (TRIGGER en base — remplace la détection prévue
+  dans check-subscription-overage, décision du 2026-10-02, voir DATABASE.md)
+  → refuse ou accepte la publication selon le forfait, fige le prix du
+    dépassement dans property_publications_keyli
+
+check-subscription-overage (Edge Function à créer — désormais limitée à la
+  FACTURATION des dépassements enregistrés et à la recommandation de montée
+  de gamme après 2 mois consécutifs ; description d'origine ci-dessous)
   → déclenchée à la publication d'une annonce
   → compte les annonces actives de l'owner_id (ou de l'agence, si agent_id
     rattaché — compter TOUTE l'agence, pas un seul compte, voir

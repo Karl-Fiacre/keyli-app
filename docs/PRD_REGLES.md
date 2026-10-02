@@ -23,8 +23,9 @@ résumé, pas la source primaire.
       `geolocation`
 
 ## MODULE ANNONCES (properties_keyli)
-- [ ] Publication bloquée au-delà du seuil du forfait sans facturation de
-      dépassement confirmée (voir MODULE PRICING)
+- [x] Publication bloquée au-delà du seuil du forfait sans facturation de
+      dépassement confirmée (trigger `controler_publication_keyli`, accord
+      `accepte_depassement`, testé)
 - [ ] `is_verified = true` uniquement après validation admin des documents
       liés — jamais positionné par le propriétaire/agence lui-même
 - [ ] Badge « Vérifié » affiché uniquement si `is_verified = true`
@@ -47,8 +48,8 @@ résumé, pas la source primaire.
 - [x] Compte agence (registre de commerce vérifié) ne peut PAS s'inscrire au
       forfait Propriétaire, même à faible volume — trigger
       `validate_subscription_keyli`, testé
-- [ ] Annonce archivée puis republiée = compte comme nouvelle annonce du
-      mois (anti-contournement du seuil)
+- [x] Annonce archivée puis republiée = compte comme nouvelle annonce du
+      mois (anti-contournement du seuil) — journal des mises en ligne, testé
 - [ ] Dépassement de seuil facturé au même cycle que l'abonnement, pas en
       facture séparée par annonce
 - [ ] 2 mois consécutifs de dépassement → recommandation explicite de

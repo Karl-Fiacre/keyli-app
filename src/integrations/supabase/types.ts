@@ -97,13 +97,13 @@ isOneToOne: false
                   ]
                 },"properties_keyli": {
                   Row: {
-                    "agent_id": string | null,"archived_at": string | null,"area_m2": number | null,"bathrooms": number | null,"city": string,"contacts_count": number | null,"created_at": string | null,"description": string | null,"furnished": boolean | null,"geolocation": unknown,"id": string,"is_verified": boolean | null,"main_image_url": string | null,"owner_id": string,"price": number,"quartier_id": string | null,"rooms": number | null,"status": Database["public"]['Enums']["property_status_keyli"],"title": string,"type": Database["public"]['Enums']["property_type_keyli"],"updated_at": string | null,"video_url": string | null,"views_count": number | null
+                    "accepte_depassement": boolean,"agent_id": string | null,"archived_at": string | null,"area_m2": number | null,"bathrooms": number | null,"city": string,"contacts_count": number | null,"created_at": string | null,"description": string | null,"furnished": boolean | null,"geolocation": unknown,"id": string,"is_verified": boolean | null,"main_image_url": string | null,"owner_id": string,"price": number,"quartier_id": string | null,"rooms": number | null,"status": Database["public"]['Enums']["property_status_keyli"],"title": string,"type": Database["public"]['Enums']["property_type_keyli"],"updated_at": string | null,"video_url": string | null,"views_count": number | null
                   }
                   Insert: {
-                    "agent_id"?: string | null,"archived_at"?: string | null,"area_m2"?: number | null,"bathrooms"?: number | null,"city": string,"contacts_count"?: number | null,"created_at"?: string | null,"description"?: string | null,"furnished"?: boolean | null,"geolocation": unknown,"id"?: string,"is_verified"?: boolean | null,"main_image_url"?: string | null,"owner_id": string,"price": number,"quartier_id"?: string | null,"rooms"?: number | null,"status": Database["public"]['Enums']["property_status_keyli"],"title": string,"type": Database["public"]['Enums']["property_type_keyli"],"updated_at"?: string | null,"video_url"?: string | null,"views_count"?: number | null
+                    "accepte_depassement"?: boolean,"agent_id"?: string | null,"archived_at"?: string | null,"area_m2"?: number | null,"bathrooms"?: number | null,"city": string,"contacts_count"?: number | null,"created_at"?: string | null,"description"?: string | null,"furnished"?: boolean | null,"geolocation": unknown,"id"?: string,"is_verified"?: boolean | null,"main_image_url"?: string | null,"owner_id": string,"price": number,"quartier_id"?: string | null,"rooms"?: number | null,"status": Database["public"]['Enums']["property_status_keyli"],"title": string,"type": Database["public"]['Enums']["property_type_keyli"],"updated_at"?: string | null,"video_url"?: string | null,"views_count"?: number | null
                   }
                   Update: {
-                    "agent_id"?: string | null,"archived_at"?: string | null,"area_m2"?: number | null,"bathrooms"?: number | null,"city"?: string,"contacts_count"?: number | null,"created_at"?: string | null,"description"?: string | null,"furnished"?: boolean | null,"geolocation"?: unknown,"id"?: string,"is_verified"?: boolean | null,"main_image_url"?: string | null,"owner_id"?: string,"price"?: number,"quartier_id"?: string | null,"rooms"?: number | null,"status"?: Database["public"]['Enums']["property_status_keyli"],"title"?: string,"type"?: Database["public"]['Enums']["property_type_keyli"],"updated_at"?: string | null,"video_url"?: string | null,"views_count"?: number | null
+                    "accepte_depassement"?: boolean,"agent_id"?: string | null,"archived_at"?: string | null,"area_m2"?: number | null,"bathrooms"?: number | null,"city"?: string,"contacts_count"?: number | null,"created_at"?: string | null,"description"?: string | null,"furnished"?: boolean | null,"geolocation"?: unknown,"id"?: string,"is_verified"?: boolean | null,"main_image_url"?: string | null,"owner_id"?: string,"price"?: number,"quartier_id"?: string | null,"rooms"?: number | null,"status"?: Database["public"]['Enums']["property_status_keyli"],"title"?: string,"type"?: Database["public"]['Enums']["property_type_keyli"],"updated_at"?: string | null,"video_url"?: string | null,"views_count"?: number | null
                   }
                   Relationships: [
                     {
@@ -136,6 +136,31 @@ isOneToOne: false
       columns: ["property_id"]
 isOneToOne: false
       referencedRelation: "properties_keyli"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"property_publications_keyli": {
+                  Row: {
+                    "created_at": string | null,"hors_forfait": boolean,"id": string,"owner_id": string,"prix_depassement": number | null,"property_id": string,"published_at": string,"subscription_id": string | null,"unpublished_at": string | null
+                  }
+                  Insert: {
+                    "created_at"?: string | null,"hors_forfait"?: boolean,"id"?: string,"owner_id": string,"prix_depassement"?: number | null,"property_id": string,"published_at"?: string,"subscription_id"?: string | null,"unpublished_at"?: string | null
+                  }
+                  Update: {
+                    "created_at"?: string | null,"hors_forfait"?: boolean,"id"?: string,"owner_id"?: string,"prix_depassement"?: number | null,"property_id"?: string,"published_at"?: string,"subscription_id"?: string | null,"unpublished_at"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "property_publications_keyli_property_id_fkey"
+      columns: ["property_id"]
+isOneToOne: false
+      referencedRelation: "properties_keyli"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "property_publications_keyli_subscription_id_fkey"
+      columns: ["subscription_id"]
+isOneToOne: false
+      referencedRelation: "subscriptions_keyli"
       referencedColumns: ["id"]
     }
                   ]
@@ -204,6 +229,16 @@ isOneToOne: false
           Functions: {
             "current_user_role_keyli":
 { Args: Record<PropertyKey, never>; Returns: Database["public"]['Enums']["user_role_keyli"]
+                           },
+"etat_publication_keyli":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "plan_code": string,"prix_depassement": number,"publications_cycle": number,"seuil_max": number,"statut": string,"subscription_id": string
+            }[]
+                           },
+"evaluer_publication_keyli":
+{ Args: { "p_owner": string }; Returns: {
+              "plan_code": string,"prix_depassement": number,"publications_cycle": number,"seuil_max": number,"statut": string,"subscription_id": string
+            }[]
                            }
           }
           Enums: {
