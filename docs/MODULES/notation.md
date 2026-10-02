@@ -15,11 +15,14 @@ Fichiers concernés : `src/components/RatingForm.tsx`, `RatingDisplay.tsx`,
       l'affichage de `rating_avg` sur les profils publics
 
 ## Calcul de la moyenne
-`profiles_keyli.rating_avg` — aucun mécanisme de recalcul n'existe sur le
-nouveau schéma. Choisir explicitement entre un trigger SQL (recalcul à
-chaque insertion dans `ratings_keyli`) et un recalcul applicatif (voir
-DATABASE_LOGIC.md) — demander avant d'implémenter, ne pas supposer que la
-base le fait automatiquement.
+`profiles_keyli.rating_avg` est recalculé par le trigger SQL
+`recalculer_note_moyenne_keyli` à chaque note ajoutée, modifiée ou retirée
+(décision du 2026-10-02, testé) — aucun calcul côté application.
+
+## Qui peut noter (décision du 2026-10-02)
+Uniquement quelqu'un avec qui on a échangé au moins un message dans chaque
+sens au sujet du bien — bloque les fausses notes d'inconnus. À resserrer
+sur « lead conclu » quand `leads_keyli` existera.
 
 ## Affichage
 - `RatingDisplay.tsx` : étoiles + moyenne, utilisé sur `PropertyDetails.tsx`

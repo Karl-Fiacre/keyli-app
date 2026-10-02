@@ -20,6 +20,9 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Chercheur — favoris | `favorites_keyli WHERE user_id = uid JOIN properties_keyli` | à ajouter si lenteur : `(user_id)` déjà couvert par la contrainte UNIQUE |
 | Chercheur — alertes actives | `search_alerts_keyli WHERE user_id = uid AND actif = true` | à ajouter si lenteur : `(user_id, actif)` |
 | Formulaire de publication — compteur « x/seuil », demande d'accord de dépassement | RPC `etat_publication_keyli()` | `idx_publications_owner_periode (owner_id, published_at, unpublished_at)` — créé |
+| Messagerie — badge non lus | `messages_keyli WHERE to_user = uid AND read = false` | `idx_messages_destinataire_non_lus` — créé |
+| Messagerie — fil d'une annonce | `messages_keyli WHERE property_id = ? AND uid IN (from_user, to_user) ORDER BY created_at` | `idx_messages_fil` — créé |
+| Admin — file de modération | `reports_keyli WHERE status = 'pending' ORDER BY created_at` | `idx_reports_status_date` — créé |
 | Page tarifs / choix de forfait (public) | `plans_keyli WHERE actif = true ORDER BY seuil_min` (RLS filtre déjà `actif`) | aucun — 3 lignes |
 | Formulaire de publication — sélecteur quartier | `quartiers_keyli JOIN communes_keyli ORDER BY commune, quartier` | `idx_quartiers_commune` (déjà présent) — liste fermée, mise en cache client raisonnable (change rarement) |
 
@@ -76,11 +79,9 @@ calculate-quartier-trends (Edge Function à créer — voir MODULES/quartiers-te
   `property_media_keyli` où `order_index = 0` — ne jamais laisser les deux
   désynchronisés (mettre à jour les deux dans la même transaction si l'ordre
   des médias change).
-- `profiles_keyli.rating_avg` — mécanisme de recalcul non confirmé dans
-  l'ancien schéma (voir MODULES/notation.md). Sur le nouveau schéma, choisir
-  explicitement entre un trigger SQL (recalcul automatique à chaque insertion
-  dans `ratings_keyli`) ou un recalcul applicatif — ne pas supposer que l'un
-  des deux existe sans l'avoir écrit soi-même.
+- `profiles_keyli.rating_avg` — recalculé par le trigger
+  `recalculer_note_moyenne_keyli` (décision du 2026-10-02) ; ne jamais le
+  recalculer ailleurs.
 - `property_interactions_keyli.quartier_id` est une COPIE au moment de
   l'événement, jamais une jointure vers `properties_keyli.quartier_id` — voir
   DATABASE.md, pour ne pas corrompre l'historique de tendance si une annonce

@@ -61,17 +61,18 @@ résumé, pas la source primaire.
       recréés en enum (décision actée, voir DATABASE.md et MODULES/pricing.md)
 
 ## MODULE CHERCHEUR
-- [ ] AUCUN paywall sur la messagerie interne ni les coordonnées de contact
+- [x] AUCUN paywall sur la messagerie interne ni les coordonnées de contact
       en v1 — décision explicite (PRD 11.3), pas un oubli
 - [ ] Alertes de recherche sauvegardée déclenchent une notification sur
       nouvelle annonce correspondante
 
 ## MODULE NOTATION (ratings_keyli)
-- [ ] Une seule note par utilisateur par bien — contrainte
+- [x] Une seule note par utilisateur par bien — contrainte
       `UNIQUE(property_id, rater_id)` créée avec la table (voir
       reference/schema_cible_reference.sql), jamais contournée côté application
-- [ ] Notation bidirectionnelle : locataire note propriétaire ET inversement
-- [ ] Notes publiquement visibles — policy SELECT publique ("Lecture
+- [x] Notation bidirectionnelle : locataire note propriétaire ET inversement
+      (après échange de messages dans les deux sens, testé)
+- [x] Notes publiquement visibles — policy SELECT publique ("Lecture
       publique des notes") écrite dans la même migration que la table — ne
       pas restreindre par erreur
 

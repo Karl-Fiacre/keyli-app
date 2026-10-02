@@ -431,6 +431,34 @@ Accès :
   publication, registre de commerce obligatoire pour une agence.
 Tests : `supabase/tests/properties_keyli_rls.test.sql`.
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — messagerie, notation, signalements
+Créées le 2026-10-02 (migration `20261002170000_notes_messages_signalements_keyli.sql`),
+avec l'enum `report_status_keyli`. Colonnes du schéma de référence, plus :
+- `messages_keyli` : CHECK corps non vide et `from_user <> to_user` ; index
+  `idx_messages_destinataire_non_lus` (badge) et `idx_messages_fil`.
+  Aucun paywall (PRD 11.3) : tout compte connecté écrit. Premier contact =
+  au sujet d'une annonce visible, adressé à son propriétaire ; ensuite,
+  réponse uniquement à quelqu'un qui nous a déjà écrit sur ce bien (fonction
+  `a_recu_message_de_keyli`, qui ne regarde que la boîte de l'appelant —
+  nécessaire car une policy ne peut pas interroger sa propre table). En
+  pratique toute conversation est rattachée à une annonce. Lecture par les
+  deux participants ; seul le destinataire modifie `read` ; un message ne se
+  modifie ni ne se supprime.
+- `ratings_keyli` : lecture publique ; on ne note qu'après un échange de
+  messages dans les deux sens sur le bien (décision du 2026-10-02, à
+  resserrer sur « lead conclu » avec `leads_keyli`) ; l'auteur peut revoir
+  note et commentaire. `profiles_keyli.rating_avg` recalculé par le trigger
+  `recalculer_note_moyenne_keyli` (décision du 2026-10-02). Index
+  `idx_ratings_rated_user`.
+  ⚠️ Limite héritée du schéma de référence : `UNIQUE(property_id, rater_id)`
+  empêche un propriétaire de noter un second locataire du même bien.
+- `reports_keyli` : CHECK motif non vide ; un seul signalement `pending`
+  par personne et par annonce (index unique partiel) ; index
+  `idx_reports_status_date` (file de modération). Le signaleur lit ses
+  signalements, le signalé ne les voit pas ; traitement par l'admin (module
+  admin).
+Tests : `supabase/tests/notes_messages_signalements_keyli.test.sql`.
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — limite du forfait à la publication
 Migration `20261002160000_limite_forfait_publication_keyli.sql`. Contrôle par
 **trigger en base** `controler_publication_keyli` (BEFORE INSERT/UPDATE sur
