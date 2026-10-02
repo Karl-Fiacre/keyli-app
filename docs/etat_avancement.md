@@ -74,6 +74,10 @@ conversation précédente, elle ne persiste pas.
       migrations `20261002180000_admin_fondations_keyli.sql` et
       `20261002190000_admin_backoffice_keyli.sql`, local + distant
       (2026-10-02), 47 tests pgTAP verts (235 au total)
+- [x] `leads_keyli` / `visits_keyli` (+ enums, lead automatique au premier
+      contact, cohérence propriétaire/agent) — migration
+      `20261003120000_leads_visites_keyli.sql`, local + distant (2026-10-03),
+      23 tests pgTAP verts (258 au total)
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -115,6 +119,9 @@ concernés :
   `rating_avg` et le nom restent dans `profiles_keyli`, lisible par son seul
   titulaire. À trancher avant les écrans annonce / profil public (vue
   limitée sans email, téléphone ni pièce).
+- **Notation « après lead conclu »** : `leads_keyli` existe désormais ; la
+  règle de notation (échange de messages dans les deux sens) peut être
+  resserrée sur « lead conclu » — à décider.
 - **Notation d'un second locataire** : `UNIQUE(property_id, rater_id)` du
   schéma de référence empêche un propriétaire de noter deux locataires
   successifs du même bien.
@@ -158,9 +165,9 @@ concernés :
 3. Suite de la Phase 0 (calendrier) : validation serveur de la taille/format
    des documents uploadés — dépend de `documents_keyli` et du stockage,
    donc du module vérification ; à caler avec le porteur de projet.
-4. Puis `leads_keyli` / `visits_keyli`, `favorites_keyli` /
-   `search_alerts_keyli`, `property_interactions_keyli` (analytics) —
-   ordre de `reference/schema_cible_reference.sql`.
+4. Puis `favorites_keyli` / `search_alerts_keyli`, puis
+   `property_interactions_keyli` (analytics) — dernières tables de
+   `reference/schema_cible_reference.sql`.
 
 ---
 

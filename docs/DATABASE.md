@@ -431,6 +431,27 @@ Accès :
   publication, registre de commerce obligatoire pour une agence.
 Tests : `supabase/tests/properties_keyli_rls.test.sql`.
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-03) — leads_keyli / visits_keyli
+Créées le 2026-10-03 (migration `20261003120000_leads_visites_keyli.sql`), avec
+les enums `lead_stage_keyli` et `visit_status_keyli`. Colonnes et index du
+schéma de référence, plus :
+- **Lead automatique** au premier message d'un chercheur au sujet d'une
+  annonce (trigger `creer_lead_au_contact_keyli` sur `messages_keyli`) ; un
+  seul lead par chercheur et par annonce (index unique partiel
+  `uq_leads_keyli_contact_annonce`).
+- **`owner_id` recopié de l'annonce** par le trigger `coherence_lead_keyli`
+  (jamais saisi par le client) ; `agent_id` doit appartenir à ce compte.
+- CHECK : un lead a un contact identifié (`contact_user_id` ou
+  `contact_nom`) ; une visite a un visiteur identifié.
+- Lead manuel : contact hors plateforme uniquement (`contact_user_id` non
+  saisissable par le client).
+- Visite : sur l'une de ses annonces ; lead éventuel du même bien ; visiteur
+  avec compte = quelqu'un qui a écrit au propriétaire sur ce bien.
+- **Aucune suppression** de lead ni de visite (visite annulée conservée).
+- Lecture : le propriétaire/agence ses leads et visites ; l'admin tout ; le
+  chercheur ne voit pas l'état commercial de son contact.
+Tests : `supabase/tests/leads_visites_keyli.test.sql`.
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — module admin
 Migrations `20261002180000_admin_fondations_keyli.sql` et
 `20261002190000_admin_backoffice_keyli.sql`. Décisions du porteur de projet :

@@ -20,6 +20,8 @@ est l'état commercial qui peut référencer un message d'origine
 ```
 1. Un lead est créé automatiquement à la première prise de contact
    (message envoyé depuis PropertyDetails.tsx) → stage = 'nouveau'
+   (trigger `creer_lead_au_contact_keyli`, un seul par chercheur et par
+   annonce — fait le 2026-10-03)
 2. Un lead peut aussi être créé manuellement par le propriétaire/agence
    (ex. contact reçu par téléphone, hors plateforme) → contact_nom renseigné,
    contact_user_id NULL
@@ -41,15 +43,16 @@ est l'état commercial qui peut référencer un message d'origine
 ```
 
 ## Règles
-- [ ] `leads_keyli.owner_id` doit toujours correspondre au `owner_id` de
-      `properties_keyli` référencée par `property_id` — un propriétaire ne
-      voit jamais un lead qui n'est pas sur l'une de ses annonces
-- [ ] `agent_id` (agence uniquement) nullable — un lead peut ne pas encore
-      être assigné à un agent précis
+- [x] `leads_keyli.owner_id` doit toujours correspondre au `owner_id` de
+      `properties_keyli` référencée par `property_id` — recopié par trigger,
+      testé
+- [x] `agent_id` (agence uniquement) nullable — un lead peut ne pas encore
+      être assigné à un agent précis ; s'il l'est, l'agent appartient à
+      l'agence (testé)
 - [ ] Le KPI "Leads actifs" du dashboard Agence = COUNT `leads_keyli` où
       `stage != 'conclu'`
-- [ ] Une visite `annulee` ne doit pas disparaître de l'historique — statut
-      conservé, pas de suppression
+- [x] Une visite `annulee` ne doit pas disparaître de l'historique — statut
+      conservé, pas de suppression (testé)
 
 ## Non couvert ici — à trancher avant le code
 - [ ] Notification automatique avant une visite planifiée (rappel) — aucun
