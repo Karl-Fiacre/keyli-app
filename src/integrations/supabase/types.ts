@@ -63,6 +63,25 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"favorites_keyli": {
+                  Row: {
+                    "created_at": string | null,"id": string,"property_id": string,"user_id": string
+                  }
+                  Insert: {
+                    "created_at"?: string | null,"id"?: string,"property_id": string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string | null,"id"?: string,"property_id"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "favorites_keyli_property_id_fkey"
+      columns: ["property_id"]
+isOneToOne: false
+      referencedRelation: "properties_keyli"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"feedback_keyli": {
                   Row: {
                     "admin_response": string | null,"created_at": string | null,"id": string,"message": string,"status": string | null,"subject": string,"type": string | null,"updated_at": string | null,"user_id": string
@@ -335,6 +354,19 @@ isOneToOne: false
       referencedRelation: "properties_keyli"
       referencedColumns: ["id"]
     }
+                  ]
+                },"search_alerts_keyli": {
+                  Row: {
+                    "actif": boolean | null,"created_at": string | null,"criteres": NonNullable<Json>,"derniere_notification_at": string | null,"id": string,"user_id": string
+                  }
+                  Insert: {
+                    "actif"?: boolean | null,"created_at"?: string | null,"criteres": NonNullable<Json>,"derniere_notification_at"?: string | null,"id"?: string,"user_id": string
+                  }
+                  Update: {
+                    "actif"?: boolean | null,"created_at"?: string | null,"criteres"?: NonNullable<Json>,"derniere_notification_at"?: string | null,"id"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    
                   ]
                 },"signup_attempts_keyli": {
                   Row: {

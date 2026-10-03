@@ -17,8 +17,8 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Tracking vues (tout écran bien) | `INSERT property_interactions_keyli` | déjà indexé (property_id, type, quartier_id) |
 | Agence — pipeline de leads | `leads_keyli WHERE owner_id = uid ORDER BY stage` | `idx_leads_owner_stage` — créé |
 | Agence/Propriétaire — visites à venir | `visits_keyli WHERE scheduled_by = uid AND scheduled_at > now()` | `idx_visits_scheduled_by` — créé |
-| Chercheur — favoris | `favorites_keyli WHERE user_id = uid JOIN properties_keyli` | à ajouter si lenteur : `(user_id)` déjà couvert par la contrainte UNIQUE |
-| Chercheur — alertes actives | `search_alerts_keyli WHERE user_id = uid AND actif = true` | à ajouter si lenteur : `(user_id, actif)` |
+| Chercheur — favoris | `favorites_keyli WHERE user_id = uid JOIN properties_keyli` | `(user_id)` couvert par la contrainte UNIQUE `(user_id, property_id)` — créée |
+| Chercheur — alertes actives | `search_alerts_keyli WHERE user_id = uid AND actif = true` | `idx_search_alerts_user_actif (user_id, actif)` — créé |
 | Formulaire de publication — compteur « x/seuil », demande d'accord de dépassement | RPC `etat_publication_keyli()` | `idx_publications_owner_periode (owner_id, published_at, unpublished_at)` — créé |
 | Messagerie — badge non lus | `messages_keyli WHERE to_user = uid AND read = false` | `idx_messages_destinataire_non_lus` — créé |
 | Messagerie — fil d'une annonce | `messages_keyli WHERE property_id = ? AND uid IN (from_user, to_user) ORDER BY created_at` | `idx_messages_fil` — créé |

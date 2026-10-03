@@ -78,6 +78,9 @@ conversation précédente, elle ne persiste pas.
       contact, cohérence propriétaire/agent) — migration
       `20261003120000_leads_visites_keyli.sql`, local + distant (2026-10-03),
       23 tests pgTAP verts (258 au total)
+- [x] `favorites_keyli` / `search_alerts_keyli` — migration
+      `20261003130000_favoris_alertes_keyli.sql`, local + distant
+      (2026-10-03), 16 tests pgTAP verts (274 au total)
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -145,6 +148,12 @@ concernés :
   sécurité, textes juridiques (voir ROLES.md).
 - **Documents cités mais absents** : `Keyli_Repertoire_Fichiers_Sources_Definitif.docx`,
   `Keyli_Calendrier_Definitif.docx`, `keyli_dashboards_preview.html`.
+- **Notification des alertes de recherche** : mécanisme (cron ou trigger
+  à la publication) non tranché — tables prêtes.
+- **Mémoire de la machine (Docker)** : 7,9 Go de RAM, Docker relance au
+  démarrage les conteneurs iic et naellys-express ; le moteur Docker a
+  planté plusieurs fois le 2026-10-03 faute de mémoire. Arrêter les
+  conteneurs inutiles avant une session Keyli.
 - **Hébergement web non confirmé** — recommandation Cloudflare Pages
   documentée (`docs/MODULES/hebergement-securite.md`), pas actée.
 - **Clés Paystack et Cloudinary** — pas encore transmises, à demander avant
@@ -165,9 +174,8 @@ concernés :
 3. Suite de la Phase 0 (calendrier) : validation serveur de la taille/format
    des documents uploadés — dépend de `documents_keyli` et du stockage,
    donc du module vérification ; à caler avec le porteur de projet.
-4. Puis `favorites_keyli` / `search_alerts_keyli`, puis
-   `property_interactions_keyli` (analytics) — dernières tables de
-   `reference/schema_cible_reference.sql`.
+4. Puis `property_interactions_keyli` (analytics, + compteurs et trigger)
+   — dernière table de `reference/schema_cible_reference.sql`.
 
 ---
 
