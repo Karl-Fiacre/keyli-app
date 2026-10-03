@@ -89,6 +89,37 @@ isOneToOne: false
                   Relationships: [
                     
                   ]
+                },"leads_keyli": {
+                  Row: {
+                    "agent_id": string | null,"contact_nom": string | null,"contact_user_id": string | null,"created_at": string | null,"id": string,"owner_id": string,"property_id": string,"source_message_id": string | null,"stage": Database["public"]['Enums']["lead_stage_keyli"] | null,"updated_at": string | null
+                  }
+                  Insert: {
+                    "agent_id"?: string | null,"contact_nom"?: string | null,"contact_user_id"?: string | null,"created_at"?: string | null,"id"?: string,"owner_id": string,"property_id": string,"source_message_id"?: string | null,"stage"?: Database["public"]['Enums']["lead_stage_keyli"] | null,"updated_at"?: string | null
+                  }
+                  Update: {
+                    "agent_id"?: string | null,"contact_nom"?: string | null,"contact_user_id"?: string | null,"created_at"?: string | null,"id"?: string,"owner_id"?: string,"property_id"?: string,"source_message_id"?: string | null,"stage"?: Database["public"]['Enums']["lead_stage_keyli"] | null,"updated_at"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "leads_keyli_agent_id_fkey"
+      columns: ["agent_id"]
+isOneToOne: false
+      referencedRelation: "agency_agents_keyli"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "leads_keyli_property_id_fkey"
+      columns: ["property_id"]
+isOneToOne: false
+      referencedRelation: "properties_keyli"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "leads_keyli_source_message_id_fkey"
+      columns: ["source_message_id"]
+isOneToOne: false
+      referencedRelation: "messages_keyli"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"marketing_templates_keyli": {
                   Row: {
                     "content": string,"created_at": string | null,"created_by": string | null,"id": string,"image_url": string | null,"name": string,"target_audience": string | null,"title": string | null,"type": string,"updated_at": string | null
@@ -356,6 +387,31 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"visits_keyli": {
+                  Row: {
+                    "created_at": string | null,"id": string,"lead_id": string | null,"property_id": string,"scheduled_at": string,"scheduled_by": string,"status": Database["public"]['Enums']["visit_status_keyli"] | null,"visitor_nom": string | null,"visitor_user_id": string | null
+                  }
+                  Insert: {
+                    "created_at"?: string | null,"id"?: string,"lead_id"?: string | null,"property_id": string,"scheduled_at": string,"scheduled_by": string,"status"?: Database["public"]['Enums']["visit_status_keyli"] | null,"visitor_nom"?: string | null,"visitor_user_id"?: string | null
+                  }
+                  Update: {
+                    "created_at"?: string | null,"id"?: string,"lead_id"?: string | null,"property_id"?: string,"scheduled_at"?: string,"scheduled_by"?: string,"status"?: Database["public"]['Enums']["visit_status_keyli"] | null,"visitor_nom"?: string | null,"visitor_user_id"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "visits_keyli_lead_id_fkey"
+      columns: ["lead_id"]
+isOneToOne: false
+      referencedRelation: "leads_keyli"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "visits_keyli_property_id_fkey"
+      columns: ["property_id"]
+isOneToOne: false
+      referencedRelation: "properties_keyli"
+      referencedColumns: ["id"]
+    }
+                  ]
                 }
           }
           Views: {
@@ -404,7 +460,7 @@ isOneToOne: false
                            }
           }
           Enums: {
-            "document_status_keyli": "pending"|"approved"|"rejected","document_type_keyli": "acd"|"registre"|"extrait_naissance"|"cert_residence","inscription_status_keyli": "en_attente"|"contacte"|"converti"|"rejete","priority_level_keyli": "haute"|"moyenne"|"basse","property_status_keyli": "a_louer"|"a_vendre","property_type_keyli": "maison"|"duplex"|"villa"|"appartement"|"studio"|"residence_meublee"|"auberge"|"hotel"|"bureau"|"magasin","report_status_keyli": "pending"|"reviewed"|"resolved","subscription_status_keyli": "active"|"expired"|"canceled","transaction_status_keyli": "pending"|"completed"|"failed","user_role_keyli": "user"|"owner"|"agency"|"admin"|"super_admin"
+            "document_status_keyli": "pending"|"approved"|"rejected","document_type_keyli": "acd"|"registre"|"extrait_naissance"|"cert_residence","inscription_status_keyli": "en_attente"|"contacte"|"converti"|"rejete","lead_stage_keyli": "nouveau"|"visite_planifiee"|"negociation"|"conclu","priority_level_keyli": "haute"|"moyenne"|"basse","property_status_keyli": "a_louer"|"a_vendre","property_type_keyli": "maison"|"duplex"|"villa"|"appartement"|"studio"|"residence_meublee"|"auberge"|"hotel"|"bureau"|"magasin","report_status_keyli": "pending"|"reviewed"|"resolved","subscription_status_keyli": "active"|"expired"|"canceled","transaction_status_keyli": "pending"|"completed"|"failed","user_role_keyli": "user"|"owner"|"agency"|"admin"|"super_admin","visit_status_keyli": "planifiee"|"effectuee"|"annulee"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -520,7 +576,7 @@ export type CompositeTypes<
 export const Constants = {
   "public": {
           Enums: {
-            "document_status_keyli": ["pending", "approved", "rejected"],"document_type_keyli": ["acd", "registre", "extrait_naissance", "cert_residence"],"inscription_status_keyli": ["en_attente", "contacte", "converti", "rejete"],"priority_level_keyli": ["haute", "moyenne", "basse"],"property_status_keyli": ["a_louer", "a_vendre"],"property_type_keyli": ["maison", "duplex", "villa", "appartement", "studio", "residence_meublee", "auberge", "hotel", "bureau", "magasin"],"report_status_keyli": ["pending", "reviewed", "resolved"],"subscription_status_keyli": ["active", "expired", "canceled"],"transaction_status_keyli": ["pending", "completed", "failed"],"user_role_keyli": ["user", "owner", "agency", "admin", "super_admin"]
+            "document_status_keyli": ["pending", "approved", "rejected"],"document_type_keyli": ["acd", "registre", "extrait_naissance", "cert_residence"],"inscription_status_keyli": ["en_attente", "contacte", "converti", "rejete"],"lead_stage_keyli": ["nouveau", "visite_planifiee", "negociation", "conclu"],"priority_level_keyli": ["haute", "moyenne", "basse"],"property_status_keyli": ["a_louer", "a_vendre"],"property_type_keyli": ["maison", "duplex", "villa", "appartement", "studio", "residence_meublee", "auberge", "hotel", "bureau", "magasin"],"report_status_keyli": ["pending", "reviewed", "resolved"],"subscription_status_keyli": ["active", "expired", "canceled"],"transaction_status_keyli": ["pending", "completed", "failed"],"user_role_keyli": ["user", "owner", "agency", "admin", "super_admin"],"visit_status_keyli": ["planifiee", "effectuee", "annulee"]
           }
         }
 } as const

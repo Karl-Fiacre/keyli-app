@@ -15,8 +15,8 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Agence — performance équipe | `properties_keyli JOIN agency_agents_keyli ON agent_id` | à ajouter si lenteur observée : `(agent_id, created_at)` |
 | Admin — file de vérification | `documents_keyli WHERE status = 'pending' ORDER BY created_at` | `idx_documents_status_date (status, created_at)` — créé |
 | Tracking vues (tout écran bien) | `INSERT property_interactions_keyli` | déjà indexé (property_id, type, quartier_id) |
-| Agence — pipeline de leads | `leads_keyli WHERE owner_id = uid ORDER BY stage` | `idx_leads_owner_stage` (déjà présent) |
-| Agence/Propriétaire — visites à venir | `visits_keyli WHERE scheduled_by = uid AND scheduled_at > now()` | `idx_visits_scheduled_by` (déjà présent) |
+| Agence — pipeline de leads | `leads_keyli WHERE owner_id = uid ORDER BY stage` | `idx_leads_owner_stage` — créé |
+| Agence/Propriétaire — visites à venir | `visits_keyli WHERE scheduled_by = uid AND scheduled_at > now()` | `idx_visits_scheduled_by` — créé |
 | Chercheur — favoris | `favorites_keyli WHERE user_id = uid JOIN properties_keyli` | à ajouter si lenteur : `(user_id)` déjà couvert par la contrainte UNIQUE |
 | Chercheur — alertes actives | `search_alerts_keyli WHERE user_id = uid AND actif = true` | à ajouter si lenteur : `(user_id, actif)` |
 | Formulaire de publication — compteur « x/seuil », demande d'accord de dépassement | RPC `etat_publication_keyli()` | `idx_publications_owner_periode (owner_id, published_at, unpublished_at)` — créé |
