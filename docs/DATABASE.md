@@ -431,6 +431,19 @@ Accès :
   publication, registre de commerce obligatoire pour une agence.
 Tests : `supabase/tests/properties_keyli_rls.test.sql`.
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-03) — favorites_keyli / search_alerts_keyli
+Créées le 2026-10-03 (migration `20261003130000_favoris_alertes_keyli.sql`).
+Colonnes du schéma de référence, plus :
+- `favorites_keyli` : bascule — ajout sur une annonce visible (publiée, ou
+  la sienne), retrait par suppression (second clic) ; privés à leur
+  titulaire ; `UNIQUE(user_id, property_id)`.
+- `search_alerts_keyli` : CHECK `criteres` = objet JSON non vide ; index
+  `idx_search_alerts_user_actif (user_id, actif)` ; l'utilisateur crée,
+  modifie, désactive / réactive ses alertes, jamais de suppression ;
+  `derniere_notification_at` réservée au serveur. Mécanisme de notification
+  toujours à trancher (MODULES/annonces.md).
+Tests : `supabase/tests/favoris_alertes_keyli.test.sql`.
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-03) — leads_keyli / visits_keyli
 Créées le 2026-10-03 (migration `20261003120000_leads_visites_keyli.sql`), avec
 les enums `lead_stage_keyli` et `visit_status_keyli`. Colonnes et index du

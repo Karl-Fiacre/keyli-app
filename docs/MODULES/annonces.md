@@ -58,8 +58,9 @@ Table : `properties_keyli` + `property_media_keyli`.
 ## Favoris (favorites_keyli)
 ⚠️ Table trouvée manquante lors d'un rescan — le cœur cliquable des
 maquettes (Accueil, dashboard Chercheur) n'avait aucune table.
-- [ ] `UNIQUE(user_id, property_id)` — clic sur un favori déjà actif retire
-      la ligne plutôt que d'en créer une seconde (toggle, pas ajout seul)
+- [x] `UNIQUE(user_id, property_id)` — clic sur un favori déjà actif retire
+      la ligne plutôt que d'en créer une seconde (toggle, pas ajout seul) —
+      créé le 2026-10-03, testé
 - [ ] Le clic favori déclenche aussi un événement
       `property_interactions_keyli.interaction_type = 'click_favorite'`
       (voir MODULES/analytics-tracking.md) — les deux écritures ne sont pas
@@ -76,5 +77,5 @@ maquettes (Accueil, dashboard Chercheur) n'avait aucune table.
       critères → notification) non spécifié ici — dépend de
       `check-expired-subscriptions`-like cron ou d'un trigger à la
       publication d'annonce, à trancher au moment de l'implémentation
-- [ ] `actif = false` désactive l'alerte sans la supprimer (historique
-      conservé, réactivable)
+- [x] `actif = false` désactive l'alerte sans la supprimer (historique
+      conservé, réactivable) — aucune suppression possible, testé
