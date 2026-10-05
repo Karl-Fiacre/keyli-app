@@ -431,6 +431,18 @@ Accès :
   publication, registre de commerce obligatoire pour une agence.
 Tests : `supabase/tests/properties_keyli_rls.test.sql`.
 
+## ⚠️ DÉCISION ACTÉE (2026-10-05) — notation après visite ou lead conclu
+Migration `20261005130000_notation_apres_visite_keyli.sql` (remplace la règle
+provisoire « échange de messages » du 2026-10-02) :
+- On note, dans les deux sens, seulement après une **visite effectuée** OU un
+  **lead conclu** entre les deux personnes sur ce bien (fonction
+  `relation_notable_keyli(bien, autre)`, SECURITY DEFINER, qui ne renseigne
+  que sur l'appelant).
+- Unicité `ratings_keyli_une_note_par_personne (property_id, rater_id,
+  rated_user_id)` au lieu de `UNIQUE(property_id, rater_id)` : un
+  propriétaire note chacun de ses locataires successifs, une fois chacun.
+Tests : `supabase/tests/notation_apres_visite_keyli.test.sql`.
+
 ## ⚠️ DÉCISION ACTÉE (2026-10-05) — profil public (vue profils_publics_keyli)
 Migration `20261005120000_profils_publics_keyli.sql`. `profiles_keyli` reste
 lisible par son seul titulaire (et l'admin) ; le public passe par la vue
@@ -565,14 +577,11 @@ avec l'enum `report_status_keyli`. Colonnes du schéma de référence, plus :
   pratique toute conversation est rattachée à une annonce. Lecture par les
   deux participants ; seul le destinataire modifie `read` ; un message ne se
   modifie ni ne se supprime.
-- `ratings_keyli` : lecture publique ; on ne note qu'après un échange de
-  messages dans les deux sens sur le bien (décision du 2026-10-02, à
-  resserrer sur « lead conclu » avec `leads_keyli`) ; l'auteur peut revoir
-  note et commentaire. `profiles_keyli.rating_avg` recalculé par le trigger
+- `ratings_keyli` : lecture publique ; règle de notation remplacée le
+  2026-10-05 (visite effectuée ou lead conclu, voir plus haut) ; l'auteur
+  peut revoir note et commentaire. `profiles_keyli.rating_avg` recalculé par le trigger
   `recalculer_note_moyenne_keyli` (décision du 2026-10-02). Index
   `idx_ratings_rated_user`.
-  ⚠️ Limite héritée du schéma de référence : `UNIQUE(property_id, rater_id)`
-  empêche un propriétaire de noter un second locataire du même bien.
 - `reports_keyli` : CHECK motif non vide ; un seul signalement `pending`
   par personne et par annonce (index unique partiel) ; index
   `idx_reports_status_date` (file de modération). Le signaleur lit ses

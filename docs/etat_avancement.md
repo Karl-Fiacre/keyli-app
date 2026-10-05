@@ -90,6 +90,9 @@ conversation précédente, elle ne persiste pas.
       particulier, nom complet pour une agence, visible de tous) — migration
       `20261005120000_profils_publics_keyli.sql`, local + distant
       (2026-10-05), 10 tests pgTAP verts (304 au total)
+- [x] Notation après visite effectuée ou lead conclu, une note par personne
+      notée — migration `20261005130000_notation_apres_visite_keyli.sql`,
+      local + distant (2026-10-05), 11 tests pgTAP verts (315 au total)
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -129,12 +132,6 @@ concernés :
 - **Nom d'une agence** : `profiles_keyli` n'a pas de champ « nom de
   l'agence » (raison sociale) ; le profil public affiche prénom + nom du
   compte agence. Ajouter un champ dédié ? — à décider.
-- **Notation « après lead conclu »** : `leads_keyli` existe désormais ; la
-  règle de notation (échange de messages dans les deux sens) peut être
-  resserrée sur « lead conclu » — à décider.
-- **Notation d'un second locataire** : `UNIQUE(property_id, rater_id)` du
-  schéma de référence empêche un propriétaire de noter deux locataires
-  successifs du même bien.
 - **Synchronisation de `profiles_keyli.email`** si l'utilisateur change son
   email dans Supabase Auth — aucun mécanisme pour l'instant.
 - **Republication d'une annonce archivée** : doit compter comme nouvelle

@@ -124,8 +124,14 @@ select results_eq(
 );
 
 -- ------------------------------------------------------------
--- Notation (après échange dans les deux sens)
+-- Notation (après visite effectuée — règle du 2026-10-05, voir
+-- notation_apres_visite_keyli.test.sql pour le détail)
 -- ------------------------------------------------------------
+set local role postgres;
+insert into public.visits_keyli (property_id, scheduled_by, visitor_user_id, scheduled_at, status)
+  values (current_setting('test.villa')::uuid, '22222222-0000-0000-0000-000000000001',
+          '22222222-0000-0000-0000-000000000002', now() - interval '1 day', 'effectuee');
+set local role authenticated;
 select pg_temp.connecter('22222222-0000-0000-0000-000000000002');  -- C
 select lives_ok(
   $$ insert into public.ratings_keyli (property_id, rater_id, rated_user_id, rating, comment)
