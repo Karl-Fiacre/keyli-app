@@ -431,6 +431,21 @@ Accès :
   publication, registre de commerce obligatoire pour une agence.
 Tests : `supabase/tests/properties_keyli_rls.test.sql`.
 
+## ⚠️ DÉCISION ACTÉE (2026-10-05) — profil public (vue profils_publics_keyli)
+Migration `20261005120000_profils_publics_keyli.sql`. `profiles_keyli` reste
+lisible par son seul titulaire (et l'admin) ; le public passe par la vue
+`profils_publics_keyli` (lecture seule, visiteurs compris) :
+- `user_id`, `nom_affiche`, `photo_url`, `role_keyli`, `verified`,
+  `rating_avg`, `membre_depuis` (= `created_at`).
+- `nom_affiche` : particulier → « Prénom I. » (initiale du nom) ; agence →
+  nom complet ; sans nom → « Membre Keyli » / « Agence Keyli ».
+- Jamais : email, téléphone, n° / validité de pièce, date de vérification,
+  nom de famille brut. Comptes admin et super_admin exclus.
+- Vue en `security_invoker = false` : c'est elle qui fait le tri des colonnes.
+⚠️ Pas de champ « nom de l'agence » dans `profiles_keyli` : le nom complet
+d'une agence est son prénom + nom de compte (voir etat_avancement.md).
+Tests : `supabase/tests/profils_publics_keyli.test.sql`.
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-05) — property_interactions_keyli
 Créée le 2026-10-05 (migration `20261004120000_interactions_keyli.sql`), avec
 l'enum `interaction_type_keyli`. Colonnes et index du schéma de référence,

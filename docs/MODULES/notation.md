@@ -9,10 +9,10 @@ Fichiers concernés : `src/components/RatingForm.tsx`, `RatingDisplay.tsx`,
 - [ ] `UNIQUE(property_id, rater_id)` créée avec la table (voir
       reference/schema_cible_reference.sql) — une seule note par
       utilisateur par bien, ne pas contourner côté application
-- [ ] Notes publiques par défaut — policy SELECT publique ("Lecture
+- [x] Notes publiques par défaut — policy SELECT publique ("Lecture
       publique des notes") écrite dans la même migration que la table — ne
-      pas restreindre la lecture sans décision explicite, ça casserait
-      l'affichage de `rating_avg` sur les profils publics
+      pas restreindre la lecture sans décision explicite. `rating_avg` est
+      exposé publiquement par la vue `profils_publics_keyli` (2026-10-05)
 
 ## Calcul de la moyenne
 `profiles_keyli.rating_avg` est recalculé par le trigger SQL

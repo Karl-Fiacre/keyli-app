@@ -86,6 +86,10 @@ conversation précédente, elle ne persiste pas.
       local + distant (2026-10-05), 20 tests pgTAP verts (294 au total).
       **Toutes les tables de `reference/schema_cible_reference.sql` sont
       désormais créées.**
+- [x] Profil public : vue `profils_publics_keyli` (« Prénom I. » pour un
+      particulier, nom complet pour une agence, visible de tous) — migration
+      `20261005120000_profils_publics_keyli.sql`, local + distant
+      (2026-10-05), 10 tests pgTAP verts (304 au total)
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -122,11 +126,9 @@ concernés :
   développement uniquement (traversée de chemin, contournement `fs.deny` sur
   Windows) — correctif seulement en Vite 8 (version majeure). Aucune faille
   sur les dépendances de production. Montée de version à décider.
-- **Lecture publique d'un profil** (nom du propriétaire, note moyenne sur
-  une annonce) — toujours non autorisée : les notes sont publiques mais
-  `rating_avg` et le nom restent dans `profiles_keyli`, lisible par son seul
-  titulaire. À trancher avant les écrans annonce / profil public (vue
-  limitée sans email, téléphone ni pièce).
+- **Nom d'une agence** : `profiles_keyli` n'a pas de champ « nom de
+  l'agence » (raison sociale) ; le profil public affiche prénom + nom du
+  compte agence. Ajouter un champ dédié ? — à décider.
 - **Notation « après lead conclu »** : `leads_keyli` existe désormais ; la
   règle de notation (échange de messages dans les deux sens) peut être
   resserrée sur « lead conclu » — à décider.

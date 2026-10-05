@@ -472,7 +472,20 @@ isOneToOne: false
                 }
           }
           Views: {
-            [_ in never]: never
+            "profils_publics_keyli": {
+                  Row: {
+                    "membre_depuis": string | null,"nom_affiche": string | null,"photo_url": string | null,"rating_avg": number | null,"role_keyli": Database["public"]['Enums']["user_role_keyli"] | null,"user_id": string | null,"verified": boolean | null
+                  }
+                  Insert: {
+                           "membre_depuis"?: string | null,"nom_affiche"?: never,"photo_url"?: string | null,"rating_avg"?: never,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"] | null,"user_id"?: string | null,"verified"?: never
+                         }
+                        Update: {
+                           "membre_depuis"?: string | null,"nom_affiche"?: never,"photo_url"?: string | null,"rating_avg"?: never,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"] | null,"user_id"?: string | null,"verified"?: never
+                         }
+                        Relationships: [
+                    
+                  ]
+                }
           }
           Functions: {
             "a_recu_message_de_keyli":
