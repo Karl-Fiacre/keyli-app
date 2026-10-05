@@ -67,9 +67,11 @@ résumé, pas la source primaire.
       nouvelle annonce correspondante
 
 ## MODULE NOTATION (ratings_keyli)
-- [x] Une seule note par utilisateur par bien — contrainte
-      `UNIQUE(property_id, rater_id)` créée avec la table (voir
-      reference/schema_cible_reference.sql), jamais contournée côté application
+- [x] Une seule note par auteur, par bien et par personne notée — contrainte
+      `ratings_keyli_une_note_par_personne (property_id, rater_id,
+      rated_user_id)` (2026-10-05), jamais contournée côté application
+- [x] Notation seulement après une visite effectuée ou un lead conclu
+      (2026-10-05, testé)
 - [x] Notation bidirectionnelle : locataire note propriétaire ET inversement
       (après échange de messages dans les deux sens, testé)
 - [x] Notes publiquement visibles — policy SELECT publique ("Lecture

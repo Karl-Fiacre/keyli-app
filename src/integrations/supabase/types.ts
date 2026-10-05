@@ -519,6 +519,9 @@ isOneToOne: false
 "journaliser_keyli":
 { Args: { "p_action": string,"p_details"?: Json,"p_entity_id": string,"p_entity_type": string }; Returns: undefined
                            },
+"relation_notable_keyli":
+{ Args: { "p_autre": string,"p_property": string }; Returns: boolean
+                           },
 "super_admin_changer_role_keyli":
 { Args: { "p_role": Database["public"]['Enums']["user_role_keyli"],"p_user": string }; Returns: undefined
                            },
