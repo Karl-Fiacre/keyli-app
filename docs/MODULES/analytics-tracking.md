@@ -101,11 +101,13 @@ un trigger SQL qui échoue annule l'insertion.
 ## Règles
 - [ ] `session_id` généré côté client à la première visite, persistant en
       localStorage — jamais régénéré à chaque page pour ne pas fausser
-      l'anti-inflation
+      l'anti-inflation (en base : 8 à 100 caractères)
 - [ ] Écriture de l'interaction déclenchée côté client (hook `useTracking`
       ⚠️ à créer) — ne jamais faire dépendre le tracking d'une action admin
       ou d'un batch différé
-- [ ] RLS sur `property_interactions_keyli` : INSERT ouvert (y compris
+- [x] RLS sur `property_interactions_keyli` : INSERT ouvert (y compris
       anonyme), SELECT restreint au propriétaire du bien concerné et à
-      l'admin — pas de lecture publique des événements bruts (à la
-      différence de `ratings_keyli` qui est public par design)
+      l'admin — pas de lecture publique des événements bruts (créé le
+      2026-10-05, testé)
+- [x] Compteurs et anti-inflation 30 min par trigger, `quartier_id` copié
+      depuis l'annonce par trigger (testé)

@@ -254,6 +254,31 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"property_interactions_keyli": {
+                  Row: {
+                    "created_at": string | null,"id": string,"interaction_type": Database["public"]['Enums']["interaction_type_keyli"],"property_id": string | null,"quartier_id": string | null,"session_id": string,"source": string | null,"user_id": string | null
+                  }
+                  Insert: {
+                    "created_at"?: string | null,"id"?: string,"interaction_type": Database["public"]['Enums']["interaction_type_keyli"],"property_id"?: string | null,"quartier_id"?: string | null,"session_id": string,"source"?: string | null,"user_id"?: string | null
+                  }
+                  Update: {
+                    "created_at"?: string | null,"id"?: string,"interaction_type"?: Database["public"]['Enums']["interaction_type_keyli"],"property_id"?: string | null,"quartier_id"?: string | null,"session_id"?: string,"source"?: string | null,"user_id"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "property_interactions_keyli_property_id_fkey"
+      columns: ["property_id"]
+isOneToOne: false
+      referencedRelation: "properties_keyli"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "property_interactions_keyli_quartier_id_fkey"
+      columns: ["quartier_id"]
+isOneToOne: false
+      referencedRelation: "quartiers_keyli"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"property_media_keyli": {
                   Row: {
                     "created_at": string | null,"id": string,"media_type": string | null,"order_index": number | null,"property_id": string | null,"url": string
@@ -492,7 +517,7 @@ isOneToOne: false
                            }
           }
           Enums: {
-            "document_status_keyli": "pending"|"approved"|"rejected","document_type_keyli": "acd"|"registre"|"extrait_naissance"|"cert_residence","inscription_status_keyli": "en_attente"|"contacte"|"converti"|"rejete","lead_stage_keyli": "nouveau"|"visite_planifiee"|"negociation"|"conclu","priority_level_keyli": "haute"|"moyenne"|"basse","property_status_keyli": "a_louer"|"a_vendre","property_type_keyli": "maison"|"duplex"|"villa"|"appartement"|"studio"|"residence_meublee"|"auberge"|"hotel"|"bureau"|"magasin","report_status_keyli": "pending"|"reviewed"|"resolved","subscription_status_keyli": "active"|"expired"|"canceled","transaction_status_keyli": "pending"|"completed"|"failed","user_role_keyli": "user"|"owner"|"agency"|"admin"|"super_admin","visit_status_keyli": "planifiee"|"effectuee"|"annulee"
+            "document_status_keyli": "pending"|"approved"|"rejected","document_type_keyli": "acd"|"registre"|"extrait_naissance"|"cert_residence","inscription_status_keyli": "en_attente"|"contacte"|"converti"|"rejete","interaction_type_keyli": "view"|"click_contact"|"click_phone"|"click_whatsapp"|"click_favorite"|"click_gallery"|"click_map"|"search_neighborhood","lead_stage_keyli": "nouveau"|"visite_planifiee"|"negociation"|"conclu","priority_level_keyli": "haute"|"moyenne"|"basse","property_status_keyli": "a_louer"|"a_vendre","property_type_keyli": "maison"|"duplex"|"villa"|"appartement"|"studio"|"residence_meublee"|"auberge"|"hotel"|"bureau"|"magasin","report_status_keyli": "pending"|"reviewed"|"resolved","subscription_status_keyli": "active"|"expired"|"canceled","transaction_status_keyli": "pending"|"completed"|"failed","user_role_keyli": "user"|"owner"|"agency"|"admin"|"super_admin","visit_status_keyli": "planifiee"|"effectuee"|"annulee"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -608,7 +633,7 @@ export type CompositeTypes<
 export const Constants = {
   "public": {
           Enums: {
-            "document_status_keyli": ["pending", "approved", "rejected"],"document_type_keyli": ["acd", "registre", "extrait_naissance", "cert_residence"],"inscription_status_keyli": ["en_attente", "contacte", "converti", "rejete"],"lead_stage_keyli": ["nouveau", "visite_planifiee", "negociation", "conclu"],"priority_level_keyli": ["haute", "moyenne", "basse"],"property_status_keyli": ["a_louer", "a_vendre"],"property_type_keyli": ["maison", "duplex", "villa", "appartement", "studio", "residence_meublee", "auberge", "hotel", "bureau", "magasin"],"report_status_keyli": ["pending", "reviewed", "resolved"],"subscription_status_keyli": ["active", "expired", "canceled"],"transaction_status_keyli": ["pending", "completed", "failed"],"user_role_keyli": ["user", "owner", "agency", "admin", "super_admin"],"visit_status_keyli": ["planifiee", "effectuee", "annulee"]
+            "document_status_keyli": ["pending", "approved", "rejected"],"document_type_keyli": ["acd", "registre", "extrait_naissance", "cert_residence"],"inscription_status_keyli": ["en_attente", "contacte", "converti", "rejete"],"interaction_type_keyli": ["view", "click_contact", "click_phone", "click_whatsapp", "click_favorite", "click_gallery", "click_map", "search_neighborhood"],"lead_stage_keyli": ["nouveau", "visite_planifiee", "negociation", "conclu"],"priority_level_keyli": ["haute", "moyenne", "basse"],"property_status_keyli": ["a_louer", "a_vendre"],"property_type_keyli": ["maison", "duplex", "villa", "appartement", "studio", "residence_meublee", "auberge", "hotel", "bureau", "magasin"],"report_status_keyli": ["pending", "reviewed", "resolved"],"subscription_status_keyli": ["active", "expired", "canceled"],"transaction_status_keyli": ["pending", "completed", "failed"],"user_role_keyli": ["user", "owner", "agency", "admin", "super_admin"],"visit_status_keyli": ["planifiee", "effectuee", "annulee"]
           }
         }
 } as const
