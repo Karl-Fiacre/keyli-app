@@ -14,7 +14,7 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Agence — dashboard, pipeline | `properties_keyli` + `messages_keyli` par `agent_id` | `idx_properties_agent` (déjà présent) |
 | Agence — performance équipe | `properties_keyli JOIN agency_agents_keyli ON agent_id` | à ajouter si lenteur observée : `(agent_id, created_at)` |
 | Admin — file de vérification | `documents_keyli WHERE status = 'pending' ORDER BY created_at` | `idx_documents_status_date (status, created_at)` — créé |
-| Tracking vues (tout écran bien) | `INSERT property_interactions_keyli` | déjà indexé (property_id, type, quartier_id) |
+| Tracking vues (tout écran bien) | `INSERT property_interactions_keyli` (quartier, auteur et date imposés par trigger) | `idx_interactions_property`, `idx_interactions_type_date`, `idx_interactions_quartier`, `idx_interactions_session_vue` — créés |
 | Agence — pipeline de leads | `leads_keyli WHERE owner_id = uid ORDER BY stage` | `idx_leads_owner_stage` — créé |
 | Agence/Propriétaire — visites à venir | `visits_keyli WHERE scheduled_by = uid AND scheduled_at > now()` | `idx_visits_scheduled_by` — créé |
 | Chercheur — favoris | `favorites_keyli WHERE user_id = uid JOIN properties_keyli` | `(user_id)` couvert par la contrainte UNIQUE `(user_id, property_id)` — créée |

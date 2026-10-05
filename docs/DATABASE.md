@@ -431,6 +431,31 @@ Accès :
   publication, registre de commerce obligatoire pour une agence.
 Tests : `supabase/tests/properties_keyli_rls.test.sql`.
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-05) — property_interactions_keyli
+Créée le 2026-10-05 (migration `20261004120000_interactions_keyli.sql`), avec
+l'enum `interaction_type_keyli`. Colonnes et index du schéma de référence,
+plus :
+- CHECK : `session_id` de 8 à 100 caractères ; `source` parmi search / map /
+  recommandation / lien_direct / quartier_tendance ; un événement porte sur
+  une annonce, sauf `search_neighborhood` qui porte sur un quartier
+  (`quartier_id` obligatoire). Index `idx_interactions_session_vue`
+  (anti-inflation).
+- Trigger `preparer_interaction_keyli` : `user_id` imposé (utilisateur
+  connecté, NULL si anonyme), `created_at` = now(), `quartier_id` **copié
+  depuis l'annonce** au moment de l'événement (jamais celui envoyé par le
+  client quand une annonce est concernée).
+- Trigger `compter_interaction_keyli` : `views_count` (pas de recomptage d'une
+  même session sur un même bien avant 30 min) et `contacts_count`
+  (click_contact / click_phone / click_whatsapp).
+- Le trigger `updated_at` de `properties_keyli` ne réagit plus qu'aux vraies
+  modifications (liste de colonnes) : une vue ou un contact compté ne change
+  pas la « dernière activité » d'une annonce.
+- Accès : écriture ouverte (visiteurs compris) sur une annonce visible ;
+  lecture par le propriétaire du bien et l'admin ; aucune lecture publique.
+Reste : webhook `process-interaction-webhook` (Dashboard) et calcul de
+tendance (MODULES/quartiers-tendance.md, non tranché).
+Tests : `supabase/tests/interactions_keyli.test.sql`.
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-03) — favorites_keyli / search_alerts_keyli
 Créées le 2026-10-03 (migration `20261003130000_favoris_alertes_keyli.sql`).
 Colonnes du schéma de référence, plus :

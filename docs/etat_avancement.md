@@ -81,6 +81,11 @@ conversation précédente, elle ne persiste pas.
 - [x] `favorites_keyli` / `search_alerts_keyli` — migration
       `20261003130000_favoris_alertes_keyli.sql`, local + distant
       (2026-10-03), 16 tests pgTAP verts (274 au total)
+- [x] `property_interactions_keyli` (+ enum, compteurs, anti-inflation,
+      quartier copié) — migration `20261004120000_interactions_keyli.sql`,
+      local + distant (2026-10-05), 20 tests pgTAP verts (294 au total).
+      **Toutes les tables de `reference/schema_cible_reference.sql` sont
+      désormais créées.**
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -150,10 +155,10 @@ concernés :
   `Keyli_Calendrier_Definitif.docx`, `keyli_dashboards_preview.html`.
 - **Notification des alertes de recherche** : mécanisme (cron ou trigger
   à la publication) non tranché — tables prêtes.
-- **Mémoire de la machine (Docker)** : 7,9 Go de RAM, Docker relance au
-  démarrage les conteneurs iic et naellys-express ; le moteur Docker a
-  planté plusieurs fois le 2026-10-03 faute de mémoire. Arrêter les
-  conteneurs inutiles avant une session Keyli.
+- **Mémoire de la machine (Docker)** : 7,9 Go de RAM. Le 2026-10-05, avec
+  l'accord du porteur : `.wslconfig` limité à 3 Go, conteneurs iic et
+  naellys-express arrêtés sans redémarrage automatique. Ne garder que
+  `supabase_db_keyli` pendant une session Keyli.
 - **Hébergement web non confirmé** — recommandation Cloudflare Pages
   documentée (`docs/MODULES/hebergement-securite.md`), pas actée.
 - **Clés Paystack et Cloudinary** — pas encore transmises, à demander avant
@@ -174,8 +179,10 @@ concernés :
 3. Suite de la Phase 0 (calendrier) : validation serveur de la taille/format
    des documents uploadés — dépend de `documents_keyli` et du stockage,
    donc du module vérification ; à caler avec le porteur de projet.
-4. Puis `property_interactions_keyli` (analytics, + compteurs et trigger)
-   — dernière table de `reference/schema_cible_reference.sql`.
+4. Schéma de base terminé. Suite : trancher les points ouverts (profil
+   public, notation sur lead conclu, notification des alertes, calcul de
+   tendance, retrait de vérification), puis démarrer le front-end (Sprint 1 :
+   Tailwind/Shadcn, écran d'inscription) et les Edge Functions Paystack.
 
 ---
 
