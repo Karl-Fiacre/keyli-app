@@ -27,6 +27,8 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Admin — retours utilisateurs | `feedback_keyli WHERE status = 'pending' ORDER BY created_at` | `idx_feedback_status_date` — créé |
 | Admin — file pilote | `inscription_pilot_keyli WHERE status = ? ORDER BY priority_level, created_at` | `idx_inscription_pilot_file` — créé |
 | Cloche de notifications (pastille + liste) | `notifications_keyli WHERE user_id = uid [AND NOT lue] ORDER BY created_at DESC` | `idx_notifications_user_non_lues`, `idx_notifications_user_date` — créés |
+| Accueil — quartiers populaires | `quartiers_populaires_keyli LIMIT 6` | `idx_quartiers_tendance_score` — créé (instantané nocturne) |
+| Dashboard Chercheur — TrendBar | `tendances_prix_keyli WHERE quartier_id IN (...)` | clé primaire `(niveau, zone_id)` |
 | Page tarifs / choix de forfait (public) | `plans_keyli WHERE actif = true ORDER BY seuil_min` (RLS filtre déjà `actif`) | aucun — 3 lignes |
 | Formulaire de publication — sélecteur quartier | `quartiers_keyli JOIN communes_keyli ORDER BY commune, quartier` | `idx_quartiers_commune` (déjà présent) — liste fermée, mise en cache client raisonnable (change rarement) |
 
@@ -72,9 +74,9 @@ check-subscription-overage (Edge Function à créer — désormais limitée à l
   → applique prix_depassement_unitaire si dépassement et non NULL
   → écrit audit_logs_keyli si dépassement facturé
 
-calculate-quartier-trends (Edge Function à créer — voir MODULES/quartiers-tendance.md)
-  → cadence non tranchée (temps réel vs cron) — ne pas décider seul, voir
-    le module correspondant
+calculer_quartiers_tendance_keyli (fonction SQL + pg_cron, chaque nuit à
+  02:00 — décision du 2026-10-06, remplace l'Edge Function
+  calculate-quartier-trends)
 ```
 
 ## Cohérence entre tables — pièges à éviter

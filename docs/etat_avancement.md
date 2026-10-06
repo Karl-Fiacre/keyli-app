@@ -97,6 +97,11 @@ conversation précédente, elle ne persiste pas.
       alertes de recherche (critères validés, rayon, 10/jour/alerte) —
       migration `20261005140000_notifications_alertes_keyli.sql`, local +
       distant (2026-10-06), 18 tests pgTAP verts (333 au total)
+- [x] Quartiers tendance : table `quartiers_tendance_keyli` recalculée chaque
+      nuit (pg_cron), vues `quartiers_populaires_keyli` et
+      `tendances_prix_keyli` — migration
+      `20261006120000_quartiers_tendance_keyli.sql`, local + distant
+      (2026-10-06), 14 tests pgTAP verts (347 au total)
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -158,7 +163,9 @@ concernés :
   `Keyli_Calendrier_Definitif.docx`, `keyli_dashboards_preview.html`.
 - **Emails de notification** : fournisseur d'email à choisir (l'ancien
   pilote utilisait Resend) avant l'Edge Function d'envoi.
-- **Mémoire de la machine (Docker)** : 7,9 Go de RAM. Le 2026-10-05, avec
+- **Mémoire de la machine (Docker)** : 7,9 Go de RAM ; fichier d'échange
+  Windows agrandi par le porteur le 2026-10-06 (≈ 7,4 Go), ce qui a rendu
+  Docker stable. Le 2026-10-05, avec
   l'accord du porteur : `.wslconfig` limité à 3 Go, conteneurs iic et
   naellys-express arrêtés sans redémarrage automatique. Ne garder que
   `supabase_db_keyli` pendant une session Keyli.
@@ -166,8 +173,6 @@ concernés :
   documentée (`docs/MODULES/hebergement-securite.md`), pas actée.
 - **Clés Paystack et Cloudinary** — pas encore transmises, à demander avant
   le module pricing/médias.
-- **Calcul de tendance de quartier** (fenêtre de temps, fréquence de
-  recalcul) — non tranché, voir `docs/MODULES/quartiers-tendance.md`.
 - **Logotype SVG complet** — pas encore livré en fichier source unique, voir
   `docs/LOGO.md` "Assets à créer".
 

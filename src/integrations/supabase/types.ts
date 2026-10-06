@@ -277,6 +277,12 @@ isOneToOne: false
 isOneToOne: false
       referencedRelation: "quartiers_keyli"
       referencedColumns: ["id"]
+    },{
+      foreignKeyName: "properties_keyli_quartier_id_fkey"
+      columns: ["quartier_id"]
+isOneToOne: false
+      referencedRelation: "tendances_prix_keyli"
+      referencedColumns: ["quartier_id"]
     }
                   ]
                 },"property_interactions_keyli": {
@@ -302,6 +308,12 @@ isOneToOne: false
 isOneToOne: false
       referencedRelation: "quartiers_keyli"
       referencedColumns: ["id"]
+    },{
+      foreignKeyName: "property_interactions_keyli_quartier_id_fkey"
+      columns: ["quartier_id"]
+isOneToOne: false
+      referencedRelation: "tendances_prix_keyli"
+      referencedColumns: ["quartier_id"]
     }
                   ]
                 },"property_media_keyli": {
@@ -361,6 +373,25 @@ isOneToOne: false
                   Relationships: [
                     {
       foreignKeyName: "quartiers_keyli_commune_id_fkey"
+      columns: ["commune_id"]
+isOneToOne: false
+      referencedRelation: "communes_keyli"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"quartiers_tendance_keyli": {
+                  Row: {
+                    "calcule_le": string,"commune_id": string,"nb_location": number,"nb_vente": number,"niveau": string,"nom": string,"periode_debut": string,"periode_fin": string,"prix_fiable": boolean,"prix_moyen_location": number | null,"prix_moyen_location_prec": number | null,"prix_moyen_vente": number | null,"prix_moyen_vente_prec": number | null,"score_popularite": number,"sessions_recherche": number,"sessions_vue": number,"tendance_location_pct": number | null,"tendance_vente_pct": number | null,"zone_id": string
+                  }
+                  Insert: {
+                    "calcule_le"?: string,"commune_id": string,"nb_location"?: number,"nb_vente"?: number,"niveau": string,"nom": string,"periode_debut": string,"periode_fin": string,"prix_fiable"?: boolean,"prix_moyen_location"?: number | null,"prix_moyen_location_prec"?: number | null,"prix_moyen_vente"?: number | null,"prix_moyen_vente_prec"?: number | null,"score_popularite"?: number,"sessions_recherche"?: number,"sessions_vue"?: number,"tendance_location_pct"?: number | null,"tendance_vente_pct"?: number | null,"zone_id": string
+                  }
+                  Update: {
+                    "calcule_le"?: string,"commune_id"?: string,"nb_location"?: number,"nb_vente"?: number,"niveau"?: string,"nom"?: string,"periode_debut"?: string,"periode_fin"?: string,"prix_fiable"?: boolean,"prix_moyen_location"?: number | null,"prix_moyen_location_prec"?: number | null,"prix_moyen_vente"?: number | null,"prix_moyen_vente_prec"?: number | null,"score_popularite"?: number,"sessions_recherche"?: number,"sessions_vue"?: number,"tendance_location_pct"?: number | null,"tendance_vente_pct"?: number | null,"zone_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "quartiers_tendance_keyli_commune_id_fkey"
       columns: ["commune_id"]
 isOneToOne: false
       referencedRelation: "communes_keyli"
@@ -510,6 +541,20 @@ isOneToOne: false
                         Relationships: [
                     
                   ]
+                },"quartiers_populaires_keyli": {
+                  Row: {
+                    "calcule_le": string | null,"commune": string | null,"nom": string | null,"quartier_id": string | null,"score_popularite": number | null,"sessions_recherche": number | null,"sessions_vue": number | null
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"tendances_prix_keyli": {
+                  Row: {
+                    "calcule_le": string | null,"niveau_affiche": string | null,"nom_affiche": string | null,"prix_moyen_location": number | null,"prix_moyen_vente": number | null,"quartier_id": string | null,"tendance_location_pct": number | null,"tendance_vente_pct": number | null
+                  }
+                  Relationships: [
+                    
+                  ]
                 }
           }
           Functions: {
@@ -524,6 +569,9 @@ isOneToOne: false
                            },
 "annonce_correspond_alerte_keyli":
 { Args: { "c": Json,"p": Database["public"]['Tables']["properties_keyli"]['Row'] }; Returns: boolean
+                           },
+"calculer_quartiers_tendance_keyli":
+{ Args: Record<PropertyKey, never>; Returns: undefined
                            },
 "criteres_alerte_valides_keyli":
 { Args: { "c": Json }; Returns: boolean
