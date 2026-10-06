@@ -93,6 +93,10 @@ conversation précédente, elle ne persiste pas.
 - [x] Notation après visite effectuée ou lead conclu, une note par personne
       notée — migration `20261005130000_notation_apres_visite_keyli.sql`,
       local + distant (2026-10-05), 11 tests pgTAP verts (315 au total)
+- [x] Notifications in-app (`notifications_keyli`) et déclenchement des
+      alertes de recherche (critères validés, rayon, 10/jour/alerte) —
+      migration `20261005140000_notifications_alertes_keyli.sql`, local +
+      distant (2026-10-06), 18 tests pgTAP verts (333 au total)
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -152,8 +156,8 @@ concernés :
   sécurité, textes juridiques (voir ROLES.md).
 - **Documents cités mais absents** : `Keyli_Repertoire_Fichiers_Sources_Definitif.docx`,
   `Keyli_Calendrier_Definitif.docx`, `keyli_dashboards_preview.html`.
-- **Notification des alertes de recherche** : mécanisme (cron ou trigger
-  à la publication) non tranché — tables prêtes.
+- **Emails de notification** : fournisseur d'email à choisir (l'ancien
+  pilote utilisait Resend) avant l'Edge Function d'envoi.
 - **Mémoire de la machine (Docker)** : 7,9 Go de RAM. Le 2026-10-05, avec
   l'accord du porteur : `.wslconfig` limité à 3 Go, conteneurs iic et
   naellys-express arrêtés sans redémarrage automatique. Ne garder que

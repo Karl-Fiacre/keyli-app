@@ -171,6 +171,31 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"notifications_keyli": {
+                  Row: {
+                    "alert_id": string | null,"contenu": string | null,"created_at": string,"id": string,"lue": boolean,"property_id": string | null,"titre": string,"type": string,"user_id": string
+                  }
+                  Insert: {
+                    "alert_id"?: string | null,"contenu"?: string | null,"created_at"?: string,"id"?: string,"lue"?: boolean,"property_id"?: string | null,"titre": string,"type": string,"user_id": string
+                  }
+                  Update: {
+                    "alert_id"?: string | null,"contenu"?: string | null,"created_at"?: string,"id"?: string,"lue"?: boolean,"property_id"?: string | null,"titre"?: string,"type"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "notifications_keyli_alert_id_fkey"
+      columns: ["alert_id"]
+isOneToOne: false
+      referencedRelation: "search_alerts_keyli"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "notifications_keyli_property_id_fkey"
+      columns: ["property_id"]
+isOneToOne: false
+      referencedRelation: "properties_keyli"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"onboarding_checklists_keyli": {
                   Row: {
                     "completed": boolean | null,"completed_at": string | null,"created_at": string | null,"id": string,"notes": string | null,"step": string,"updated_at": string | null,"user_id": string
@@ -496,6 +521,12 @@ isOneToOne: false
                            },
 "admin_traiter_signalement_keyli":
 { Args: { "p_note"?: string,"p_report": string,"p_statut": Database["public"]['Enums']["report_status_keyli"] }; Returns: undefined
+                           },
+"annonce_correspond_alerte_keyli":
+{ Args: { "c": Json,"p": Database["public"]['Tables']["properties_keyli"]['Row'] }; Returns: boolean
+                           },
+"criteres_alerte_valides_keyli":
+{ Args: { "c": Json }; Returns: boolean
                            },
 "current_user_role_keyli":
 { Args: Record<PropertyKey, never>; Returns: Database["public"]['Enums']["user_role_keyli"]

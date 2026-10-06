@@ -102,7 +102,7 @@ select throws_ok(
 );
 select lives_ok($$ update public.search_alerts_keyli set actif = false $$,
   'L''alerte se désactive');
-select lives_ok($$ update public.search_alerts_keyli set actif = true, criteres = criteres || '{"rooms": 3}' $$,
+select lives_ok($$ update public.search_alerts_keyli set actif = true, criteres = criteres || '{"rooms_min": 3}' $$,
   'L''alerte se réactive et ses critères évoluent');
 select throws_ok($$ update public.search_alerts_keyli set derniere_notification_at = now() $$,
   '42501', null, 'La date de notification est réservée au serveur');

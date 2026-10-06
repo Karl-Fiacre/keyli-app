@@ -431,6 +431,32 @@ Accès :
   publication, registre de commerce obligatoire pour une agence.
 Tests : `supabase/tests/properties_keyli_rls.test.sql`.
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-05) — notifications in-app et alertes de recherche
+Migration `20261005140000_notifications_alertes_keyli.sql`. Décisions du
+porteur de projet : notification immédiate dans l'application ; critères =
+filtres de recherche + rayon ; au plus 10 notifications par alerte et par jour.
+- **`notifications_keyli`** (nouvelle table, générique) : id, user_id, type
+  (CHECK, aujourd'hui `alerte_recherche` — liste à étendre : messages,
+  vérification, expiration…), titre, contenu, property_id, alert_id, lue,
+  created_at. Lecture et « lue » par son titulaire ; création par le serveur
+  uniquement (triggers, Edge Functions). Index : non lues, par date, par
+  alerte.
+- **Critères d'alerte validés** (`criteres_alerte_valides_keyli`, CHECK sur
+  `search_alerts_keyli.criteres`) : clés `commune_id`, `quartier_id` (uuid),
+  `type`, `status`, `prix_min`, `prix_max`, `rooms_min` (≥ 0), `furnished`
+  (booléen), `lat` + `lng` + `rayon_km` (ensemble, rayon 0,1 à 50 km) ;
+  toute autre clé est refusée.
+- **Déclenchement** : trigger `notifier_alertes_keyli` à la publication et à
+  la republication d'une annonce ; correspondance par
+  `annonce_correspond_alerte_keyli` (rayon via PostGIS) ; jamais pour sa
+  propre annonce ni pour une alerte désactivée ; plafond de 10 par alerte et
+  par jour ; `derniere_notification_at` mise à jour. Contenu : « titre —
+  350 000 XOF ».
+- Reste : l'email (Edge Function, fournisseur à choisir) et le push mobile
+  (Phase 3). Le parcours de toutes les alertes actives à chaque publication
+  convient au pilote ; à revoir si le volume d'alertes grossit fortement.
+Tests : `supabase/tests/notifications_alertes_keyli.test.sql`.
+
 ## ⚠️ DÉCISION ACTÉE (2026-10-05) — notation après visite ou lead conclu
 Migration `20261005130000_notation_apres_visite_keyli.sql` (remplace la règle
 provisoire « échange de messages » du 2026-10-02) :

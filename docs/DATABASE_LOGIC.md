@@ -26,6 +26,7 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Admin — journal d'audit | `audit_logs_keyli ORDER BY created_at DESC` (RLS : admin = ses entrées, super_admin = tout) | `idx_audit_created`, `idx_audit_admin`, `idx_audit_entity` — créés |
 | Admin — retours utilisateurs | `feedback_keyli WHERE status = 'pending' ORDER BY created_at` | `idx_feedback_status_date` — créé |
 | Admin — file pilote | `inscription_pilot_keyli WHERE status = ? ORDER BY priority_level, created_at` | `idx_inscription_pilot_file` — créé |
+| Cloche de notifications (pastille + liste) | `notifications_keyli WHERE user_id = uid [AND NOT lue] ORDER BY created_at DESC` | `idx_notifications_user_non_lues`, `idx_notifications_user_date` — créés |
 | Page tarifs / choix de forfait (public) | `plans_keyli WHERE actif = true ORDER BY seuil_min` (RLS filtre déjà `actif`) | aucun — 3 lignes |
 | Formulaire de publication — sélecteur quartier | `quartiers_keyli JOIN communes_keyli ORDER BY commune, quartier` | `idx_quartiers_commune` (déjà présent) — liste fermée, mise en cache client raisonnable (change rarement) |
 
