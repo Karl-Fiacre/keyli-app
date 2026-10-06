@@ -63,8 +63,9 @@ résumé, pas la source primaire.
 ## MODULE CHERCHEUR
 - [x] AUCUN paywall sur la messagerie interne ni les coordonnées de contact
       en v1 — décision explicite (PRD 11.3), pas un oubli
-- [ ] Alertes de recherche sauvegardée déclenchent une notification sur
-      nouvelle annonce correspondante
+- [x] Alertes de recherche sauvegardée déclenchent une notification sur
+      nouvelle annonce correspondante (in-app, immédiate, 10/jour/alerte max —
+      2026-10-05, testé)
 
 ## MODULE NOTATION (ratings_keyli)
 - [x] Une seule note par auteur, par bien et par personne notée — contrainte

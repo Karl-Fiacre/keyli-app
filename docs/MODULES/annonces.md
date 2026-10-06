@@ -73,9 +73,11 @@ maquettes (Accueil, dashboard Chercheur) n'avait aucune table.
       recherche (quartier, type, prix max...) sont déjà variables côté
       formulaire de recherche, dupliquer chaque champ en colonne serait
       fragile à chaque évolution des filtres
-- [ ] Mécanisme de déclenchement (nouvelle annonce correspondant aux
-      critères → notification) non spécifié ici — dépend de
-      `check-expired-subscriptions`-like cron ou d'un trigger à la
-      publication d'annonce, à trancher au moment de l'implémentation
+- [x] Déclenchement : trigger à la publication / republication d'une
+      annonce → notification in-app immédiate (`notifications_keyli`), au plus
+      10 par alerte et par jour (décision du 2026-10-05, testé) ; email et
+      push à venir
+- [x] Critères : commune, quartier, type, statut, prix min/max, pièces min,
+      meublé, rayon autour d'un point — clés validées en base
 - [x] `actif = false` désactive l'alerte sans la supprimer (historique
       conservé, réactivable) — aucune suppression possible, testé
