@@ -431,6 +431,28 @@ Accès :
   publication, registre de commerce obligatoire pour une agence.
 Tests : `supabase/tests/properties_keyli_rls.test.sql`.
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-06) — quartiers tendance
+Migration `20261006120000_quartiers_tendance_keyli.sql`. Décisions du porteur
+de projet : popularité = sessions distinctes ayant cherché le quartier OU vu
+une de ses annonces ; fenêtre 30 jours, prix comparés aux 30 jours précédents ;
+recalcul chaque nuit ; repli sur la commune sous 5 annonces.
+- **`quartiers_tendance_keyli`** (nouvelle table, instantané) : une ligne par
+  quartier et par commune (`niveau`, `zone_id`, `commune_id`, `nom`) ;
+  `score_popularite`, `sessions_recherche`, `sessions_vue` ; prix séparés
+  **location / vente** (`nb_*`, `prix_moyen_*`, `prix_moyen_*_prec`,
+  `tendance_*_pct`) — une moyenne mêlant loyers et prix de vente n'aurait pas
+  de sens ; `prix_fiable` (≥ 5 mises en ligne sur la période) ; période et
+  date de calcul. Lecture publique, aucune écriture client.
+- Calcul `calculer_quartiers_tendance_keyli()` (remplace l'instantané) :
+  popularité depuis `property_interactions_keyli` (quartier copié à
+  l'événement), prix depuis `property_publications_keyli` (republications
+  comprises). Planifié par **pg_cron** (`keyli-quartiers-tendance`, 02:00
+  UTC = Abidjan) et exécuté une fois à la migration.
+- Vues : `quartiers_populaires_keyli` (chips de l'Accueil, par score — le
+  nombre affiché est un réglage d'écran) et `tendances_prix_keyli` (TrendBar :
+  le quartier s'il est fiable, sinon sa commune).
+Tests : `supabase/tests/quartiers_tendance_keyli.test.sql`.
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-05) — notifications in-app et alertes de recherche
 Migration `20261005140000_notifications_alertes_keyli.sql`. Décisions du
 porteur de projet : notification immédiate dans l'application ; critères =

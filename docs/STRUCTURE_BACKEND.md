@@ -42,8 +42,9 @@ src/integrations/supabase/
 
 ## Edge Functions à créer (pas encore existantes)
 ```
-calculate-quartier-trends       → agrégation recherches/prix par quartier
-                                   (voir MODULES/quartiers-tendance.md, DATABASE.md)
+calculate-quartier-trends       → REMPLACÉE (2026-10-06) par la fonction SQL
+                                   calculer_quartiers_tendance_keyli() planifiée
+                                   par pg_cron — pas d'Edge Function
 check-subscription-overage      → facturation des dépassements enregistrés par le
                                    trigger controler_publication_keyli (la détection
                                    est en base depuis le 2026-10-02) et

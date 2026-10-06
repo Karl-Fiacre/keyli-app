@@ -22,7 +22,20 @@ de tendance lui-même reste à définir.
       équivalents dans l'UI (l'Accueil et les mockups précédents les
       mélangeaient, à corriger à l'implémentation)
 
-## Ce qui N'EST PAS tranché — demander avant de coder
+## Tranché le 2026-10-06 (décisions du porteur de projet)
+- [x] « Recherche par quartier » = sessions distinctes ayant cherché le
+      quartier (`search_neighborhood`) OU consulté une de ses annonces (`view`)
+- [x] Niveau : quartier ; repli sur la commune quand le quartier a moins de
+      5 annonces mises en ligne sur la période (`prix_fiable`)
+- [x] Fenêtre : 30 derniers jours ; tendance de prix = moyenne sur 30 jours
+      comparée aux 30 jours précédents, séparément location / vente
+- [x] Fréquence : recalcul chaque nuit par pg_cron (02:00)
+- [ ] Nombre de quartiers affichés sur l'Accueil : réglage d'écran (6 dans
+      les maquettes), pas une règle de données
+Implémentation : table `quartiers_tendance_keyli`, vues
+`quartiers_populaires_keyli` et `tendances_prix_keyli` (voir DATABASE.md).
+
+## Questions d'origine (conservées pour mémoire)
 - [ ] Que compte-t-on exactement comme "recherche par quartier" ? Une
       requête avec filtre quartier renseigné ? Un clic sur un chip ? Une
       visite de PropertyDetails.tsx pour un bien du quartier ? Ces trois
