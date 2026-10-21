@@ -25,6 +25,8 @@ Table : `documents_keyli`.
 ```
 
 ## Règles
+- [x] Retrait de vérification après coup (fraude) : fonctions admin
+      `admin_retirer_verification_compte_keyli` / `_bien_keyli` (2026-10-21)
 - [x] agency → document_type = 'registre' approuvé est un prérequis à
       toute publication (refus KY004, testé)
 - [x] Un document approved ne peut pas être re-soumis pour le même

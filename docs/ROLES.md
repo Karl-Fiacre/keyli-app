@@ -40,6 +40,12 @@ décision « sécurité de profiles_keyli ».
 - Gestion des templates marketing (`marketing_templates_keyli`)
 - Suivi des inscriptions pilote (`inscription_pilot_keyli`)
 
+## Modération (2026-10-21)
+Un admin retire une vérification et suspend / réactive un compte (motif
+obligatoire) ; un admin ou un super_admin n'est suspendu ou réactivé que par
+le super_admin. Un compte suspendu ne se connecte plus et ne peut plus rien
+écrire ; ses annonces sont masquées.
+
 ## super_admin (décision du porteur de projet, 2026-10-01/02)
 Rôle supérieur à `admin` : tous les droits de l'admin, plus :
 - Nommer / retirer les admins (seul à attribuer le rôle `admin`)
