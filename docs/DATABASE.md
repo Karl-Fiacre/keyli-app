@@ -431,6 +431,30 @@ Accès :
   publication, registre de commerce obligatoire pour une agence.
 Tests : `supabase/tests/properties_keyli_rls.test.sql`.
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-21) — retrait de vérification et suspension de compte
+Migration `20261021120000_moderation_comptes_keyli.sql`. Décisions du porteur
+de projet :
+- **Nouvelles colonnes `profiles_keyli`** : `suspendu BOOLEAN NOT NULL DEFAULT
+  false`, `suspension_fin TIMESTAMPTZ` (NULL = indéfinie), `suspension_motif
+  TEXT` — jamais modifiables par le client. `compte_actif_keyli(user)` : une
+  suspension dont la date de fin est passée est levée d'elle-même.
+- **Retrait de vérification** (admin, motif obligatoire) :
+  `admin_retirer_verification_compte_keyli(user, motif)` → `verified = false`,
+  pièces approuvées (extrait, certificat, registre) passées « rejetées » avec le
+  motif ; `admin_retirer_verification_bien_keyli(bien, motif)` →
+  `is_verified = false`, ACD passé « rejeté ». Le compte redépose ses pièces.
+- **Suspension** (admin, motif obligatoire ; un admin ou super_admin ne l'est
+  que par le super_admin ; jamais soi-même) :
+  `admin_suspendre_compte_keyli(user, motif, fin facultative)` et
+  `admin_reactiver_compte_keyli(user, note)`. Effets : connexion bloquée
+  (`auth.users.banned_until` = date de fin, ou + 100 ans si indéfinie),
+  annonces masquées au public (pas archivées), **écritures bloquées même avec
+  une session ouverte** — policies RESTRICTIVES « Compte suspendu : … » sur
+  toutes les tables où un utilisateur écrit et sur `storage.objects`.
+- Notifications : nouveaux types `verification_retiree`, `compte_suspendu`,
+  `compte_reactive` (avec le motif). Toutes les actions sont journalisées.
+Tests : `supabase/tests/moderation_comptes_keyli.test.sql`.
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-06) — quartiers tendance
 Migration `20261006120000_quartiers_tendance_keyli.sql`. Décisions du porteur
 de projet : popularité = sessions distinctes ayant cherché le quartier OU vu

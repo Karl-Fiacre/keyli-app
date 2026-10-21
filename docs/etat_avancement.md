@@ -102,6 +102,12 @@ conversation précédente, elle ne persiste pas.
       `tendances_prix_keyli` — migration
       `20261006120000_quartiers_tendance_keyli.sql`, local + distant
       (2026-10-06), 14 tests pgTAP verts (347 au total)
+- [x] Modération : retrait de vérification (compte, bien) et suspension de
+      compte (connexion bloquée, annonces masquées, écritures bloquées,
+      date de fin facultative) — migration
+      `20261021120000_moderation_comptes_keyli.sql`, local + distant
+      (2026-10-21), 28 tests pgTAP verts (375 au total). **Tous les points
+      ouverts du schéma sont tranchés.**
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -152,11 +158,6 @@ concernés :
 - **Clés Paystack** : nécessaires pour les Edge Functions
   `handle-paystack-payment` / `paystack-webhook` (secrets d'Edge Functions,
   jamais dans `.env`).
-- **Retrait de vérification** : un document approuvé ne se révise pas ;
-  aucun mécanisme pour retirer `verified` / `is_verified` (fraude découverte
-  après coup) — à décider.
-- **Suspension de compte** : prévue dans admin.md, aucune règle ni
-  fonction pour l'instant.
 - **Droits super_admin restants** : rapports/analyses, litiges, clés API,
   sécurité, textes juridiques (voir ROLES.md).
 - **Documents cités mais absents** : `Keyli_Repertoire_Fichiers_Sources_Definitif.docx`,

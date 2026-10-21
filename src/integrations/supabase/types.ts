@@ -243,13 +243,13 @@ isOneToOne: false
                   ]
                 },"profiles_keyli": {
                   Row: {
-                    "created_at": string | null,"email": string,"first_name": string | null,"id": string,"id_number": string | null,"id_validity_date": string | null,"last_name": string | null,"phone": string | null,"photo_url": string | null,"rating_avg": number | null,"role_keyli": Database["public"]['Enums']["user_role_keyli"],"updated_at": string | null,"user_id": string,"verification_date": string | null,"verified": boolean | null
+                    "created_at": string | null,"email": string,"first_name": string | null,"id": string,"id_number": string | null,"id_validity_date": string | null,"last_name": string | null,"phone": string | null,"photo_url": string | null,"rating_avg": number | null,"role_keyli": Database["public"]['Enums']["user_role_keyli"],"suspendu": boolean,"suspension_fin": string | null,"suspension_motif": string | null,"updated_at": string | null,"user_id": string,"verification_date": string | null,"verified": boolean | null
                   }
                   Insert: {
-                    "created_at"?: string | null,"email": string,"first_name"?: string | null,"id"?: string,"id_number"?: string | null,"id_validity_date"?: string | null,"last_name"?: string | null,"phone"?: string | null,"photo_url"?: string | null,"rating_avg"?: number | null,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"],"updated_at"?: string | null,"user_id": string,"verification_date"?: string | null,"verified"?: boolean | null
+                    "created_at"?: string | null,"email": string,"first_name"?: string | null,"id"?: string,"id_number"?: string | null,"id_validity_date"?: string | null,"last_name"?: string | null,"phone"?: string | null,"photo_url"?: string | null,"rating_avg"?: number | null,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"],"suspendu"?: boolean,"suspension_fin"?: string | null,"suspension_motif"?: string | null,"updated_at"?: string | null,"user_id": string,"verification_date"?: string | null,"verified"?: boolean | null
                   }
                   Update: {
-                    "created_at"?: string | null,"email"?: string,"first_name"?: string | null,"id"?: string,"id_number"?: string | null,"id_validity_date"?: string | null,"last_name"?: string | null,"phone"?: string | null,"photo_url"?: string | null,"rating_avg"?: number | null,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"],"updated_at"?: string | null,"user_id"?: string,"verification_date"?: string | null,"verified"?: boolean | null
+                    "created_at"?: string | null,"email"?: string,"first_name"?: string | null,"id"?: string,"id_number"?: string | null,"id_validity_date"?: string | null,"last_name"?: string | null,"phone"?: string | null,"photo_url"?: string | null,"rating_avg"?: number | null,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"],"suspendu"?: boolean,"suspension_fin"?: string | null,"suspension_motif"?: string | null,"updated_at"?: string | null,"user_id"?: string,"verification_date"?: string | null,"verified"?: boolean | null
                   }
                   Relationships: [
                     
@@ -561,8 +561,20 @@ isOneToOne: false
             "a_recu_message_de_keyli":
 { Args: { "p_auteur": string,"p_property": string }; Returns: boolean
                            },
+"admin_reactiver_compte_keyli":
+{ Args: { "p_note"?: string,"p_user": string }; Returns: undefined
+                           },
+"admin_retirer_verification_bien_keyli":
+{ Args: { "p_motif": string,"p_property": string }; Returns: undefined
+                           },
+"admin_retirer_verification_compte_keyli":
+{ Args: { "p_motif": string,"p_user": string }; Returns: undefined
+                           },
 "admin_reviser_document_keyli":
 { Args: { "p_decision": Database["public"]['Enums']["document_status_keyli"],"p_document": string,"p_notes"?: string }; Returns: undefined
+                           },
+"admin_suspendre_compte_keyli":
+{ Args: { "p_fin"?: string,"p_motif": string,"p_user": string }; Returns: undefined
                            },
 "admin_traiter_signalement_keyli":
 { Args: { "p_note"?: string,"p_report": string,"p_statut": Database["public"]['Enums']["report_status_keyli"] }; Returns: undefined
@@ -572,6 +584,9 @@ isOneToOne: false
                            },
 "calculer_quartiers_tendance_keyli":
 { Args: Record<PropertyKey, never>; Returns: undefined
+                           },
+"compte_actif_keyli":
+{ Args: { "p_user": string }; Returns: boolean
                            },
 "criteres_alerte_valides_keyli":
 { Args: { "c": Json }; Returns: boolean

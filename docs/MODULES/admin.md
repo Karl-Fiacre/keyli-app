@@ -17,8 +17,12 @@ Tables : `audit_logs_keyli`, `feedback_keyli`, `reports_keyli`,
 - [x] Aucune écriture admin directe possible sur les tables sensibles
       (aucun privilège) ; journal non modifiable
 - [x] Lecture : admin = ses entrées, super_admin = tout
-- [ ] Suspension de compte : aucune règle produit ni fonction pour
-      l'instant
+- [x] Suspension de compte (2026-10-21) : `admin_suspendre_compte_keyli` /
+      `admin_reactiver_compte_keyli` — motif obligatoire, date de fin
+      facultative, connexion bloquée, annonces masquées, écritures bloquées,
+      notification ; admins suspendus par le super_admin uniquement (testé)
+- [x] Retrait de vérification d'un compte ou d'un bien (2026-10-21), motif
+      obligatoire, document passé « rejeté », notification (testé)
 
 ## Modération (reports_keyli)
 ```
