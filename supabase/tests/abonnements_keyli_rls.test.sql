@@ -19,8 +19,8 @@ select plan(22);
 -- ------------------------------------------------------------
 insert into auth.users (id, email, raw_user_meta_data) values
   ('cccccccc-cccc-cccc-cccc-cccccccccccc', 'proprio@test.local', '{"role_keyli": "owner"}'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'agence@test.local', '{"role_keyli": "agency"}'),
-  ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'grande@test.local', '{"role_keyli": "agency"}'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'agence@test.local', '{"role_keyli": "agency", "nom_agence": "Agence Test"}'),
+  ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'grande@test.local', '{"role_keyli": "agency", "nom_agence": "Agence Test"}'),
   ('dddddddd-dddd-dddd-dddd-dddddddddddd', 'chercheur@test.local', '{}');
 
 select set_config('test.plan_proprio', (select id::text from public.plans_keyli where code = 'proprietaire'), true);

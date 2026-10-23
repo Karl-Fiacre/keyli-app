@@ -18,7 +18,7 @@ insert into auth.users (id, email, raw_user_meta_data) values
   ('33333333-0000-0000-0000-00000000005a', 'sa@test.local', '{}'),
   ('33333333-0000-0000-0000-0000000000ad', 'ad@test.local', '{}'),
   ('33333333-0000-0000-0000-000000000001', 'p@test.local', '{"role_keyli": "owner"}'),
-  ('33333333-0000-0000-0000-000000000002', 'a@test.local', '{"role_keyli": "agency"}'),
+  ('33333333-0000-0000-0000-000000000002', 'a@test.local', '{"role_keyli": "agency", "nom_agence": "Agence Test"}'),
   ('33333333-0000-0000-0000-000000000003', 'c@test.local', '{}');
 update public.profiles_keyli set role_keyli = 'super_admin' where user_id = '33333333-0000-0000-0000-00000000005a';
 update public.profiles_keyli set role_keyli = 'admin'       where user_id = '33333333-0000-0000-0000-0000000000ad';

@@ -431,6 +431,19 @@ Accès :
   publication, registre de commerce obligatoire pour une agence.
 Tests : `supabase/tests/properties_keyli_rls.test.sql`.
 
+## ⚠️ DÉCISION ACTÉE (2026-10-22) — nom de l'agence (raison sociale)
+Migration `20261022120000_nom_agence_keyli.sql`. Nouvelle colonne
+`profiles_keyli.nom_agence TEXT` :
+- **Obligatoire à l'inscription d'une agence** (`options.data.nom_agence` du
+  signUp ; sinon l'inscription échoue, code 22023) ; ignoré pour les autres
+  rôles.
+- Modifiable par l'agence tant qu'elle n'est pas vérifiée ; jamais vide ;
+  **figé après vérification** (trigger `controler_nom_agence_keyli`, refus
+  42501) — seul un admin le corrige via `admin_modifier_nom_agence_keyli(user,
+  nom, motif)`, journalisé.
+- Le profil public d'une agence affiche ce nom (`profils_publics_keyli`).
+Tests : `supabase/tests/nom_agence_keyli.test.sql`.
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-21) — retrait de vérification et suspension de compte
 Migration `20261021120000_moderation_comptes_keyli.sql`. Décisions du porteur
 de projet :
@@ -526,8 +539,7 @@ lisible par son seul titulaire (et l'admin) ; le public passe par la vue
 - Jamais : email, téléphone, n° / validité de pièce, date de vérification,
   nom de famille brut. Comptes admin et super_admin exclus.
 - Vue en `security_invoker = false` : c'est elle qui fait le tri des colonnes.
-⚠️ Pas de champ « nom de l'agence » dans `profiles_keyli` : le nom complet
-d'une agence est son prénom + nom de compte (voir etat_avancement.md).
+Depuis le 2026-10-22, une agence s'affiche sous son `nom_agence` (voir plus haut).
 Tests : `supabase/tests/profils_publics_keyli.test.sql`.
 
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-05) — property_interactions_keyli

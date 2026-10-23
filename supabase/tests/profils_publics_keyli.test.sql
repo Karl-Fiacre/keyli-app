@@ -14,7 +14,7 @@ insert into auth.users (id, email, raw_user_meta_data) values
   ('77777777-0000-0000-0000-000000000001', 'awa@test.local',
    '{"role_keyli": "owner", "first_name": "Awa", "last_name": "Koné", "phone": "+2250700000001"}'),
   ('77777777-0000-0000-0000-000000000002', 'agence@test.local',
-   '{"role_keyli": "agency", "first_name": "Immo", "last_name": "Plus Abidjan"}'),
+   '{"role_keyli": "agency", "nom_agence": "Immo Plus Abidjan", "first_name": "Jean", "last_name": "Kouassi"}'),
   ('77777777-0000-0000-0000-000000000003', 'sans-nom@test.local', '{}'),
   ('77777777-0000-0000-0000-000000000004', 'admin@test.local', '{"first_name": "Admin"}');
 update public.profiles_keyli set role_keyli = 'admin', id_number = 'CI-123'
