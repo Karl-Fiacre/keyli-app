@@ -20,22 +20,35 @@ violet/orange/rouge contextuels sur les dashboards). Ne pas dupliquer ces
 valeurs ici : c'est exactement une seconde copie de palette qui a permis à
 cette fragmentation de passer inaperçue jusqu'à un rescan explicite.
 
-## Assets disponibles
+## Assets disponibles (créés le 2026-10-23, à la demande du porteur de projet)
+Tous générés par `keyli_brand_assets/generer.cjs` à partir d'UNE géométrie
+unique, relevée sur l'icône source `design-reference/icons/app_icon_source.png`
+(clé dont le panneton est une maison, serrure dorée, deux dents ; sommet du
+toit centré en x = 512 sur 1024). Aucune réinterprétation du dessin.
 ```
-assets/keyli_verified_badge.svg              → badge vérifié, vectoriel
+assets/keyli-logo-full.svg              → logotype complet (clé + KEYLI), fond clair
+assets/keyli-logo-full-blanc.svg        → logotype complet, fond sombre
+assets/keyli_verified_badge.svg         → badge vérifié (marque distincte)
+keyli_brand_assets/keyli-mark.svg       → clé seule, navy (fond clair)
+keyli_brand_assets/keyli-mark-blanc.svg → clé seule, blanche (fond sombre)
+keyli_brand_assets/keyli_app_icon.svg / keyli_app_icon_1024.png
+                                        → icône d'app, fond navy plein (iOS/Android)
+keyli_brand_assets/keyli_app_icon_adaptive_foreground_432.png
+                                        → calque transparent Android adaptive icon
+                                          (clé dans la zone sûre de 66 % ; fond navy
+                                          #1a1f2e à renseigner dans le XML)
+keyli_brand_assets/favicon.svg / favicon.ico (16, 32, 48)
+                                        → panneton seul (maison + serrure), comme
+                                          favicon_source.png : la clé entière est
+                                          illisible à 16 px
 ```
-Icônes favicon et app (PNG/ICO, déjà générées) : voir dossier
-`keyli_brand_assets/` livré séparément —
-`favicon.ico`, `keyli_app_icon_1024.png` (fond navy plein, iOS/Android),
-`keyli_app_icon_adaptive_foreground_432.png` (calque transparent, Android
-adaptive icon — fond navy `#1a1f2e` à renseigner séparément dans le XML).
+Mot « KEYLI » : Caladea Bold (licence libre OFL, métriquement équivalente à
+Cambria, la police des titres de DESIGN_SYSTEM.md), converti en tracés —
+aucune police requise à l'affichage. Les copies servies par l'application
+web sont dans `public/`.
 
-## Assets à créer
-- `assets/keyli-logo-full.svg` — logotype complet (marque + mot "KEYLI"),
-  actuellement seulement esquissé en aperçu chat, pas encore un fichier
-  source livré. Ne pas coder le logo directement en JSX/SVG dans les
-  composants sans ce fichier source unique — sinon chaque écran risque une
-  version légèrement différente.
+Pour modifier la marque : changer `generer.cjs` et régénérer, jamais
+retoucher un fichier à la main (sinon les déclinaisons divergent).
 
 ## Règle d'usage
 - Le logo Keyli n'a, à ce jour, aucune restriction équivalente à celle d'un
