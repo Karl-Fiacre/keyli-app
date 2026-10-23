@@ -39,6 +39,20 @@ implémentée actuellement — marquée "Should" dans le PRD (7.1), pas construi
       uniquement pour l'instant ; un back-office dédié reste à confirmer
       avant de coder un quelconque chemin d'élévation de rôle
 
+## Écrans livrés (Sprint 1, 2026-10-23)
+Inscription (choix du rôle, nom d'agence, indicateur de robustesse,
+mot de passe ≥ 8 caractères), Connexion, VerifierEmail (attente puis
+confirmation), MotDePasseOublie + NouveauMotDePasse (réponse identique que
+le compte existe ou non), Profil (prénom, nom, téléphone ; nom d'agence
+tant que non vérifiée ; badge Vérifié ; avis de suspension). Parcours testés
+de bout en bout sur la pile Supabase locale (mail de test Mailpit).
+- [ ] **Modèles d'email** encore en anglais (objet « Confirm your email
+      address », « Reset your password ») : à traduire dans le Dashboard
+      (Authentication → Email Templates) et dans `supabase/config.toml`.
+- [ ] **Projet distant** : ajouter l'adresse de l'application aux Redirect
+      URLs (Authentication → URL Configuration), sinon les liens de
+      confirmation et de réinitialisation ne reviennent pas sur l'app.
+
 ## Non couvert ici (à demander si besoin)
 - Récupération de mot de passe (flux exact non détaillé dans ce lot)
 - Connexion biométrique mobile (React Native, phase 3 du calendrier — voir
