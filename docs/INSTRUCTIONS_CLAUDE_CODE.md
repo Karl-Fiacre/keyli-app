@@ -56,5 +56,5 @@ Demande-moi confirmation avant toute décision architecturale non documentée.
   Phase 3 du calendrier
 - Hébergement web non confirmé (Cloudflare Pages recommandé, pas acté) —
   voir MODULES/hebergement-securite.md
-- Logotype SVG complet (fichier source unique) non livré — voir LOGO.md
-  "Assets à créer"
+- Logotype : livré le 2026-10-23 (voir LOGO.md, généré par
+  keyli_brand_assets/generer.cjs)

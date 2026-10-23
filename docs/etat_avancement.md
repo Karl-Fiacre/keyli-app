@@ -112,6 +112,9 @@ conversation précédente, elle ne persiste pas.
       l'inscription, figé après vérification) — migration
       `20261022120000_nom_agence_keyli.sql`, local + distant (2026-10-22),
       11 tests pgTAP verts (386 au total)
+- [x] Logo et assets de marque (logotype complet, clé seule, icônes d'app,
+      favicon) — vectorisés depuis `design-reference/icons/app_icon_source.png`,
+      générés par `docs/keyli_brand_assets/generer.cjs` (2026-10-23)
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -175,8 +178,6 @@ concernés :
   documentée (`docs/MODULES/hebergement-securite.md`), pas actée.
 - **Clés Paystack et Cloudinary** — pas encore transmises, à demander avant
   le module pricing/médias.
-- **Logotype SVG complet** — pas encore livré en fichier source unique, voir
-  `docs/LOGO.md` "Assets à créer".
 
 ## Prochaine étape recommandée
 
