@@ -34,6 +34,14 @@ final visé, à consulter module par module, jamais à exécuter tel quel.
 7. [ ] Pousser la migration sur le projet distant (`npx supabase db push`)
        seulement une fois les tests verts
 
+## Développement local avec Auth (facultatif)
+`npx supabase start -x studio,imgproxy,logflare,vector,realtime,edge-runtime,supavisor,postgres-meta,storage-api`
+démarre la base, Auth, l'API et la boîte mail de test (Mailpit,
+http://127.0.0.1:54324). Un fichier `.env.development.local` (ignoré par Git)
+avec `VITE_SUPABASE_URL=http://127.0.0.1:54321` et la clé anon locale fait
+pointer `npm run dev` vers cette pile ; le supprimer pour viser le projet
+distant.
+
 ## Identifiants — rappel de sécurité
 Seuls **l'URL du projet** et la **clé anon publique** doivent être transmis
 pour connecter le web/mobile. Ne jamais transmettre ni coller dans le chat :

@@ -115,6 +115,10 @@ conversation précédente, elle ne persiste pas.
 - [x] Logo et assets de marque (logotype complet, clé seule, icônes d'app,
       favicon) — vectorisés depuis `design-reference/icons/app_icon_source.png`,
       générés par `docs/keyli_brand_assets/generer.cjs` (2026-10-23)
+- [x] **Sprint 1 front-end** (2026-10-23) : Tailwind/Shadcn avec les tokens
+      de la charte, routage, mise en page avec logo, inscription (rôle, nom
+      d'agence, robustesse), connexion, vérification d'email, mot de passe
+      oublié / nouveau, profil — testés de bout en bout sur la pile locale
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -166,6 +170,10 @@ concernés :
   sécurité, textes juridiques (voir ROLES.md).
 - **Documents cités mais absents** : `Keyli_Repertoire_Fichiers_Sources_Definitif.docx`,
   `Keyli_Calendrier_Definitif.docx`, `keyli_dashboards_preview.html`.
+- **Modèles d'email Auth en anglais** (confirmation, réinitialisation) : à
+  traduire dans le Dashboard et `supabase/config.toml`.
+- **Redirect URLs du projet distant** : y ajouter l'adresse de l'application
+  (http://127.0.0.1:5173 en développement, puis le domaine de production).
 - **Emails de notification** : fournisseur d'email à choisir (l'ancien
   pilote utilisait Resend) avant l'Edge Function d'envoi.
 - **Mémoire de la machine (Docker)** : 7,9 Go de RAM ; fichier d'échange

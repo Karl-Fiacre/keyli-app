@@ -4,6 +4,26 @@ Détail complet fichier par fichier : voir
 Keyli_Repertoire_Fichiers_Sources_Definitif.docx (source de vérité). Ce
 document donne la vue d'ensemble à garder en tête pendant le codage.
 
+## Web — nouveau dépôt (état réel au 2026-10-23, Sprint 1)
+```
+src/
+├── pages/            Accueil, Inscription, Connexion, VerifierEmail,
+│                     MotDePasseOublie, NouveauMotDePasse, Profil, PageIntrouvable
+├── components/
+│   ├── ui/           Shadcn/ui : button, input, label, card, alert
+│   ├── layout/       MiseEnPage (en-tête avec le logotype, pied de page)
+│   └── (métier)      ChampFormulaire, IndicateurRobustesse, RouteProtegee,
+│                     VerifiedBadge
+├── hooks/            useSession (FournisseurSession), useCompte (inscription,
+│                     connexion, déconnexion, renvoi, réinitialisation),
+│                     useProfil (lecture + modification)
+├── lib/              utils (cn), validation (schémas zod), erreurs
+│                     (traduction FR des erreurs Supabase)
+└── integrations/supabase/   client.ts, types.ts (généré)
+```
+Tailwind 3.4 + tokens de DESIGN_SYSTEM.md dans `src/index.css` /
+`tailwind.config.ts` ; React Router 7, React Query 5, react-hook-form + zod.
+
 ## Web (React + Vite) — ancien pilote, 27 pages (référence)
 > ⚠️ **Décision du 2026-09-28 — nouveau projet.** Le code de l'ancien pilote
 > n'est PAS repris : cette arborescence décrit l'ancien pilote et sert de référence de
