@@ -14,8 +14,8 @@ select plan(28);
 -- Comptes de test : A et B agences, P propriétaire, U chercheur
 -- ------------------------------------------------------------
 insert into auth.users (id, email, raw_user_meta_data) values
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'agence1@test.local', '{"role_keyli": "agency"}'),
-  ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'agence2@test.local', '{"role_keyli": "agency"}'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'agence1@test.local', '{"role_keyli": "agency", "nom_agence": "Agence Test"}'),
+  ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'agence2@test.local', '{"role_keyli": "agency", "nom_agence": "Agence Test"}'),
   ('cccccccc-cccc-cccc-cccc-cccccccccccc', 'proprio@test.local', '{"role_keyli": "owner"}'),
   ('dddddddd-dddd-dddd-dddd-dddddddddddd', 'chercheur@test.local', '{}');
 

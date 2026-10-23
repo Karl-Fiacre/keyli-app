@@ -20,7 +20,7 @@ select plan(24);
 insert into auth.users (id, email, raw_user_meta_data) values
   ('cccccccc-cccc-cccc-cccc-cccccccccccc', 'proprio@test.local', '{"role_keyli": "owner"}'),
   ('eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'proprio2@test.local', '{"role_keyli": "owner"}'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'agence@test.local', '{"role_keyli": "agency"}'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'agence@test.local', '{"role_keyli": "agency", "nom_agence": "Agence Test"}'),
   ('dddddddd-dddd-dddd-dddd-dddddddddddd', 'chercheur@test.local', '{}');
 
 -- Abonnements actifs : la publication exige un forfait en cours

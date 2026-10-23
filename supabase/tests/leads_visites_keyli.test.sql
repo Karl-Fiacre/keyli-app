@@ -15,8 +15,8 @@ select plan(23);
 -- C et D chercheurs
 -- ------------------------------------------------------------
 insert into auth.users (id, email, raw_user_meta_data) values
-  ('44444444-0000-0000-0000-00000000000a', 'a@test.local', '{"role_keyli": "agency"}'),
-  ('44444444-0000-0000-0000-00000000000b', 'b@test.local', '{"role_keyli": "agency"}'),
+  ('44444444-0000-0000-0000-00000000000a', 'a@test.local', '{"role_keyli": "agency", "nom_agence": "Agence Test"}'),
+  ('44444444-0000-0000-0000-00000000000b', 'b@test.local', '{"role_keyli": "agency", "nom_agence": "Agence Test"}'),
   ('44444444-0000-0000-0000-00000000000c', 'c@test.local', '{}'),
   ('44444444-0000-0000-0000-00000000000d', 'd@test.local', '{}');
 

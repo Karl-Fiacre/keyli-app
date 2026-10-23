@@ -108,6 +108,10 @@ conversation précédente, elle ne persiste pas.
       `20261021120000_moderation_comptes_keyli.sql`, local + distant
       (2026-10-21), 28 tests pgTAP verts (375 au total). **Tous les points
       ouverts du schéma sont tranchés.**
+- [x] Nom d'agence (`profiles_keyli.nom_agence`, obligatoire à
+      l'inscription, figé après vérification) — migration
+      `20261022120000_nom_agence_keyli.sql`, local + distant (2026-10-22),
+      11 tests pgTAP verts (386 au total)
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -144,9 +148,6 @@ concernés :
   développement uniquement (traversée de chemin, contournement `fs.deny` sur
   Windows) — correctif seulement en Vite 8 (version majeure). Aucune faille
   sur les dépendances de production. Montée de version à décider.
-- **Nom d'une agence** : `profiles_keyli` n'a pas de champ « nom de
-  l'agence » (raison sociale) ; le profil public affiche prénom + nom du
-  compte agence. Ajouter un champ dédié ? — à décider.
 - **Synchronisation de `profiles_keyli.email`** si l'utilisateur change son
   email dans Supabase Auth — aucun mécanisme pour l'instant.
 - **Republication d'une annonce archivée** : doit compter comme nouvelle

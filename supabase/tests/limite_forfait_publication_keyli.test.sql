@@ -21,9 +21,9 @@ select plan(26);
 -- ------------------------------------------------------------
 insert into auth.users (id, email, raw_user_meta_data) values
   ('11111111-0000-0000-0000-000000000001', 'p@test.local', '{"role_keyli": "owner"}'),
-  ('11111111-0000-0000-0000-000000000002', 'm@test.local', '{"role_keyli": "agency"}'),
-  ('11111111-0000-0000-0000-000000000003', 'g@test.local', '{"role_keyli": "agency"}'),
-  ('11111111-0000-0000-0000-000000000004', 'h@test.local', '{"role_keyli": "agency"}'),
+  ('11111111-0000-0000-0000-000000000002', 'm@test.local', '{"role_keyli": "agency", "nom_agence": "Agence Test"}'),
+  ('11111111-0000-0000-0000-000000000003', 'g@test.local', '{"role_keyli": "agency", "nom_agence": "Agence Test"}'),
+  ('11111111-0000-0000-0000-000000000004', 'h@test.local', '{"role_keyli": "agency", "nom_agence": "Agence Test"}'),
   ('11111111-0000-0000-0000-000000000005', 'n@test.local', '{"role_keyli": "owner"}'),
   ('11111111-0000-0000-0000-000000000006', 'x@test.local', '{"role_keyli": "owner"}');
 

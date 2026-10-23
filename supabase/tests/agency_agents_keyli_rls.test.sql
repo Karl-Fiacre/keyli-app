@@ -15,8 +15,8 @@ select plan(16);
 --   A : agence 1 — B : agence 2 — P : propriétaire
 -- ------------------------------------------------------------
 insert into auth.users (id, email, raw_user_meta_data) values
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'agence1@test.local', '{"role_keyli": "agency"}'),
-  ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'agence2@test.local', '{"role_keyli": "agency"}'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'agence1@test.local', '{"role_keyli": "agency", "nom_agence": "Agence Test"}'),
+  ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'agence2@test.local', '{"role_keyli": "agency", "nom_agence": "Agence Test"}'),
   ('cccccccc-cccc-cccc-cccc-cccccccccccc', 'proprio@test.local', '{"role_keyli": "owner"}');
 
 insert into public.agency_agents_keyli (agency_user_id, nom) values

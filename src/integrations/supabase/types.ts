@@ -243,13 +243,13 @@ isOneToOne: false
                   ]
                 },"profiles_keyli": {
                   Row: {
-                    "created_at": string | null,"email": string,"first_name": string | null,"id": string,"id_number": string | null,"id_validity_date": string | null,"last_name": string | null,"phone": string | null,"photo_url": string | null,"rating_avg": number | null,"role_keyli": Database["public"]['Enums']["user_role_keyli"],"suspendu": boolean,"suspension_fin": string | null,"suspension_motif": string | null,"updated_at": string | null,"user_id": string,"verification_date": string | null,"verified": boolean | null
+                    "created_at": string | null,"email": string,"first_name": string | null,"id": string,"id_number": string | null,"id_validity_date": string | null,"last_name": string | null,"nom_agence": string | null,"phone": string | null,"photo_url": string | null,"rating_avg": number | null,"role_keyli": Database["public"]['Enums']["user_role_keyli"],"suspendu": boolean,"suspension_fin": string | null,"suspension_motif": string | null,"updated_at": string | null,"user_id": string,"verification_date": string | null,"verified": boolean | null
                   }
                   Insert: {
-                    "created_at"?: string | null,"email": string,"first_name"?: string | null,"id"?: string,"id_number"?: string | null,"id_validity_date"?: string | null,"last_name"?: string | null,"phone"?: string | null,"photo_url"?: string | null,"rating_avg"?: number | null,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"],"suspendu"?: boolean,"suspension_fin"?: string | null,"suspension_motif"?: string | null,"updated_at"?: string | null,"user_id": string,"verification_date"?: string | null,"verified"?: boolean | null
+                    "created_at"?: string | null,"email": string,"first_name"?: string | null,"id"?: string,"id_number"?: string | null,"id_validity_date"?: string | null,"last_name"?: string | null,"nom_agence"?: string | null,"phone"?: string | null,"photo_url"?: string | null,"rating_avg"?: number | null,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"],"suspendu"?: boolean,"suspension_fin"?: string | null,"suspension_motif"?: string | null,"updated_at"?: string | null,"user_id": string,"verification_date"?: string | null,"verified"?: boolean | null
                   }
                   Update: {
-                    "created_at"?: string | null,"email"?: string,"first_name"?: string | null,"id"?: string,"id_number"?: string | null,"id_validity_date"?: string | null,"last_name"?: string | null,"phone"?: string | null,"photo_url"?: string | null,"rating_avg"?: number | null,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"],"suspendu"?: boolean,"suspension_fin"?: string | null,"suspension_motif"?: string | null,"updated_at"?: string | null,"user_id"?: string,"verification_date"?: string | null,"verified"?: boolean | null
+                    "created_at"?: string | null,"email"?: string,"first_name"?: string | null,"id"?: string,"id_number"?: string | null,"id_validity_date"?: string | null,"last_name"?: string | null,"nom_agence"?: string | null,"phone"?: string | null,"photo_url"?: string | null,"rating_avg"?: number | null,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"],"suspendu"?: boolean,"suspension_fin"?: string | null,"suspension_motif"?: string | null,"updated_at"?: string | null,"user_id"?: string,"verification_date"?: string | null,"verified"?: boolean | null
                   }
                   Relationships: [
                     
@@ -560,6 +560,9 @@ isOneToOne: false
           Functions: {
             "a_recu_message_de_keyli":
 { Args: { "p_auteur": string,"p_property": string }; Returns: boolean
+                           },
+"admin_modifier_nom_agence_keyli":
+{ Args: { "p_motif": string,"p_nom": string,"p_user": string }; Returns: undefined
                            },
 "admin_reactiver_compte_keyli":
 { Args: { "p_note"?: string,"p_user": string }; Returns: undefined

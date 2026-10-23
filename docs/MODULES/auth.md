@@ -15,7 +15,8 @@ implémentée actuellement — marquée "Should" dans le PRD (7.1), pas construi
 2. Indicateur de robustesse du mot de passe affiché en temps réel
 3. Compte créé (auth.users) → trigger on_auth_user_created_keyli →
    profiles_keyli (rôle et identité passés dans options.data du signUp :
-   role_keyli, first_name, last_name, phone — voir DATABASE.md)
+   role_keyli, first_name, last_name, phone, et nom_agence — obligatoire
+   pour une agence — voir DATABASE.md)
 4. Email de vérification envoyé (Edge Function send-auth-email)
 5. Redirection → SignupSuccess.tsx
 6. Lien de vérification → VerifyEmail.tsx → profiles_keyli mis à jour
