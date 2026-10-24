@@ -732,6 +732,31 @@ abonné lit son forfait même désactivé depuis (policy ajoutée sur
 `plans_keyli`).
 Tests : `supabase/tests/abonnements_keyli_rls.test.sql`.
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-23) — paiement Paystack (mode test d'abord)
+Migration `20261023120000_paiements_paystack_keyli.sql` ; compte Paystack
+Côte d'Ivoire en **XOF** (montant envoyé ×100, comme toute devise Paystack).
+- Index unique `uq_payment_attempts_keyli_reference` sur
+  `payment_attempts_keyli(paystack_reference)`.
+- `initier_paiement_keyli(p_plan)` (RPC, utilisateur connecté) : rôle
+  owner/agency, compte actif, forfait actif, agence ≠ Propriétaire ; génère
+  la référence `KEYLI-<uuid>` et crée la tentative `initiated` au prix de
+  `plans_keyli` — **le montant ne vient jamais du client**.
+- `confirmer_paiement_keyli(ref, montant_subunit, devise, paystack_id)`
+  (serveur uniquement, `service_role`) : idempotent (webhook rejoué = sans
+  effet), refuse un montant ou une devise inattendus (23514).
+  - **Renouvellement** (même forfait, abonnement en cours) : `end_date + 1 mois`
+    — les jours restants sont conservés.
+  - **Changement de forfait** : immédiat, l'ancien passe `canceled`, nouveau
+    cycle d'un mois à partir du paiement, **sans prorata**.
+  - Crée la transaction `completed` (`paystack_ref` unique).
+- `echec_paiement_keyli(ref, message)` (serveur) : tentative `failed`.
+- Edge Functions : `handle-paystack-payment` (démarre le paiement),
+  `verify-paystack-payment` (retour du navigateur, interroge Paystack),
+  `paystack-webhook` (`verify_jwt = false`, signature HMAC SHA512
+  `x-paystack-signature` vérifiée). Secrets : `PAYSTACK_SECRET_KEY`,
+  `KEYLI_APP_URL` (Dashboard → Edge Functions → Secrets, jamais dans `.env`).
+Tests : `supabase/tests/paiements_paystack_keyli.test.sql` (20 tests).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — documents_keyli + bucket documents_keyli
 Créés le 2026-10-02 (migration `20261002140000_documents_keyli.sql`), avec les
 enums `document_type_keyli` et `document_status_keyli`. Colonnes identiques

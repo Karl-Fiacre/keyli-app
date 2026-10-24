@@ -1,8 +1,10 @@
 # MODULE : Pricing & Abonnements
 
-Fichiers concernés : `src/pages/Subscription.tsx`, `src/hooks/useSubscription.ts`,
-`src/lib/paystack.ts`, Edge Functions `handle-paystack-payment`,
-`paystack-webhook`, `check-expired-subscriptions`, `send-expiration-notification`.
+Fichiers concernés : `src/pages/Abonnement.tsx`, `src/pages/RetourPaiement.tsx`,
+`src/hooks/useAbonnement.ts`, Edge Functions `handle-paystack-payment`,
+`verify-paystack-payment`, `paystack-webhook` (code partagé
+`supabase/functions/_shared/commun.ts`), à venir :
+`check-expired-subscriptions`, `send-expiration-notification`.
 Table : `subscriptions_keyli`, `transactions_keyli`, `payment_attempts_keyli`.
 
 ## ⚠️ DÉCISION ACTÉE — table plans_keyli (Option B)
@@ -27,14 +29,24 @@ Grande Agence     25 000 XOF/mois  11-30 annonces (plafond fixé le 2026-10-01)
 
 ## Flux paiement
 ```
-1. Sélection forfait → handle-paystack-payment (Edge Function)
-2. payment_attempts_keyli créé (status: 'initiated')
-3. Redirection Paystack → paystack-webhook confirme → transactions_keyli
-   + subscriptions_keyli mis à jour (status: 'active')
-4. Échec paiement → payment_attempts_keyli.error_message renseigné,
+1. Sélection forfait (/abonnement) → handle-paystack-payment (Edge Function)
+2. payment_attempts_keyli créé (status: 'initiated') par
+   initier_paiement_keyli — montant figé depuis plans_keyli
+3. Redirection Paystack → paystack-webhook (signé) et/ou retour navigateur
+   /abonnement/retour → verify-paystack-payment ; les deux appellent
+   confirmer_paiement_keyli → transactions_keyli 'completed'
+   + subscriptions_keyli 'active' (idempotent : le second appel est sans effet)
+4. Échec paiement → payment_attempts_keyli 'failed' + error_message,
    AUCUN état incohérent en base (pas de subscription 'active' sans
    transaction confirmée correspondante)
 ```
+Renouvellement du même forfait : +1 mois à partir de la fin actuelle.
+Changement de forfait : immédiat, nouveau mois, sans prorata (décision du
+porteur, 2026-10-23). Mode test Paystack d'abord.
+- [x] Paiement d'un forfait (code + 20 tests pgTAP, 2026-10-23)
+- [ ] Secrets `PAYSTACK_SECRET_KEY` (clé TEST) et `KEYLI_APP_URL` posés,
+      fonctions déployées, URL du webhook déclarée chez Paystack
+- [ ] Paiement test de bout en bout
 
 ## Dépassement de seuil
 Détection et contrôle faits **en base** depuis le 2026-10-02 (trigger
