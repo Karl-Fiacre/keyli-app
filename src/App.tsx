@@ -10,6 +10,8 @@ import VerifierEmail from '@/pages/VerifierEmail'
 import MotDePasseOublie from '@/pages/MotDePasseOublie'
 import NouveauMotDePasse from '@/pages/NouveauMotDePasse'
 import Profil from '@/pages/Profil'
+import Abonnement from '@/pages/Abonnement'
+import RetourPaiement from '@/pages/RetourPaiement'
 import PageIntrouvable from '@/pages/PageIntrouvable'
 
 const clientRequetes = new QueryClient({
@@ -34,6 +36,22 @@ function App() {
                 element={
                   <RouteProtegee>
                     <Profil />
+                  </RouteProtegee>
+                }
+              />
+              <Route
+                path="abonnement"
+                element={
+                  <RouteProtegee>
+                    <Abonnement />
+                  </RouteProtegee>
+                }
+              />
+              <Route
+                path="abonnement/retour"
+                element={
+                  <RouteProtegee>
+                    <RetourPaiement />
                   </RouteProtegee>
                 }
               />

@@ -23,11 +23,13 @@ supabase/
     ├── check-expired-subscriptions
     ├── cloudinary-signature
     ├── get-mapbox-token
-    ├── handle-paystack-payment
+    ├── handle-paystack-payment      (créée le 2026-10-23)
     ├── intelligent-search
     ├── notify-admin-critical
     ├── notify-admin-pilot-inscription
-    ├── paystack-webhook
+    ├── paystack-webhook             (créée le 2026-10-23, verify_jwt = false)
+    ├── verify-paystack-payment      (créée le 2026-10-23)
+    ├── _shared/commun.ts            (CORS, clients Supabase, appel Paystack)
     ├── send-auth-email
     ├── send-expiration-notification
     ├── send-newsletter

@@ -119,6 +119,12 @@ conversation précédente, elle ne persiste pas.
       de la charte, routage, mise en page avec logo, inscription (rôle, nom
       d'agence, robustesse), connexion, vérification d'email, mot de passe
       oublié / nouveau, profil — testés de bout en bout sur la pile locale
+- [x] **Paiement Paystack (mode test)** (2026-10-23) : migration
+      `20261023120000_paiements_paystack_keyli.sql` (local + distant,
+      20 tests pgTAP, 406 au total), Edge Functions `handle-paystack-payment`,
+      `verify-paystack-payment`, `paystack-webhook`, écrans `/abonnement` et
+      `/abonnement/retour`. **Reste** : secrets Paystack à poser par le
+      porteur, déploiement des fonctions, paiement test de bout en bout
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -163,9 +169,13 @@ concernés :
 - **Facturation des dépassements et recommandation à 2 mois** : les
   dépassements sont enregistrés avec leur prix ; leur facturation au cycle
   (Edge Function `check-subscription-overage`, Paystack) reste à écrire.
-- **Clés Paystack** : nécessaires pour les Edge Functions
-  `handle-paystack-payment` / `paystack-webhook` (secrets d'Edge Functions,
-  jamais dans `.env`).
+- **Secrets Paystack** (porteur) : poser `PAYSTACK_SECRET_KEY` (clé TEST
+  `sk_test_…`) et `KEYLI_APP_URL` (`http://127.0.0.1:5173` en développement)
+  dans Dashboard → Edge Functions → Secrets — jamais dans `.env` ni dans le
+  chat. Ensuite : `npx supabase functions deploy handle-paystack-payment`,
+  `verify-paystack-payment`, `paystack-webhook --no-verify-jwt`, puis
+  déclarer l'URL `https://zcqirdowjussoaevqlbd.supabase.co/functions/v1/paystack-webhook`
+  dans le tableau de bord Paystack (mode test).
 - **Droits super_admin restants** : rapports/analyses, litiges, clés API,
   sécurité, textes juridiques (voir ROLES.md).
 - **Documents cités mais absents** : `Keyli_Repertoire_Fichiers_Sources_Definitif.docx`,
@@ -184,8 +194,8 @@ concernés :
   `supabase_db_keyli` pendant une session Keyli.
 - **Hébergement web non confirmé** — recommandation Cloudflare Pages
   documentée (`docs/MODULES/hebergement-securite.md`), pas actée.
-- **Clés Paystack et Cloudinary** — pas encore transmises, à demander avant
-  le module pricing/médias.
+- **Clés Cloudinary** — pas encore transmises, à demander avant le module
+  médias.
 
 ## Prochaine étape recommandée
 
@@ -198,10 +208,10 @@ concernés :
 3. Suite de la Phase 0 (calendrier) : validation serveur de la taille/format
    des documents uploadés — dépend de `documents_keyli` et du stockage,
    donc du module vérification ; à caler avec le porteur de projet.
-4. Schéma de base terminé. Suite : trancher les points ouverts (profil
-   public, notation sur lead conclu, notification des alertes, calcul de
-   tendance, retrait de vérification), puis démarrer le front-end (Sprint 1 :
-   Tailwind/Shadcn, écran d'inscription) et les Edge Functions Paystack.
+4. Schéma, points ouverts, Sprint 1 et paiement Paystack (code) faits.
+   Suite : poser les secrets Paystack et déployer les 3 fonctions, faire un
+   paiement test (carte de test Paystack) ; puis expiration des abonnements
+   (`check-expired-subscriptions`) et facturation des dépassements.
 
 ---
 
@@ -314,6 +324,17 @@ concernés :
 - Ensuite : `.env` créé (connexion vérifiée, anon refusé sur
   `profiles_keyli`, confirmation d'email active sur le distant) ; Phase 0
   fusionnée dans `main`, CI verte.
+
+### Session du 2026-10-23 — logo, Sprint 1 front-end, paiement Paystack
+- Phase/semaine calendrier : Sprint 1
+- Terminés : logo et assets de marque ; Sprint 1 front-end (fusionné) ;
+  paiement Paystack en mode test (migration, 3 Edge Functions, écrans
+  Abonnement / Retour de paiement), migration poussée sur le distant.
+- Décisions : renouvellement = +1 mois depuis la fin actuelle ; changement
+  de forfait immédiat, sans prorata ; compte Paystack CI en XOF.
+- En attente : secrets Paystack (porteur), déploiement des fonctions,
+  paiement test ; fournisseur d'email reporté par le porteur.
+- Prochaine étape : voir « Prochaine étape recommandée ».
 
 ---
 

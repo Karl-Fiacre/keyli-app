@@ -22,6 +22,9 @@ export function MiseEnPage() {
             {session ? (
               <>
                 <Button variant="ghost" asChild>
+                  <Link to="/abonnement">Abonnement</Link>
+                </Button>
+                <Button variant="ghost" asChild>
                   <Link to="/profil">Mon profil</Link>
                 </Button>
                 <Button

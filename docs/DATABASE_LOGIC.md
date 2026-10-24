@@ -51,12 +51,20 @@ même transaction, et ne permet pas de recalculer un montant sensible
    même exécution, pas en différé.
 
 ```
-handle-paystack-payment (Edge Function existante)
-  → vérifie l'utilisateur authentifié
-  → initie le paiement, crée payment_attempts_keyli
-  → ne crée PAS subscriptions_keyli directement (c'est paystack-webhook,
-    déclenché par la confirmation Paystack, qui le fait — ne jamais activer
+handle-paystack-payment (Edge Function, créée le 2026-10-23)
+  → appelle initier_paiement_keyli(plan) au nom de l'utilisateur (rôle,
+    compte actif, forfait ; montant lu dans plans_keyli)
+  → crée payment_attempts_keyli 'initiated', initialise Paystack
+  → ne crée PAS subscriptions_keyli directement (c'est
+    confirmer_paiement_keyli, appelé par paystack-webhook ou
+    verify-paystack-payment après confirmation Paystack — ne jamais activer
     un abonnement avant confirmation réelle du paiement)
+
+paystack-webhook / verify-paystack-payment (Edge Functions, 2026-10-23)
+  → signature HMAC vérifiée (webhook) ou GET /transaction/verify (retour)
+  → confirmer_paiement_keyli : contrôle montant/devise, renouvelle ou
+    change le forfait, transaction 'completed', tentative 'success' — en
+    une seule transaction SQL, idempotent
 
 controler_publication_keyli (TRIGGER en base — remplace la détection prévue
   dans check-subscription-overage, décision du 2026-10-02, voir DATABASE.md)

@@ -591,11 +591,17 @@ isOneToOne: false
 "compte_actif_keyli":
 { Args: { "p_user": string }; Returns: boolean
                            },
+"confirmer_paiement_keyli":
+{ Args: { "p_devise": string,"p_montant_subunit": number,"p_paystack_id": string,"p_reference": string }; Returns: string
+                           },
 "criteres_alerte_valides_keyli":
 { Args: { "c": Json }; Returns: boolean
                            },
 "current_user_role_keyli":
 { Args: Record<PropertyKey, never>; Returns: Database["public"]['Enums']["user_role_keyli"]
+                           },
+"echec_paiement_keyli":
+{ Args: { "p_message": string,"p_reference": string }; Returns: undefined
                            },
 "est_admin_keyli":
 { Args: Record<PropertyKey, never>; Returns: boolean
@@ -611,6 +617,11 @@ isOneToOne: false
 "evaluer_publication_keyli":
 { Args: { "p_owner": string }; Returns: {
               "plan_code": string,"prix_depassement": number,"publications_cycle": number,"seuil_max": number,"statut": string,"subscription_id": string
+            }[]
+                           },
+"initier_paiement_keyli":
+{ Args: { "p_plan": string }; Returns: {
+              "devise": string,"email": string,"montant": number,"plan_code": string,"reference": string
             }[]
                            },
 "journaliser_keyli":
