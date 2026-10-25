@@ -63,6 +63,26 @@ export function useDernierAbonnementExpire(actif: boolean) {
   })
 }
 
+// Dépassements de forfait des cycles clôturés, pas encore payés : ils sont
+// ajoutés par le serveur au prochain paiement (le client ne fait qu'afficher)
+export function useDepassementsAPayer() {
+  const { session } = useSession()
+  const userId = session?.user.id
+  return useQuery({
+    queryKey: ['abonnement', userId, 'depassements'],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('depassements_cycle_keyli')
+        .select('id, cycle_debut, cycle_fin, nb_depassement, montant')
+        .eq('statut', 'a_payer')
+        .order('cycle_debut')
+      if (error) throw error
+      return data
+    },
+  })
+}
+
 // Démarre le paiement côté serveur (Edge Function handle-paystack-payment)
 // et renvoie l'URL de la page de paiement Paystack. Le montant n'est jamais
 // envoyé par le client : la base le fixe depuis plans_keyli.

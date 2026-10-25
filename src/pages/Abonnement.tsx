@@ -4,6 +4,7 @@ import { Alert } from '@/components/ui/alert'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   useAbonnementActif,
+  useDepassementsAPayer,
   useDernierAbonnementExpire,
   useForfaits,
   usePaiementForfait,
@@ -28,6 +29,8 @@ export default function Abonnement() {
   const role = profil.data?.role_keyli
   const actuel = abonnement.data
   const expire = useDernierAbonnementExpire(!!actuel || abonnement.isPending).data
+  const depassements = useDepassementsAPayer().data ?? []
+  const totalDepassements = depassements.reduce((s, d) => s + Number(d.montant), 0)
 
   if (profil.isPending || forfaits.isPending || abonnement.isPending) {
     return <p className="container py-16 text-center text-muted-foreground">Chargement…</p>
@@ -76,7 +79,25 @@ export default function Abonnement() {
           </Alert>
         )}
 
-        {paiement.isError &&<Alert variant="erreur">{paiement.error.message}</Alert>}
+        {totalDepassements > 0 && (
+          <Alert>
+            <p>
+              Dépassements de forfait à régler : <strong>{formatXof(totalDepassements)}</strong>, ajoutés à votre
+              prochain paiement.
+            </p>
+            <ul className="mt-2 list-disc pl-5 text-sm text-muted-foreground">
+              {depassements.map((d) => (
+                <li key={d.id}>
+                  Du {new Date(d.cycle_debut).toLocaleDateString('fr-FR')} au{' '}
+                  {new Date(d.cycle_fin).toLocaleDateString('fr-FR')} : {d.nb_depassement} annonce(s) au-delà du
+                  seuil — {formatXof(Number(d.montant))}
+                </li>
+              ))}
+            </ul>
+          </Alert>
+        )}
+
+        {paiement.isError && <Alert variant="erreur">{paiement.error.message}</Alert>}
 
         <div className="grid gap-4 md:grid-cols-3">
           {proposes.map((f) => {
@@ -100,7 +121,14 @@ export default function Abonnement() {
                   </p>
                   {f.prix_depassement_unitaire !== null && (
                     <p className="text-xs text-muted-foreground">
-                      Au-delà : {formatXof(Number(f.prix_depassement_unitaire))} par annonce, avec votre accord.
+                      Au-delà : {formatXof(Number(f.prix_depassement_unitaire))} par annonce et par mois, avec votre
+                      accord.
+                    </p>
+                  )}
+                  {totalDepassements > 0 && (
+                    <p className="text-xs text-muted-foreground">
+                      À payer maintenant : {formatXof(Number(f.prix_mensuel) + totalDepassements)} (dépassements
+                      inclus)
                     </p>
                   )}
                 </CardContent>
