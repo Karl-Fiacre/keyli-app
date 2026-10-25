@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev", "--", "--host", "127.0.0.1", "--port", "5173", "--strictPort"],
       "port": 5173
+    },
+    {
+      "name": "keyli-web-distant",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:distant", "--", "--host", "127.0.0.1", "--port", "5173", "--strictPort"],
+      "port": 5173
     }
   ]
 }
