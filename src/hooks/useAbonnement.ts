@@ -41,6 +41,28 @@ export function useAbonnementActif() {
   })
 }
 
+// Dernier abonnement expiré (affiché quand aucun abonnement n'est en cours :
+// les annonces sont alors masquées au public jusqu'au renouvellement)
+export function useDernierAbonnementExpire(actif: boolean) {
+  const { session } = useSession()
+  const userId = session?.user.id
+  return useQuery({
+    queryKey: ['abonnement', userId, 'expire'],
+    enabled: !!userId && !actif,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('subscriptions_keyli')
+        .select('end_date, plans_keyli(nom)')
+        .eq('status', 'expired')
+        .order('end_date', { ascending: false })
+        .limit(1)
+        .maybeSingle()
+      if (error) throw error
+      return data
+    },
+  })
+}
+
 // Démarre le paiement côté serveur (Edge Function handle-paystack-payment)
 // et renvoie l'URL de la page de paiement Paystack. Le montant n'est jamais
 // envoyé par le client : la base le fixe depuis plans_keyli.

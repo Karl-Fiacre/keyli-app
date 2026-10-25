@@ -126,6 +126,11 @@ conversation précédente, elle ne persiste pas.
       `/abonnement/retour`. Secrets posés par le porteur et fonctions
       déployées le 2026-10-25 (signature fausse → 401, appel anonyme → 403).
       **Paiement test de bout en bout réussi le 2026-10-25.**
+- [x] Expiration des abonnements (2026-10-25) : rappels in-app J-7 / J-1,
+      expiration horaire (pg_cron), annonces masquées à l'échéance sans délai
+      de grâce et réaffichées au renouvellement, bandeau sur l'écran
+      Abonnement — migration `20261025120000_expiration_abonnements_keyli.sql`,
+      local + distant, 18 tests pgTAP (424 au total)
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -210,9 +215,9 @@ concernés :
    des documents uploadés — dépend de `documents_keyli` et du stockage,
    donc du module vérification ; à caler avec le porteur de projet.
 4. Schéma, points ouverts, Sprint 1 et paiement Paystack faits (paiement
-   test de bout en bout réussi le 2026-10-25). Suite : expiration des
-   abonnements (`check-expired-subscriptions`) et facturation des
-   dépassements.
+   test de bout en bout réussi le 2026-10-25), expiration des abonnements
+   faite. Suite : facturation des dépassements et recommandation de montée
+   de gamme après 2 mois (`check-subscription-overage`).
 
 ---
 
@@ -336,6 +341,9 @@ concernés :
 - En attente : secrets Paystack (porteur), déploiement des fonctions,
   paiement test ; fournisseur d'email reporté par le porteur.
 - Prochaine étape : voir « Prochaine étape recommandée ».
+- 2026-10-25 : paiement test Paystack réussi (secrets d'abord inversés,
+  lecture des secrets fiabilisée) ; expiration des abonnements (décisions :
+  annonces masquées, pas de grâce, rappels J-7/J-1, pg_cron).
 
 ---
 
