@@ -25,6 +25,11 @@ const MESSAGES_BASE: Record<string, string> = {
   '42501': 'Cette action ne vous est pas autorisée.',
   '23514': 'Les informations saisies ne respectent pas les règles de Keyli.',
   '23505': 'Cette information existe déjà.',
+  // Publication d'annonce (trigger de forfait, docs/DATABASE.md)
+  KY001: 'Un abonnement actif est nécessaire pour publier une annonce.',
+  KY002: 'Votre forfait a atteint son nombre maximal d\'annonces.',
+  KY003: 'Cette annonce dépasse votre forfait : confirmez le dépassement pour la publier.',
+  KY004: 'Votre registre de commerce doit être approuvé avant de publier.',
 }
 
 export function messageErreur(erreur: unknown): string {

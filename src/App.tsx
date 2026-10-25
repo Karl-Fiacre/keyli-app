@@ -12,6 +12,8 @@ import NouveauMotDePasse from '@/pages/NouveauMotDePasse'
 import Profil from '@/pages/Profil'
 import Abonnement from '@/pages/Abonnement'
 import RetourPaiement from '@/pages/RetourPaiement'
+import MesAnnonces from '@/pages/MesAnnonces'
+import PublierAnnonce from '@/pages/PublierAnnonce'
 import PageIntrouvable from '@/pages/PageIntrouvable'
 
 const clientRequetes = new QueryClient({
@@ -52,6 +54,22 @@ function App() {
                 element={
                   <RouteProtegee>
                     <RetourPaiement />
+                  </RouteProtegee>
+                }
+              />
+              <Route
+                path="annonces"
+                element={
+                  <RouteProtegee>
+                    <MesAnnonces />
+                  </RouteProtegee>
+                }
+              />
+              <Route
+                path="annonces/nouvelle"
+                element={
+                  <RouteProtegee>
+                    <PublierAnnonce />
                   </RouteProtegee>
                 }
               />

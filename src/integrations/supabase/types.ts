@@ -31,6 +31,19 @@ export type Database = {
                   Relationships: [
                     
                   ]
+                },"avantages_keyli": {
+                  Row: {
+                    "actif": boolean,"categorie": string,"code": string,"created_at": string | null,"id": string,"libelle": string,"ordre": number
+                  }
+                  Insert: {
+                    "actif"?: boolean,"categorie": string,"code": string,"created_at"?: string | null,"id"?: string,"libelle": string,"ordre"?: number
+                  }
+                  Update: {
+                    "actif"?: boolean,"categorie"?: string,"code"?: string,"created_at"?: string | null,"id"?: string,"libelle"?: string,"ordre"?: number
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"communes_keyli": {
                   Row: {
                     "created_at": string | null,"id": string,"nom": string
@@ -314,6 +327,31 @@ isOneToOne: false
 isOneToOne: false
       referencedRelation: "tendances_prix_keyli"
       referencedColumns: ["quartier_id"]
+    }
+                  ]
+                },"property_avantages_keyli": {
+                  Row: {
+                    "avantage_id": string,"created_at": string | null,"property_id": string
+                  }
+                  Insert: {
+                    "avantage_id": string,"created_at"?: string | null,"property_id": string
+                  }
+                  Update: {
+                    "avantage_id"?: string,"created_at"?: string | null,"property_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "property_avantages_keyli_avantage_id_fkey"
+      columns: ["avantage_id"]
+isOneToOne: false
+      referencedRelation: "avantages_keyli"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "property_avantages_keyli_property_id_fkey"
+      columns: ["property_id"]
+isOneToOne: false
+      referencedRelation: "properties_keyli"
+      referencedColumns: ["id"]
     }
                   ]
                 },"property_interactions_keyli": {
@@ -671,6 +709,9 @@ isOneToOne: false
                            },
 "publications_periode_keyli":
 { Args: { "p_debut": string,"p_fin": string,"p_owner": string }; Returns: number
+                           },
+"publier_annonce_keyli":
+{ Args: { "p_accepte_depassement"?: boolean,"p_avantages"?: (string)[],"p_description"?: string,"p_latitude": number,"p_longitude": number,"p_meuble"?: boolean,"p_pieces"?: number,"p_prix": number,"p_quartier"?: string,"p_salles_de_bain"?: number,"p_statut": Database["public"]['Enums']["property_status_keyli"],"p_surface"?: number,"p_titre": string,"p_type": Database["public"]['Enums']["property_type_keyli"],"p_ville": string }; Returns: string
                            },
 "relation_notable_keyli":
 { Args: { "p_autre": string,"p_property": string }; Returns: boolean
