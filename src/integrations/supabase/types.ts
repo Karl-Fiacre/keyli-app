@@ -44,6 +44,37 @@ export type Database = {
                   Relationships: [
                     
                   ]
+                },"depassements_cycle_keyli": {
+                  Row: {
+                    "created_at": string,"cycle_debut": string,"cycle_fin": string,"en_depassement": boolean,"id": string,"montant": number,"nb_depassement": number,"nb_publications": number,"prix_unitaire": number | null,"seuil": number | null,"statut": string,"subscription_id": string,"tentative_id": string | null,"transaction_id": string | null,"user_id": string
+                  }
+                  Insert: {
+                    "created_at"?: string,"cycle_debut": string,"cycle_fin": string,"en_depassement"?: boolean,"id"?: string,"montant"?: number,"nb_depassement"?: number,"nb_publications": number,"prix_unitaire"?: number | null,"seuil"?: number | null,"statut": string,"subscription_id": string,"tentative_id"?: string | null,"transaction_id"?: string | null,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"cycle_debut"?: string,"cycle_fin"?: string,"en_depassement"?: boolean,"id"?: string,"montant"?: number,"nb_depassement"?: number,"nb_publications"?: number,"prix_unitaire"?: number | null,"seuil"?: number | null,"statut"?: string,"subscription_id"?: string,"tentative_id"?: string | null,"transaction_id"?: string | null,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "depassements_cycle_keyli_subscription_id_fkey"
+      columns: ["subscription_id"]
+isOneToOne: false
+      referencedRelation: "subscriptions_keyli"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "depassements_cycle_keyli_tentative_id_fkey"
+      columns: ["tentative_id"]
+isOneToOne: false
+      referencedRelation: "payment_attempts_keyli"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "depassements_cycle_keyli_transaction_id_fkey"
+      columns: ["transaction_id"]
+isOneToOne: false
+      referencedRelation: "transactions_keyli"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"documents_keyli": {
                   Row: {
                     "created_at": string | null,"doc_type": Database["public"]['Enums']["document_type_keyli"],"file_url": string,"id": string,"property_id": string | null,"review_notes": string | null,"reviewed_at": string | null,"status": Database["public"]['Enums']["document_status_keyli"] | null,"user_id": string
@@ -211,13 +242,13 @@ isOneToOne: false
                   ]
                 },"payment_attempts_keyli": {
                   Row: {
-                    "amount": number | null,"created_at": string | null,"email": string | null,"error_message": string | null,"id": string,"paystack_reference": string | null,"plan_id": string | null,"status": string | null,"user_id": string | null
+                    "amount": number | null,"created_at": string | null,"email": string | null,"error_message": string | null,"id": string,"montant_depassements": number,"paystack_reference": string | null,"plan_id": string | null,"status": string | null,"user_id": string | null
                   }
                   Insert: {
-                    "amount"?: number | null,"created_at"?: string | null,"email"?: string | null,"error_message"?: string | null,"id"?: string,"paystack_reference"?: string | null,"plan_id"?: string | null,"status"?: string | null,"user_id"?: string | null
+                    "amount"?: number | null,"created_at"?: string | null,"email"?: string | null,"error_message"?: string | null,"id"?: string,"montant_depassements"?: number,"paystack_reference"?: string | null,"plan_id"?: string | null,"status"?: string | null,"user_id"?: string | null
                   }
                   Update: {
-                    "amount"?: number | null,"created_at"?: string | null,"email"?: string | null,"error_message"?: string | null,"id"?: string,"paystack_reference"?: string | null,"plan_id"?: string | null,"status"?: string | null,"user_id"?: string | null
+                    "amount"?: number | null,"created_at"?: string | null,"email"?: string | null,"error_message"?: string | null,"id"?: string,"montant_depassements"?: number,"paystack_reference"?: string | null,"plan_id"?: string | null,"status"?: string | null,"user_id"?: string | null
                   }
                   Relationships: [
                     {
@@ -591,6 +622,9 @@ isOneToOne: false
 "calculer_quartiers_tendance_keyli":
 { Args: Record<PropertyKey, never>; Returns: undefined
                            },
+"cloturer_cycles_keyli":
+{ Args: Record<PropertyKey, never>; Returns: number
+                           },
 "compte_actif_keyli":
 { Args: { "p_user": string }; Returns: boolean
                            },
@@ -602,6 +636,11 @@ isOneToOne: false
                            },
 "current_user_role_keyli":
 { Args: Record<PropertyKey, never>; Returns: Database["public"]['Enums']["user_role_keyli"]
+                           },
+"cycle_abonnement_keyli":
+{ Args: { "p_at": string,"p_end": string,"p_start": string }; Returns: {
+              "debut": string,"fin": string
+            }[]
                            },
 "echec_paiement_keyli":
 { Args: { "p_message": string,"p_reference": string }; Returns: undefined
@@ -624,11 +663,14 @@ isOneToOne: false
                            },
 "initier_paiement_keyli":
 { Args: { "p_plan": string }; Returns: {
-              "devise": string,"email": string,"montant": number,"plan_code": string,"reference": string
+              "devise": string,"email": string,"montant": number,"montant_depassements": number,"montant_forfait": number,"plan_code": string,"reference": string
             }[]
                            },
 "journaliser_keyli":
 { Args: { "p_action": string,"p_details"?: Json,"p_entity_id": string,"p_entity_type": string }; Returns: undefined
+                           },
+"publications_periode_keyli":
+{ Args: { "p_debut": string,"p_fin": string,"p_owner": string }; Returns: number
                            },
 "relation_notable_keyli":
 { Args: { "p_autre": string,"p_property": string }; Returns: boolean
