@@ -44,9 +44,12 @@ Renouvellement du même forfait : +1 mois à partir de la fin actuelle.
 Changement de forfait : immédiat, nouveau mois, sans prorata (décision du
 porteur, 2026-10-23). Mode test Paystack d'abord.
 - [x] Paiement d'un forfait (code + 20 tests pgTAP, 2026-10-23)
-- [ ] Secrets `PAYSTACK_SECRET_KEY` (clé TEST) et `KEYLI_APP_URL` posés,
-      fonctions déployées, URL du webhook déclarée chez Paystack
-- [ ] Paiement test de bout en bout
+- [x] Secrets `PAYSTACK_SECRET_KEY` (clé TEST) et `KEYLI_APP_URL` posés,
+      fonctions déployées, URL du webhook déclarée chez Paystack (2026-10-25)
+- [x] Paiement test de bout en bout réussi le 2026-10-25 (Propriétaire,
+      5 000 XOF : abonnement actif 1 mois, une seule transaction, tentative
+      `success`)
+- [ ] Passage en mode live (clé `sk_live_…`, URL de production)
 
 ## Dépassement de seuil
 Détection et contrôle faits **en base** depuis le 2026-10-02 (trigger

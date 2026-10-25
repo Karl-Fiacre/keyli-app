@@ -125,8 +125,7 @@ conversation précédente, elle ne persiste pas.
       `verify-paystack-payment`, `paystack-webhook`, écrans `/abonnement` et
       `/abonnement/retour`. Secrets posés par le porteur et fonctions
       déployées le 2026-10-25 (signature fausse → 401, appel anonyme → 403).
-      **Reste** : URL du webhook chez Paystack, paiement test de bout en bout
-      (`npm run dev:distant`)
+      **Paiement test de bout en bout réussi le 2026-10-25.**
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -171,13 +170,13 @@ concernés :
 - **Facturation des dépassements et recommandation à 2 mois** : les
   dépassements sont enregistrés avec leur prix ; leur facturation au cycle
   (Edge Function `check-subscription-overage`, Paystack) reste à écrire.
-- **Secrets Paystack** (porteur) : poser `PAYSTACK_SECRET_KEY` (clé TEST
-  `sk_test_…`) et `KEYLI_APP_URL` (`http://127.0.0.1:5173` en développement)
-  dans Dashboard → Edge Functions → Secrets — jamais dans `.env` ni dans le
-  chat. Ensuite : `npx supabase functions deploy handle-paystack-payment`,
-  `verify-paystack-payment`, `paystack-webhook --no-verify-jwt`, puis
-  déclarer l'URL `https://zcqirdowjussoaevqlbd.supabase.co/functions/v1/paystack-webhook`
-  dans le tableau de bord Paystack (mode test).
+- **Paystack en production** (plus tard) : remplacer `PAYSTACK_SECRET_KEY`
+  par la clé `sk_live_…` et `KEYLI_APP_URL` par le domaine de production
+  (Dashboard → Edge Functions → Secrets, jamais dans `.env` ni le chat),
+  déclarer le webhook
+  `https://zcqirdowjussoaevqlbd.supabase.co/functions/v1/paystack-webhook`
+  en mode live. Une clé mal saisie est signalée dans
+  `payment_attempts_keyli.error_message` (sans révéler la valeur).
 - **Droits super_admin restants** : rapports/analyses, litiges, clés API,
   sécurité, textes juridiques (voir ROLES.md).
 - **Documents cités mais absents** : `Keyli_Repertoire_Fichiers_Sources_Definitif.docx`,
@@ -210,9 +209,10 @@ concernés :
 3. Suite de la Phase 0 (calendrier) : validation serveur de la taille/format
    des documents uploadés — dépend de `documents_keyli` et du stockage,
    donc du module vérification ; à caler avec le porteur de projet.
-4. Schéma, points ouverts, Sprint 1 et paiement Paystack (code) faits.
-   Suite : faire un paiement test avec `npm run dev:distant` (carte de test Paystack) ; puis expiration des abonnements
-   (`check-expired-subscriptions`) et facturation des dépassements.
+4. Schéma, points ouverts, Sprint 1 et paiement Paystack faits (paiement
+   test de bout en bout réussi le 2026-10-25). Suite : expiration des
+   abonnements (`check-expired-subscriptions`) et facturation des
+   dépassements.
 
 ---
 
