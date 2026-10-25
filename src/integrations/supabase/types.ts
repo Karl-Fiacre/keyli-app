@@ -464,13 +464,13 @@ isOneToOne: false
                   ]
                 },"subscriptions_keyli": {
                   Row: {
-                    "amount": number,"conditions_negociees": string | null,"created_at": string | null,"end_date": string,"id": string,"montant_depassement_negocie": number | null,"paystack_payment_id": string | null,"plan_id": string,"prix_depassement_negocie": number | null,"start_date": string,"status": Database["public"]['Enums']["subscription_status_keyli"] | null,"updated_at": string | null,"user_id": string
+                    "amount": number,"conditions_negociees": string | null,"created_at": string | null,"end_date": string,"id": string,"montant_depassement_negocie": number | null,"paystack_payment_id": string | null,"plan_id": string,"prix_depassement_negocie": number | null,"rappel_j1_pour": string | null,"rappel_j7_pour": string | null,"start_date": string,"status": Database["public"]['Enums']["subscription_status_keyli"] | null,"updated_at": string | null,"user_id": string
                   }
                   Insert: {
-                    "amount": number,"conditions_negociees"?: string | null,"created_at"?: string | null,"end_date": string,"id"?: string,"montant_depassement_negocie"?: number | null,"paystack_payment_id"?: string | null,"plan_id": string,"prix_depassement_negocie"?: number | null,"start_date": string,"status"?: Database["public"]['Enums']["subscription_status_keyli"] | null,"updated_at"?: string | null,"user_id": string
+                    "amount": number,"conditions_negociees"?: string | null,"created_at"?: string | null,"end_date": string,"id"?: string,"montant_depassement_negocie"?: number | null,"paystack_payment_id"?: string | null,"plan_id": string,"prix_depassement_negocie"?: number | null,"rappel_j1_pour"?: string | null,"rappel_j7_pour"?: string | null,"start_date": string,"status"?: Database["public"]['Enums']["subscription_status_keyli"] | null,"updated_at"?: string | null,"user_id": string
                   }
                   Update: {
-                    "amount"?: number,"conditions_negociees"?: string | null,"created_at"?: string | null,"end_date"?: string,"id"?: string,"montant_depassement_negocie"?: number | null,"paystack_payment_id"?: string | null,"plan_id"?: string,"prix_depassement_negocie"?: number | null,"start_date"?: string,"status"?: Database["public"]['Enums']["subscription_status_keyli"] | null,"updated_at"?: string | null,"user_id"?: string
+                    "amount"?: number,"conditions_negociees"?: string | null,"created_at"?: string | null,"end_date"?: string,"id"?: string,"montant_depassement_negocie"?: number | null,"paystack_payment_id"?: string | null,"plan_id"?: string,"prix_depassement_negocie"?: number | null,"rappel_j1_pour"?: string | null,"rappel_j7_pour"?: string | null,"start_date"?: string,"status"?: Database["public"]['Enums']["subscription_status_keyli"] | null,"updated_at"?: string | null,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -561,6 +561,9 @@ isOneToOne: false
             "a_recu_message_de_keyli":
 { Args: { "p_auteur": string,"p_property": string }; Returns: boolean
                            },
+"abonnement_en_cours_keyli":
+{ Args: { "p_user": string }; Returns: boolean
+                           },
 "admin_modifier_nom_agence_keyli":
 { Args: { "p_motif": string,"p_nom": string,"p_user": string }; Returns: undefined
                            },
@@ -638,6 +641,11 @@ isOneToOne: false
                            },
 "super_admin_modifier_forfait_keyli":
 { Args: { "p_actif": boolean,"p_plan": string,"p_prix_depassement_unitaire": number,"p_prix_mensuel": number,"p_seuil_max": number,"p_seuil_min": number }; Returns: undefined
+                           },
+"traiter_echeances_abonnements_keyli":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "expirations": number,"rappels_j1": number,"rappels_j7": number
+            }[]
                            }
           }
           Enums: {
