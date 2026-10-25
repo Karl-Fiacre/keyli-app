@@ -137,6 +137,13 @@ conversation précédente, elle ne persiste pas.
       dépassements affichés sur l'écran Abonnement — migration
       `20261026120000_facturation_depassements_keyli.sql`, local + distant,
       27 tests pgTAP (451 au total)
+- [x] Publication d'annonce (2026-10-27) : écrans `/annonces/nouvelle`
+      (compteur du forfait, accord de dépassement, avantages, point GPS
+      Mapbox / ma position) et `/annonces` ; avantages en liste fermée,
+      publication atomique — migration
+      `20261027120000_avantages_publication_keyli.sql`, 18 tests pgTAP
+      (469 au total) ; Edge Function `get-mapbox-token`. **Reste** : jeton
+      Mapbox à poser par le porteur, photos (clés Cloudinary)
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -173,6 +180,11 @@ concernés :
   développement uniquement (traversée de chemin, contournement `fs.deny` sur
   Windows) — correctif seulement en Vite 8 (version majeure). Aucune faille
   sur les dépendances de production. Montée de version à décider.
+- **Dépendances de production signalées par `npm audit` (2026-10-27)** :
+  `react-router-dom` 7.12 (corrigé en 7.18.4 : redirections ouvertes via
+  `<Link>`/`useNavigate`, le reste concerne le rendu serveur/RSC, non
+  utilisé) et `zod` 3.25 (corrigé en zod 4, version majeure). Versions figées
+  par `STACK.md` : montée de version à décider avec le porteur.
 - **Synchronisation de `profiles_keyli.email`** si l'utilisateur change son
   email dans Supabase Auth — aucun mécanisme pour l'instant.
 - **Paystack en production** (plus tard) : remplacer `PAYSTACK_SECRET_KEY`
@@ -200,8 +212,13 @@ concernés :
   `supabase_db_keyli` pendant une session Keyli.
 - **Hébergement web non confirmé** — recommandation Cloudflare Pages
   documentée (`docs/MODULES/hebergement-securite.md`), pas actée.
-- **Clés Cloudinary** — pas encore transmises, à demander avant le module
-  médias.
+- **Clés Cloudinary** (porteur) — `CLOUDINARY_CLOUD_NAME`,
+  `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` dans les secrets d'Edge
+  Functions : nécessaires pour les photos des annonces.
+- **Jeton Mapbox** (porteur) — créer un jeton PUBLIC (`pk.…`, restreint aux
+  URL de l'application) et le poser en secret `MAPBOX_PUBLIC_TOKEN` ; puis
+  `npx supabase functions deploy get-mapbox-token`. Sans lui, le formulaire
+  propose seulement « Utiliser ma position ».
 
 ## Prochaine étape recommandée
 
@@ -217,9 +234,9 @@ concernés :
 4. Schéma, points ouverts, Sprint 1 et paiement Paystack faits (paiement
    test de bout en bout réussi le 2026-10-25), expiration des abonnements
    et facturation des dépassements faites : module pricing complet en
-   mode test. Suite à décider avec le porteur : écran de publication
-   d'annonce (compteur du forfait, accord de dépassement), cloche de
-   notifications, ou emails (fournisseur à choisir).
+   mode test. Écran de publication fait (2026-10-27). Suite : photos des
+   annonces (dès les clés Cloudinary), recherche et fiche d'annonce, cloche
+   de notifications, emails (fournisseur à choisir).
 
 ---
 
@@ -349,6 +366,8 @@ concernés :
 - 2026-10-26 : facturation des dépassements (mensuelle, avec le paiement
   suivant, montant négocié si > 30, recommandation in-app à 2 mois) ;
   correctif du comptage du seuil par cycle mensuel.
+- 2026-10-27 : écran de publication d'annonce (avantages en liste fermée,
+  photos reportées, point GPS Mapbox + ma position).
 
 ---
 

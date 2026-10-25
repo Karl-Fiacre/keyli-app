@@ -1,6 +1,10 @@
 # MODULE : Annonces
 
-Fichiers concernés : `src/pages/CreateProperty.tsx`, `Search.tsx`,
+Fichiers créés (2026-10-27) : `src/pages/PublierAnnonce.tsx`,
+`src/pages/MesAnnonces.tsx`, `src/components/annonce/` (EtatForfait,
+SelecteurAvantages, SelecteurPointGps), `src/hooks/useAnnonces.ts`,
+`src/lib/publication.ts`, Edge Function `get-mapbox-token`.
+Fichiers prévus à l'origine : `src/pages/CreateProperty.tsx`, `Search.tsx`,
 `AISearch.tsx`, `MapView.tsx`, `PropertyDetails.tsx`,
 `src/components/PropertyMap.tsx`, `AdvantagesDisplay.tsx`/`AdvantagesInput.tsx`,
 `VerifiedBadge.tsx`, `TrustedProperties.tsx`.
@@ -22,6 +26,21 @@ Table : `properties_keyli` + `property_media_keyli`.
 5. validate-property-image (Edge Function) avant publication définitive
 6. is_verified reste false tant que la vérification admin n'est pas passée
 ```
+Réalisé le 2026-10-27 (décisions du porteur) :
+- [x] Écran `/annonces/nouvelle` : compteur du cycle et blocages
+      (`etat_publication_keyli`), accord explicite du dépassement avec son
+      prix mensuel, formulaire complet, publication par la RPC
+      `publier_annonce_keyli` (annonce + avantages en une transaction)
+- [x] Avantages/proximités en **liste fermée** (`avantages_keyli`,
+      `property_avantages_keyli`)
+- [x] Point GPS : carte **Mapbox** (clic ou glisser le marqueur) + « Utiliser
+      ma position » ; jeton public servi par `get-mapbox-token`
+      (secret `MAPBOX_PUBLIC_TOKEN`, pk.… uniquement) ; sans jeton, « ma
+      position » seule
+- [x] Écran `/annonces` : mes annonces (en ligne, masquée, archivée)
+- [ ] Photos (Cloudinary) — **second temps**, dès que les clés sont posées
+- [ ] Choix de l'agent par une agence (`agent_id`), archivage et
+      republication depuis l'écran, modification d'une annonce
 
 ## Recherche (Search.tsx / AISearch.tsx / MapView.tsx)
 - Filtres structurés : prix, type, quartier, pièces, avantages

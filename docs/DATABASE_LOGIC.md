@@ -33,6 +33,9 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Tâche horaire d'échéances (pg_cron) | `subscriptions_keyli WHERE status = 'active' AND end_date <= now() + 7 jours` | `idx_subscriptions_keyli_actifs_echeance (end_date) WHERE active` — créé |
 | Abonnement — dépassements à régler | `depassements_cycle_keyli WHERE user_id = uid AND statut = 'a_payer' ORDER BY cycle_debut` | `idx_depassements_user_a_payer` — créé |
 | Clôture horaire / recommandation à 2 mois | `depassements_cycle_keyli WHERE user_id = ? AND cycle_fin <= ? ORDER BY cycle_fin DESC LIMIT 2` | `idx_depassements_user_cycle (user_id, cycle_fin desc)` — créé |
+| Formulaire de publication — avantages | `avantages_keyli WHERE actif ORDER BY categorie, ordre` | aucun — liste fermée (~20 lignes) |
+| Recherche — filtre « avec tel avantage » (à venir) | `property_avantages_keyli WHERE avantage_id = ?` | `idx_property_avantages_avantage (avantage_id, property_id)` — créé |
+| Propriétaire/Agence — mes annonces | `properties_keyli WHERE owner_id = uid ORDER BY created_at DESC` | `idx_properties_owner` (présent) |
 | Page tarifs / choix de forfait (public) | `plans_keyli WHERE actif = true ORDER BY seuil_min` (RLS filtre déjà `actif`) | aucun — 3 lignes |
 | Formulaire de publication — sélecteur quartier | `quartiers_keyli JOIN communes_keyli ORDER BY commune, quartier` | `idx_quartiers_commune` (déjà présent) — liste fermée, mise en cache client raisonnable (change rarement) |
 
@@ -74,6 +77,12 @@ controler_publication_keyli (TRIGGER en base — remplace la détection prévue
   dans check-subscription-overage, décision du 2026-10-02, voir DATABASE.md)
   → refuse ou accepte la publication selon le forfait, fige le prix du
     dépassement dans property_publications_keyli
+
+publier_annonce_keyli (RPC SECURITY INVOKER, 2026-10-27)
+  → insère l'annonce ET ses avantages dans la même transaction, avec les
+    droits de l'utilisateur : RLS de publication, trigger de forfait
+    (KY001 à KY004) et compte suspendu s'appliquent ; rien n'est créé si une
+    partie échoue
 
 cloturer_cycles_keyli (fonction SQL + pg_cron, toutes les heures à hh:10 —
   décision du 2026-10-26, remplace l'Edge Function check-subscription-overage)

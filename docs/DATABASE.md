@@ -814,6 +814,26 @@ le cycle dépasse 30** ; recommandation à 2 mois par **notification in-app**.
   facturable ; un abonnement échu non traité passe `expired`.
 Tests : `supabase/tests/facturation_depassements_keyli.test.sql` (27 tests).
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-27) — avantages / proximités et publication
+Migration `20261027120000_avantages_publication_keyli.sql`. Le PRD exige
+avantages/proximités (création d'annonce, filtres « Must ») ; le schéma de
+référence n'avait aucune colonne. Décision du porteur : **liste fermée**.
+- **`avantages_keyli`** : id, code unique, libelle, categorie
+  (`equipement` | `proximite`), ordre, actif, created_at — 19 valeurs de
+  départ (climatisation, parking, gardien, groupe électrogène, forage…;
+  école, marché, pharmacie, transport…). Lecture publique des actifs,
+  aucune écriture client.
+- **`property_avantages_keyli`** : (property_id, avantage_id) clé primaire,
+  created_at ; index `(avantage_id, property_id)` pour le filtre de
+  recherche. Lecture si l'annonce est visible ; ajout/retrait par le
+  propriétaire de l'annonce (compte actif).
+- **`publier_annonce_keyli(...)`** (SECURITY INVOKER) : annonce + avantages
+  en une transaction ; contrôles titre, prix > 0, point GPS valide,
+  avantages connus ; forfait et droits contrôlés par la RLS et le trigger
+  existants.
+- Photos : second temps (Cloudinary). Point GPS : Mapbox + « ma position ».
+Tests : `supabase/tests/avantages_publication_keyli.test.sql` (18 tests).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — documents_keyli + bucket documents_keyli
 Créés le 2026-10-02 (migration `20261002140000_documents_keyli.sql`), avec les
 enums `document_type_keyli` et `document_status_keyli`. Colonnes identiques
