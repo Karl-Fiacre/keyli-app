@@ -31,7 +31,16 @@ Deno.serve(async (req) => {
   }
   const t = tentative as { reference: string; montant: number; devise: string; email: string; plan_code: string }
 
-  const urlApp = Deno.env.get('KEYLI_APP_URL') ?? 'http://127.0.0.1:5173'
+  // Adresse de retour : doit être une URL http(s) — garde-fou contre un
+  // secret mal placé qui partirait dans callback_url
+  const urlApp = (Deno.env.get('KEYLI_APP_URL') ?? 'http://127.0.0.1:5173').trim().replace(/\/+$/, '')
+  if (!/^https?:\/\/[^\s]+$/i.test(urlApp)) {
+    await clientServeur().rpc('echec_paiement_keyli', {
+      p_reference: t.reference,
+      p_message: 'KEYLI_APP_URL mal configurée : une URL http(s) est attendue',
+    })
+    return json({ erreur: 'Le service de paiement est indisponible. Réessayez dans un instant.' }, 502)
+  }
   const { ok, corps } = await appelPaystack('/transaction/initialize', {
     method: 'POST',
     body: JSON.stringify({

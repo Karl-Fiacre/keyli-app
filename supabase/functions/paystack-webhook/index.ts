@@ -3,14 +3,14 @@
 // brut avec la clé secrète (documentation Paystack). Sans signature valide,
 // rien n'est traité. Appelée par Paystack, sans jeton Supabase : déployée
 // avec --no-verify-jwt (voir supabase/config.toml).
-import { clientServeur, json, variable } from '../_shared/commun.ts'
+import { clePaystack, clientServeur, json } from '../_shared/commun.ts'
 
 const encodeur = new TextEncoder()
 
 async function signatureAttendue(corps: string): Promise<string> {
   const cle = await crypto.subtle.importKey(
     'raw',
-    encodeur.encode(variable('PAYSTACK_SECRET_KEY')),
+    encodeur.encode(clePaystack()),
     { name: 'HMAC', hash: 'SHA-512' },
     false,
     ['sign'],
