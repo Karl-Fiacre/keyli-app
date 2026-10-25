@@ -50,10 +50,13 @@ résumé, pas la source primaire.
       `validate_subscription_keyli`, testé
 - [x] Annonce archivée puis republiée = compte comme nouvelle annonce du
       mois (anti-contournement du seuil) — journal des mises en ligne, testé
-- [ ] Dépassement de seuil facturé au même cycle que l'abonnement, pas en
-      facture séparée par annonce
-- [ ] 2 mois consécutifs de dépassement → recommandation explicite de
-      montée de gamme (pas de facturation indéfinie du dépassement)
+- [x] Dépassement de seuil facturé au même cycle que l'abonnement, pas en
+      facture séparée par annonce — décision du 2026-10-26 : dépassement
+      MENSUEL ((mises en ligne du cycle − seuil) × prix), ajouté au prochain
+      paiement du forfait ; impayé reporté sur tout paiement suivant (testé)
+- [x] 2 mois consécutifs de dépassement → recommandation explicite de
+      montée de gamme (pas de facturation indéfinie du dépassement) —
+      notification in-app, une fois par série (testé)
 - [ ] Cycle de facturation : mensuel uniquement en v1 (pas d'annuel/trimestriel)
 - [x] Expiration (décision du 2026-10-25) : rappels dans l'application à
       J-7 et J-1, aucun délai de grâce ; à l'échéance, abonnement `expired`
