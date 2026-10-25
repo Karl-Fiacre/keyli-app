@@ -2,7 +2,13 @@ import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Alert } from '@/components/ui/alert'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { useAbonnementActif, useForfaits, usePaiementForfait, type Forfait } from '@/hooks/useAbonnement'
+import {
+  useAbonnementActif,
+  useDernierAbonnementExpire,
+  useForfaits,
+  usePaiementForfait,
+  type Forfait,
+} from '@/hooks/useAbonnement'
 import { useProfil } from '@/hooks/useProfil'
 import { cn } from '@/lib/utils'
 
@@ -21,6 +27,7 @@ export default function Abonnement() {
   const paiement = usePaiementForfait()
   const role = profil.data?.role_keyli
   const actuel = abonnement.data
+  const expire = useDernierAbonnementExpire(!!actuel || abonnement.isPending).data
 
   if (profil.isPending || forfaits.isPending || abonnement.isPending) {
     return <p className="container py-16 text-center text-muted-foreground">Chargement…</p>
@@ -61,7 +68,15 @@ export default function Abonnement() {
           )}
         </div>
 
-        {paiement.isError && <Alert variant="erreur">{paiement.error.message}</Alert>}
+        {!actuel && expire && (
+          <Alert variant="erreur">
+            Votre forfait {expire.plans_keyli?.nom} a expiré le {new Date(expire.end_date).toLocaleDateString('fr-FR')} :
+            vos annonces ne sont plus visibles du public. Renouvelez votre abonnement pour les remettre en ligne
+            immédiatement.
+          </Alert>
+        )}
+
+        {paiement.isError &&<Alert variant="erreur">{paiement.error.message}</Alert>}
 
         <div className="grid gap-4 md:grid-cols-3">
           {proposes.map((f) => {
