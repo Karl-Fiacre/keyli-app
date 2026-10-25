@@ -56,26 +56,40 @@ Détection et contrôle faits **en base** depuis le 2026-10-02 (trigger
 `controler_publication_keyli`, voir DATABASE.md) : sans abonnement → refus
 KY001 ; Agence Moyenne > 10 → refus KY002 ; dépassement facturable → accord
 explicite requis (KY003), prix figé dans `property_publications_keyli`.
-Reste à construire (Edge Function `check-subscription-overage`) : la
-facturation des dépassements au cycle et la recommandation à 2 mois.
+Facturation et recommandation **en base** depuis le 2026-10-26 (migration
+`20261026120000_facturation_depassements_keyli.sql`, remplace l'Edge
+Function `check-subscription-overage`) :
+```
+Cycle = mois successifs depuis subscriptions_keyli.start_date (un
+renouvellement prolonge l'abonnement, le seuil reste MENSUEL).
+cloturer_cycles_keyli() — pg_cron toutes les heures (hh:10) :
+  → pour chaque cycle terminé : (mises en ligne du cycle − seuil) × prix
+    (négocié prioritaire) ; Grande Agence à montant négocié : ce montant,
+    seulement si le cycle a dépassé 30
+  → depassements_cycle_keyli (statut neant / a_payer / paye) +
+    notification « depassement_cycle » si un montant est dû
+  → 2e cycle d'affilée en dépassement (Agence Moyenne : au seuil de 10),
+    sans formule négociée → notification « recommandation_forfait »
+    (forfait supérieur, ou formule personnalisée au-delà de Grande Agence)
+Paiement : initier_paiement_keyli ajoute TOUS les dépassements impayés au
+prix du forfait (un seul paiement Paystack) ; confirmer_paiement_keyli les
+marque payés. Un impayé reste dû et s'ajoute à tout paiement suivant.
+```
 - [x] Détection au moment de la publication d'une annonce dépassant
-      `plans_keyli.seuil_max` du forfait courant (trigger, testé)
-- [ ] Si `prix_depassement_unitaire` est renseigné (Propriétaire, Grande
-      Agence) → facturer au même cycle que l'abonnement
-- [ ] Grande Agence au-delà de 30 : deux voies, au choix de l'agence —
-      (a) 1 000 XOF par annonce supplémentaire (`prix_depassement_unitaire`),
-      (b) formule personnalisée négociée avec le super_admin. La formule (b) est
-      propre à un abonnement, pas au forfait : à modéliser dans
-      `subscriptions_keyli` — fait le 2026-10-02 : `prix_depassement_negocie`
-      et/ou `montant_depassement_negocie` (+ `conditions_negociees`), et
-      `check-subscription-overage` ne facture pas à l'unité un abonnement
-      sous formule personnalisée.
-- [ ] Si `prix_depassement_unitaire` est NULL (Agence Moyenne, palier fixe
-      sans dépassement à l'unité) → pas de facturation automatique, recommander
-      directement la montée de gamme vers Grande Agence
-- [ ] 2 mois consécutifs de dépassement → déclenche une recommandation de
-      montée de gamme (notification, pas un blocage automatique), quel que
-      soit le forfait
+      `plans_keyli.seuil_max` du cycle en cours (trigger, testé)
+- [x] Dépassement mensuel facturé avec le paiement suivant du forfait
+      (Propriétaire 1 500 XOF, Grande Agence 1 000 XOF ou prix négocié)
+- [x] Grande Agence au-delà de 30 : (a) 1 000 XOF par annonce et par mois,
+      ou (b) formule personnalisée (`prix_depassement_negocie` et/ou
+      `montant_depassement_negocie`, dû si le cycle dépasse 30)
+- [x] Agence Moyenne : pas de facturation à l'unité (KY002), recommandation
+      de Grande Agence quand le seuil est atteint 2 mois d'affilée
+- [x] 2 mois consécutifs de dépassement → recommandation (notification,
+      pas un blocage), une fois par série
+- [x] Écran Abonnement : dépassements à régler et montant total à payer
+- [ ] Limite connue : un paiement Paystack terminé plus de 2 h après son
+      lancement, alors qu'un autre paiement a repris les mêmes dépassements,
+      les ferait payer deux fois (cas rare, à rembourser manuellement)
 
 ## Expiration
 ```

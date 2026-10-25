@@ -31,6 +31,8 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Dashboard Chercheur — TrendBar | `tendances_prix_keyli WHERE quartier_id IN (...)` | clé primaire `(niveau, zone_id)` |
 | Abonnement — abonnement en cours / dernier expiré | `subscriptions_keyli WHERE user_id = uid AND status = 'active' AND end_date > now()` ; sinon `status = 'expired' ORDER BY end_date DESC LIMIT 1` | `uq_subscriptions_keyli_un_actif (user_id) WHERE active` — créé ; peu de lignes par compte |
 | Tâche horaire d'échéances (pg_cron) | `subscriptions_keyli WHERE status = 'active' AND end_date <= now() + 7 jours` | `idx_subscriptions_keyli_actifs_echeance (end_date) WHERE active` — créé |
+| Abonnement — dépassements à régler | `depassements_cycle_keyli WHERE user_id = uid AND statut = 'a_payer' ORDER BY cycle_debut` | `idx_depassements_user_a_payer` — créé |
+| Clôture horaire / recommandation à 2 mois | `depassements_cycle_keyli WHERE user_id = ? AND cycle_fin <= ? ORDER BY cycle_fin DESC LIMIT 2` | `idx_depassements_user_cycle (user_id, cycle_fin desc)` — créé |
 | Page tarifs / choix de forfait (public) | `plans_keyli WHERE actif = true ORDER BY seuil_min` (RLS filtre déjà `actif`) | aucun — 3 lignes |
 | Formulaire de publication — sélecteur quartier | `quartiers_keyli JOIN communes_keyli ORDER BY commune, quartier` | `idx_quartiers_commune` (déjà présent) — liste fermée, mise en cache client raisonnable (change rarement) |
 
@@ -73,16 +75,14 @@ controler_publication_keyli (TRIGGER en base — remplace la détection prévue
   → refuse ou accepte la publication selon le forfait, fige le prix du
     dépassement dans property_publications_keyli
 
-check-subscription-overage (Edge Function à créer — désormais limitée à la
-  FACTURATION des dépassements enregistrés et à la recommandation de montée
-  de gamme après 2 mois consécutifs ; description d'origine ci-dessous)
-  → déclenchée à la publication d'une annonce
-  → compte les annonces actives de l'owner_id (ou de l'agence, si agent_id
-    rattaché — compter TOUTE l'agence, pas un seul compte, voir
-    MODULES/pricing.md et DATABASE.md décision agents internes)
-  → compare à plans_keyli.seuil_max du forfait actif
-  → applique prix_depassement_unitaire si dépassement et non NULL
-  → écrit audit_logs_keyli si dépassement facturé
+cloturer_cycles_keyli (fonction SQL + pg_cron, toutes les heures à hh:10 —
+  décision du 2026-10-26, remplace l'Edge Function check-subscription-overage)
+  → clôture chaque cycle mensuel terminé : dépassement = mises en ligne du
+    cycle − seuil, × prix (négocié prioritaire), ou montant négocié
+  → écrit depassements_cycle_keyli ; notifications de dépassement et de
+    recommandation à 2 cycles consécutifs
+  → la trace comptable est la ligne depassements_cycle_keyli + la
+    transaction qui la paie (pas d'audit_logs : action système, pas admin)
 
 calculer_quartiers_tendance_keyli (fonction SQL + pg_cron, chaque nuit à
   02:00 — décision du 2026-10-06, remplace l'Edge Function

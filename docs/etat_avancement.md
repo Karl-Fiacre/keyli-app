@@ -131,6 +131,12 @@ conversation précédente, elle ne persiste pas.
       de grâce et réaffichées au renouvellement, bandeau sur l'écran
       Abonnement — migration `20261025120000_expiration_abonnements_keyli.sql`,
       local + distant, 18 tests pgTAP (424 au total)
+- [x] Facturation des dépassements (2026-10-26) : seuil compté par cycle
+      mensuel (correctif), clôture horaire des cycles, dépassement mensuel
+      ajouté au prochain paiement Paystack, recommandation à 2 mois,
+      dépassements affichés sur l'écran Abonnement — migration
+      `20261026120000_facturation_depassements_keyli.sql`, local + distant,
+      27 tests pgTAP (451 au total)
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -169,12 +175,6 @@ concernés :
   sur les dépendances de production. Montée de version à décider.
 - **Synchronisation de `profiles_keyli.email`** si l'utilisateur change son
   email dans Supabase Auth — aucun mécanisme pour l'instant.
-- **Republication d'une annonce archivée** : doit compter comme nouvelle
-  annonce du mois (PRD) — mécanisme à définir avec
-  `check-subscription-overage`.
-- **Facturation des dépassements et recommandation à 2 mois** : les
-  dépassements sont enregistrés avec leur prix ; leur facturation au cycle
-  (Edge Function `check-subscription-overage`, Paystack) reste à écrire.
 - **Paystack en production** (plus tard) : remplacer `PAYSTACK_SECRET_KEY`
   par la clé `sk_live_…` et `KEYLI_APP_URL` par le domaine de production
   (Dashboard → Edge Functions → Secrets, jamais dans `.env` ni le chat),
@@ -216,8 +216,10 @@ concernés :
    donc du module vérification ; à caler avec le porteur de projet.
 4. Schéma, points ouverts, Sprint 1 et paiement Paystack faits (paiement
    test de bout en bout réussi le 2026-10-25), expiration des abonnements
-   faite. Suite : facturation des dépassements et recommandation de montée
-   de gamme après 2 mois (`check-subscription-overage`).
+   et facturation des dépassements faites : module pricing complet en
+   mode test. Suite à décider avec le porteur : écran de publication
+   d'annonce (compteur du forfait, accord de dépassement), cloche de
+   notifications, ou emails (fournisseur à choisir).
 
 ---
 
@@ -344,6 +346,9 @@ concernés :
 - 2026-10-25 : paiement test Paystack réussi (secrets d'abord inversés,
   lecture des secrets fiabilisée) ; expiration des abonnements (décisions :
   annonces masquées, pas de grâce, rappels J-7/J-1, pg_cron).
+- 2026-10-26 : facturation des dépassements (mensuelle, avec le paiement
+  suivant, montant négocié si > 30, recommandation in-app à 2 mois) ;
+  correctif du comptage du seuil par cycle mensuel.
 
 ---
 

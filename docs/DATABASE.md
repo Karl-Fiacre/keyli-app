@@ -781,6 +781,39 @@ Function ; l'email viendra avec le fournisseur).
   pour qu'une expiration n'échoue pas si le rôle du compte a changé depuis.
 Tests : `supabase/tests/expiration_abonnements_keyli.test.sql` (18 tests).
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-26) — facturation des dépassements
+Migration `20261026120000_facturation_depassements_keyli.sql`. Décisions du
+porteur : dépassement **mensuel** ; payé **avec le prochain paiement** du
+forfait (impayé reporté) ; montant négocié Grande Agence dû **seulement si
+le cycle dépasse 30** ; recommandation à 2 mois par **notification in-app**.
+- **Correction du comptage** : le seuil se compte sur le **cycle mensuel**
+  en cours (`cycle_abonnement_keyli(start, end, instant)` : mois successifs
+  depuis `start_date`, bornés par `end_date`) et non plus sur toute la durée
+  de l'abonnement, qu'un renouvellement prolonge. `evaluer_publication_keyli`
+  et `controler_publication_keyli` redéfinies (registre KY004 conservé,
+  message KY003 : coût mensuel).
+- `publications_periode_keyli(owner, debut, fin)` (interne) : mises en
+  ligne actives à un moment de la période.
+- Nouvelle table **`depassements_cycle_keyli`** : id, subscription_id,
+  user_id, cycle_debut, cycle_fin, nb_publications, seuil, nb_depassement,
+  prix_unitaire, montant, en_depassement, statut (`neant`/`a_payer`/`paye`),
+  tentative_id → payment_attempts_keyli, transaction_id →
+  transactions_keyli, created_at ; unique (subscription_id, cycle_debut).
+  Lecture par son titulaire, écriture serveur uniquement.
+- `payment_attempts_keyli.montant_depassements` : part du paiement
+  consacrée aux dépassements (`amount` = forfait + dépassements).
+- `cloturer_cycles_keyli()` (serveur, pg_cron `keyli-cloture-cycles`,
+  `10 * * * *`) : clôture des cycles terminés, notifications
+  `depassement_cycle` et `recommandation_forfait`.
+- `initier_paiement_keyli` renvoie aussi `montant_forfait` et
+  `montant_depassements` ; elle rattache au paiement les dépassements
+  impayés (sauf ceux d'un autre paiement lancé il y a moins de 2 h).
+  `confirmer_paiement_keyli` les marque payés ; l'abonnement garde le prix
+  du forfait seul ; un abonnement remplacé est clôturé à la date du
+  changement (`end_date = now()`), son dernier cycle partiel devient
+  facturable ; un abonnement échu non traité passe `expired`.
+Tests : `supabase/tests/facturation_depassements_keyli.test.sql` (27 tests).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — documents_keyli + bucket documents_keyli
 Créés le 2026-10-02 (migration `20261002140000_documents_keyli.sql`), avec les
 enums `document_type_keyli` et `document_status_keyli`. Colonnes identiques
