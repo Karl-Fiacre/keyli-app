@@ -29,6 +29,8 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Cloche de notifications (pastille + liste) | `notifications_keyli WHERE user_id = uid [AND NOT lue] ORDER BY created_at DESC` | `idx_notifications_user_non_lues`, `idx_notifications_user_date` — créés |
 | Accueil — quartiers populaires | `quartiers_populaires_keyli LIMIT 6` | `idx_quartiers_tendance_score` — créé (instantané nocturne) |
 | Dashboard Chercheur — TrendBar | `tendances_prix_keyli WHERE quartier_id IN (...)` | clé primaire `(niveau, zone_id)` |
+| Abonnement — abonnement en cours / dernier expiré | `subscriptions_keyli WHERE user_id = uid AND status = 'active' AND end_date > now()` ; sinon `status = 'expired' ORDER BY end_date DESC LIMIT 1` | `uq_subscriptions_keyli_un_actif (user_id) WHERE active` — créé ; peu de lignes par compte |
+| Tâche horaire d'échéances (pg_cron) | `subscriptions_keyli WHERE status = 'active' AND end_date <= now() + 7 jours` | `idx_subscriptions_keyli_actifs_echeance (end_date) WHERE active` — créé |
 | Page tarifs / choix de forfait (public) | `plans_keyli WHERE actif = true ORDER BY seuil_min` (RLS filtre déjà `actif`) | aucun — 3 lignes |
 | Formulaire de publication — sélecteur quartier | `quartiers_keyli JOIN communes_keyli ORDER BY commune, quartier` | `idx_quartiers_commune` (déjà présent) — liste fermée, mise en cache client raisonnable (change rarement) |
 

@@ -55,6 +55,10 @@ résumé, pas la source primaire.
 - [ ] 2 mois consécutifs de dépassement → recommandation explicite de
       montée de gamme (pas de facturation indéfinie du dépassement)
 - [ ] Cycle de facturation : mensuel uniquement en v1 (pas d'annuel/trimestriel)
+- [x] Expiration (décision du 2026-10-25) : rappels dans l'application à
+      J-7 et J-1, aucun délai de grâce ; à l'échéance, abonnement `expired`
+      et annonces MASQUÉES au public (pas archivées), elles réapparaissent
+      dès le renouvellement — RLS + tâche pg_cron horaire, testé
 - [ ] Les 3 forfaits vivent dans la table `plans_keyli` (seuils, prix
       mensuel, prix de dépassement), référencée par
       `subscriptions_keyli.plan_id` — jamais codés en dur côté client, jamais

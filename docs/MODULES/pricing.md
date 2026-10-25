@@ -3,8 +3,8 @@
 Fichiers concernés : `src/pages/Abonnement.tsx`, `src/pages/RetourPaiement.tsx`,
 `src/hooks/useAbonnement.ts`, Edge Functions `handle-paystack-payment`,
 `verify-paystack-payment`, `paystack-webhook` (code partagé
-`supabase/functions/_shared/commun.ts`), à venir :
-`check-expired-subscriptions`, `send-expiration-notification`.
+`supabase/functions/_shared/commun.ts`) ; expiration en SQL
+(`traiter_echeances_abonnements_keyli`, pg_cron).
 Table : `subscriptions_keyli`, `transactions_keyli`, `payment_attempts_keyli`.
 
 ## ⚠️ DÉCISION ACTÉE — table plans_keyli (Option B)
@@ -79,10 +79,21 @@ facturation des dépassements au cycle et la recommandation à 2 mois.
 
 ## Expiration
 ```
-check-expired-subscriptions (cron) → détecte les abonnements arrivant à
-échéance → send-expiration-notification avant expiration effective →
-subscriptions_keyli.status = 'expired' si non renouvelé
+traiter_echeances_abonnements_keyli() — fonction SQL, pg_cron toutes les
+heures (job keyli-echeances-abonnements, à hh:05) — remplace les Edge
+Functions check-expired-subscriptions / send-expiration-notification
+(décision du 2026-10-25) :
+  → J-7 puis J-1 : notification in-app « abonnement_rappel » (une fois par
+    échéance ; un renouvellement déplace end_date et réarme les rappels)
+  → échéance passée : status = 'expired' + notification « abonnement_expire »
+Masquage des annonces : policy de lecture publique de properties_keyli
+(abonnement_en_cours_keyli(owner_id)) — exact à la seconde, sans attendre
+la tâche ; pas de délai de grâce ; réapparition au renouvellement.
 ```
+- [x] Rappels J-7 / J-1, expiration, masquage — migration
+      `20261025120000_expiration_abonnements_keyli.sql`, 18 tests pgTAP
+- [x] Écran Abonnement : bandeau « forfait expiré, annonces masquées »
+- [ ] Rappels par email (Edge Function) une fois le fournisseur choisi
 
 ## Règles
 - [ ] Cycle mensuel uniquement — ne pas construire d'option annuelle/trimestrielle

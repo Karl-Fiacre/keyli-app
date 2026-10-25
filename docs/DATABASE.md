@@ -159,6 +159,8 @@ status                subscription_status_keyli DEFAULT 'active'
 start_date            TIMESTAMPTZ NOT NULL
 end_date              TIMESTAMPTZ NOT NULL
 paystack_payment_id   TEXT
+rappel_j7_pour        TIMESTAMPTZ   -- échéance pour laquelle le rappel J-7 est parti (2026-10-25)
+rappel_j1_pour        TIMESTAMPTZ   -- idem J-1
 created_at / updated_at
 ```
 
@@ -756,6 +758,28 @@ Côte d'Ivoire en **XOF** (montant envoyé ×100, comme toute devise Paystack).
   `x-paystack-signature` vérifiée). Secrets : `PAYSTACK_SECRET_KEY`,
   `KEYLI_APP_URL` (Dashboard → Edge Functions → Secrets, jamais dans `.env`).
 Tests : `supabase/tests/paiements_paystack_keyli.test.sql` (20 tests).
+
+## ⚠️ DÉCISIONS ACTÉES (2026-10-25) — expiration des abonnements
+Migration `20261025120000_expiration_abonnements_keyli.sql`. Décisions du
+porteur : annonces **masquées** (pas archivées) à l'échéance, **aucun délai
+de grâce**, rappels **J-7 et J-1**, tâche **SQL pg_cron** (pas d'Edge
+Function ; l'email viendra avec le fournisseur).
+- `abonnement_en_cours_keyli(user)` : abonnement `active` et
+  `start_date <= now() < end_date`. Ajoutée à la policy « Lecture publique
+  des annonces publiées » de `properties_keyli` (avec `compte_actif_keyli`) :
+  masquage exact à l'échéance, réapparition au renouvellement, médias
+  masqués avec. Le propriétaire voit toujours ses annonces.
+- `subscriptions_keyli.rappel_j7_pour` / `rappel_j1_pour` : échéance déjà
+  rappelée ; un renouvellement (nouvel `end_date`) réarme les rappels.
+- `traiter_echeances_abonnements_keyli()` (serveur seul) : expire les
+  abonnements échus (`expired` + notification `abonnement_expire`), puis
+  rappels J-1 et J-7 (notification `abonnement_rappel`). Rejouable sans
+  doublon. pg_cron `keyli-echeances-abonnements`, `5 * * * *`.
+- Index `idx_subscriptions_keyli_actifs_echeance (end_date) WHERE active`.
+- `validate_subscription_keyli` : contrôles de rôle et de forfait actif
+  limités à la souscription (création, changement de compte ou de forfait),
+  pour qu'une expiration n'échoue pas si le rôle du compte a changé depuis.
+Tests : `supabase/tests/expiration_abonnements_keyli.test.sql` (18 tests).
 
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — documents_keyli + bucket documents_keyli
 Créés le 2026-10-02 (migration `20261002140000_documents_keyli.sql`), avec les
