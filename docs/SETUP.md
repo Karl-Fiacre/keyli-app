@@ -39,8 +39,10 @@ final visé, à consulter module par module, jamais à exécuter tel quel.
 démarre la base, Auth, l'API et la boîte mail de test (Mailpit,
 http://127.0.0.1:54324). Un fichier `.env.development.local` (ignoré par Git)
 avec `VITE_SUPABASE_URL=http://127.0.0.1:54321` et la clé anon locale fait
-pointer `npm run dev` vers cette pile ; le supprimer pour viser le projet
-distant.
+pointer `npm run dev` vers cette pile. `npm run dev:distant` (mode Vite
+`distant`, qui ignore `.env.development.local`) vise le projet distant
+via `.env` — nécessaire pour tester le paiement Paystack, dont les Edge
+Functions ne tournent que sur le distant.
 
 ## Identifiants — rappel de sécurité
 Seuls **l'URL du projet** et la **clé anon publique** doivent être transmis

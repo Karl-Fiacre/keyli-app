@@ -123,8 +123,10 @@ conversation précédente, elle ne persiste pas.
       `20261023120000_paiements_paystack_keyli.sql` (local + distant,
       20 tests pgTAP, 406 au total), Edge Functions `handle-paystack-payment`,
       `verify-paystack-payment`, `paystack-webhook`, écrans `/abonnement` et
-      `/abonnement/retour`. **Reste** : secrets Paystack à poser par le
-      porteur, déploiement des fonctions, paiement test de bout en bout
+      `/abonnement/retour`. Secrets posés par le porteur et fonctions
+      déployées le 2026-10-25 (signature fausse → 401, appel anonyme → 403).
+      **Reste** : URL du webhook chez Paystack, paiement test de bout en bout
+      (`npm run dev:distant`)
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -209,8 +211,7 @@ concernés :
    des documents uploadés — dépend de `documents_keyli` et du stockage,
    donc du module vérification ; à caler avec le porteur de projet.
 4. Schéma, points ouverts, Sprint 1 et paiement Paystack (code) faits.
-   Suite : poser les secrets Paystack et déployer les 3 fonctions, faire un
-   paiement test (carte de test Paystack) ; puis expiration des abonnements
+   Suite : faire un paiement test avec `npm run dev:distant` (carte de test Paystack) ; puis expiration des abonnements
    (`check-expired-subscriptions`) et facturation des dépassements.
 
 ---
