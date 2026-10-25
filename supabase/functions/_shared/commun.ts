@@ -18,9 +18,29 @@ export function json(corps: unknown, statut = 200): Response {
 }
 
 export function variable(nom: string): string {
-  const valeur = Deno.env.get(nom)
+  // trim : un espace ou un retour à la ligne collé avec le secret le rend invalide
+  const valeur = Deno.env.get(nom)?.trim()
   if (!valeur) throw new Error(`Variable d'environnement manquante : ${nom}`)
   return valeur
+}
+
+// Clé secrète Paystack, contrôlée sans jamais être révélée : le diagnostic
+// n'indique que sa nature (clé publique, préfixe « Bearer », autre).
+export function clePaystack(): string {
+  const cle = variable('PAYSTACK_SECRET_KEY').replace(/^Bearer\s+/i, '')
+  if (/^sk_(test|live)_\S+$/.test(cle)) return cle
+  const nature = cle.startsWith('pk_')
+    ? 'clé PUBLIQUE (pk_…) au lieu de la clé secrète (sk_…)'
+    : /^https?:/i.test(cle)
+      ? 'contient une URL (inversée avec KEYLI_APP_URL ?)'
+      : /^["']/.test(cle)
+        ? 'entourée de guillemets'
+        : cle.includes('=')
+          ? 'contient « = » (NOM=valeur collé au lieu de la seule valeur ?)'
+          : /sk_(test|live)_/.test(cle)
+            ? 'la clé sk_… est précédée ou suivie d’autres caractères'
+            : `format inattendu (${cle.length} caractères), une clé sk_test_… est attendue`
+  throw new Error(`PAYSTACK_SECRET_KEY mal configurée : ${nature}`)
 }
 
 // Client agissant AU NOM de l'utilisateur (son jeton) : la RLS et les
@@ -51,11 +71,23 @@ export function statutErreurSql(code?: string): number {
 
 const API_PAYSTACK = 'https://api.paystack.co'
 
-export async function appelPaystack(chemin: string, init: RequestInit = {}) {
+export async function appelPaystack(
+  chemin: string,
+  init: RequestInit = {},
+  // deno-lint-ignore no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- réponse JSON Paystack non typée
+): Promise<{ ok: boolean; corps: any }> {
+  let cle: string
+  try {
+    cle = clePaystack()
+  } catch (e) {
+    // Clé mal configurée : remontée comme un refus, avec son diagnostic
+    return { ok: false, corps: { message: (e as Error).message } }
+  }
   const reponse = await fetch(`${API_PAYSTACK}${chemin}`, {
     ...init,
     headers: {
-      Authorization: `Bearer ${variable('PAYSTACK_SECRET_KEY')}`,
+      Authorization: `Bearer ${cle}`,
       'Content-Type': 'application/json',
       ...(init.headers ?? {}),
     },
