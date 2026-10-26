@@ -12,11 +12,10 @@ import {
 } from '@/hooks/useAbonnement'
 import { useProfil } from '@/hooks/useProfil'
 import { cn } from '@/lib/utils'
+import { formatXof } from '@/lib/format'
 
 // Choix et paiement d'un forfait (docs/MODULES/pricing.md). Les montants
 // affichés viennent de plans_keyli ; le paiement est démarré côté serveur.
-const formatXof = (v: number) => `${new Intl.NumberFormat('fr-FR').format(v)} XOF`
-
 function libelleAnnonces(f: Forfait) {
   return f.seuil_max ? `${f.seuil_min} à ${f.seuil_max} annonces` : `${f.seuil_min} annonces et plus`
 }

@@ -834,6 +834,18 @@ référence n'avait aucune colonne. Décision du porteur : **liste fermée**.
 - Photos : second temps (Cloudinary). Point GPS : Mapbox + « ma position ».
 Tests : `supabase/tests/avantages_publication_keyli.test.sql` (18 tests).
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-28) — recherche d'annonces
+Migration `20261028120000_recherche_annonces_keyli.sql`. Décisions du
+porteur : tri par défaut **vérifiées d'abord** ; filtres d'abord, carte et
+rayon plus tard (jeton Mapbox) ; contact par la **messagerie Keyli seule**
+(téléphone jamais exposé, cohérent avec `profils_publics_keyli`).
+- `rechercher_annonces_keyli(...)` (SECURITY INVOKER, anon et
+  authenticated) : filtres, tri (`pertinence` | `recent` | `prix_croissant`
+  | `prix_decroissant`), pagination plafonnée à 50, `total` par fenêtre.
+- Index `idx_properties_publiees_tri (is_verified desc, created_at desc)
+  WHERE archived_at IS NULL`.
+Tests : `supabase/tests/recherche_annonces_keyli.test.sql` (16 tests).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — documents_keyli + bucket documents_keyli
 Créés le 2026-10-02 (migration `20261002140000_documents_keyli.sql`), avec les
 enums `document_type_keyli` et `document_status_keyli`. Colonnes identiques

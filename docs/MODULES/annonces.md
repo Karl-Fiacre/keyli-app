@@ -43,6 +43,25 @@ Réalisé le 2026-10-27 (décisions du porteur) :
       republication depuis l'écran, modification d'une annonce
 
 ## Recherche (Search.tsx / AISearch.tsx / MapView.tsx)
+Réalisé le 2026-10-28 (décisions du porteur) — `src/pages/Recherche.tsx`,
+`src/pages/FicheAnnonce.tsx`, `src/components/annonce/` (FiltresRecherche,
+CarteAnnonce, FormulaireContact), `src/hooks/useRecherche.ts`,
+`src/lib/recherche.ts` :
+- [x] RPC `rechercher_annonces_keyli` (SECURITY INVOKER : seules les
+      annonces visibles) — filtres statut, type, commune, quartier, prix
+      min/max, pièces min, meublé, avantages (tous requis) ; pagination 20
+      par page (plafond 50) avec total
+- [x] Tri par défaut : **vérifiées d'abord**, puis les plus récentes ; prix
+      croissant/décroissant et date au choix
+- [x] Filtres dans l'URL (recherche partageable, bouton retour)
+- [x] Fiche `/annonce/:id` : caractéristiques, avantages, profil public de
+      l'annonceur, vue enregistrée (`property_interactions_keyli`, source)
+- [x] Contact par la **messagerie Keyli seule** (compte requis, gratuit) ;
+      le téléphone reste privé ; WhatsApp Business plus tard
+- [ ] Carte et recherche par rayon : quand le jeton Mapbox sera posé
+      (rayon par défaut et combinaison avec le quartier à trancher alors)
+- [ ] Recherche en langage naturel (`intelligent-search`)
+
 - Filtres structurés : prix, type, quartier, pièces, avantages
 - Recherche en langage naturel → Edge Function `intelligent-search` traduit
   en filtres structurés (ne pas dupliquer cette logique côté client)

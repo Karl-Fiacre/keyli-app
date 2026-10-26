@@ -9,8 +9,8 @@ import { cn } from '@/lib/utils'
 
 // Mise en page commune : en-tête avec le logotype officiel
 // (public/keyli-logo-full.svg, généré depuis docs/keyli_brand_assets — jamais
-// redessiné dans un composant, docs/LOGO.md). Sur petit écran, les liens du
-// compte passent dans un menu repliable.
+// redessiné dans un composant, docs/LOGO.md). Sur petit écran, les liens
+// passent dans un menu repliable.
 export function MiseEnPage() {
   const { session } = useSession()
   const deconnexion = useDeconnexion()
@@ -24,6 +24,7 @@ export function MiseEnPage() {
   useEffect(() => setMenuOuvert(false), [pathname])
 
   const liens = [
+    { vers: '/recherche', libelle: 'Rechercher' },
     ...(publie
       ? [
           { vers: '/annonces', libelle: 'Mes annonces' },
@@ -41,54 +42,61 @@ export function MiseEnPage() {
           <Link to="/" aria-label="Keyli — accueil" className="shrink-0">
             <img src="/keyli-logo-full.svg" alt="Keyli" className="h-9 w-auto" />
           </Link>
-          {session ? (
-            <>
-              <nav className="hidden items-center gap-2 md:flex">
-                {liens.map((l) => (
-                  <Button key={l.vers} variant="ghost" asChild>
-                    <Link to={l.vers}>{l.libelle}</Link>
-                  </Button>
-                ))}
-                <Button variant="outline" onClick={seDeconnecter}>
-                  Se déconnecter
+          <nav className="hidden items-center gap-2 md:flex">
+            {(session ? liens : liens.slice(0, 1)).map((l) => (
+              <Button key={l.vers} variant="ghost" asChild>
+                <Link to={l.vers}>{l.libelle}</Link>
+              </Button>
+            ))}
+            {session ? (
+              <Button variant="outline" onClick={seDeconnecter}>
+                Se déconnecter
+              </Button>
+            ) : (
+              <>
+                <Button variant="ghost" asChild>
+                  <Link to="/connexion">Se connecter</Link>
                 </Button>
-              </nav>
-              <Button
-                variant="ghost"
-                className="md:hidden"
-                aria-label={menuOuvert ? 'Fermer le menu' : 'Ouvrir le menu'}
-                aria-expanded={menuOuvert}
-                aria-controls="menu-compte"
-                onClick={() => setMenuOuvert((o) => !o)}
-              >
-                {menuOuvert ? <X className="h-5 w-5" aria-hidden /> : <Menu className="h-5 w-5" aria-hidden />}
-              </Button>
-            </>
-          ) : (
-            <nav className="flex items-center gap-2">
-              <Button variant="ghost" asChild className="px-3">
-                <Link to="/connexion">Se connecter</Link>
-              </Button>
-              <Button asChild className="px-3">
-                <Link to="/inscription">Créer un compte</Link>
-              </Button>
-            </nav>
-          )}
+                <Button asChild>
+                  <Link to="/inscription">Créer un compte</Link>
+                </Button>
+              </>
+            )}
+          </nav>
+          <Button
+            variant="ghost"
+            className="md:hidden"
+            aria-label={menuOuvert ? 'Fermer le menu' : 'Ouvrir le menu'}
+            aria-expanded={menuOuvert}
+            aria-controls="menu-principal"
+            onClick={() => setMenuOuvert((o) => !o)}
+          >
+            {menuOuvert ? <X className="h-5 w-5" aria-hidden /> : <Menu className="h-5 w-5" aria-hidden />}
+          </Button>
         </div>
-        {session && (
-          <nav id="menu-compte" className={cn('border-t md:hidden', !menuOuvert && 'hidden')}>
-            <div className="container flex flex-col gap-1 py-3">
-              {liens.map((l) => (
-                <Button key={l.vers} variant="ghost" asChild className="justify-start">
-                  <Link to={l.vers}>{l.libelle}</Link>
-                </Button>
-              ))}
+        <nav id="menu-principal" className={cn('border-t md:hidden', !menuOuvert && 'hidden')}>
+          <div className="container flex flex-col gap-1 py-3">
+            {(session ? liens : liens.slice(0, 1)).map((l) => (
+              <Button key={l.vers} variant="ghost" asChild className="justify-start">
+                <Link to={l.vers}>{l.libelle}</Link>
+              </Button>
+            ))}
+            {session ? (
               <Button variant="outline" onClick={seDeconnecter} className="mt-2">
                 Se déconnecter
               </Button>
-            </div>
-          </nav>
-        )}
+            ) : (
+              <>
+                <Button variant="ghost" asChild className="justify-start">
+                  <Link to="/connexion">Se connecter</Link>
+                </Button>
+                <Button asChild className="mt-2">
+                  <Link to="/inscription">Créer un compte</Link>
+                </Button>
+              </>
+            )}
+          </div>
+        </nav>
       </header>
       <main className="flex-1">
         <Outlet />

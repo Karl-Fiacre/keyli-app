@@ -8,7 +8,8 @@ transactionnelles, et comment éviter les incohérences entre tables.
 
 | Écran / rôle | Requête (esquisse) | Index requis |
 |---|---|---|
-| Chercheur — recherche | `properties_keyli` filtré prix/type/quartier_id, `is_verified` (la RLS exclut déjà les annonces archivées) | `idx_properties_recherche (quartier_id, type, price)` — créé |
+| Chercheur — recherche | RPC `rechercher_annonces_keyli` : `properties_keyli` filtré statut/type/commune/quartier/prix/pièces/meublé/avantages, tri vérifiées d'abord puis date (la RLS exclut archivées et masquées) | `idx_properties_recherche (quartier_id, type, price)`, `idx_properties_publiees_tri (is_verified desc, created_at desc) WHERE archived_at IS NULL`, `idx_property_avantages_avantage` — créés |
+| Chercheur — fiche d'annonce | `properties_keyli` + quartier/commune + avantages + médias, puis `profils_publics_keyli` de l'annonceur | clés primaires ; `idx_property_media_property` |
 | Chercheur — recherche par rayon | `ST_DWithin(geolocation, point, rayon)` | `idx_properties_geolocation` (GiST, déjà dans le schéma de référence) |
 | Propriétaire — dashboard | `properties_keyli WHERE owner_id = uid` | `idx_properties_owner` (déjà présent) |
 | Agence — dashboard, pipeline | `properties_keyli` + `messages_keyli` par `agent_id` | `idx_properties_agent` (déjà présent) |

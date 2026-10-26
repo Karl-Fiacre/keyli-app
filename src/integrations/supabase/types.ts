@@ -713,6 +713,11 @@ isOneToOne: false
 "publier_annonce_keyli":
 { Args: { "p_accepte_depassement"?: boolean,"p_avantages"?: (string)[],"p_description"?: string,"p_latitude": number,"p_longitude": number,"p_meuble"?: boolean,"p_pieces"?: number,"p_prix": number,"p_quartier"?: string,"p_salles_de_bain"?: number,"p_statut": Database["public"]['Enums']["property_status_keyli"],"p_surface"?: number,"p_titre": string,"p_type": Database["public"]['Enums']["property_type_keyli"],"p_ville": string }; Returns: string
                            },
+"rechercher_annonces_keyli":
+{ Args: { "p_avantages"?: (string)[],"p_commune"?: string,"p_decalage"?: number,"p_limite"?: number,"p_meuble"?: boolean,"p_pieces_min"?: number,"p_prix_max"?: number,"p_prix_min"?: number,"p_quartier"?: string,"p_statut"?: Database["public"]['Enums']["property_status_keyli"],"p_tri"?: string,"p_type"?: Database["public"]['Enums']["property_type_keyli"] }; Returns: {
+              "commune": string,"id": string,"image": string,"meuble": boolean,"pieces": number,"prix": number,"publiee_le": string,"quartier": string,"salles_de_bain": number,"statut": Database["public"]['Enums']["property_status_keyli"],"surface": number,"titre": string,"total": number,"type": Database["public"]['Enums']["property_type_keyli"],"verifiee": boolean,"ville": string
+            }[]
+                           },
 "relation_notable_keyli":
 { Args: { "p_autre": string,"p_property": string }; Returns: boolean
                            },

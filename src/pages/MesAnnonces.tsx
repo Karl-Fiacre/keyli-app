@@ -8,8 +8,7 @@ import { useMesAnnonces } from '@/hooks/useAnnonces'
 import { useAbonnementActif } from '@/hooks/useAbonnement'
 import { messageErreur } from '@/lib/erreurs'
 import { LIBELLES_TYPE } from '@/lib/validation'
-
-const formatXof = (v: number) => `${new Intl.NumberFormat('fr-FR').format(v)} XOF`
+import { formatXof } from '@/lib/format'
 
 // Annonces du compte (publiées, masquées, archivées)
 export default function MesAnnonces() {
