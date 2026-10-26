@@ -48,7 +48,7 @@ export function CarteAnnonce({ annonce: a }: { annonce: ResumeAnnonce }) {
             {formatXof(Number(a.prix))}
             {a.statut === 'a_louer' && <span className="text-sm font-normal text-muted-foreground"> / mois</span>}
           </p>
-          {a.verifiee && <VerifiedBadge libelle={false} className="shrink-0" />}
+          {a.verifiee && <VerifiedBadge className="shrink-0 text-xs" />}
         </div>
         <p className="line-clamp-1 font-medium group-hover:underline">{a.titre}</p>
         <p className="flex items-center gap-1 text-sm text-muted-foreground">
