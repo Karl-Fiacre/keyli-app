@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Alert } from '@/components/ui/alert'
+import { formatXof } from '@/lib/format'
 
 export interface EtatPublication {
   statut: string
@@ -8,8 +9,6 @@ export interface EtatPublication {
   publications_cycle: number
   prix_depassement: number | null
 }
-
-const formatXof = (v: number) => `${new Intl.NumberFormat('fr-FR').format(v)} XOF`
 
 // Compteur du cycle et raison d'un éventuel blocage — valeurs calculées par
 // la base (etat_publication_keyli), jamais recalculées ici.
