@@ -180,11 +180,6 @@ concernés :
   développement uniquement (traversée de chemin, contournement `fs.deny` sur
   Windows) — correctif seulement en Vite 8 (version majeure). Aucune faille
   sur les dépendances de production. Montée de version à décider.
-- **Dépendances de production signalées par `npm audit` (2026-10-27)** :
-  `react-router-dom` 7.12 (corrigé en 7.18.4 : redirections ouvertes via
-  `<Link>`/`useNavigate`, le reste concerne le rendu serveur/RSC, non
-  utilisé) et `zod` 3.25 (corrigé en zod 4, version majeure). Versions figées
-  par `STACK.md` : montée de version à décider avec le porteur.
 - **Synchronisation de `profiles_keyli.email`** si l'utilisateur change son
   email dans Supabase Auth — aucun mécanisme pour l'instant.
 - **Paystack en production** (plus tard) : remplacer `PAYSTACK_SECRET_KEY`
@@ -368,6 +363,9 @@ concernés :
   correctif du comptage du seuil par cycle mensuel.
 - 2026-10-27 : écran de publication d'annonce (avantages en liste fermée,
   photos reportées, point GPS Mapbox + ma position).
+- 2026-10-26 (validé par le porteur) : dépendances mises à jour —
+  react-router-dom 7.18.4, zod 4.6.7, @hookform/resolvers 5 ; plus aucune
+  faille sur les dépendances de production (STACK.md à jour).
 
 ---
 
