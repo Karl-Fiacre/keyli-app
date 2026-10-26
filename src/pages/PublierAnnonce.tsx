@@ -13,7 +13,7 @@ import { SelecteurPointGps } from '@/components/annonce/SelecteurPointGps'
 import { useAvantages, useEtatPublication, usePublierAnnonce, useQuartiers } from '@/hooks/useAnnonces'
 import { useProfil } from '@/hooks/useProfil'
 import { messageErreur } from '@/lib/erreurs'
-import { LIBELLES_TYPE, schemaAnnonce, TYPES_BIEN, type DonneesAnnonce } from '@/lib/validation'
+import { LIBELLES_TYPE, schemaAnnonce, TYPES_BIEN, type DonneesAnnonce, type SaisieAnnonce } from '@/lib/validation'
 import { cn } from '@/lib/utils'
 
 // Mêmes styles que Input pour les listes et la zone de texte natives
@@ -37,7 +37,7 @@ export default function PublierAnnonce() {
     watch,
     setValue,
     formState: { errors },
-  } = useForm<DonneesAnnonce>({
+  } = useForm<SaisieAnnonce, unknown, DonneesAnnonce>({
     resolver: zodResolver(schemaAnnonce),
     defaultValues: { statut: 'a_louer', ville: 'Abidjan', meuble: false, avantages: [], accepteDepassement: false },
   })

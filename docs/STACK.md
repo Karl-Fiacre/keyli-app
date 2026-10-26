@@ -11,11 +11,15 @@ React 18.3 + TypeScript 5.8 + Vite 5.4
 TailwindCSS 3.4 + tailwindcss-animate (Shadcn/ui)
 @supabase/supabase-js 2.57
 @tanstack/react-query 5.83
-react-router-dom 7.12
-react-hook-form 7.61 + zod 3.25
+react-router-dom 7.18
+react-hook-form 7.61 + zod 4.6 (@hookform/resolvers 5)
 mapbox-gl 3.17
 cloudinary 2.7
 ```
+Montées de version validées par le porteur le 2026-10-26 (failles signalées
+par `npm audit`) : react-router-dom 7.12 → 7.18.4, zod 3.25 → 4.6.7 (API des
+messages : `{ error: '…' }` remplace `errorMap` / `required_error`),
+@hookform/resolvers 3.10 → 5.x. `npm audit --omit=dev` : 0 faille.
 ⚠️ Pas de Framer Motion installé — voir ANIMATIONS.md avant d'utiliser des
 animations de layout, stagger avancé ou drag-and-drop.
 

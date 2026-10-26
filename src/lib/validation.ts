@@ -23,7 +23,7 @@ const telephone = z
 
 export const schemaInscription = z
   .object({
-    role: z.enum(ROLES_INSCRIPTION, { errorMap: () => ({ message: 'Choisissez un type de compte.' }) }),
+    role: z.enum(ROLES_INSCRIPTION, { error: 'Choisissez un type de compte.' }),
     nomAgence: z.string().trim().optional(),
     prenom: z.string().trim().min(1, 'Votre prénom est requis.').max(80),
     nom: z.string().trim().min(1, 'Votre nom est requis.').max(80),
@@ -95,11 +95,11 @@ export const LIBELLES_TYPE: Record<(typeof TYPES_BIEN)[number], string> = {
 // Publication d'annonce — confort de saisie ; publier_annonce_keyli revalide
 export const schemaAnnonce = z.object({
   titre: z.string().trim().min(1, 'Le titre est requis.').max(120, '120 caractères au maximum.'),
-  type: z.enum(TYPES_BIEN, { errorMap: () => ({ message: 'Choisissez le type de bien.' }) }),
-  statut: z.enum(['a_louer', 'a_vendre'], { errorMap: () => ({ message: 'À louer ou à vendre ?' }) }),
+  type: z.enum(TYPES_BIEN, { error: 'Choisissez le type de bien.' }),
+  statut: z.enum(['a_louer', 'a_vendre'], { error: 'À louer ou à vendre ?' }),
   prix: z.preprocess(
     (v) => (v === '' || v === undefined ? undefined : Number(v)),
-    z.number({ required_error: 'Le prix est requis.', invalid_type_error: 'Le prix est requis.' })
+    z.number({ error: 'Le prix est requis.' })
       .positive('Le prix doit être supérieur à zéro.'),
   ),
   ville: z.string().trim().min(1, 'La ville est requise.').max(80),
@@ -110,11 +110,13 @@ export const schemaAnnonce = z.object({
   sallesDeBain: nombreFacultatif('Nombre de salles de bain invalide.', true),
   meuble: z.boolean(),
   avantages: z.array(z.string()),
-  latitude: z.number({ required_error: 'Placez le bien sur la carte ou utilisez votre position.' }),
-  longitude: z.number({ required_error: 'Placez le bien sur la carte ou utilisez votre position.' }),
+  latitude: z.number({ error: 'Placez le bien sur la carte ou utilisez votre position.' }),
+  longitude: z.number({ error: 'Placez le bien sur la carte ou utilisez votre position.' }),
   accepteDepassement: z.boolean(),
 })
-export type DonneesAnnonce = z.infer<typeof schemaAnnonce>
+export type DonneesAnnonce = z.output<typeof schemaAnnonce>
+// Valeurs du formulaire avant validation (champs numériques encore bruts)
+export type SaisieAnnonce = z.input<typeof schemaAnnonce>
 
 // Robustesse indicative du mot de passe (PRD : indicateur à l'inscription)
 export function robustesseMotDePasse(valeur: string): 0 | 1 | 2 | 3 | 4 {
