@@ -144,6 +144,13 @@ conversation précédente, elle ne persiste pas.
       `20261027120000_avantages_publication_keyli.sql`, 18 tests pgTAP
       (469 au total) ; Edge Function `get-mapbox-token`. **Reste** : jeton
       Mapbox à poser par le porteur, photos (clés Cloudinary)
+- [x] **Sprint 2 — recherche et fiche d'annonce** (2026-10-28) : `/recherche`
+      (filtres dans l'URL, tri vérifiées d'abord, pagination), `/annonce/:id`
+      (caractéristiques, avantages, annonceur, vue enregistrée), premier
+      message à l'annonceur — migration
+      `20261028120000_recherche_annonces_keyli.sql`, 16 tests pgTAP (485 au
+      total). **Reste du Sprint 2** : messagerie (boîte de réception,
+      réponses), favoris, notation après visite
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -229,9 +236,10 @@ concernés :
 4. Schéma, points ouverts, Sprint 1 et paiement Paystack faits (paiement
    test de bout en bout réussi le 2026-10-25), expiration des abonnements
    et facturation des dépassements faites : module pricing complet en
-   mode test. Écran de publication fait (2026-10-27). Suite : photos des
-   annonces (dès les clés Cloudinary), recherche et fiche d'annonce, cloche
-   de notifications, emails (fournisseur à choisir).
+   mode test. Écran de publication fait (2026-10-27). Recherche et fiche
+   d'annonce faites (2026-10-28). Suite du Sprint 2 : **messagerie** (les
+   messages envoyés depuis une fiche n'ont pas encore d'écran de lecture),
+   puis favoris et notation ; photos dès les clés Cloudinary.
 
 ---
 
@@ -363,6 +371,8 @@ concernés :
   correctif du comptage du seuil par cycle mensuel.
 - 2026-10-27 : écran de publication d'annonce (avantages en liste fermée,
   photos reportées, point GPS Mapbox + ma position).
+- 2026-10-28 : recherche et fiche d'annonce (tri vérifiées d'abord, filtres
+  sans carte pour l'instant, contact par messagerie Keyli seule).
 - 2026-10-26 (validé par le porteur) : dépendances mises à jour —
   react-router-dom 7.18.4, zod 4.6.7, @hookform/resolvers 5 ; plus aucune
   faille sur les dépendances de production (STACK.md à jour) ; puis Vite
