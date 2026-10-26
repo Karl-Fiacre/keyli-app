@@ -14,6 +14,8 @@ import Abonnement from '@/pages/Abonnement'
 import RetourPaiement from '@/pages/RetourPaiement'
 import MesAnnonces from '@/pages/MesAnnonces'
 import PublierAnnonce from '@/pages/PublierAnnonce'
+import Recherche from '@/pages/Recherche'
+import FicheAnnonce from '@/pages/FicheAnnonce'
 import PageIntrouvable from '@/pages/PageIntrouvable'
 
 const clientRequetes = new QueryClient({
@@ -28,6 +30,8 @@ function App() {
           <Routes>
             <Route element={<MiseEnPage />}>
               <Route index element={<Accueil />} />
+              <Route path="recherche" element={<Recherche />} />
+              <Route path="annonce/:id" element={<FicheAnnonce />} />
               <Route path="inscription" element={<Inscription />} />
               <Route path="connexion" element={<Connexion />} />
               <Route path="verifier-email" element={<VerifierEmail />} />

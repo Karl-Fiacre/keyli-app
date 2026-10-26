@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { useSession } from '@/hooks/useSession'
 
-// Accueil provisoire du Sprint 1 : la recherche, les quartiers populaires et
-// les annonces arrivent avec les sprints suivants. Registre « public
+// Accueil provisoire : accès à la recherche (Sprint 2) ; les quartiers
+// populaires et les annonces mises en avant arriveront ensuite. Registre « public
 // chaleureux » de DESIGN_SYSTEM.md : accent or, titres Cambria, rayon accueil.
 export default function Accueil() {
   const { session } = useSession()
@@ -18,24 +18,27 @@ export default function Accueil() {
           après visite.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <Button variant="gold" size="lg" asChild>
+            <Link to="/recherche">Voir les logements</Link>
+          </Button>
           {session ? (
-            <Button variant="gold" size="lg" asChild>
+            <Button
+              variant="outline"
+              size="lg"
+              className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-glow"
+              asChild
+            >
               <Link to="/profil">Accéder à mon compte</Link>
             </Button>
           ) : (
-            <>
-              <Button variant="gold" size="lg" asChild>
-                <Link to="/inscription">Créer un compte gratuit</Link>
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-glow"
-                asChild
-              >
-                <Link to="/connexion">J'ai déjà un compte</Link>
-              </Button>
-            </>
+            <Button
+              variant="outline"
+              size="lg"
+              className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-glow"
+              asChild
+            >
+              <Link to="/inscription">Créer un compte gratuit</Link>
+            </Button>
           )}
         </div>
       </div>
