@@ -176,10 +176,10 @@ concernés :
   (contenu non ouvert). S'il contient autre chose que l'URL et la clé anon
   (clé `service_role` notamment), considérer la clé comme exposée et la
   révoquer côté ancien projet.
-- **Vite 5.4 (figé par `STACK.md`)** : failles connues du serveur de
-  développement uniquement (traversée de chemin, contournement `fs.deny` sur
-  Windows) — correctif seulement en Vite 8 (version majeure). Aucune faille
-  sur les dépendances de production. Montée de version à décider.
+- **Tailwind 3.4** : `npm audit` signale une faille modérée de
+  `postcss-selector-parser` (lenteur possible à la compilation, aucun impact
+  sur le site publié), sans correctif publié pour Tailwind 3 — à revoir avec
+  une future montée vers Tailwind 4.
 - **Synchronisation de `profiles_keyli.email`** si l'utilisateur change son
   email dans Supabase Auth — aucun mécanisme pour l'instant.
 - **Paystack en production** (plus tard) : remplacer `PAYSTACK_SECRET_KEY`
@@ -365,7 +365,9 @@ concernés :
   photos reportées, point GPS Mapbox + ma position).
 - 2026-10-26 (validé par le porteur) : dépendances mises à jour —
   react-router-dom 7.18.4, zod 4.6.7, @hookform/resolvers 5 ; plus aucune
-  faille sur les dépendances de production (STACK.md à jour).
+  faille sur les dépendances de production (STACK.md à jour) ; puis Vite
+  5.4 → 8.3 et @vitejs/plugin-react 6 (installé avec npm 11, npm 10.8
+  échouant sur l'arbre de dépendances).
 
 ---
 
