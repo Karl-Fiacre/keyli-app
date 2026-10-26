@@ -7,7 +7,7 @@ vérifier `package.json` avant d'ajouter une dépendance, ne pas assumer.
 Versions de l'ancien pilote, reprises pour le nouveau projet (2026-09-28) —
 une dépendance n'est installée qu'au moment où un module en a besoin.
 ```
-React 18.3 + TypeScript 5.8 + Vite 5.4
+React 18.3 + TypeScript 5.8 + Vite 8.3 (@vitejs/plugin-react 6)
 TailwindCSS 3.4 + tailwindcss-animate (Shadcn/ui)
 @supabase/supabase-js 2.57
 @tanstack/react-query 5.83
@@ -20,6 +20,12 @@ Montées de version validées par le porteur le 2026-10-26 (failles signalées
 par `npm audit`) : react-router-dom 7.12 → 7.18.4, zod 3.25 → 4.6.7 (API des
 messages : `{ error: '…' }` remplace `errorMap` / `required_error`),
 @hookform/resolvers 3.10 → 5.x. `npm audit --omit=dev` : 0 faille.
+Vite 5.4 → 8.3 (failles du serveur de développement) validé le 2026-10-26 :
+Node ≥ 20.19 requis ; build environ 10 fois plus rapide. Reste signalé par
+`npm audit` (modéré, compilation uniquement, sans correctif publié) :
+`postcss-selector-parser` via Tailwind 3.4.
+⚠️ npm 10.8 échoue sur certaines montées de version (« Cannot read
+properties of null (reading 'edgesOut') ») : utiliser `npx npm@11 install`.
 ⚠️ Pas de Framer Motion installé — voir ANIMATIONS.md avant d'utiliser des
 animations de layout, stagger avancé ou drag-and-drop.
 
