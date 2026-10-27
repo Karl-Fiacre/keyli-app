@@ -154,6 +154,8 @@ conversation précédente, elle ne persiste pas.
 - [x] **Messagerie** (2026-10-29) : `/messages` (conversations, fil,
       réponses, lecture), temps réel Supabase, pastille des non-lus —
       migration `20261029120000_messagerie_keyli.sql`, 11 tests pgTAP
+- [x] **Favoris** (2026-10-30) : cœur sur cartes et fiche, page `/favoris`,
+      clic tracé (`click_favorite`) — aucun changement de base
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -240,9 +242,9 @@ concernés :
    test de bout en bout réussi le 2026-10-25), expiration des abonnements
    et facturation des dépassements faites : module pricing complet en
    mode test. Écran de publication fait (2026-10-27). Recherche et fiche
-   d'annonce faites (2026-10-28). Messagerie faite (2026-10-29). Suite du
-   Sprint 2 : favoris, puis notation après visite ; photos dès les clés
-   Cloudinary.
+   d'annonce faites (2026-10-28). Messagerie faite (2026-10-29). Favoris
+   faits (2026-10-30). Suite du Sprint 2 : notation après visite (et prise
+   de rendez-vous de visite, prérequis) ; photos dès les clés Cloudinary.
 
 ---
 

@@ -17,6 +17,7 @@ import PublierAnnonce from '@/pages/PublierAnnonce'
 import Recherche from '@/pages/Recherche'
 import FicheAnnonce from '@/pages/FicheAnnonce'
 import Messages from '@/pages/Messages'
+import MesFavoris from '@/pages/MesFavoris'
 import PageIntrouvable from '@/pages/PageIntrouvable'
 
 const clientRequetes = new QueryClient({
@@ -91,6 +92,14 @@ function App() {
                 element={
                   <RouteProtegee>
                     <Messages />
+                  </RouteProtegee>
+                }
+              />
+              <Route
+                path="favoris"
+                element={
+                  <RouteProtegee>
+                    <MesFavoris />
                   </RouteProtegee>
                 }
               />

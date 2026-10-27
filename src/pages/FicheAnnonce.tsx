@@ -4,12 +4,15 @@ import { Alert } from '@/components/ui/alert'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { VerifiedBadge } from '@/components/VerifiedBadge'
 import { FormulaireContact } from '@/components/annonce/FormulaireContact'
+import { BoutonFavori } from '@/components/annonce/BoutonFavori'
 import { useSession } from '@/hooks/useSession'
 import { useFicheAnnonce, useVueAnnonce } from '@/hooks/useRecherche'
 import { messageErreur } from '@/lib/erreurs'
 import { formatDate, formatXof } from '@/lib/format'
 import { LIBELLES_TYPE } from '@/lib/validation'
 
+// Sources acceptées par la base (property_interactions_keyli) ; « favoris »
+// est enregistré comme un lien direct
 const SOURCES = ['search', 'map', 'recommandation', 'lien_direct', 'quartier_tendance']
 
 // Fiche publique d'une annonce : caractéristiques, avantages, annonceur
@@ -86,6 +89,7 @@ export default function FicheAnnonce() {
                 {a.status === 'a_louer' ? 'À louer' : 'À vendre'}
               </span>
               {a.is_verified && <VerifiedBadge />}
+              {!estProprietaire && <BoutonFavori propertyId={a.id} className="ml-auto border" />}
             </div>
             <h1 className="text-2xl font-bold tracking-tight md:text-3xl">{a.title}</h1>
             <p className="flex items-center gap-1 text-muted-foreground">
