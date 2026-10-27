@@ -22,6 +22,7 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Chercheur — alertes actives | `search_alerts_keyli WHERE user_id = uid AND actif = true` | `idx_search_alerts_user_actif (user_id, actif)` — créé |
 | Formulaire de publication — compteur « x/seuil », demande d'accord de dépassement | RPC `etat_publication_keyli()` | `idx_publications_owner_periode (owner_id, published_at, unpublished_at)` — créé |
 | Messagerie — badge non lus | `messages_keyli WHERE to_user = uid AND read = false` | `idx_messages_destinataire_non_lus` — créé |
+| Messagerie — liste des conversations | RPC `mes_conversations_keyli()` : messages où uid est expéditeur ou destinataire, dernier par (bien, interlocuteur) | `idx_messages_expediteur_date (from_user, created_at desc)`, `idx_messages_destinataire_date (to_user, created_at desc)` — créés |
 | Messagerie — fil d'une annonce | `messages_keyli WHERE property_id = ? AND uid IN (from_user, to_user) ORDER BY created_at` | `idx_messages_fil` — créé |
 | Admin — file de modération | `reports_keyli WHERE status = 'pending' ORDER BY created_at` | `idx_reports_status_date` — créé |
 | Admin — journal d'audit | `audit_logs_keyli ORDER BY created_at DESC` (RLS : admin = ses entrées, super_admin = tout) | `idx_audit_created`, `idx_audit_admin`, `idx_audit_entity` — créés |

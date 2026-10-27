@@ -846,6 +846,19 @@ rayon plus tard (jeton Mapbox) ; contact par la **messagerie Keyli seule**
   WHERE archived_at IS NULL`.
 Tests : `supabase/tests/recherche_annonces_keyli.test.sql` (16 tests).
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-29) — messagerie
+Migration `20261029120000_messagerie_keyli.sql`. Décision du porteur :
+nouveaux messages en **temps réel** (Supabase Realtime), actualisation
+périodique en filet de sécurité.
+- `mes_conversations_keyli()` (SECURITY INVOKER, authenticated) : une ligne
+  par (bien, interlocuteur) — titre et image de l'annonce (NULL si elle
+  n'est plus visible), nom public et badge de l'interlocuteur, dernier
+  message, `envoye_par_moi`, `non_lus`.
+- Index `idx_messages_expediteur_date`, `idx_messages_destinataire_date`.
+- `messages_keyli` ajoutée à la publication `supabase_realtime`.
+- Règles d'envoi, de lecture et d'anti-démarchage inchangées.
+Tests : `supabase/tests/messagerie_keyli.test.sql` (11 tests).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — documents_keyli + bucket documents_keyli
 Créés le 2026-10-02 (migration `20261002140000_documents_keyli.sql`), avec les
 enums `document_type_keyli` et `document_status_keyli`. Colonnes identiques
