@@ -99,11 +99,17 @@ maquettes (Accueil, dashboard Chercheur) n'avait aucune table.
 - [x] `UNIQUE(user_id, property_id)` — clic sur un favori déjà actif retire
       la ligne plutôt que d'en créer une seconde (toggle, pas ajout seul) —
       créé le 2026-10-03, testé
-- [ ] Le clic favori déclenche aussi un événement
+- [x] Le clic favori déclenche aussi un événement
       `property_interactions_keyli.interaction_type = 'click_favorite'`
       (voir MODULES/analytics-tracking.md) — les deux écritures ne sont pas
       redondantes : l'une est l'état actuel (favorites_keyli), l'autre
-      l'historique d'événement (property_interactions_keyli)
+      l'historique d'événement (property_interactions_keyli) — fait le
+      2026-10-30 (à l'ajout seulement)
+- [x] Écrans (2026-10-30) : cœur sur les cartes de résultats et la fiche
+      (`BoutonFavori`, sans compte → connexion puis retour), page
+      `/favoris` (`MesFavoris.tsx`, `useFavoris.ts`) ; une annonce retirée
+      depuis (archivée, masquée) reste listée « plus disponible » pour
+      pouvoir l'enlever. Aucune migration : table et RLS existantes.
 
 ## Alertes de recherche sauvegardée (search_alerts_keyli)
 ⚠️ Également trouvée manquante — exigence Should du PRD (section 7.2).

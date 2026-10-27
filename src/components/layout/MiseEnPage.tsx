@@ -30,6 +30,7 @@ export function MiseEnPage() {
   const liens: Array<{ vers: string; libelle: string; pastille?: number }> = [
     { vers: '/recherche', libelle: 'Rechercher' },
     { vers: '/messages', libelle: 'Messages', pastille: nonLus },
+    { vers: '/favoris', libelle: 'Favoris' },
     ...(publie
       ? [
           { vers: '/annonces', libelle: 'Mes annonces' },
@@ -52,7 +53,7 @@ export function MiseEnPage() {
           <Link to="/" aria-label="Keyli — accueil" className="shrink-0">
             <img src="/keyli-logo-full.svg" alt="Keyli" className="h-9 w-auto" />
           </Link>
-          <nav className="hidden items-center gap-2 md:flex">
+          <nav className="hidden items-center gap-1 lg:flex">
             {(session ? liens : liens.slice(0, 1)).map((l) => (
               <Button key={l.vers} variant="ghost" asChild>
                 <Link to={l.vers}>
@@ -78,7 +79,7 @@ export function MiseEnPage() {
           </nav>
           <Button
             variant="ghost"
-            className="md:hidden"
+            className="lg:hidden"
             aria-label={menuOuvert ? 'Fermer le menu' : 'Ouvrir le menu'}
             aria-expanded={menuOuvert}
             aria-controls="menu-principal"
@@ -87,7 +88,7 @@ export function MiseEnPage() {
             {menuOuvert ? <X className="h-5 w-5" aria-hidden /> : <Menu className="h-5 w-5" aria-hidden />}
           </Button>
         </div>
-        <nav id="menu-principal" className={cn('border-t md:hidden', !menuOuvert && 'hidden')}>
+        <nav id="menu-principal" className={cn('border-t lg:hidden', !menuOuvert && 'hidden')}>
           <div className="container flex flex-col gap-1 py-3">
             {(session ? liens : liens.slice(0, 1)).map((l) => (
               <Button key={l.vers} variant="ghost" asChild className="justify-start">
