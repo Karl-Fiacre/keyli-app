@@ -16,6 +16,7 @@ import MesAnnonces from '@/pages/MesAnnonces'
 import PublierAnnonce from '@/pages/PublierAnnonce'
 import Recherche from '@/pages/Recherche'
 import FicheAnnonce from '@/pages/FicheAnnonce'
+import Messages from '@/pages/Messages'
 import PageIntrouvable from '@/pages/PageIntrouvable'
 
 const clientRequetes = new QueryClient({
@@ -74,6 +75,22 @@ function App() {
                 element={
                   <RouteProtegee>
                     <PublierAnnonce />
+                  </RouteProtegee>
+                }
+              />
+              <Route
+                path="messages"
+                element={
+                  <RouteProtegee>
+                    <Messages />
+                  </RouteProtegee>
+                }
+              />
+              <Route
+                path="messages/:bien/:interlocuteur"
+                element={
+                  <RouteProtegee>
+                    <Messages />
                   </RouteProtegee>
                 }
               />
