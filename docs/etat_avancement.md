@@ -151,6 +151,9 @@ conversation précédente, elle ne persiste pas.
       `20261028120000_recherche_annonces_keyli.sql`, 16 tests pgTAP (485 au
       total). **Reste du Sprint 2** : messagerie (boîte de réception,
       réponses), favoris, notation après visite
+- [x] **Messagerie** (2026-10-29) : `/messages` (conversations, fil,
+      réponses, lecture), temps réel Supabase, pastille des non-lus —
+      migration `20261029120000_messagerie_keyli.sql`, 11 tests pgTAP
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -237,9 +240,9 @@ concernés :
    test de bout en bout réussi le 2026-10-25), expiration des abonnements
    et facturation des dépassements faites : module pricing complet en
    mode test. Écran de publication fait (2026-10-27). Recherche et fiche
-   d'annonce faites (2026-10-28). Suite du Sprint 2 : **messagerie** (les
-   messages envoyés depuis une fiche n'ont pas encore d'écran de lecture),
-   puis favoris et notation ; photos dès les clés Cloudinary.
+   d'annonce faites (2026-10-28). Messagerie faite (2026-10-29). Suite du
+   Sprint 2 : favoris, puis notation après visite ; photos dès les clés
+   Cloudinary.
 
 ---
 
@@ -371,6 +374,9 @@ concernés :
   correctif du comptage du seuil par cycle mensuel.
 - 2026-10-27 : écran de publication d'annonce (avantages en liste fermée,
   photos reportées, point GPS Mapbox + ma position).
+- 2026-10-29 : messagerie (conversations, temps réel Supabase + filet de
+  60 s). Machine : disque C: et RAM saturés ont bloqué Docker (porteur a
+  libéré de la place et redémarré).
 - 2026-10-28 : recherche et fiche d'annonce (tri vérifiées d'abord, filtres
   sans carte pour l'instant, contact par messagerie Keyli seule).
 - 2026-10-26 (validé par le porteur) : dépendances mises à jour —

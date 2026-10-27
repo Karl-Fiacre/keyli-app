@@ -40,7 +40,11 @@ export function FormulaireContact({
   if (contact.isSuccess) {
     return (
       <Alert variant="succes">
-        Message envoyé. L'annonceur vous répondra dans votre messagerie Keyli.
+        Message envoyé. L'annonceur vous répondra dans votre{' '}
+        <Link to={`/messages/${propertyId}/${destinataire}`} className="font-semibold underline">
+          messagerie Keyli
+        </Link>
+        .
       </Alert>
     )
   }

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { useSession } from '@/hooks/useSession'
 import { useDeconnexion } from '@/hooks/useCompte'
 import { useProfil } from '@/hooks/useProfil'
+import { useMessagesNonLus, useMessagesTempsReel } from '@/hooks/useMessagerie'
 import { cn } from '@/lib/utils'
 
 // Mise en page commune : en-tête avec le logotype officiel
@@ -19,12 +20,16 @@ export function MiseEnPage() {
   const role = useProfil().data?.role_keyli
   const publie = role === 'owner' || role === 'agency'
   const [menuOuvert, setMenuOuvert] = useState(false)
+  // Messagerie : nouveaux messages en temps réel, pastille des non-lus
+  useMessagesTempsReel()
+  const nonLus = useMessagesNonLus().data ?? 0
 
   // Le menu mobile se referme à chaque changement de page
   useEffect(() => setMenuOuvert(false), [pathname])
 
-  const liens = [
+  const liens: Array<{ vers: string; libelle: string; pastille?: number }> = [
     { vers: '/recherche', libelle: 'Rechercher' },
+    { vers: '/messages', libelle: 'Messages', pastille: nonLus },
     ...(publie
       ? [
           { vers: '/annonces', libelle: 'Mes annonces' },
@@ -33,7 +38,12 @@ export function MiseEnPage() {
       : []),
     { vers: '/profil', libelle: 'Mon profil' },
   ]
-  const seDeconnecter = () => deconnexion.mutate(undefined, { onSuccess: () => naviguer('/') })
+  // Quitter d'abord la page en cours : sinon une page protégée renverrait vers
+  // la connexion en mémorisant cette page, et le compte suivant y atterrirait
+  const seDeconnecter = () => {
+    naviguer('/', { replace: true })
+    deconnexion.mutate()
+  }
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -45,7 +55,10 @@ export function MiseEnPage() {
           <nav className="hidden items-center gap-2 md:flex">
             {(session ? liens : liens.slice(0, 1)).map((l) => (
               <Button key={l.vers} variant="ghost" asChild>
-                <Link to={l.vers}>{l.libelle}</Link>
+                <Link to={l.vers}>
+                  {l.libelle}
+                  <Pastille nombre={l.pastille} />
+                </Link>
               </Button>
             ))}
             {session ? (
@@ -78,7 +91,10 @@ export function MiseEnPage() {
           <div className="container flex flex-col gap-1 py-3">
             {(session ? liens : liens.slice(0, 1)).map((l) => (
               <Button key={l.vers} variant="ghost" asChild className="justify-start">
-                <Link to={l.vers}>{l.libelle}</Link>
+                <Link to={l.vers}>
+                  {l.libelle}
+                  <Pastille nombre={l.pastille} />
+                </Link>
               </Button>
             ))}
             {session ? (
@@ -105,5 +121,16 @@ export function MiseEnPage() {
         © {new Date().getFullYear()} Keyli — Nguessan-IT, Abidjan
       </footer>
     </div>
+  )
+}
+
+// Nombre de messages non lus à côté du lien « Messages »
+function Pastille({ nombre }: { nombre?: number }) {
+  if (!nombre) return null
+  return (
+    <span className="ml-1.5 rounded-pill bg-primary px-1.5 py-0.5 text-[11px] font-semibold leading-none text-primary-foreground">
+      {nombre > 99 ? '99+' : nombre}
+      <span className="sr-only"> message{nombre > 1 ? 's' : ''} non lu{nombre > 1 ? 's' : ''}</span>
+    </span>
   )
 }

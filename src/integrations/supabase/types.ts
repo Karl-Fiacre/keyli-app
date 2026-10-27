@@ -707,6 +707,11 @@ isOneToOne: false
 "journaliser_keyli":
 { Args: { "p_action": string,"p_details"?: Json,"p_entity_id": string,"p_entity_type": string }; Returns: undefined
                            },
+"mes_conversations_keyli":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "dernier_envoi": string,"dernier_message": string,"envoye_par_moi": boolean,"image_annonce": string,"interlocuteur": string,"interlocuteur_verifie": boolean,"nom_interlocuteur": string,"non_lus": number,"property_id": string,"titre_annonce": string
+            }[]
+                           },
 "publications_periode_keyli":
 { Args: { "p_debut": string,"p_fin": string,"p_owner": string }; Returns: number
                            },
