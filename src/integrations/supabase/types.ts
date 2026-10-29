@@ -488,13 +488,13 @@ isOneToOne: false
                   ]
                 },"reports_keyli": {
                   Row: {
-                    "created_at": string | null,"id": string,"property_id": string | null,"reason": string,"reporter_id": string,"status": Database["public"]['Enums']["report_status_keyli"] | null,"updated_at": string | null
+                    "created_at": string | null,"id": string,"motif": string,"property_id": string | null,"reason": string | null,"reporter_id": string,"status": Database["public"]['Enums']["report_status_keyli"] | null,"updated_at": string | null
                   }
                   Insert: {
-                    "created_at"?: string | null,"id"?: string,"property_id"?: string | null,"reason": string,"reporter_id": string,"status"?: Database["public"]['Enums']["report_status_keyli"] | null,"updated_at"?: string | null
+                    "created_at"?: string | null,"id"?: string,"motif"?: string,"property_id"?: string | null,"reason"?: string | null,"reporter_id": string,"status"?: Database["public"]['Enums']["report_status_keyli"] | null,"updated_at"?: string | null
                   }
                   Update: {
-                    "created_at"?: string | null,"id"?: string,"property_id"?: string | null,"reason"?: string,"reporter_id"?: string,"status"?: Database["public"]['Enums']["report_status_keyli"] | null,"updated_at"?: string | null
+                    "created_at"?: string | null,"id"?: string,"motif"?: string,"property_id"?: string | null,"reason"?: string | null,"reporter_id"?: string,"status"?: Database["public"]['Enums']["report_status_keyli"] | null,"updated_at"?: string | null
                   }
                   Relationships: [
                     {
@@ -632,6 +632,21 @@ isOneToOne: false
                            },
 "abonnement_en_cours_keyli":
 { Args: { "p_user": string }; Returns: boolean
+                           },
+"admin_file_signalements_keyli":
+{ Args: { "p_limite"?: number,"p_statut"?: Database["public"]['Enums']["report_status_keyli"] }; Returns: {
+              "annonceur": string,"annonceur_id": string,"annonceur_suspendu": boolean,"auteur": string,"bien_archive": boolean,"bien_verifie": boolean,"id": string,"motif": string,"precision_texte": string,"property_id": string,"signale_le": string,"signalements_en_attente": number,"statut": Database["public"]['Enums']["report_status_keyli"],"titre_bien": string
+            }[]
+                           },
+"admin_file_verification_keyli":
+{ Args: { "p_limite"?: number,"p_statut"?: Database["public"]['Enums']["document_status_keyli"] }; Returns: {
+              "compte_verifie": boolean,"depose_le": string,"doc_type": Database["public"]['Enums']["document_type_keyli"],"email": string,"fichier": string,"id": string,"nom": string,"notes": string,"property_id": string,"revu_le": string,"role": Database["public"]['Enums']["user_role_keyli"],"statut": Database["public"]['Enums']["document_status_keyli"],"titre_bien": string,"user_id": string
+            }[]
+                           },
+"admin_indicateurs_keyli":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "abonnements_actifs": number,"agences": number,"annonces_publiees": number,"annonces_verifiees": number,"annonces_visibles": number,"annonceurs_verifies": number,"avis": number,"chercheurs": number,"comptes_total": number,"contacts_30j": number,"documents_en_attente": number,"encaisse_30j": number,"inscriptions_30j": number,"note_moyenne": number,"proprietaires": number,"signalements_en_attente": number,"taux_verification": number,"vues_30j": number
+            }[]
                            },
 "admin_modifier_nom_agence_keyli":
 { Args: { "p_motif": string,"p_nom": string,"p_user": string }; Returns: undefined

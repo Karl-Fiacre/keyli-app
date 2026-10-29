@@ -14,7 +14,8 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Propriétaire — dashboard | `properties_keyli WHERE owner_id = uid` | `idx_properties_owner` (déjà présent) |
 | Agence — dashboard, pipeline | `properties_keyli` + `messages_keyli` par `agent_id` | `idx_properties_agent` (déjà présent) |
 | Agence — performance équipe | `properties_keyli JOIN agency_agents_keyli ON agent_id` | à ajouter si lenteur observée : `(agent_id, created_at)` |
-| Admin — file de vérification | `documents_keyli WHERE status = 'pending' ORDER BY created_at` | `idx_documents_status_date (status, created_at)` — créé |
+| Admin — file de vérification | RPC `admin_file_verification_keyli(statut)` : `documents_keyli WHERE status = ? ORDER BY created_at` + déposant et bien | `idx_documents_status_date (status, created_at)` — créé |
+| Admin — indicateurs | RPC `admin_indicateurs_keyli()` : comptages sur profils, annonces, avis, abonnements, documents, signalements, leads, interactions et transactions | index existants ; à revoir au-delà du pilote (agrégats à la volée) |
 | Tracking vues (tout écran bien) | `INSERT property_interactions_keyli` (quartier, auteur et date imposés par trigger) | `idx_interactions_property`, `idx_interactions_type_date`, `idx_interactions_quartier`, `idx_interactions_session_vue` — créés |
 | Agence — pipeline de leads | `leads_keyli WHERE owner_id = uid ORDER BY stage` | `idx_leads_owner_stage` — créé |
 | Chercheur — ses visites (conversation) | `visits_keyli WHERE visitor_user_id = uid` | `idx_visits_visitor (visitor_user_id, scheduled_at)` — créé |
@@ -26,7 +27,7 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Messagerie — badge non lus | `messages_keyli WHERE to_user = uid AND read = false` | `idx_messages_destinataire_non_lus` — créé |
 | Messagerie — liste des conversations | RPC `mes_conversations_keyli()` : messages où uid est expéditeur ou destinataire, dernier par (bien, interlocuteur) | `idx_messages_expediteur_date (from_user, created_at desc)`, `idx_messages_destinataire_date (to_user, created_at desc)` — créés |
 | Messagerie — fil d'une annonce | `messages_keyli WHERE property_id = ? AND uid IN (from_user, to_user) ORDER BY created_at` | `idx_messages_fil` — créé |
-| Admin — file de modération | `reports_keyli WHERE status = 'pending' ORDER BY created_at` | `idx_reports_status_date` — créé |
+| Admin — file de modération | RPC `admin_file_signalements_keyli(statut)` : `reports_keyli WHERE status = ?` + annonce, annonceur, auteur | `idx_reports_status_date` — créé |
 | Admin — journal d'audit | `audit_logs_keyli ORDER BY created_at DESC` (RLS : admin = ses entrées, super_admin = tout) | `idx_audit_created`, `idx_audit_admin`, `idx_audit_entity` — créés |
 | Admin — retours utilisateurs | `feedback_keyli WHERE status = 'pending' ORDER BY created_at` | `idx_feedback_status_date` — créé |
 | Admin — file pilote | `inscription_pilot_keyli WHERE status = ? ORDER BY priority_level, created_at` | `idx_inscription_pilot_file` — créé |

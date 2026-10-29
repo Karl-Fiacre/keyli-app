@@ -884,6 +884,19 @@ choix que la messagerie : temps réel filtré par la RLS + actualisation de
 modifiable, création serveur uniquement.
 Tests : `supabase/tests/notifications_temps_reel_keyli.test.sql` (6 tests).
 
+## ⚠️ DÉCISIONS ACTÉES (2026-11-01) — back-office admin
+Migration `20261101120000_backoffice_admin_keyli.sql`.
+- `reports_keyli.motif` (text NOT NULL, défaut `autre`, liste fermée) ;
+  `reason` devient la précision facultative (obligatoire pour `autre`,
+  ≤ 1 000 caractères — contrainte `reports_keyli_precision`).
+- Trigger `notifier_revue_document_keyli` : notifications
+  `document_approuve` / `document_rejete`.
+- RPC réservées aux admins (`est_admin_keyli`, SECURITY DEFINER, lecture
+  seule) : `admin_file_verification_keyli(statut, limite)`,
+  `admin_file_signalements_keyli(statut, limite)`, `admin_indicateurs_keyli()`.
+- Premier super_admin : promotion manuelle par le porteur (SETUP.md).
+Tests : `supabase/tests/backoffice_admin_keyli.test.sql` (19 tests).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — documents_keyli + bucket documents_keyli
 Créés le 2026-10-02 (migration `20261002140000_documents_keyli.sql`), avec les
 enums `document_type_keyli` et `document_status_keyli`. Colonnes identiques

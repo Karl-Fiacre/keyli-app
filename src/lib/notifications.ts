@@ -14,6 +14,9 @@ export function lienNotification(type: string, propertyId: string | null): strin
     case 'depassement_cycle':
     case 'recommandation_forfait':
       return '/abonnement'
+    case 'document_approuve':
+    case 'document_rejete':
+      return propertyId ? '/annonces' : '/profil'
     case 'verification_retiree':
     case 'compte_suspendu':
     case 'compte_reactive':

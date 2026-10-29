@@ -161,6 +161,18 @@ conversation précédente, elle ne persiste pas.
       avance, avis note + commentaire après visite, avis sur la fiche —
       migration `20261030120000_visites_notation_keyli.sql`, 22 tests
       pgTAP. **Sprint 2 (parcours chercheur) terminé côté fonctionnel.**
+- [x] **Back-office admin — Sprint 3, semaines 9-10** (2026-11-01) :
+      `/admin` (indicateurs du pilote avec les cibles du PRD, files en
+      attente, activité 30 j), `/admin/verifications` (ouvrir le document
+      par URL signée, approuver, rejeter avec motif), `/admin/signalements`
+      (examiner, résoudre, retirer la vérification du bien, suspendre
+      l'annonceur) ; côté utilisateur : envoi des pièces (profil) et de
+      l'ACD (Mes annonces), « Signaler cette annonce » (motif en liste) ;
+      notification de l'utilisateur à chaque décision — migration
+      `20261101120000_backoffice_admin_keyli.sql`, 19 tests pgTAP (543 au
+      total). Premier super_admin : procédure manuelle (`SETUP.md`).
+      Testé dans le navigateur (pile locale) sauf envoi / ouverture des
+      fichiers (stockage non lancé en local).
 - [x] **Cloche de notifications** (2026-10-31) : pastille des non lues,
       panneau des 20 dernières, clic = lue + page concernée, « tout
       marquer comme lu », temps réel + oscillation ;
@@ -257,6 +269,13 @@ concernés :
    terminé. Cloche de notifications faite (2026-10-31). Suite : Sprint 3
    (back-office admin : file de vérification, modération, analytics de
    base) ; photos dès les clés Cloudinary ; emails (fournisseur à choisir).
+5. **Sprint 3 (semaines 9-10) — back-office admin : fait le 2026-11-01.**
+   Suite recommandée : le porteur crée son compte et se promeut super_admin
+   (procédure `SETUP.md`), puis teste l'envoi et l'ouverture de documents
+   sur le projet distant (le stockage n'est pas lancé dans la pile locale).
+   Ensuite : dashboards enrichis (Sprints 3bis, Sem. 11-19) ; photos dès les
+   clés Cloudinary ; emails (fournisseur à choisir) ; écran de gestion des
+   rôles (nommer des admins) ; délai de relance des documents en attente.
 
 ---
 
@@ -388,6 +407,9 @@ concernés :
   correctif du comptage du seuil par cycle mensuel.
 - 2026-10-27 : écran de publication d'annonce (avantages en liste fermée,
   photos reportées, point GPS Mapbox + ma position).
+- 2026-11-01 (Sprint 3) : écrans utilisateur d'envoi des documents et de
+  signalement inclus (oubli du Sprint 1) ; motifs de signalement en liste ;
+  premier super_admin promu à la main ; inscriptions 30 j hors comptes admin.
 - 2026-10-29 : messagerie (conversations, temps réel Supabase + filet de
   60 s). Machine : disque C: et RAM saturés ont bloqué Docker (porteur a
   libéré de la place et redémarré).

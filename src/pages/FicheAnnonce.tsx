@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { VerifiedBadge } from '@/components/VerifiedBadge'
 import { FormulaireContact } from '@/components/annonce/FormulaireContact'
 import { BoutonFavori } from '@/components/annonce/BoutonFavori'
+import { BoutonSignaler } from '@/components/annonce/BoutonSignaler'
 import { Etoiles } from '@/components/avis/Etoiles'
 import { ListeAvis } from '@/components/avis/ListeAvis'
 import { useSession } from '@/hooks/useSession'
@@ -153,6 +154,7 @@ export default function FicheAnnonce() {
           </div>
 
           <p className="text-xs text-muted-foreground">Publiée le {formatDate(a.created_at ?? '')}</p>
+          {!estProprietaire && <BoutonSignaler propertyId={a.id} />}
         </div>
 
         <aside className="space-y-5 lg:sticky lg:top-6 lg:self-start">
