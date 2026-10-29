@@ -257,6 +257,26 @@ concernés :
    terminé. Cloche de notifications faite (2026-10-31). Suite : Sprint 3
    (back-office admin : file de vérification, modération, analytics de
    base) ; photos dès les clés Cloudinary ; emails (fournisseur à choisir).
+5. **Sprint 3 EN COURS** (branche `feature/backoffice-admin`, NON fusionnée,
+   migration `20261101120000_backoffice_admin_keyli.sql` NON poussée sur le
+   distant). Décisions du porteur (2026-11-01) : écrans utilisateur d'envoi
+   des documents et de signalement inclus ; motif de signalement en liste +
+   précision (obligatoire pour « autre ») ; premier super_admin promu à la
+   main par le porteur (SQL Editor) — procédure à écrire dans SETUP.md.
+   Fait : migration (motifs, notification document approuvé/rejeté, RPC
+   admin_file_verification_keyli, admin_file_signalements_keyli,
+   admin_indicateurs_keyli), 19 tests pgTAP (543 au total, verts en local) ;
+   types régénérés ; côté utilisateur : `useVerification.ts`,
+   `EmplacementDocument`, `SectionVerification` (profil), `BoutonSignaler`
+   (fiche) — types et lint OK, NON testés dans le navigateur.
+   Reste : ACD par annonce dans `MesAnnonces.tsx` (propriétaires) ; écrans
+   admin (`RouteAdmin`, `/admin` indicateurs avec `components/dashboard/
+   KpiCard.tsx`, `/admin/verifications` avec URL signée du fichier,
+   approuver / rejeter, `/admin/signalements` avec traiter, retirer la
+   vérification du bien, suspendre l'annonceur ; lien « Admin » dans
+   l'en-tête) ; procédure super_admin dans SETUP.md ; docs DATABASE.md,
+   DATABASE_LOGIC.md, MODULES/admin.md, verification.md ; test navigateur ;
+   push distant, CI, fusion.
 
 ---
 

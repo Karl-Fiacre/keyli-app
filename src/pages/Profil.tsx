@@ -7,6 +7,7 @@ import { Alert } from '@/components/ui/alert'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChampFormulaire } from '@/components/ChampFormulaire'
 import { VerifiedBadge } from '@/components/VerifiedBadge'
+import { SectionVerification } from '@/components/verification/SectionVerification'
 import { useModificationProfil, useProfil } from '@/hooks/useProfil'
 import { messageErreur } from '@/lib/erreurs'
 import { schemaProfil, type DonneesProfil } from '@/lib/validation'
@@ -108,6 +109,11 @@ export default function Profil() {
               {modification.isPending ? 'Enregistrement…' : 'Enregistrer'}
             </Button>
           </form>
+          {(p.role_keyli === 'owner' || p.role_keyli === 'agency') && (
+            <div className="mt-8 border-t pt-6">
+              <SectionVerification role={p.role_keyli} verifie={!!p.verified} />
+            </div>
+          )}
         </CardContent>
       </Card>
     </section>
