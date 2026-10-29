@@ -1,0 +1,54 @@
+/* Keyli — animations et transitions (docs/ANIMATIONS.md,
+   docs/KEYLI_DASHBOARD_DESIGN_SPEC.md §5). Seul fichier de keyframes du
+   projet : les composants importent ces classes, ils n'en réécrivent pas.
+   Aucune animation ne dépasse 500 ms (exception : compteur KPI, 600 ms). */
+
+:root {
+  --kf-fast: 150ms;
+  --kf-base: 250ms;
+  --kf-slow: 400ms;
+  --kf-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --kf-ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 8. Cloche de notification — une seule oscillation courte (±8°, 400 ms) à
+   la réception d'une notification */
+@keyframes kf-cloche-oscille {
+  0% { transform: rotate(0deg); }
+  20% { transform: rotate(8deg); }
+  45% { transform: rotate(-8deg); }
+  70% { transform: rotate(4deg); }
+  100% { transform: rotate(0deg); }
+}
+.kf-cloche-oscille {
+  transform-origin: 50% 10%;
+  animation: kf-cloche-oscille var(--kf-slow) var(--kf-ease-out) 1;
+}
+
+/* 7. Badges « nouveau » / pastille — scale 0.8 → 1 avec léger rebond */
+@keyframes kf-pastille-apparait {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+.kf-pastille-apparait {
+  animation: kf-pastille-apparait var(--kf-base) var(--kf-ease-out-back) both;
+}
+
+/* Panneau déroulant (menu de la cloche) — fondu + légère descente */
+@keyframes kf-panneau-ouvre {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.kf-panneau-ouvre {
+  animation: kf-panneau-ouvre var(--kf-fast) var(--kf-ease-out) both;
+}
+
+/* Règle OBLIGATOIRE (docs/ANIMATIONS.md) : mouvements réduits → aucune
+   animation ni transition décorative */
+@media (prefers-reduced-motion: reduce) {
+  .kf-cloche-oscille,
+  .kf-pastille-apparait,
+  .kf-panneau-ouvre {
+    animation: none !important;
+  }
+}

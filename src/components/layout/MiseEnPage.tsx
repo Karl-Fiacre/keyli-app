@@ -7,6 +7,7 @@ import { useDeconnexion } from '@/hooks/useCompte'
 import { useProfil } from '@/hooks/useProfil'
 import { useMessagesNonLus, useMessagesTempsReel } from '@/hooks/useMessagerie'
 import { cn } from '@/lib/utils'
+import { ClocheNotifications } from '@/components/layout/ClocheNotifications'
 
 // Mise en page commune : en-tête avec le logotype officiel
 // (public/keyli-logo-full.svg, généré depuis docs/keyli_brand_assets — jamais
@@ -53,40 +54,43 @@ export function MiseEnPage() {
           <Link to="/" aria-label="Keyli — accueil" className="shrink-0">
             <img src="/keyli-logo-full.svg" alt="Keyli" className="h-9 w-auto" />
           </Link>
-          <nav className="hidden items-center gap-1 lg:flex">
-            {(session ? liens : liens.slice(0, 1)).map((l) => (
-              <Button key={l.vers} variant="ghost" asChild>
-                <Link to={l.vers}>
-                  {l.libelle}
-                  <Pastille nombre={l.pastille} />
-                </Link>
-              </Button>
-            ))}
-            {session ? (
-              <Button variant="outline" onClick={seDeconnecter}>
-                Se déconnecter
-              </Button>
-            ) : (
-              <>
-                <Button variant="ghost" asChild>
-                  <Link to="/connexion">Se connecter</Link>
+          <div className="flex items-center gap-1">
+            <nav className="hidden items-center gap-1 lg:flex">
+              {(session ? liens : liens.slice(0, 1)).map((l) => (
+                <Button key={l.vers} variant="ghost" asChild>
+                  <Link to={l.vers}>
+                    {l.libelle}
+                    <Pastille nombre={l.pastille} />
+                  </Link>
                 </Button>
-                <Button asChild>
-                  <Link to="/inscription">Créer un compte</Link>
+              ))}
+              {session ? (
+                <Button variant="outline" onClick={seDeconnecter}>
+                  Se déconnecter
                 </Button>
-              </>
-            )}
-          </nav>
-          <Button
-            variant="ghost"
-            className="lg:hidden"
-            aria-label={menuOuvert ? 'Fermer le menu' : 'Ouvrir le menu'}
-            aria-expanded={menuOuvert}
-            aria-controls="menu-principal"
-            onClick={() => setMenuOuvert((o) => !o)}
-          >
-            {menuOuvert ? <X className="h-5 w-5" aria-hidden /> : <Menu className="h-5 w-5" aria-hidden />}
-          </Button>
+              ) : (
+                <>
+                  <Button variant="ghost" asChild>
+                    <Link to="/connexion">Se connecter</Link>
+                  </Button>
+                  <Button asChild>
+                    <Link to="/inscription">Créer un compte</Link>
+                  </Button>
+                </>
+              )}
+            </nav>
+            {session && <ClocheNotifications />}
+            <Button
+              variant="ghost"
+              className="lg:hidden"
+              aria-label={menuOuvert ? 'Fermer le menu' : 'Ouvrir le menu'}
+              aria-expanded={menuOuvert}
+              aria-controls="menu-principal"
+              onClick={() => setMenuOuvert((o) => !o)}
+            >
+              {menuOuvert ? <X className="h-5 w-5" aria-hidden /> : <Menu className="h-5 w-5" aria-hidden />}
+            </Button>
+          </div>
         </div>
         <nav id="menu-principal" className={cn('border-t lg:hidden', !menuOuvert && 'hidden')}>
           <div className="container flex flex-col gap-1 py-3">
@@ -131,7 +135,10 @@ function Pastille({ nombre }: { nombre?: number }) {
   return (
     <span className="ml-1.5 rounded-pill bg-primary px-1.5 py-0.5 text-[11px] font-semibold leading-none text-primary-foreground">
       {nombre > 99 ? '99+' : nombre}
-      <span className="sr-only"> message{nombre > 1 ? 's' : ''} non lu{nombre > 1 ? 's' : ''}</span>
+      <span className="sr-only">
+        {' '}
+        message{nombre > 1 ? 's' : ''} non lu{nombre > 1 ? 's' : ''}
+      </span>
     </span>
   )
 }
