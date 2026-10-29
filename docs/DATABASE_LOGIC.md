@@ -17,6 +17,8 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Admin — file de vérification | `documents_keyli WHERE status = 'pending' ORDER BY created_at` | `idx_documents_status_date (status, created_at)` — créé |
 | Tracking vues (tout écran bien) | `INSERT property_interactions_keyli` (quartier, auteur et date imposés par trigger) | `idx_interactions_property`, `idx_interactions_type_date`, `idx_interactions_quartier`, `idx_interactions_session_vue` — créés |
 | Agence — pipeline de leads | `leads_keyli WHERE owner_id = uid ORDER BY stage` | `idx_leads_owner_stage` — créé |
+| Chercheur — ses visites (conversation) | `visits_keyli WHERE visitor_user_id = uid` | `idx_visits_visitor (visitor_user_id, scheduled_at)` — créé |
+| Fiche d'annonce — avis sur l'annonceur | RPC `avis_recus_keyli(owner_id)` : `ratings_keyli WHERE rated_user_id = ?` + nom public de l'auteur | `idx_ratings_rated_user` (présent) |
 | Agence/Propriétaire — visites à venir | `visits_keyli WHERE scheduled_by = uid AND scheduled_at > now()` | `idx_visits_scheduled_by` — créé |
 | Chercheur — favoris | `favorites_keyli WHERE user_id = uid JOIN properties_keyli` | `(user_id)` couvert par la contrainte UNIQUE `(user_id, property_id)` — créée |
 | Chercheur — alertes actives | `search_alerts_keyli WHERE user_id = uid AND actif = true` | `idx_search_alerts_user_actif (user_id, actif)` — créé |

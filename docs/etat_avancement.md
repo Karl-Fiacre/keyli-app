@@ -156,6 +156,11 @@ conversation précédente, elle ne persiste pas.
       migration `20261029120000_messagerie_keyli.sql`, 11 tests pgTAP
 - [x] **Favoris** (2026-10-30) : cœur sur cartes et fiche, page `/favoris`,
       clic tracé (`click_favorite`) — aucun changement de base
+- [x] **Visites et avis** (2026-10-30) : planification depuis la
+      conversation, suivi côté chercheur avec notifications, lead qui
+      avance, avis note + commentaire après visite, avis sur la fiche —
+      migration `20261030120000_visites_notation_keyli.sql`, 22 tests
+      pgTAP. **Sprint 2 (parcours chercheur) terminé côté fonctionnel.**
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -243,8 +248,10 @@ concernés :
    et facturation des dépassements faites : module pricing complet en
    mode test. Écran de publication fait (2026-10-27). Recherche et fiche
    d'annonce faites (2026-10-28). Messagerie faite (2026-10-29). Favoris
-   faits (2026-10-30). Suite du Sprint 2 : notation après visite (et prise
-   de rendez-vous de visite, prérequis) ; photos dès les clés Cloudinary.
+   faits (2026-10-30). Visites et avis faits (2026-10-30) : Sprint 2
+   terminé. Suite : cloche de notifications (toutes les notifications sont
+   déjà créées en base mais aucun écran ne les montre), puis Sprint 3
+   (back-office admin) ; photos dès les clés Cloudinary.
 
 ---
 

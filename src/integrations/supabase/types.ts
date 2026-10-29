@@ -469,13 +469,13 @@ isOneToOne: false
                   ]
                 },"ratings_keyli": {
                   Row: {
-                    "comment": string | null,"created_at": string | null,"id": string,"property_id": string,"rated_user_id": string,"rater_id": string,"rating": number | null,"updated_at": string | null
+                    "comment": string | null,"created_at": string | null,"id": string,"property_id": string,"rated_user_id": string,"rater_id": string,"rating": number,"updated_at": string | null
                   }
                   Insert: {
-                    "comment"?: string | null,"created_at"?: string | null,"id"?: string,"property_id": string,"rated_user_id": string,"rater_id": string,"rating"?: number | null,"updated_at"?: string | null
+                    "comment"?: string | null,"created_at"?: string | null,"id"?: string,"property_id": string,"rated_user_id": string,"rater_id": string,"rating": number,"updated_at"?: string | null
                   }
                   Update: {
-                    "comment"?: string | null,"created_at"?: string | null,"id"?: string,"property_id"?: string,"rated_user_id"?: string,"rater_id"?: string,"rating"?: number | null,"updated_at"?: string | null
+                    "comment"?: string | null,"created_at"?: string | null,"id"?: string,"property_id"?: string,"rated_user_id"?: string,"rater_id"?: string,"rating"?: number,"updated_at"?: string | null
                   }
                   Relationships: [
                     {
@@ -656,6 +656,11 @@ isOneToOne: false
                            },
 "annonce_correspond_alerte_keyli":
 { Args: { "c": Json,"p": Database["public"]['Tables']["properties_keyli"]['Row'] }; Returns: boolean
+                           },
+"avis_recus_keyli":
+{ Args: { "p_limite"?: number,"p_user": string }; Returns: {
+              "auteur": string,"commentaire": string,"date_avis": string,"id": string,"note": number,"titre_bien": string
+            }[]
                            },
 "calculer_quartiers_tendance_keyli":
 { Args: Record<PropertyKey, never>; Returns: undefined

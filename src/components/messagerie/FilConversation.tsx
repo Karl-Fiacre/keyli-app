@@ -8,6 +8,7 @@ import { useFil, useMarquerLu, useRepondre } from '@/hooks/useMessagerie'
 import { messageErreur } from '@/lib/erreurs'
 import { cn } from '@/lib/utils'
 import type { Conversation } from '@/components/messagerie/ListeConversations'
+import { PanneauVisite } from '@/components/messagerie/PanneauVisite'
 
 const heure = (iso: string) =>
   new Date(iso).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })
@@ -72,6 +73,14 @@ export function FilConversation({
           )}
         </div>
       </div>
+
+      {propertyId && (
+        <PanneauVisite
+          propertyId={propertyId}
+          interlocuteur={interlocuteur}
+          nomInterlocuteur={resume?.nom_interlocuteur ?? 'votre interlocuteur'}
+        />
+      )}
 
       <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4" aria-live="polite">
         {fil.isPending && <p className="text-sm text-muted-foreground">Chargement…</p>}
