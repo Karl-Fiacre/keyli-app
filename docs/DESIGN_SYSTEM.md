@@ -15,10 +15,24 @@ un oubli** : l'Accueil (public) garde son ton chaleureux (or, rayon
 (violet/orange/rouge contextuels, rayon `0.75rem`). Ne pas unifier ces
 valeurs en implémentant — les deux registres sont voulus.
 
+## ✅ Alignement sur le logo officiel (décision du porteur, 2026-11-02)
+Le logo officiel (LOGO.md) est bleu roi `218 100% 36%` (#0046b8) et
+turquoise `174 100% 33%` (#00a898). Le bleu nuit `--primary` est de la même
+teinte (218°) : il reste la couleur principale (texte, boutons, meilleur
+contraste). Changements :
+- `--primary-glow` = bleu du logo (liens, accents secondaires, survol des
+  boutons) — remplace le navy clair `218 47% 25%` ;
+- nouveau `--turquoise` = accent du registre public (Accueil), à la place de
+  l'or ; texte bleu nuit sur turquoise (contraste AA) — variante de bouton
+  `turquoise` ;
+- `--gold` conservé uniquement pour les étoiles des avis ;
+- badge « Vérifié » inchangé (marque distincte, LOGO.md).
+Les accents fonctionnels des dashboards (violet, orange, rouge) ne changent pas.
+
 ## Palette — tokens partagés par les 4 écrans
 ```
 --primary        218 47% 12%    #1a1f2e   Navy — couleur dominante partout
---primary-glow   218 47% 25%    #2a3d66   Navy clair — liens/accents secondaires
+--primary-glow   218 100% 36%   #0046b8   Bleu du logo — liens/accents secondaires (2026-11-02)
 --success        142 71% 45%    #21c45d   Vert — vérifié, hausse, positif
 --secondary      210 40% 96.1%  #eef2f7   Fond de carte/zone secondaire
 --muted-fg       215.4 16.3% 46.9%        Texte secondaire/gris
@@ -32,7 +46,7 @@ valeur HSL comme référence, pas un hex mémorisé approximativement.
 ## Couleur d'accent — différenciée par écran (décision actée)
 | Écran | Token d'accent | Valeur | Usage |
 |---|---|---|---|
-| Accueil (public) | `--gold` | `38 51% 45%` / `#b8862f` | Bouton recherche, CTA, prix mis en avant |
+| Accueil (public) | `--turquoise` (depuis le 2026-11-02, remplace `--gold`) | `174 100% 33%` / `#00a898` | Bouton recherche, CTA, prix mis en avant |
 | Dashboard Agence | `--purple` | `262 83% 58%` / `#7c3bec` | Tags "Leads", badge "Insight IA" |
 | Dashboard Agence + Propriétaire | `--pending` | `25 95% 53%` | Statuts "en attente/en revue" |
 | Dashboard Chercheur | `--destructive` | `0 84.2% 60.2%` | Cœur favori actif |

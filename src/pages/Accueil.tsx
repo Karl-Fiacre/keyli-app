@@ -4,7 +4,7 @@ import { useSession } from '@/hooks/useSession'
 
 // Accueil provisoire : accès à la recherche (Sprint 2) ; les quartiers
 // populaires et les annonces mises en avant arriveront ensuite. Registre « public
-// chaleureux » de DESIGN_SYSTEM.md : accent or, titres Cambria, rayon accueil.
+// chaleureux » de DESIGN_SYSTEM.md : accent turquoise, titres Cambria, rayon accueil.
 export default function Accueil() {
   const { session } = useSession()
   return (
@@ -18,7 +18,7 @@ export default function Accueil() {
           après visite.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <Button variant="gold" size="lg" asChild>
+          <Button variant="turquoise" size="lg" asChild>
             <Link to="/recherche">Voir les logements</Link>
           </Button>
           {session ? (
