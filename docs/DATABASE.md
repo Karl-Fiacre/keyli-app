@@ -876,6 +876,14 @@ Migration `20261030120000_visites_notation_keyli.sql`.
   du bien.
 Tests : `supabase/tests/visites_notation_keyli.test.sql` (22 tests).
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-31) — cloche de notifications
+Migration `20261031120000_notifications_temps_reel_keyli.sql` :
+`notifications_keyli` ajoutée à la publication `supabase_realtime` (même
+choix que la messagerie : temps réel filtré par la RLS + actualisation de
+60 s). Règles inchangées : lecture de ses notifications, seule `lue` est
+modifiable, création serveur uniquement.
+Tests : `supabase/tests/notifications_temps_reel_keyli.test.sql` (6 tests).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — documents_keyli + bucket documents_keyli
 Créés le 2026-10-02 (migration `20261002140000_documents_keyli.sql`), avec les
 enums `document_type_keyli` et `document_status_keyli`. Colonnes identiques

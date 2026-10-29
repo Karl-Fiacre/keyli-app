@@ -30,7 +30,7 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Admin — journal d'audit | `audit_logs_keyli ORDER BY created_at DESC` (RLS : admin = ses entrées, super_admin = tout) | `idx_audit_created`, `idx_audit_admin`, `idx_audit_entity` — créés |
 | Admin — retours utilisateurs | `feedback_keyli WHERE status = 'pending' ORDER BY created_at` | `idx_feedback_status_date` — créé |
 | Admin — file pilote | `inscription_pilot_keyli WHERE status = ? ORDER BY priority_level, created_at` | `idx_inscription_pilot_file` — créé |
-| Cloche de notifications (pastille + liste) | `notifications_keyli WHERE user_id = uid [AND NOT lue] ORDER BY created_at DESC` | `idx_notifications_user_non_lues`, `idx_notifications_user_date` — créés |
+| Cloche de notifications (pastille + liste) | `notifications_keyli WHERE user_id = uid [AND NOT lue] ORDER BY created_at DESC LIMIT 20` (RLS ; temps réel sur INSERT) — écran fait le 2026-10-31 | `idx_notifications_user_non_lues`, `idx_notifications_user_date` — créés |
 | Accueil — quartiers populaires | `quartiers_populaires_keyli LIMIT 6` | `idx_quartiers_tendance_score` — créé (instantané nocturne) |
 | Dashboard Chercheur — TrendBar | `tendances_prix_keyli WHERE quartier_id IN (...)` | clé primaire `(niveau, zone_id)` |
 | Abonnement — abonnement en cours / dernier expiré | `subscriptions_keyli WHERE user_id = uid AND status = 'active' AND end_date > now()` ; sinon `status = 'expired' ORDER BY end_date DESC LIMIT 1` | `uq_subscriptions_keyli_un_actif (user_id) WHERE active` — créé ; peu de lignes par compte |

@@ -161,6 +161,11 @@ conversation précédente, elle ne persiste pas.
       avance, avis note + commentaire après visite, avis sur la fiche —
       migration `20261030120000_visites_notation_keyli.sql`, 22 tests
       pgTAP. **Sprint 2 (parcours chercheur) terminé côté fonctionnel.**
+- [x] **Cloche de notifications** (2026-10-31) : pastille des non lues,
+      panneau des 20 dernières, clic = lue + page concernée, « tout
+      marquer comme lu », temps réel + oscillation ;
+      `src/styles/dashboard-animations.css` créé — migration
+      `20261031120000_notifications_temps_reel_keyli.sql`, 6 tests pgTAP
 
 *(Liste complète dans `Keyli_Repertoire_Fichiers_Sources_Definitif.docx` et
 `docs/reference/schema_cible_reference.sql` — copier la section du module en
@@ -249,9 +254,9 @@ concernés :
    mode test. Écran de publication fait (2026-10-27). Recherche et fiche
    d'annonce faites (2026-10-28). Messagerie faite (2026-10-29). Favoris
    faits (2026-10-30). Visites et avis faits (2026-10-30) : Sprint 2
-   terminé. Suite : cloche de notifications (toutes les notifications sont
-   déjà créées en base mais aucun écran ne les montre), puis Sprint 3
-   (back-office admin) ; photos dès les clés Cloudinary.
+   terminé. Cloche de notifications faite (2026-10-31). Suite : Sprint 3
+   (back-office admin : file de vérification, modération, analytics de
+   base) ; photos dès les clés Cloudinary ; emails (fournisseur à choisir).
 
 ---
 

@@ -12,9 +12,11 @@ condensée pour référence rapide pendant le codage.
 --kf-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 --kf-ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
 ```
-Fichier source : `src/styles/dashboard-animations.css` — **à créer**
-(calendrier Phase 1, Sem. 11, avec `useCountUp.ts`). Il n'existe pas encore :
-ces constantes sont les valeurs à y reprendre à sa création.
+Fichier source : `src/styles/dashboard-animations.css` — **créé le
+2026-10-31** avec la cloche de notifications (constantes ci-dessus, règle
+prefers-reduced-motion, classes `kf-cloche-oscille` (effet 8),
+`kf-pastille-apparait` (effet 7), `kf-panneau-ouvre`). Les effets des
+dashboards (Sem. 11, `useCountUp.ts`) s'y ajouteront.
 Aucune animation ne doit dépasser 500ms (KEYLI_DASHBOARD_DESIGN_SPEC.md
 5.2). Seule exception spécifiée : le compteur de valeur KPI, 600ms (5.3).
 
