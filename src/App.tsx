@@ -18,6 +18,10 @@ import Recherche from '@/pages/Recherche'
 import FicheAnnonce from '@/pages/FicheAnnonce'
 import Messages from '@/pages/Messages'
 import MesFavoris from '@/pages/MesFavoris'
+import Admin from '@/pages/admin/Admin'
+import AdminIndicateurs from '@/pages/admin/AdminIndicateurs'
+import AdminVerifications from '@/pages/admin/AdminVerifications'
+import AdminSignalements from '@/pages/admin/AdminSignalements'
 import PageIntrouvable from '@/pages/PageIntrouvable'
 
 const clientRequetes = new QueryClient({
@@ -103,6 +107,18 @@ function App() {
                   </RouteProtegee>
                 }
               />
+              <Route
+                path="admin"
+                element={
+                  <RouteProtegee>
+                    <Admin />
+                  </RouteProtegee>
+                }
+              >
+                <Route index element={<AdminIndicateurs />} />
+                <Route path="verifications" element={<AdminVerifications />} />
+                <Route path="signalements" element={<AdminSignalements />} />
+              </Route>
               <Route path="*" element={<PageIntrouvable />} />
             </Route>
           </Routes>

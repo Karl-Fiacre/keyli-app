@@ -39,6 +39,7 @@ export function MiseEnPage() {
         ]
       : []),
     { vers: '/profil', libelle: 'Mon profil' },
+    ...(role === 'admin' || role === 'super_admin' ? [{ vers: '/admin', libelle: 'Admin' }] : []),
   ]
   // Quitter d'abord la page en cours : sinon une page protégée renverrait vers
   // la connexion en mémorisant cette page, et le compte suivant y atterrirait

@@ -1,6 +1,13 @@
 # MODULE : Administration
 
-Fichiers : `Admin.tsx`, `AdminDashboard.tsx`, `AdminAnalytics.tsx`,
+Réalisé le 2026-11-01 (Sprint 3) : `src/pages/admin/` — `Admin.tsx` (onglets,
+accès admin/super_admin ; lien « Admin » dans l'en-tête), `AdminIndicateurs.tsx`,
+`AdminVerifications.tsx`, `AdminSignalements.tsx` ; `src/hooks/useAdmin.ts` ;
+`src/components/dashboard/KpiCard.tsx` (version de base). Migration
+`20261101120000_backoffice_admin_keyli.sql`. Premier super_admin : procédure
+manuelle dans `SETUP.md`.
+
+Fichiers prévus à l'origine : `Admin.tsx`, `AdminDashboard.tsx`, `AdminAnalytics.tsx`,
 `AdminVerifications.tsx` (voir MODULES/verification.md), `UsersAdmin.tsx`,
 `AdminAuditLog.tsx`, `AdminNewsletter.tsx`, `MarketingTemplates.tsx`,
 `OnboardingAdmin.tsx`, `PilotDashboard.tsx`, `PilotInscriptionsAdmin.tsx`.
@@ -31,6 +38,15 @@ report_status_keyli : pending → reviewed → resolved
 - [x] Un signalement `pending` est lisible par l'admin dès sa création
       (index `idx_reports_status_date`) ; traitement via
       `admin_traiter_signalement_keyli`
+- [x] Motif en liste (décision du 2026-11-01) : `fraude`, `indisponible`,
+      `informations_trompeuses`, `photos_non_conformes`, `comportement`,
+      `autre` (précision obligatoire), précision ≤ 1 000 caractères ;
+      bouton « Signaler cette annonce » sur la fiche
+- [x] File `/admin/signalements` (RPC `admin_file_signalements_keyli`) :
+      annonce, annonceur, auteur, nombre de signalements en attente sur
+      l'annonce ; actions : marquer examiné, résoudre (note d'audit),
+      retirer la vérification du bien, suspendre l'annonceur (motif
+      obligatoire)
 
 ## Suivi du pilote (PilotDashboard.tsx, inscription_pilot_keyli)
 - [ ] `inscription_status_keyli` : en_attente → contacte → converti | rejete
@@ -42,6 +58,11 @@ report_status_keyli : pending → reviewed → resolved
 KPIs cibles pilote (voir PRD section 4.2, PRD_REGLES.md) : taux de
 vérification ≥ 70%, note moyenne ≥ 4.0/5, 500 propriétés cible. Ne pas
 inventer d'autres seuils sans les faire valider.
+- [x] `/admin` (RPC `admin_indicateurs_keyli`, 2026-11-01) : les trois
+      objectifs ci-dessus (taux calculé sur les annonceurs — propriétaires
+      et agences ; annonces = visibles du public), files en attente, et
+      activité sans seuil (comptes, abonnements en cours, inscriptions,
+      vues, premiers contacts et encaissements sur 30 jours)
 
 ## Newsletter et templates marketing
 `send-newsletter` (Edge Function) consomme `marketing_templates_keyli`

@@ -17,6 +17,14 @@ insert into auth.users (id, email, raw_user_meta_data) values
   ('adad0000-0000-0000-0000-00000000000b', 'a@test.local', '{"role_keyli": "agency", "nom_agence": "Agence Lagune"}'),
   ('adad0000-0000-0000-0000-00000000000c', 'c@test.local', '{"first_name": "Aminata", "last_name": "Diallo"}');
 update public.profiles_keyli set role_keyli = 'admin' where user_id = 'adad0000-0000-0000-0000-00000000000e';
+
+-- Indicateurs de départ : la base (distant compris) peut déjà contenir des
+-- données ; on vérifie les écarts dus à ce test, pas des totaux absolus
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub": "adad0000-0000-0000-0000-00000000000e", "role": "authenticated"}', true);
+create temp table indicateurs_depart as select * from public.admin_indicateurs_keyli();
+set local role postgres;
+select set_config('request.jwt.claims', '', true);
 insert into public.subscriptions_keyli (user_id, plan_id, amount, start_date, end_date)
 select 'adad0000-0000-0000-0000-00000000000a', p.id, p.prix_mensuel, now() - interval '1 day', now() + interval '1 month'
   from public.plans_keyli p where p.code = 'proprietaire';
@@ -112,12 +120,15 @@ select is((select count(*)::int from public.admin_file_signalements_keyli('resol
 -- Indicateurs (admin)
 -- ------------------------------------------------------------
 select results_eq(
-  $$ select proprietaires, agences, annonceurs_verifies, taux_verification, annonces_publiees, annonces_visibles,
-            documents_en_attente, signalements_en_attente, abonnements_actifs
-       from public.admin_indicateurs_keyli() $$,
-  $$ values (1::bigint, 1::bigint, 0::bigint, 0.0::numeric, 1::bigint, 1::bigint, 1::bigint, 0::bigint, 1::bigint) $$,
-  'Indicateurs : comptes, vérification, annonces, files en attente, abonnements');
-select is((select note_moyenne from public.admin_indicateurs_keyli()), null::numeric, 'Pas encore d''avis : note moyenne vide');
+  $$ select i.proprietaires - d.proprietaires, i.agences - d.agences, i.annonceurs_verifies - d.annonceurs_verifies,
+            i.annonces_publiees - d.annonces_publiees, i.annonces_visibles - d.annonces_visibles,
+            i.documents_en_attente - d.documents_en_attente, i.signalements_en_attente - d.signalements_en_attente,
+            i.abonnements_actifs - d.abonnements_actifs
+       from public.admin_indicateurs_keyli() i, indicateurs_depart d $$,
+  $$ values (0::bigint, 0::bigint, 0::bigint, 1::bigint, 1::bigint, 1::bigint, 0::bigint, 1::bigint) $$,
+  'Indicateurs : annonce, document en attente, abonnement ajoutés par le test (comptes déjà comptés au départ)');
+select is((select i.avis - d.avis from public.admin_indicateurs_keyli() i, indicateurs_depart d), 0::bigint,
+  'Aucun avis ajouté par le test');
 
 select * from finish();
 rollback;

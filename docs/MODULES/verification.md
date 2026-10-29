@@ -24,6 +24,20 @@ Table : `documents_keyli`.
    non défini dans ce lot — demander avant de coder un cron/trigger)
 ```
 
+## Réalisé le 2026-11-01
+- Envoi côté utilisateur : section « Vérification du compte » du profil
+  (propriétaire : extrait de naissance + certificat de résidence ; agence :
+  registre) et ACD par bien dans « Mes annonces » (propriétaires) —
+  `EmplacementDocument`, `SectionVerification`, `useVerification.ts` ;
+  fichier dans le dossier de l'utilisateur du bucket privé, puis ligne
+  `pending` ; un document rejeté se redépose.
+- File `/admin/verifications` (RPC `admin_file_verification_keyli`, plus
+  anciens d'abord) : ouverture du fichier par URL signée de 5 minutes,
+  approuver, rejeter avec motif (`admin_reviser_document_keyli`, audité).
+- L'utilisateur est notifié de chaque décision (`document_approuve`,
+  `document_rejete` avec le motif).
+- Délai de relance admin (`notify-admin-critical`) : toujours non défini.
+
 ## Règles
 - [x] Retrait de vérification après coup (fraude) : fonctions admin
       `admin_retirer_verification_compte_keyli` / `_bien_keyli` (2026-10-21)

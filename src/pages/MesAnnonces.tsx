@@ -6,6 +6,9 @@ import { Card, CardContent } from '@/components/ui/card'
 import { VerifiedBadge } from '@/components/VerifiedBadge'
 import { useMesAnnonces } from '@/hooks/useAnnonces'
 import { useAbonnementActif } from '@/hooks/useAbonnement'
+import { useProfil } from '@/hooks/useProfil'
+import { dernierDocument, useMesDocuments } from '@/hooks/useVerification'
+import { EmplacementDocument } from '@/components/verification/EmplacementDocument'
 import { messageErreur } from '@/lib/erreurs'
 import { LIBELLES_TYPE } from '@/lib/validation'
 import { formatXof } from '@/lib/format'
@@ -17,6 +20,10 @@ export default function MesAnnonces() {
   const etat = useLocation().state as { publiee?: boolean } | null
   // Sans abonnement en cours, la base masque les annonces au public
   const masquees = !abonnement.isPending && !abonnement.data
+  // Badge « Vérifié » d'un bien = son ACD approuvé ; dépôt réservé aux
+  // propriétaires (règle en base)
+  const estProprietaire = useProfil().data?.role_keyli === 'owner'
+  const documents = useMesDocuments()
 
   return (
     <section className="container py-12">
@@ -76,6 +83,17 @@ export default function MesAnnonces() {
                       {a.archived_at ? 'Archivée' : masquees ? 'Masquée' : 'En ligne'}
                     </span>
                   </div>
+                  {estProprietaire && !a.archived_at && !a.is_verified && (
+                    <div className="flex w-full flex-wrap items-center gap-3 border-t pt-3">
+                      <span className="text-xs text-muted-foreground">Faire vérifier ce bien (ACD) :</span>
+                      <EmplacementDocument
+                        compact
+                        type="acd"
+                        propertyId={a.id}
+                        document={dernierDocument(documents.data, 'acd', a.id)}
+                      />
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </li>

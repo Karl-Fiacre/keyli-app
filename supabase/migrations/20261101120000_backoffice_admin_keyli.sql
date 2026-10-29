@@ -246,7 +246,8 @@ begin
       where status = 'active' and now() >= start_date and now() < end_date),
     (select count(*) from public.documents_keyli where status = 'pending'),
     (select count(*) from public.reports_keyli where status = 'pending'),
-    (select count(*) from public.profiles_keyli where created_at > now() - interval '30 days'),
+    (select count(*) from public.profiles_keyli
+      where role_keyli in ('user', 'owner', 'agency') and created_at > now() - interval '30 days'),
     (select count(*) from public.leads_keyli where contact_user_id is not null and created_at > now() - interval '30 days'),
     (select count(*) from public.property_interactions_keyli
       where interaction_type = 'view' and created_at > now() - interval '30 days'),

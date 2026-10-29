@@ -44,6 +44,25 @@ pointer `npm run dev` vers cette pile. `npm run dev:distant` (mode Vite
 via `.env` — nécessaire pour tester le paiement Paystack, dont les Edge
 Functions ne tournent que sur le distant.
 
+## Premier super_admin (à faire une fois, par le porteur — décision du 2026-11-01)
+Seul un super_admin peut nommer des admins (`super_admin_changer_role_keyli`),
+et aucune inscription ne peut en créer un : le premier est promu à la main,
+rien d'automatique dans le code.
+1. S'inscrire normalement dans l'application (compte chercheur), confirmer
+   l'email.
+2. Dashboard Supabase → SQL Editor → exécuter, en remplaçant l'adresse :
+   ```sql
+   update public.profiles_keyli
+      set role_keyli = 'super_admin'
+    where email = 'votre.adresse@exemple.com'
+      and not exists (select 1 from public.profiles_keyli where role_keyli = 'super_admin');
+   ```
+   (la condition empêche d'en créer un second par erreur : les suivants se
+   nomment depuis l'application, avec audit).
+3. Se déconnecter / reconnecter : le lien « Admin » apparaît dans l'en-tête.
+Les admins suivants : `select public.super_admin_changer_role_keyli(<user_id>, 'admin')`
+depuis un compte super_admin (écran de gestion des rôles à venir).
+
 ## Identifiants — rappel de sécurité
 Seuls **l'URL du projet** et la **clé anon publique** doivent être transmis
 pour connecter le web/mobile. Ne jamais transmettre ni coller dans le chat :
