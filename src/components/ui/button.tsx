@@ -10,7 +10,8 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-primary text-primary-foreground hover:bg-primary-glow',
-        gold: 'bg-gold text-primary-foreground hover:bg-gold/90',
+        // Accent public (turquoise du logo) : texte bleu nuit pour le contraste (AA)
+        turquoise: 'bg-turquoise text-primary hover:bg-turquoise/90',
         outline: 'border border-input bg-background hover:bg-secondary',
         ghost: 'hover:bg-secondary',
         link: 'text-primary-glow underline-offset-4 hover:underline',

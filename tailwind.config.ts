@@ -29,6 +29,7 @@ const config: Config = {
         pending: 'hsl(var(--pending))',
         purple: 'hsl(var(--purple))',
         gold: 'hsl(var(--gold))',
+        turquoise: 'hsl(var(--turquoise))',
       },
       borderRadius: {
         lg: 'var(--radius)',

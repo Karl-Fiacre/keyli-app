@@ -46,8 +46,8 @@ keyli_app_icon_adaptive_foreground_432.png  calque Android adaptatif
                                         (fond blanc à déclarer dans le XML)
 ```
 Copies servies par le web dans `public/` (avec `manifest.webmanifest`).
-Couleurs du logo : bleu roi et turquoise — différentes de la palette de
-`DESIGN_SYSTEM.md` (navy, or) : alignement de la charte à décider.
+Couleurs du logo : bleu roi et turquoise — charte alignée le 2026-11-02
+(voir DESIGN_SYSTEM.md : `--primary-glow` = bleu du logo, `--turquoise`).
 
 ## Anciens assets (2026-10-23) — obsolètes, plus utilisés par l'application
 Conservés pour l'historique en attendant l'accord du porteur pour les retirer.

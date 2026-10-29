@@ -13,7 +13,7 @@
 
     --primary: 218 47% 12%;          /* navy #1a1f2e — couleur dominante */
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 218 47% 25%;     /* navy clair — liens, accents secondaires */
+    --primary-glow: 218 100% 36%;    /* bleu du logo (#0046b8) — liens, accents secondaires (charte du 2026-11-02) */
     --secondary: 210 40% 96.1%;      /* fond de carte / zone secondaire */
     --secondary-foreground: 218 47% 12%;
     --muted: 210 40% 96.1%;
@@ -26,7 +26,8 @@
     --success: 142 71% 45%;          /* vérifié, hausse, positif — #21c45d */
     --pending: 25 95% 53%;           /* en attente / en revue — jamais rouge */
     --purple: 262 83% 58%;           /* dashboard Agence : leads, insight */
-    --gold: 38 51% 45%;              /* Accueil public : CTA, prix — #b8862f */
+    --gold: 38 51% 45%;              /* étoiles des avis uniquement — #b8862f */
+    --turquoise: 174 100% 33%;       /* turquoise du logo (#00a898) — accent public (Accueil) */
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
