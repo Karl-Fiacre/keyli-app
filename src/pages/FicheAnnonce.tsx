@@ -1,10 +1,12 @@
 import { Link, useParams, useSearchParams } from 'react-router-dom'
-import { ArrowLeft, Bath, BedDouble, Home, MapPin, Ruler, Sofa, Star } from 'lucide-react'
+import { ArrowLeft, Bath, BedDouble, Home, MapPin, Ruler, Sofa } from 'lucide-react'
 import { Alert } from '@/components/ui/alert'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { VerifiedBadge } from '@/components/VerifiedBadge'
 import { FormulaireContact } from '@/components/annonce/FormulaireContact'
 import { BoutonFavori } from '@/components/annonce/BoutonFavori'
+import { Etoiles } from '@/components/avis/Etoiles'
+import { ListeAvis } from '@/components/avis/ListeAvis'
 import { useSession } from '@/hooks/useSession'
 import { useFicheAnnonce, useVueAnnonce } from '@/hooks/useRecherche'
 import { messageErreur } from '@/lib/erreurs'
@@ -143,6 +145,13 @@ export default function FicheAnnonce() {
             </div>
           )}
 
+          <div>
+            <h2 className="mb-3 text-lg font-semibold">
+              Avis sur {annonceur?.role_keyli === 'agency' ? "l'agence" : 'le propriétaire'}
+            </h2>
+            <ListeAvis userId={a.owner_id} />
+          </div>
+
           <p className="text-xs text-muted-foreground">Publiée le {formatDate(a.created_at ?? '')}</p>
         </div>
 
@@ -160,8 +169,8 @@ export default function FicheAnnonce() {
                   {annonceur.verified && <VerifiedBadge />}
                 </p>
                 {Number(annonceur.rating_avg) > 0 && (
-                  <p className="flex items-center gap-1 text-muted-foreground">
-                    <Star className="h-4 w-4 fill-gold text-gold" aria-hidden />
+                  <p className="flex items-center gap-2 text-muted-foreground">
+                    <Etoiles note={Number(annonceur.rating_avg)} />
                     {Number(annonceur.rating_avg).toFixed(1)} / 5
                   </p>
                 )}
