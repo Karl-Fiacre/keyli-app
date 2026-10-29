@@ -42,6 +42,22 @@ est l'état commercial qui peut référencer un message d'origine
    jour J, ça resterait "planifiee" jusqu'à confirmation)
 ```
 
+## Réalisé le 2026-10-30 (migration `20261030120000_visites_notation_keyli.sql`)
+Décisions du porteur :
+- le chercheur **voit ses visites** (policy « Visiteur lit ses visites »,
+  sans pouvoir les modifier) dans la conversation, et reçoit une
+  notification in-app : `visite_planifiee`, `visite_modifiee`,
+  `visite_annulee`, `visite_effectuee` (invitation à donner son avis) ;
+- planifier une visite fait passer le lead **« nouveau » → « visite
+  planifiée »** (jamais de retour en arrière ; le reste du pipeline reste
+  manuel) ; la visite est rattachée automatiquement au lead du visiteur.
+Garde-fous (écritures du propriétaire ; une écriture serveur sans identité,
+p. ex. reprise d'historique, n'y est pas soumise) : planification et
+déplacement à une date future ; « effectuée » seulement après l'heure
+prévue ; une visite effectuée ou annulée est définitive.
+Écran : panneau en tête de la conversation (`PanneauVisite`) — planifier,
+déplacer, marquer effectuée, annuler (propriétaire) ; suivi (chercheur).
+
 ## Règles
 - [x] `leads_keyli.owner_id` doit toujours correspondre au `owner_id` de
       `properties_keyli` référencée par `property_id` — recopié par trigger,

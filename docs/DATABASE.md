@@ -859,6 +859,23 @@ périodique en filet de sécurité.
 - Règles d'envoi, de lecture et d'anti-démarchage inchangées.
 Tests : `supabase/tests/messagerie_keyli.test.sql` (11 tests).
 
+## ⚠️ DÉCISIONS ACTÉES (2026-10-30) — visites côté chercheur et avis
+Migration `20261030120000_visites_notation_keyli.sql`.
+- Policy « Visiteur lit ses visites » ; index `idx_visits_visitor`.
+- Trigger `controler_visite_keyli` (BEFORE) : rattache la visite au lead du
+  visiteur ; pour le propriétaire : date future à la planification et au
+  déplacement, statut forcé à `planifiee`, « effectuée » seulement après
+  l'heure, effectuée/annulée définitives.
+- Trigger `suivre_visite_keyli` (AFTER) : lead `nouveau` → `visite_planifiee`
+  ; notifications du visiteur (`visite_planifiee`, `visite_modifiee`,
+  `visite_annulee`, `visite_effectuee`).
+- `ratings_keyli.rating` NOT NULL ; contrainte
+  `ratings_keyli_commentaire_court` (500 caractères).
+- `avis_recus_keyli(p_user, p_limite)` (SECURITY INVOKER, anon et
+  authenticated) : note, commentaire, date, nom public de l'auteur, titre
+  du bien.
+Tests : `supabase/tests/visites_notation_keyli.test.sql` (22 tests).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — documents_keyli + bucket documents_keyli
 Créés le 2026-10-02 (migration `20261002140000_documents_keyli.sql`), avec les
 enums `document_type_keyli` et `document_status_keyli`. Colonnes identiques
