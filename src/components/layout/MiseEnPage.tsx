@@ -10,8 +10,8 @@ import { cn } from '@/lib/utils'
 import { ClocheNotifications } from '@/components/layout/ClocheNotifications'
 
 // Mise en page commune : en-tête avec le logotype officiel
-// (public/keyli-logo-full.svg, généré depuis docs/keyli_brand_assets — jamais
-// redessiné dans un composant, docs/LOGO.md). Sur petit écran, les liens
+// (public/keyli-logo-*.png, déclinés par docs/keyli_brand_assets/generer-raster.cjs
+// depuis le fichier source — jamais redessiné dans un composant, docs/LOGO.md). Sur petit écran, les liens
 // passent dans un menu repliable.
 export function MiseEnPage() {
   const { session } = useSession()
@@ -53,7 +53,12 @@ export function MiseEnPage() {
       <header className="border-b bg-background">
         <div className="container flex h-16 items-center justify-between gap-3">
           <Link to="/" aria-label="Keyli — accueil" className="shrink-0">
-            <img src="/keyli-logo-full.svg" alt="Keyli" className="h-9 w-auto" />
+            <img
+              src="/keyli-logo-120.png"
+              srcSet="/keyli-logo-120.png 1x, /keyli-logo-240.png 2x, /keyli-logo-480.png 4x"
+              alt="Keyli"
+              className="h-12 w-auto"
+            />
           </Link>
           <div className="flex items-center gap-1">
             <nav className="hidden items-center gap-1 lg:flex">

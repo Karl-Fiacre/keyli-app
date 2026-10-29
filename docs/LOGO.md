@@ -20,7 +20,38 @@ violet/orange/rouge contextuels sur les dashboards). Ne pas dupliquer ces
 valeurs ici : c'est exactement une seconde copie de palette qui a permis à
 cette fragmentation de passer inaperçue jusqu'à un rescan explicite.
 
-## Assets disponibles (créés le 2026-10-23, à la demande du porteur de projet)
+## ⚠️ LOGO OFFICIEL (fourni par le porteur le 2026-11-02) — remplace le précédent
+Sources canoniques, fond transparent, dans `keyli_brand_assets/sources/` :
+```
+keyli-logo-source.png    logotype complet « Keyli » : K bleu dont le haut
+                         porte un toit turquoise, anneau turquoise en bas
+                         à gauche (1024 × 1024)
+keyli-icone-source.png   icône seule (K + toit + anneau), base du favicon
+                         et des icônes d'application (1254 × 1254)
+```
+Toutes les déclinaisons sont produites par `keyli_brand_assets/generer-raster.cjs`
+(recadrage, redimensionnement, fond plein si la plateforme l'exige ;
+variante « fond sombre » = bleu du logotype passé en blanc, turquoise
+inchangé). Aucun dessin refait. Sorties dans `keyli_brand_assets/raster/` :
+```
+keyli-logo-{120,240,480,960}.png        logotype, fond clair (en-tête : 120/240/480)
+keyli-logo-blanc-{120,240,480,960}.png  logotype, fond sombre
+keyli-icone-{64,128,256,512}.png        icône transparente
+favicon-{16,32,48}.png, favicon.ico     favicons (icône quasi plein cadre)
+apple-touch-icon.png (180)              iOS, fond blanc
+icon-192.png, icon-512.png              PWA, fond blanc
+icon-maskable-512.png                   PWA « maskable » (zone sûre 80 %)
+keyli_app_icon_1024.png                 icône d'app iOS, fond blanc
+keyli_app_icon_adaptive_foreground_432.png  calque Android adaptatif
+                                        (fond blanc à déclarer dans le XML)
+```
+Copies servies par le web dans `public/` (avec `manifest.webmanifest`).
+Couleurs du logo : bleu roi et turquoise — différentes de la palette de
+`DESIGN_SYSTEM.md` (navy, or) : alignement de la charte à décider.
+
+## Anciens assets (2026-10-23) — obsolètes, plus utilisés par l'application
+Conservés pour l'historique en attendant l'accord du porteur pour les retirer.
+
 Tous générés par `keyli_brand_assets/generer.cjs` à partir d'UNE géométrie
 unique, relevée sur l'icône source `design-reference/icons/app_icon_source.png`
 (clé dont le panneton est une maison, serrure dorée, deux dents ; sommet du
