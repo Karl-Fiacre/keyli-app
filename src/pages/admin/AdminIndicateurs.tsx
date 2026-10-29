@@ -29,21 +29,26 @@ export default function AdminIndicateurs() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <KpiCard
             libelle="Annonceurs vérifiés"
-            valeur={taux === null ? '—' : `${taux.toLocaleString('fr-FR')} %`}
+            nombre={taux}
+            formater={(n) => `${n.toLocaleString('fr-FR', { maximumFractionDigits: 1 })} %`}
+            rang={0}
             detail={`${nombre(i.annonceurs_verifies)} sur ${nombre(Number(i.proprietaires) + Number(i.agences))} propriétaires et agences`}
             cible={`≥ ${CIBLE_VERIFICATION} %`}
             atteinte={taux === null ? null : taux >= CIBLE_VERIFICATION}
           />
           <KpiCard
             libelle="Note moyenne"
-            valeur={note === null ? '—' : `${note.toLocaleString('fr-FR')} / 5`}
+            nombre={note}
+            formater={(n) => `${n.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 2 })} / 5`}
+            rang={1}
             detail={`${nombre(i.avis)} avis publiés`}
             cible={`≥ ${CIBLE_NOTE.toLocaleString('fr-FR', { minimumFractionDigits: 1 })} / 5`}
             atteinte={note === null ? null : note >= CIBLE_NOTE}
           />
           <KpiCard
             libelle="Annonces visibles"
-            valeur={nombre(annonces)}
+            nombre={annonces}
+            rang={2}
             detail={`${nombre(i.annonces_publiees)} publiées, dont ${nombre(i.annonces_verifiees)} vérifiées`}
             cible={`${CIBLE_ANNONCES} propriétés`}
             atteinte={annonces >= CIBLE_ANNONCES}
@@ -55,10 +60,10 @@ export default function AdminIndicateurs() {
         <h2 className="mb-3 text-lg font-semibold">À traiter</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <Link to="/admin/verifications" className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-            <KpiCard libelle="Documents en attente" valeur={nombre(i.documents_en_attente)} detail="Ouvrir la file de vérification" />
+            <KpiCard libelle="Documents en attente" nombre={Number(i.documents_en_attente)} detail="Ouvrir la file de vérification" rang={3} />
           </Link>
           <Link to="/admin/signalements" className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-            <KpiCard libelle="Signalements en attente" valeur={nombre(i.signalements_en_attente)} detail="Ouvrir la file de modération" />
+            <KpiCard libelle="Signalements en attente" nombre={Number(i.signalements_en_attente)} detail="Ouvrir la file de modération" rang={4} />
           </Link>
         </div>
       </div>
@@ -68,14 +73,15 @@ export default function AdminIndicateurs() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <KpiCard
             libelle="Comptes"
-            valeur={nombre(i.comptes_total)}
+            nombre={Number(i.comptes_total)}
+            rang={5}
             detail={`${nombre(i.chercheurs)} chercheurs · ${nombre(i.proprietaires)} propriétaires · ${nombre(i.agences)} agences`}
           />
-          <KpiCard libelle="Abonnements en cours" valeur={nombre(i.abonnements_actifs)} />
-          <KpiCard libelle="Inscriptions (30 j)" valeur={nombre(i.inscriptions_30j)} />
-          <KpiCard libelle="Encaissé (30 j)" valeur={formatXof(Number(i.encaisse_30j))} />
-          <KpiCard libelle="Vues d'annonces (30 j)" valeur={nombre(i.vues_30j)} />
-          <KpiCard libelle="Premiers contacts (30 j)" valeur={nombre(i.contacts_30j)} />
+          <KpiCard libelle="Abonnements en cours" nombre={Number(i.abonnements_actifs)} rang={6} />
+          <KpiCard libelle="Inscriptions (30 j)" nombre={Number(i.inscriptions_30j)} rang={7} />
+          <KpiCard libelle="Encaissé (30 j)" nombre={Number(i.encaisse_30j)} formater={(n) => formatXof(Math.round(n))} rang={8} />
+          <KpiCard libelle="Vues d'annonces (30 j)" nombre={Number(i.vues_30j)} rang={9} />
+          <KpiCard libelle="Premiers contacts (30 j)" nombre={Number(i.contacts_30j)} rang={10} />
         </div>
       </div>
     </div>
