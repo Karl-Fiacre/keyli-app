@@ -24,6 +24,7 @@ import AdminIndicateurs from '@/pages/admin/AdminIndicateurs'
 import AdminVerifications from '@/pages/admin/AdminVerifications'
 import AdminSignalements from '@/pages/admin/AdminSignalements'
 import PageIntrouvable from '@/pages/PageIntrouvable'
+import TableauDeBord from '@/pages/dashboard/TableauDeBord'
 
 // Vitrine des composants de dashboard : développement uniquement (le code
 // n'est pas inclus dans le build de production)
@@ -49,6 +50,15 @@ function App() {
                 }
               />
             )}
+            {/* Dashboards : leur propre cadre (barre latérale), hors de l'en-tête commun */}
+            <Route
+              path="tableau-de-bord"
+              element={
+                <RouteProtegee>
+                  <TableauDeBord />
+                </RouteProtegee>
+              }
+            />
             <Route element={<MiseEnPage />}>
               <Route index element={<Accueil />} />
               <Route path="recherche" element={<Recherche />} />

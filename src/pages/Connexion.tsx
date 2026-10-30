@@ -18,10 +18,13 @@ export default function Connexion() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<DonneesConnexion>({ resolver: zodResolver(schemaConnexion), defaultValues: { email: '', motDePasse: '' } })
+  } = useForm<DonneesConnexion>({
+    resolver: zodResolver(schemaConnexion),
+    defaultValues: { email: '', motDePasse: '' },
+  })
 
   const envoyer = handleSubmit((d) =>
-    connexion.mutate(d, { onSuccess: () => naviguer(etat?.depuis ?? '/profil', { replace: true }) }),
+    connexion.mutate(d, { onSuccess: () => naviguer(etat?.depuis ?? '/tableau-de-bord', { replace: true }) }),
   )
 
   return (

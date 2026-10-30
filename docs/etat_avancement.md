@@ -300,9 +300,21 @@ concernés :
    bien, colonne des critères fixe, retrait d'un bien) ; constantes dans
    `lib/dashboard.ts` ; testés dans la vitrine (bureau et 375 px).
    Décision : ni Framer Motion ni `@dnd-kit` (pipeline par menu).
-   Semaine 16 : OwnerDashboard et UserDashboard sur données réelles —
-   ⚠️ demander au porteur comment calculer le score de pertinence des
-   recommandations (MODULES/dashboard.md) avant de l'improviser.
+   Semaine 16 faite (2026-10-30) : `/tableau-de-bord` selon le rôle
+   (`TableauDeBord.tsx`) — `OwnerDashboard` (3 KPI réels avec variation et
+   série des vues, bandeau « Repère de prix » = écart au prix moyen fiable
+   du quartier, pas un modèle IA, stepper de vérification déduit des
+   documents, messages, biens face au quartier, visites) et
+   `UserDashboard` (carrousel « Pour vous », comparateur de 3 favoris,
+   quartiers les plus recherchés, alertes et nouveautés, messages, visites).
+   Score de pertinence validé par le porteur (quartier 40, type 25, prix 20,
+   vérifiée 15). Migration `20261103120000_tableaux_de_bord_keyli.sql`
+   (18 tests, 566 au total). Après connexion, arrivée sur le tableau de
+   bord ; lien « Tableau de bord » dans l'en-tête. L'agence utilise
+   provisoirement le dashboard propriétaire. Reste à faire : écran de
+   création des alertes de recherche (la table existe, aucun écran encore).
+   Semaine 17 : `AgencyDashboard` (pipeline de leads par menu, équipe,
+   insights à règles simples à faire valider).
    **Fin de projet (après les apps mobiles natives, Phase 3)** : produire la
    vidéo publicitaire à effets innovants demandée par le porteur le
    2026-10-30.
@@ -456,6 +468,8 @@ concernés :
   libéré de la place et redémarré).
 - 2026-10-28 : recherche et fiche d'annonce (tri vérifiées d'abord, filtres
   sans carte pour l'instant, contact par messagerie Keyli seule).
+- 2026-10-30 (Sprint 3bis, semaine 16) : tableaux de bord Propriétaire et
+  Chercheur sur données réelles ; score de pertinence validé par le porteur.
 - 2026-10-30 (Sprint 3bis, semaine 15) : composites du pipeline de leads,
   des recommandations et du comparateur ; pipeline par menu, sans Framer
   Motion ni `@dnd-kit` ; vidéo publicitaire prévue en fin de projet.

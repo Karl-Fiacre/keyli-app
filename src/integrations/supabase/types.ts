@@ -732,10 +732,28 @@ isOneToOne: false
 "journaliser_keyli":
 { Args: { "p_action": string,"p_details"?: Json,"p_entity_id": string,"p_entity_type": string }; Returns: undefined
                            },
+"mes_alertes_keyli":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "actif": boolean,"commune": string,"created_at": string,"criteres": Json,"id": string,"nouvelles": number,"quartier": string
+            }[]
+                           },
+"mes_biens_marche_keyli":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "ecart_pct": number,"id": string,"prix": number,"prix_moyen": number,"quartier": string,"statut": Database["public"]['Enums']["property_status_keyli"],"titre": string,"verifiee": boolean,"vues": number
+            }[]
+                           },
 "mes_conversations_keyli":
 { Args: Record<PropertyKey, never>; Returns: {
               "dernier_envoi": string,"dernier_message": string,"envoye_par_moi": boolean,"image_annonce": string,"interlocuteur": string,"interlocuteur_verifie": boolean,"nom_interlocuteur": string,"non_lus": number,"property_id": string,"titre_annonce": string
             }[]
+                           },
+"mes_visites_a_venir_keyli":
+{ Args: { "p_limite"?: number }; Returns: {
+              "id": string,"interlocuteur": string,"nom": string,"property_id": string,"scheduled_at": string,"status": Database["public"]['Enums']["visit_status_keyli"],"titre": string
+            }[]
+                           },
+"preferences_chercheur_keyli":
+{ Args: Record<PropertyKey, never>; Returns: Json
                            },
 "publications_periode_keyli":
 { Args: { "p_debut": string,"p_fin": string,"p_owner": string }; Returns: number
@@ -746,6 +764,11 @@ isOneToOne: false
 "rechercher_annonces_keyli":
 { Args: { "p_avantages"?: (string)[],"p_commune"?: string,"p_decalage"?: number,"p_limite"?: number,"p_meuble"?: boolean,"p_pieces_min"?: number,"p_prix_max"?: number,"p_prix_min"?: number,"p_quartier"?: string,"p_statut"?: Database["public"]['Enums']["property_status_keyli"],"p_tri"?: string,"p_type"?: Database["public"]['Enums']["property_type_keyli"] }; Returns: {
               "commune": string,"id": string,"image": string,"meuble": boolean,"pieces": number,"prix": number,"publiee_le": string,"quartier": string,"salles_de_bain": number,"statut": Database["public"]['Enums']["property_status_keyli"],"surface": number,"titre": string,"total": number,"type": Database["public"]['Enums']["property_type_keyli"],"verifiee": boolean,"ville": string
+            }[]
+                           },
+"recommandations_keyli":
+{ Args: { "p_limite"?: number }; Returns: {
+              "commune": string,"id": string,"image": string,"pertinence": number,"prix": number,"quartier": string,"statut": Database["public"]['Enums']["property_status_keyli"],"titre": string,"type": Database["public"]['Enums']["property_type_keyli"],"verifiee": boolean,"ville": string
             }[]
                            },
 "relation_notable_keyli":
@@ -759,6 +782,9 @@ isOneToOne: false
                            },
 "super_admin_modifier_forfait_keyli":
 { Args: { "p_actif": boolean,"p_plan": string,"p_prix_depassement_unitaire": number,"p_prix_mensuel": number,"p_seuil_max": number,"p_seuil_min": number }; Returns: undefined
+                           },
+"tableau_bord_proprietaire_keyli":
+{ Args: { "p_jours"?: number }; Returns: Json
                            },
 "traiter_echeances_abonnements_keyli":
 { Args: Record<PropertyKey, never>; Returns: {

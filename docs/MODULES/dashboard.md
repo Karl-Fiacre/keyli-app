@@ -24,8 +24,8 @@ la forme *cible* que chaque hook doit produire, pas un contrat d'API figé.
   },
   biens: Array<{
     id: string, titre: string, prix: number, statut: 'verifiee' | 'en_revue',
-    prixMarcheQuartier: number     // ⚠️ dépend du MODULE quartiers-tendance,
-                                    //    non construit — placeholder tant que non livré
+    prixMarcheQuartier: number     // ✅ mes_biens_marche_keyli : prix moyen fiable
+                                    //    du quartier (≥ 5 annonces), sinon absent
   }>,
   messages: Array<{ from: string, preview: string, nouveau: boolean }>,
   visites: Array<{ date: string, bien: string, contact: string }>
@@ -65,8 +65,9 @@ la forme *cible* que chaque hook doit produire, pas un contrat d'API figé.
 // useUserDashboard() — cible
 {
   recommandations: Array<{ bien: string, prix: number, pertinence: number }>,
-  //   ⚠️ "score de pertinence" = à définir (filtre sur recherches passées ?
-  //   favoris ? aucun mécanisme de recommandation existant à ce jour)
+  //   ✅ Score défini et validé par le porteur (2026-10-30) : recherches
+  //   passées + favoris — quartier 40, type 25, prix 20, vérifiée 15.
+  //   Calcul en base : recommandations_keyli (voir DATABASE.md)
   alertes: Array<{ critere: string, nouvelles: number }>,
   //   depuis search_alerts_keyli (table ajoutée au rescan — voir DATABASE.md)
   favoris: Array<{ id: string, titre: string, prix: number, verifie: boolean }>,
@@ -75,7 +76,8 @@ la forme *cible* que chaque hook doit produire, pas un contrat d'API figé.
   //   quartierId/nom depuis quartiers_keyli (Option A, voir DATABASE.md) —
   //   communeNom inclus car l'affichage doit distinguer "Riviera (Cocody)"
   //   d'un quartier homonyme dans une autre commune, le cas échéant.
-  //   Calcul lui-même dépend du MODULE quartiers-tendance — non construit
+  //   ✅ Calcul nocturne quartiers_tendance_keyli (construit) ; dashboard :
+  //   top 5 par popularité, tendance des loyers si le prix est fiable
   messages: Array<{ from: string, preview: string, nouveau: boolean }>
 }
 ```
