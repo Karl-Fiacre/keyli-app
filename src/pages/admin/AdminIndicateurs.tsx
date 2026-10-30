@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
 import { Alert } from '@/components/ui/alert'
 import { KpiCard } from '@/components/dashboard/KpiCard'
-import { useIndicateurs } from '@/hooks/useAdmin'
+import { DonutChart } from '@/components/dashboard/DonutChart'
+import { TrendBar } from '@/components/dashboard/TrendBar'
+import { useActiviteQuotidienne, useIndicateurs } from '@/hooks/useAdmin'
 import { messageErreur } from '@/lib/erreurs'
 import { formatXof } from '@/lib/format'
 
@@ -14,6 +16,8 @@ const nombre = (v: number | string | null | undefined) => new Intl.NumberFormat(
 
 export default function AdminIndicateurs() {
   const indicateurs = useIndicateurs()
+  const activite = useActiviteQuotidienne().data ?? []
+  const serie = (cle: 'inscriptions' | 'vues' | 'contacts') => activite.map((j) => Number(j[cle]))
   if (indicateurs.isPending) return <p className="text-muted-foreground">Chargement…</p>
   if (indicateurs.isError) return <Alert variant="erreur">{messageErreur(indicateurs.error)}</Alert>
   const i = indicateurs.data
@@ -56,6 +60,46 @@ export default function AdminIndicateurs() {
         </div>
       </div>
 
+      <div className="grid gap-4 lg:grid-cols-2">
+        <section className="rounded-lg border bg-card p-5">
+          <h2 className="mb-4 font-semibold">Progression vers les objectifs</h2>
+          <div className="space-y-4">
+            <TrendBar
+              libelle="Annonceurs vérifiés (cible 70 %)"
+              pourcentage={taux === null ? 0 : (taux / CIBLE_VERIFICATION) * 100}
+              valeurAffichee={taux === null ? '—' : `${taux.toLocaleString('fr-FR')} % / ${CIBLE_VERIFICATION} %`}
+              couleur={taux !== null && taux >= CIBLE_VERIFICATION ? 'hsl(var(--success))' : 'hsl(var(--primary-glow))'}
+              rang={0}
+            />
+            <TrendBar
+              libelle="Annonces visibles (cible 500)"
+              pourcentage={(annonces / CIBLE_ANNONCES) * 100}
+              valeurAffichee={`${nombre(annonces)} / ${CIBLE_ANNONCES}`}
+              couleur={annonces >= CIBLE_ANNONCES ? 'hsl(var(--success))' : 'hsl(var(--primary-glow))'}
+              rang={1}
+            />
+            <TrendBar
+              libelle="Note moyenne (cible 4,0 / 5)"
+              pourcentage={note === null ? 0 : (note / CIBLE_NOTE) * 100}
+              valeurAffichee={note === null ? '—' : `${note.toLocaleString('fr-FR')} / 5`}
+              couleur={note !== null && note >= CIBLE_NOTE ? 'hsl(var(--success))' : 'hsl(var(--primary-glow))'}
+              rang={2}
+            />
+          </div>
+        </section>
+        <section className="rounded-lg border bg-card p-5">
+          <h2 className="mb-4 font-semibold">Comptes par profil</h2>
+          <DonutChart
+            titreCentre="comptes"
+            segments={[
+              { libelle: 'Chercheurs', valeur: Number(i.chercheurs), couleur: 'hsl(var(--primary-glow))' },
+              { libelle: 'Propriétaires', valeur: Number(i.proprietaires), couleur: 'hsl(var(--turquoise))' },
+              { libelle: 'Agences', valeur: Number(i.agences), couleur: 'hsl(var(--primary))' },
+            ]}
+          />
+        </section>
+      </div>
+
       <div>
         <h2 className="mb-3 text-lg font-semibold">À traiter</h2>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -78,10 +122,10 @@ export default function AdminIndicateurs() {
             detail={`${nombre(i.chercheurs)} chercheurs · ${nombre(i.proprietaires)} propriétaires · ${nombre(i.agences)} agences`}
           />
           <KpiCard libelle="Abonnements en cours" nombre={Number(i.abonnements_actifs)} rang={6} />
-          <KpiCard libelle="Inscriptions (30 j)" nombre={Number(i.inscriptions_30j)} rang={7} />
+          <KpiCard libelle="Inscriptions (30 j)" nombre={Number(i.inscriptions_30j)} rang={7} serie={serie('inscriptions')} />
           <KpiCard libelle="Encaissé (30 j)" nombre={Number(i.encaisse_30j)} formater={(n) => formatXof(Math.round(n))} rang={8} />
-          <KpiCard libelle="Vues d'annonces (30 j)" nombre={Number(i.vues_30j)} rang={9} />
-          <KpiCard libelle="Premiers contacts (30 j)" nombre={Number(i.contacts_30j)} rang={10} />
+          <KpiCard libelle="Vues d'annonces (30 j)" nombre={Number(i.vues_30j)} rang={9} serie={serie('vues')} />
+          <KpiCard libelle="Premiers contacts (30 j)" nombre={Number(i.contacts_30j)} rang={10} serie={serie('contacts')} />
         </div>
       </div>
     </div>

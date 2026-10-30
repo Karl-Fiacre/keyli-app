@@ -15,6 +15,7 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Agence — dashboard, pipeline | `properties_keyli` + `messages_keyli` par `agent_id` | `idx_properties_agent` (déjà présent) |
 | Agence — performance équipe | `properties_keyli JOIN agency_agents_keyli ON agent_id` | à ajouter si lenteur observée : `(agent_id, created_at)` |
 | Admin — file de vérification | RPC `admin_file_verification_keyli(statut)` : `documents_keyli WHERE status = ? ORDER BY created_at` + déposant et bien | `idx_documents_status_date (status, created_at)` — créé |
+| Admin — activité quotidienne (mini-graphiques) | RPC `admin_activite_quotidienne_keyli(30)` : comptages par jour (profils, vues, leads) | index existants (`idx_interactions_type_date`) ; agrégats à revoir au-delà du pilote |
 | Admin — indicateurs | RPC `admin_indicateurs_keyli()` : comptages sur profils, annonces, avis, abonnements, documents, signalements, leads, interactions et transactions | index existants ; à revoir au-delà du pilote (agrégats à la volée) |
 | Tracking vues (tout écran bien) | `INSERT property_interactions_keyli` (quartier, auteur et date imposés par trigger) | `idx_interactions_property`, `idx_interactions_type_date`, `idx_interactions_quartier`, `idx_interactions_session_vue` — créés |
 | Agence — pipeline de leads | `leads_keyli WHERE owner_id = uid ORDER BY stage` | `idx_leads_owner_stage` — créé |

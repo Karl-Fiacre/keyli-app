@@ -633,6 +633,11 @@ isOneToOne: false
 "abonnement_en_cours_keyli":
 { Args: { "p_user": string }; Returns: boolean
                            },
+"admin_activite_quotidienne_keyli":
+{ Args: { "p_jours"?: number }; Returns: {
+              "contacts": number,"inscriptions": number,"jour": string,"vues": number
+            }[]
+                           },
 "admin_file_signalements_keyli":
 { Args: { "p_limite"?: number,"p_statut"?: Database["public"]['Enums']["report_status_keyli"] }; Returns: {
               "annonceur": string,"annonceur_id": string,"annonceur_suspendu": boolean,"auteur": string,"bien_archive": boolean,"bien_verifie": boolean,"id": string,"motif": string,"precision_texte": string,"property_id": string,"signale_le": string,"signalements_en_attente": number,"statut": Database["public"]['Enums']["report_status_keyli"],"titre_bien": string
