@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { BarChart3, CreditCard, Home, LayoutGrid, Settings, Users, UserRound } from 'lucide-react'
 import { DashboardShell } from '@/components/dashboard/DashboardShell'
@@ -8,6 +9,10 @@ import { VerificationStepper } from '@/components/dashboard/VerificationStepper'
 import { InsightCard } from '@/components/dashboard/InsightCard'
 import { AgendaList } from '@/components/dashboard/AgendaList'
 import { MessagePreviewList } from '@/components/dashboard/MessagePreviewList'
+import { LeadPipeline } from '@/components/dashboard/LeadPipeline'
+import type { Lead } from '@/components/dashboard/LeadCard'
+import { CarrouselRecommandations } from '@/components/dashboard/RecommendationCard'
+import { CompareTable, type BienCompare } from '@/components/dashboard/CompareTable'
 
 // Dates fictives relatives à maintenant (la vitrine reste lisible quel que soit le jour)
 const dans = (heures: number) => new Date(Date.now() + heures * 3600_000).toISOString()
@@ -18,11 +23,89 @@ const dans = (heures: number) => new Date(Date.now() + heures * 3600_000).toISOS
 // pages (semaines 16-17). Valeurs fictives : jamais de données réelles ici.
 const BASE = '/dev/composants'
 
+const LEADS_DEMO: Lead[] = [
+  {
+    id: 'l1',
+    contact: 'Contact Démo Un',
+    bien: 'Villa Cocody',
+    etape: 'nouveau',
+    derniereActivite: dans(-1),
+    agent: 'Agent A',
+  },
+  {
+    id: 'l2',
+    contact: 'Contact Démo Deux',
+    bien: 'Studio Marcory',
+    etape: 'nouveau',
+    derniereActivite: dans(-5),
+    vers: '#',
+  },
+  {
+    id: 'l3',
+    contact: 'Contact Démo Trois',
+    bien: 'Duplex Riviera',
+    etape: 'visite_planifiee',
+    derniereActivite: dans(-26),
+    agent: 'Agent B',
+  },
+  {
+    id: 'l4',
+    contact: 'Contact Démo Quatre',
+    bien: 'Appartement Plateau',
+    etape: 'negociation',
+    derniereActivite: dans(-50),
+  },
+]
+
+const BIENS_DEMO: BienCompare[] = [
+  {
+    id: 'b1',
+    titre: 'Villa Cocody',
+    vers: '#',
+    valeurs: {
+      prix: '450 000 F CFA / mois',
+      quartier: 'Angré',
+      type: 'Villa',
+      pieces: 5,
+      surface: '220 m²',
+      meuble: false,
+      verifiee: true,
+    },
+  },
+  {
+    id: 'b2',
+    titre: 'Studio Marcory',
+    valeurs: {
+      prix: '120 000 F CFA / mois',
+      quartier: 'Zone 4',
+      type: 'Studio',
+      pieces: 1,
+      meuble: true,
+      verifiee: false,
+    },
+  },
+  {
+    id: 'b3',
+    titre: 'Duplex Riviera',
+    valeurs: {
+      prix: '380 000 F CFA / mois',
+      quartier: 'Riviera 3',
+      type: 'Duplex',
+      pieces: 4,
+      surface: '160 m²',
+      meuble: false,
+      verifiee: true,
+    },
+  },
+]
+
 export default function Composants() {
   const { section = 'vue' } = useParams()
   const [parametres] = useSearchParams()
   const variante = parametres.get('variante') === 'claire' ? 'claire' : 'sombre'
   const q = `?variante=${variante}`
+  const [leads, setLeads] = useState(LEADS_DEMO)
+  const [biens, setBiens] = useState(BIENS_DEMO)
 
   return (
     <DashboardShell
@@ -31,7 +114,7 @@ export default function Composants() {
         sections: [
           {
             entrees: [
-              { vers: `${BASE}/vue${q}`, libelle: 'Vue d\'ensemble', icone: LayoutGrid },
+              { vers: `${BASE}/vue${q}`, libelle: "Vue d'ensemble", icone: LayoutGrid },
               { vers: `${BASE}/annonces${q}`, libelle: 'Annonces', icone: Home },
               { vers: `${BASE}/leads${q}`, libelle: 'Leads', icone: UserRound, badge: 5 },
               { vers: `${BASE}/analytics${q}`, libelle: 'Analytics', icone: BarChart3 },
@@ -89,7 +172,13 @@ export default function Composants() {
             <h2 className="font-semibold">Tendance des prix par quartier</h2>
             <TrendBar libelle="Cocody — Angré" pourcentage={72} valeurAffichee="+12 %" rang={0} />
             <TrendBar libelle="Marcory" pourcentage={45} valeurAffichee="+4 %" rang={1} />
-            <TrendBar libelle="Yopougon" pourcentage={28} valeurAffichee="−2 %" couleur="hsl(var(--pending))" rang={2} />
+            <TrendBar
+              libelle="Yopougon"
+              pourcentage={28}
+              valeurAffichee="−2 %"
+              couleur="hsl(var(--pending))"
+              rang={2}
+            />
           </section>
         </div>
 
@@ -107,9 +196,25 @@ export default function Composants() {
           />
         </section>
         <div className="grid gap-4 lg:grid-cols-3">
-          <InsightCard type="warn" titre="Prix au-dessus du quartier" texte="2 annonces sont 15 % au-dessus du prix moyen de leur quartier." action={{ libelle: 'Voir les annonces', vers: '#' }} rang={0} />
-          <InsightCard type="neutre" titre="Quartier recherché" texte="Les recherches sur Angré ont augmenté cette semaine." rang={1} />
-          <InsightCard type="ok" titre="Réponse rapide" texte="Vous répondez en moins de 2 h : continuez ainsi." rang={2} />
+          <InsightCard
+            type="warn"
+            titre="Prix au-dessus du quartier"
+            texte="2 annonces sont 15 % au-dessus du prix moyen de leur quartier."
+            action={{ libelle: 'Voir les annonces', vers: '#' }}
+            rang={0}
+          />
+          <InsightCard
+            type="neutre"
+            titre="Quartier recherché"
+            texte="Les recherches sur Angré ont augmenté cette semaine."
+            rang={1}
+          />
+          <InsightCard
+            type="ok"
+            titre="Réponse rapide"
+            texte="Vous répondez en moins de 2 h : continuez ainsi."
+            rang={2}
+          />
         </div>
         <div className="grid gap-4 lg:grid-cols-2">
           <section className="rounded-lg border bg-card p-5">
@@ -126,12 +231,92 @@ export default function Composants() {
             <h3 className="mb-2 font-semibold">Messages</h3>
             <MessagePreviewList
               messages={[
-                { id: '1', nom: 'Contact Démo Un', apercu: 'Bonjour, la visite est-elle possible samedi ?', date: dans(-2), nouveau: true, vers: '#' },
-                { id: '2', nom: 'Contact Démo Deux', apercu: 'Merci pour votre retour rapide.', date: dans(-30), nouveau: false, vers: '#' },
+                {
+                  id: '1',
+                  nom: 'Contact Démo Un',
+                  apercu: 'Bonjour, la visite est-elle possible samedi ?',
+                  date: dans(-2),
+                  nouveau: true,
+                  vers: '#',
+                },
+                {
+                  id: '2',
+                  nom: 'Contact Démo Deux',
+                  apercu: 'Merci pour votre retour rapide.',
+                  date: dans(-30),
+                  nouveau: false,
+                  vers: '#',
+                },
               ]}
             />
           </section>
         </div>
+
+        <h2 className="pt-2 text-lg font-semibold">Composites (semaine 15)</h2>
+        <section className="rounded-lg border bg-card p-5">
+          <h3 className="mb-4 font-semibold">Pipeline des leads</h3>
+          <LeadPipeline
+            leads={leads}
+            onChangerEtape={(id, etape) =>
+              setLeads((ls) => ls.map((l) => (l.id === id ? { ...l, etape, derniereActivite: dans(0) } : l)))
+            }
+          />
+        </section>
+        <section className="rounded-lg border bg-card p-5">
+          <h3 className="mb-2 font-semibold">Pour vous</h3>
+          <CarrouselRecommandations
+            recos={[
+              {
+                id: 'r1',
+                titre: 'Villa Cocody',
+                prix: 450000,
+                aLouer: true,
+                lieu: 'Angré, Cocody',
+                verifiee: true,
+                pertinence: 92,
+              },
+              {
+                id: 'r2',
+                titre: 'Studio Marcory',
+                prix: 120000,
+                aLouer: true,
+                lieu: 'Zone 4, Marcory',
+                verifiee: false,
+                pertinence: 78,
+              },
+              {
+                id: 'r3',
+                titre: 'Terrain Bingerville',
+                prix: 18000000,
+                aLouer: false,
+                lieu: 'Bingerville',
+                verifiee: true,
+              },
+              {
+                id: 'r4',
+                titre: 'Duplex Riviera',
+                prix: 380000,
+                aLouer: true,
+                lieu: 'Riviera 3, Cocody',
+                verifiee: true,
+                pertinence: 64,
+              },
+              {
+                id: 'r5',
+                titre: 'Appartement Plateau',
+                prix: 300000,
+                aLouer: true,
+                lieu: 'Plateau',
+                verifiee: false,
+                pertinence: 55,
+              },
+            ]}
+          />
+        </section>
+        <section className="rounded-lg border bg-card p-5">
+          <h3 className="mb-4 font-semibold">Comparateur</h3>
+          <CompareTable biens={biens} onRetirer={(id) => setBiens((bs) => bs.filter((b) => b.id !== id))} />
+        </section>
       </div>
     </DashboardShell>
   )
