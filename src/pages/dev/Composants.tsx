@@ -4,6 +4,13 @@ import { DashboardShell } from '@/components/dashboard/DashboardShell'
 import { KpiCard } from '@/components/dashboard/KpiCard'
 import { DonutChart } from '@/components/dashboard/DonutChart'
 import { TrendBar } from '@/components/dashboard/TrendBar'
+import { VerificationStepper } from '@/components/dashboard/VerificationStepper'
+import { InsightCard } from '@/components/dashboard/InsightCard'
+import { AgendaList } from '@/components/dashboard/AgendaList'
+import { MessagePreviewList } from '@/components/dashboard/MessagePreviewList'
+
+// Dates fictives relatives à maintenant (la vitrine reste lisible quel que soit le jour)
+const dans = (heures: number) => new Date(Date.now() + heures * 3600_000).toISOString()
 
 // Vitrine des composants de dashboard — DÉVELOPPEMENT UNIQUEMENT (route
 // déclarée seulement si import.meta.env.DEV, absente du build de production).
@@ -83,6 +90,46 @@ export default function Composants() {
             <TrendBar libelle="Cocody — Angré" pourcentage={72} valeurAffichee="+12 %" rang={0} />
             <TrendBar libelle="Marcory" pourcentage={45} valeurAffichee="+4 %" rang={1} />
             <TrendBar libelle="Yopougon" pourcentage={28} valeurAffichee="−2 %" couleur="hsl(var(--pending))" rang={2} />
+          </section>
+        </div>
+
+        <h2 className="pt-2 text-lg font-semibold">Composites (semaine 14)</h2>
+        <section className="rounded-lg border bg-card p-5">
+          <h3 className="mb-4 font-semibold">Statut de vérification</h3>
+          <VerificationStepper
+            etapes={[
+              { libelle: 'Identité', etat: 'fait' },
+              { libelle: 'Document du bien', etat: 'fait' },
+              { libelle: 'Validation admin', etat: 'en_cours' },
+              { libelle: 'Vérifié', etat: 'a_faire' },
+            ]}
+            note="Votre ACD est en cours d'examen par l'équipe Keyli."
+          />
+        </section>
+        <div className="grid gap-4 lg:grid-cols-3">
+          <InsightCard type="warn" titre="Prix au-dessus du quartier" texte="2 annonces sont 15 % au-dessus du prix moyen de leur quartier." action={{ libelle: 'Voir les annonces', vers: '#' }} rang={0} />
+          <InsightCard type="neutre" titre="Quartier recherché" texte="Les recherches sur Angré ont augmenté cette semaine." rang={1} />
+          <InsightCard type="ok" titre="Réponse rapide" texte="Vous répondez en moins de 2 h : continuez ainsi." rang={2} />
+        </div>
+        <div className="grid gap-4 lg:grid-cols-2">
+          <section className="rounded-lg border bg-card p-5">
+            <h3 className="mb-2 font-semibold">Visites à venir</h3>
+            <AgendaList
+              rendezVous={[
+                { id: '1', date: dans(20), titre: 'Villa Cocody', detail: 'Visiteur démo A', vers: '#' },
+                { id: '2', date: dans(50), titre: 'Studio Marcory', detail: 'Visiteur démo B' },
+                { id: '3', date: dans(80), titre: 'Duplex Riviera', detail: 'Visiteur démo C', annule: true },
+              ]}
+            />
+          </section>
+          <section className="rounded-lg border bg-card p-5">
+            <h3 className="mb-2 font-semibold">Messages</h3>
+            <MessagePreviewList
+              messages={[
+                { id: '1', nom: 'Contact Démo Un', apercu: 'Bonjour, la visite est-elle possible samedi ?', date: dans(-2), nouveau: true, vers: '#' },
+                { id: '2', nom: 'Contact Démo Deux', apercu: 'Merci pour votre retour rapide.', date: dans(-30), nouveau: false, vers: '#' },
+              ]}
+            />
           </section>
         </div>
       </div>

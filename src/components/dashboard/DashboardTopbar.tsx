@@ -4,18 +4,7 @@ import { ChevronDown, Search } from 'lucide-react'
 import { ClocheNotifications } from '@/components/layout/ClocheNotifications'
 import { useDeconnexion } from '@/hooks/useCompte'
 import { cn } from '@/lib/utils'
-
-// Initiales de l'avatar : « Agence Ivoire Habitat » → « AI »
-function initiales(nom: string) {
-  return (
-    nom
-      .split(/\s+/)
-      .filter(Boolean)
-      .slice(0, 2)
-      .map((m) => m[0]?.toUpperCase())
-      .join('') || 'K'
-  )
-}
+import { initiales } from '@/lib/format'
 
 // Barre du haut des dashboards (KEYLI_DASHBOARD_DESIGN_SPEC.md §2) : recherche
 // facultative, cloche de notifications (composant existant), avatar avec nom
