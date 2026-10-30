@@ -286,8 +286,14 @@ concernés :
    1024 px), `DashboardTopbar` (recherche facultative, cloche, avatar et menu
    profil), `DashboardShell` (cadre commun), `KpiCard` complète (badge ▲/▼,
    mini-graphique sous la valeur) ; vitrine `/dev/composants` (développement
-   uniquement, absente du build). Semaine 14 : `VerificationStepper`,
-   `InsightCard`, `AgendaList`, `MessagePreviewList`. À trancher avant la semaine 15 : Framer Motion et `@dnd-kit`
+   uniquement, absente du build). Semaine 14 faite : `VerificationStepper`
+   (cercles qui se remplissent puis traits dessinés l'un après l'autre,
+   tient en 375 px), `InsightCard` (bordure orange / violette / verte selon
+   le type, glissement), `AgendaList` (pastilles de date, visite annulée
+   barrée), `MessagePreviewList` (initiales, badge « Nouveau ») — testés
+   dans la vitrine ; `initiales()` partagée dans `lib/format.ts`.
+   Semaine 15 : `LeadCard`, `LeadPipeline`, `RecommendationCard`,
+   `CompareTable`. À trancher avant la semaine 15 : Framer Motion et `@dnd-kit`
    (pipeline glissable ou changement d'étape par menu).
 5. **Sprint 3 (semaines 9-10) — back-office admin : fait le 2026-11-01.**
    Suite recommandée : le porteur crée son compte et se promeut super_admin
