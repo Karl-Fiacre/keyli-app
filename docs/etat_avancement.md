@@ -269,6 +269,15 @@ concernés :
    terminé. Cloche de notifications faite (2026-10-31). Suite : Sprint 3
    (back-office admin : file de vérification, modération, analytics de
    base) ; photos dès les clés Cloudinary ; emails (fournisseur à choisir).
+6. **Sprints 3bis — dashboards enrichis (semaines 11-19), en cours.**
+   Préalables faits le 2026-11-02 : logo officiel et déclinaisons
+   (`generer-raster.cjs`), charte alignée sur le logo (`--primary-glow` bleu
+   du logo, `--turquoise` accent public, `--gold` réservé aux étoiles).
+   Semaine 11 faite : classes d'animation des dashboards dans
+   `dashboard-animations.css`, `useCountUp.ts`, `KpiCard` animée (cascade +
+   compteur) utilisée par `/admin`. Semaine 12 : `Sparkline`, `DonutChart`,
+   `TrendBar`. À trancher avant la semaine 15 : Framer Motion et `@dnd-kit`
+   (pipeline glissable ou changement d'étape par menu).
 5. **Sprint 3 (semaines 9-10) — back-office admin : fait le 2026-11-01.**
    Suite recommandée : le porteur crée son compte et se promeut super_admin
    (procédure `SETUP.md`), puis teste l'envoi et l'ouverture de documents
@@ -407,6 +416,10 @@ concernés :
   correctif du comptage du seuil par cycle mensuel.
 - 2026-10-27 : écran de publication d'annonce (avantages en liste fermée,
   photos reportées, point GPS Mapbox + ma position).
+- 2026-11-02 : logo officiel du porteur (sources dans
+  `docs/keyli_brand_assets/sources/`, déclinaisons générées) ; charte : navy
+  conservé, bleu du logo en accent, turquoise à la place de l'or sur
+  l'Accueil, badge Vérifié inchangé ; semaine 11 des dashboards.
 - 2026-11-01 (Sprint 3) : écrans utilisateur d'envoi des documents et de
   signalement inclus (oubli du Sprint 1) ; motifs de signalement en liste ;
   premier super_admin promu à la main ; inscriptions 30 j hors comptes admin.

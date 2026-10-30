@@ -43,12 +43,87 @@
   animation: kf-panneau-ouvre var(--kf-fast) var(--kf-ease-out) both;
 }
 
+/* 1. KpiCard (et blocs du premier chargement) — cascade : fondu +
+   translateY(8px → 0), 250 ms ; le décalage (×60 ms par carte) est passé
+   par la variable --kf-delai sur l'élément */
+@keyframes kf-cascade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.kf-cascade {
+  animation: kf-cascade var(--kf-base) var(--kf-ease-out) both;
+  animation-delay: var(--kf-delai, 0ms);
+}
+
+/* 3. Sparkline — tracé de la ligne du début à la fin, 500 ms (le tracé doit
+   porter pathLength="1") */
+@keyframes kf-trace {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+.kf-trace {
+  stroke-dasharray: 1;
+  animation: kf-trace 500ms var(--kf-ease-out) both;
+}
+
+/* 4. DonutChart — fondu + scale(0.9 → 1), 300 ms (pas de balayage) */
+@keyframes kf-donut {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+.kf-donut {
+  animation: kf-donut 300ms var(--kf-ease-out) both;
+}
+
+/* 5. TrendBar — la barre grandit de 0 à sa valeur, 400 ms, décalage
+   ×80 ms par ligne via --kf-delai (scaleX : aucune mise en page recalculée) */
+@keyframes kf-barre {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.kf-barre {
+  transform-origin: left center;
+  animation: kf-barre var(--kf-slow) var(--kf-ease-out) both;
+  animation-delay: var(--kf-delai, 0ms);
+}
+
+/* InsightCard — apparition : fondu + translateX(-8px → 0), 250 ms */
+@keyframes kf-glisse-gauche {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.kf-glisse-gauche {
+  animation: kf-glisse-gauche var(--kf-base) var(--kf-ease-out) both;
+}
+
+/* 9. LeadCard / RecommendationCard — survol : léger soulèvement + ombre */
+.kf-souleve {
+  transition: transform var(--kf-fast) var(--kf-ease-out), box-shadow var(--kf-fast) var(--kf-ease-out);
+}
+.kf-souleve:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lift);
+}
+
 /* Règle OBLIGATOIRE (docs/ANIMATIONS.md) : mouvements réduits → aucune
-   animation ni transition décorative */
+   animation ni transition décorative (le contenu reste affiché tel quel) */
 @media (prefers-reduced-motion: reduce) {
   .kf-cloche-oscille,
   .kf-pastille-apparait,
-  .kf-panneau-ouvre {
+  .kf-panneau-ouvre,
+  .kf-cascade,
+  .kf-trace,
+  .kf-donut,
+  .kf-barre,
+  .kf-glisse-gauche {
     animation: none !important;
+  }
+  .kf-trace {
+    stroke-dasharray: none;
+  }
+  .kf-souleve,
+  .kf-souleve:hover {
+    transition: none;
+    transform: none;
   }
 }

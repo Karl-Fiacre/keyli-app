@@ -15,8 +15,16 @@ condensée pour référence rapide pendant le codage.
 Fichier source : `src/styles/dashboard-animations.css` — **créé le
 2026-10-31** avec la cloche de notifications (constantes ci-dessus, règle
 prefers-reduced-motion, classes `kf-cloche-oscille` (effet 8),
-`kf-pastille-apparait` (effet 7), `kf-panneau-ouvre`). Les effets des
-dashboards (Sem. 11, `useCountUp.ts`) s'y ajouteront.
+`kf-pastille-apparait` (effet 7), `kf-panneau-ouvre`). Complété en
+semaine 11 (2026-11-02) : `kf-cascade` (effet 1, décalage via la variable
+`--kf-delai`), `kf-trace` (3, tracé avec `pathLength="1"`), `kf-donut` (4),
+`kf-barre` (5, `scaleX`, décalage `--kf-delai`), `kf-glisse-gauche`
+(InsightCard), `kf-souleve` (9, survol) — tous neutralisés en mouvements
+réduits. Hook `src/hooks/useCountUp.ts` (effet 2) : 0 → valeur en 600 ms
+ease-out, une seule fois au premier chargement, valeur finale immédiate en
+mouvements réduits, sans dépendance. Utilisé par `KpiCard` (prop `nombre`,
+cascade par `rang`). Framer Motion et `@dnd-kit` toujours non installés :
+décision à prendre avant la semaine 15 (pipeline de leads).
 Aucune animation ne doit dépasser 500ms (KEYLI_DASHBOARD_DESIGN_SPEC.md
 5.2). Seule exception spécifiée : le compteur de valeur KPI, 600ms (5.3).
 
