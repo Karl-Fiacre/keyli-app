@@ -30,6 +30,9 @@ export function MiseEnPage() {
 
   const liens: Array<{ vers: string; libelle: string; pastille?: number }> = [
     { vers: '/recherche', libelle: 'Rechercher' },
+    ...(role && role !== 'admin' && role !== 'super_admin'
+      ? [{ vers: '/tableau-de-bord', libelle: 'Tableau de bord' }]
+      : []),
     { vers: '/messages', libelle: 'Messages', pastille: nonLus },
     { vers: '/favoris', libelle: 'Favoris' },
     ...(publie
