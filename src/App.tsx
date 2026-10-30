@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { FournisseurSession } from '@/hooks/useSession'
@@ -24,6 +25,10 @@ import AdminVerifications from '@/pages/admin/AdminVerifications'
 import AdminSignalements from '@/pages/admin/AdminSignalements'
 import PageIntrouvable from '@/pages/PageIntrouvable'
 
+// Vitrine des composants de dashboard : développement uniquement (le code
+// n'est pas inclus dans le build de production)
+const Composants = import.meta.env.DEV ? lazy(() => import('@/pages/dev/Composants')) : null
+
 const clientRequetes = new QueryClient({
   defaultOptions: { queries: { staleTime: 30_000, retry: 1, refetchOnWindowFocus: false } },
 })
@@ -34,6 +39,16 @@ function App() {
       <FournisseurSession>
         <BrowserRouter>
           <Routes>
+            {Composants && (
+              <Route
+                path="dev/composants/:section?"
+                element={
+                  <Suspense fallback={null}>
+                    <Composants />
+                  </Suspense>
+                }
+              />
+            )}
             <Route element={<MiseEnPage />}>
               <Route index element={<Accueil />} />
               <Route path="recherche" element={<Recherche />} />
