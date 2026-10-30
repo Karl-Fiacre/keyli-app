@@ -904,6 +904,30 @@ jours, série continue, jours d'Abidjan) : inscriptions (hors admins), vues
 d'annonces, premiers contacts. Alimente les mini-graphiques de `/admin`.
 Tests : `supabase/tests/activite_quotidienne_keyli.test.sql` (5 tests).
 
+## (2026-10-30) — tableaux de bord Propriétaire et Chercheur
+Migration `20261103120000_tableaux_de_bord_keyli.sql`, aucune table nouvelle :
+- Index `idx_interactions_utilisateur (user_id, interaction_type, created_at
+  desc) WHERE user_id IS NOT NULL` (signaux d'un chercheur).
+- `preferences_chercheur_keyli()` (SECURITY DEFINER, agrégats de l'appelant
+  seulement) : poids par quartier et par type, prix médian par statut, tirés
+  des favoris (×3), alertes actives (×2), annonces consultées et quartiers
+  recherchés sur 90 jours (×1).
+- `recommandations_keyli(p_limite)` (INVOKER) : **score de pertinence**
+  validé par le porteur le 2026-10-30 — quartier 40 + type 25 + prix 20
+  (plein si à ±25 % du prix médian, nul au-delà de ±60 %) + vérifiée 15 ;
+  scores < 30 écartés ; sans aucun signal, annonces récentes sans score.
+  Exclut ses propres annonces, ses favoris et les annonces archivées.
+- `tableau_bord_proprietaire_keyli(p_jours)` (INVOKER, 7 à 90 jours) : annonces
+  en ligne et vérifiées, vues, contacts (personnes distinctes par bien),
+  périodes précédentes, série quotidienne des vues.
+- `mes_biens_marche_keyli()` (INVOKER) : annonces en ligne et écart au prix
+  moyen **fiable** du quartier (`quartiers_tendance_keyli`).
+- `mes_alertes_keyli()` (INVOKER) : alertes, nom du quartier/commune,
+  annonces correspondantes publiées depuis 7 jours.
+- `mes_visites_a_venir_keyli(p_limite)` (INVOKER) : visites planifiées par
+  moi ou dont je suis le visiteur, nom public de l'autre partie.
+Tests : `supabase/tests/tableaux_de_bord_keyli.test.sql` (18 tests).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — documents_keyli + bucket documents_keyli
 Créés le 2026-10-02 (migration `20261002140000_documents_keyli.sql`), avec les
 enums `document_type_keyli` et `document_status_keyli`. Colonnes identiques
