@@ -292,9 +292,20 @@ concernés :
    le type, glissement), `AgendaList` (pastilles de date, visite annulée
    barrée), `MessagePreviewList` (initiales, badge « Nouveau ») — testés
    dans la vitrine ; `initiales()` partagée dans `lib/format.ts`.
-   Semaine 15 : `LeadCard`, `LeadPipeline`, `RecommendationCard`,
-   `CompareTable`. À trancher avant la semaine 15 : Framer Motion et `@dnd-kit`
-   (pipeline glissable ou changement d'étape par menu).
+   Semaine 15 faite (2026-10-30) : `LeadCard` (étape changée par un menu,
+   soulèvement au survol), `LeadPipeline` (4 colonnes avec compteurs,
+   défilement horizontal sous 1024 px), `RecommendationCard` +
+   `CarrouselRecommandations` (scroll-snap, chip Vérifié, score « % pour
+   vous » affiché seulement s'il est fourni), `CompareTable` (une colonne par
+   bien, colonne des critères fixe, retrait d'un bien) ; constantes dans
+   `lib/dashboard.ts` ; testés dans la vitrine (bureau et 375 px).
+   Décision : ni Framer Motion ni `@dnd-kit` (pipeline par menu).
+   Semaine 16 : OwnerDashboard et UserDashboard sur données réelles —
+   ⚠️ demander au porteur comment calculer le score de pertinence des
+   recommandations (MODULES/dashboard.md) avant de l'improviser.
+   **Fin de projet (après les apps mobiles natives, Phase 3)** : produire la
+   vidéo publicitaire à effets innovants demandée par le porteur le
+   2026-10-30.
 5. **Sprint 3 (semaines 9-10) — back-office admin : fait le 2026-11-01.**
    Suite recommandée : le porteur crée son compte et se promeut super_admin
    (procédure `SETUP.md`), puis teste l'envoi et l'ouverture de documents
@@ -445,6 +456,9 @@ concernés :
   libéré de la place et redémarré).
 - 2026-10-28 : recherche et fiche d'annonce (tri vérifiées d'abord, filtres
   sans carte pour l'instant, contact par messagerie Keyli seule).
+- 2026-10-30 (Sprint 3bis, semaine 15) : composites du pipeline de leads,
+  des recommandations et du comparateur ; pipeline par menu, sans Framer
+  Motion ni `@dnd-kit` ; vidéo publicitaire prévue en fin de projet.
 - 2026-10-26 (validé par le porteur) : dépendances mises à jour —
   react-router-dom 7.18.4, zod 4.6.7, @hookform/resolvers 5 ; plus aucune
   faille sur les dépendances de production (STACK.md à jour) ; puis Vite

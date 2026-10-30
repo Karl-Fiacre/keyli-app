@@ -23,8 +23,9 @@ semaine 11 (2026-11-02) : `kf-cascade` (effet 1, décalage via la variable
 réduits. Hook `src/hooks/useCountUp.ts` (effet 2) : 0 → valeur en 600 ms
 ease-out, une seule fois au premier chargement, valeur finale immédiate en
 mouvements réduits, sans dépendance. Utilisé par `KpiCard` (prop `nombre`,
-cascade par `rang`). Framer Motion et `@dnd-kit` toujours non installés :
-décision à prendre avant la semaine 15 (pipeline de leads).
+cascade par `rang`). **Décision du porteur (2026-10-30) : ni Framer Motion
+ni `@dnd-kit`.** Le pipeline de leads change d'étape par un menu sur chaque
+carte (`LeadCard`), sans glisser-déposer ni animation de layout.
 Aucune animation ne doit dépasser 500ms (KEYLI_DASHBOARD_DESIGN_SPEC.md
 5.2). Seule exception spécifiée : le compteur de valeur KPI, 600ms (5.3).
 
@@ -50,11 +51,10 @@ des classes vers un nouveau composant sans vérifier qu'elle suit.
    pas réécrire de keyframes équivalents ailleurs.
 2. Le compteur de valeur (`useCountUp`) est un hook dépendance-zéro — ne pas
    ajouter Framer Motion pour ce seul besoin.
-3. Drag-and-drop du pipeline de leads et animations de layout (une carte qui
-   se déplace entre colonnes) nécessitent Framer Motion + `@dnd-kit/core` —
-   dépendances NON installées, décision explicitement laissée ouverte
-   (voir KEYLI_DASHBOARD_DESIGN_SPEC.md 5.1) — demander confirmation avant
-   d'ajouter l'une ou l'autre.
+3. Pas de drag-and-drop ni d'animation de layout pour le pipeline de leads :
+   changement d'étape par menu (décision du porteur, 2026-10-30). Framer
+   Motion et `@dnd-kit/core` restent non installés — ne pas les ajouter sans
+   nouvelle validation du porteur.
 4. Pas d'animation sur le scroll de page (parallax) — coût de performance
    inutile sur les connexions mobiles ciblées par le pilote.
 5. Pas de son, pas de vibration.
