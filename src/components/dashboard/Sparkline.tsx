@@ -12,6 +12,7 @@ export function Sparkline({
   remplissage = true,
   className,
   libelle,
+  etire = false,
 }: {
   points: number[]
   couleur?: string // valeur CSS issue d'un token, ex. 'hsl(var(--success))'
@@ -20,6 +21,7 @@ export function Sparkline({
   remplissage?: boolean
   className?: string
   libelle?: string // texte accessible (ex. « Vues sur 30 jours, en hausse »)
+  etire?: boolean // occupe toute la largeur du conteneur (trait d'épaisseur constante)
 }) {
   // Identifiant du dégradé sans « : » (mal tolérés dans url(#…))
   const id = `sparkline-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`
@@ -40,8 +42,9 @@ export function Sparkline({
   return (
     <svg
       viewBox={`0 0 ${largeur} ${hauteur}`}
-      width={largeur}
+      width={etire ? '100%' : largeur}
       height={hauteur}
+      preserveAspectRatio={etire ? 'none' : undefined}
       className={cn('overflow-visible', className)}
       role={libelle ? 'img' : undefined}
       aria-label={libelle}
@@ -66,6 +69,7 @@ export function Sparkline({
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
         className="kf-trace"
       />
     </svg>

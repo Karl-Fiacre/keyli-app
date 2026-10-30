@@ -281,8 +281,13 @@ concernés :
    `/admin` (objectifs du pilote, comptes par profil, activité 30 j) ; RPC
    `admin_activite_quotidienne_keyli` (migration
    `20261102120000_activite_quotidienne_keyli.sql`, 5 tests, 548 au total).
-   Semaine 13 : `DashboardSidebar`, `DashboardTopbar`, `KpiCard` complète
-   (badge de variation). À trancher avant la semaine 15 : Framer Motion et `@dnd-kit`
+   Semaine 13 faite : `DashboardSidebar` (variantes sombre / claire,
+   indicateur actif qui glisse, badges, barre horizontale défilante sous
+   1024 px), `DashboardTopbar` (recherche facultative, cloche, avatar et menu
+   profil), `DashboardShell` (cadre commun), `KpiCard` complète (badge ▲/▼,
+   mini-graphique sous la valeur) ; vitrine `/dev/composants` (développement
+   uniquement, absente du build). Semaine 14 : `VerificationStepper`,
+   `InsightCard`, `AgendaList`, `MessagePreviewList`. À trancher avant la semaine 15 : Framer Motion et `@dnd-kit`
    (pipeline glissable ou changement d'étape par menu).
 5. **Sprint 3 (semaines 9-10) — back-office admin : fait le 2026-11-01.**
    Suite recommandée : le porteur crée son compte et se promeut super_admin
