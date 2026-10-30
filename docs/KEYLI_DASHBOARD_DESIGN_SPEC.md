@@ -106,6 +106,8 @@ Le projet a déjà `tailwindcss-animate` installé (utilisé par Shadcn pour les
 | Glisser-déposer des cartes du pipeline de leads | Non | `@dnd-kit/core` recommandé |
 | Animation de layout (une carte qui change de colonne en douceur) | Non | Framer Motion (`layout` prop) |
 
+**Décision du porteur (2026-10-30)** : ni Framer Motion ni `@dnd-kit` — compteur par le hook `useCountUp`, cascades en CSS (`dashboard-animations.css`), étape d'un lead changée par un menu sur la carte. Analyse d'origine conservée ci-dessous.
+
 **Recommandation** : ajouter Framer Motion si les animations de cascade/compteur sont jugées prioritaires pour la compétitivité visuelle voulue ; sinon rester sur `tailwindcss-animate` et accepter des transitions plus simples (fade/slide sans stagger ni compteur). `@dnd-kit/core` n'est nécessaire que si le pipeline de leads doit être réellement glissable — sinon un simple changement de statut via menu suffit fonctionnellement et évite la dépendance.
 
 ### 5.2 Principes généraux
