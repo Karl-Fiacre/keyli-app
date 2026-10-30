@@ -275,8 +275,14 @@ concernés :
    du logo, `--turquoise` accent public, `--gold` réservé aux étoiles).
    Semaine 11 faite : classes d'animation des dashboards dans
    `dashboard-animations.css`, `useCountUp.ts`, `KpiCard` animée (cascade +
-   compteur) utilisée par `/admin`. Semaine 12 : `Sparkline`, `DonutChart`,
-   `TrendBar`. À trancher avant la semaine 15 : Framer Motion et `@dnd-kit`
+   compteur) utilisée par `/admin`. Semaine 12 faite : `Sparkline` (SVG,
+   tracé animé), `DonutChart` (conic-gradient + légende), `TrendBar` (barre
+   animée, accessible) dans `src/components/dashboard/`, éprouvées sur
+   `/admin` (objectifs du pilote, comptes par profil, activité 30 j) ; RPC
+   `admin_activite_quotidienne_keyli` (migration
+   `20261102120000_activite_quotidienne_keyli.sql`, 5 tests, 548 au total).
+   Semaine 13 : `DashboardSidebar`, `DashboardTopbar`, `KpiCard` complète
+   (badge de variation). À trancher avant la semaine 15 : Framer Motion et `@dnd-kit`
    (pipeline glissable ou changement d'étape par menu).
 5. **Sprint 3 (semaines 9-10) — back-office admin : fait le 2026-11-01.**
    Suite recommandée : le porteur crée son compte et se promeut super_admin

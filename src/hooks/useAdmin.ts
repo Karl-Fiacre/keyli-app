@@ -26,6 +26,18 @@ export function useIndicateurs() {
   })
 }
 
+// Activité quotidienne des 30 derniers jours (mini-graphiques)
+export function useActiviteQuotidienne() {
+  return useQuery({
+    queryKey: ['admin', 'activite'],
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc('admin_activite_quotidienne_keyli', { p_jours: 30 })
+      if (error) throw error
+      return data
+    },
+  })
+}
+
 // File de vérification par statut (en attente : les plus anciens d'abord)
 export function useFileVerification(statut: StatutDocument) {
   return useQuery({

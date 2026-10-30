@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { useCountUp } from '@/hooks/useCountUp'
+import { Sparkline } from '@/components/dashboard/Sparkline'
 import { cn } from '@/lib/utils'
 
 const formatParDefaut = (n: number) => new Intl.NumberFormat('fr-FR').format(Math.round(n))
@@ -7,8 +8,8 @@ const formatParDefaut = (n: number) => new Intl.NumberFormat('fr-FR').format(Mat
 // Carte d'indicateur (docs/KEYLI_DASHBOARD_DESIGN_SPEC.md) : libellé, valeur,
 // et, si une cible du PRD existe, son état. Valeur numérique : compteur
 // 0 → valeur au premier chargement (useCountUp). Apparition en cascade
-// (`rang` = position de la carte, décalage de 60 ms). Variation et sparkline
-// viendront avec les primitives visuelles (Sem. 12-13).
+// (`rang` = position de la carte, décalage de 60 ms). Mini-graphique
+// optionnel (`serie`) ; badge de variation : semaine 13.
 export function KpiCard({
   libelle,
   valeur,
@@ -18,6 +19,7 @@ export function KpiCard({
   cible,
   atteinte,
   rang = 0,
+  serie,
 }: {
   libelle: string
   valeur?: ReactNode // valeur déjà mise en forme (texte), sans compteur
@@ -27,6 +29,7 @@ export function KpiCard({
   cible?: string
   atteinte?: boolean | null
   rang?: number
+  serie?: number[] // évolution récente (mini-graphique)
 }) {
   const anime = useCountUp(nombre)
   const affichage = nombre === undefined ? valeur : anime === null ? '—' : formater(anime)
@@ -37,7 +40,10 @@ export function KpiCard({
       style={{ '--kf-delai': `${rang * 60}ms` } as CSSProperties}
     >
       <p className="text-sm text-muted-foreground">{libelle}</p>
-      <p className="mt-1 text-3xl font-bold tabular-nums tracking-tight">{affichage}</p>
+      <div className="mt-1 flex items-end justify-between gap-3">
+        <p className="text-3xl font-bold tabular-nums tracking-tight">{affichage}</p>
+        {serie && serie.length > 1 && <Sparkline points={serie} libelle={`Évolution : ${libelle}`} />}
+      </div>
       {detail && <p className="mt-1 text-xs text-muted-foreground">{detail}</p>}
       {cible && (
         <p

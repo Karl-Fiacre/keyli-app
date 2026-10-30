@@ -897,6 +897,13 @@ Migration `20261101120000_backoffice_admin_keyli.sql`.
 - Premier super_admin : promotion manuelle par le porteur (SETUP.md).
 Tests : `supabase/tests/backoffice_admin_keyli.test.sql` (19 tests).
 
+## (2026-11-02) — activité quotidienne (admin)
+Migration `20261102120000_activite_quotidienne_keyli.sql` :
+`admin_activite_quotidienne_keyli(p_jours)` (admin, lecture seule, 7 à 90
+jours, série continue, jours d'Abidjan) : inscriptions (hors admins), vues
+d'annonces, premiers contacts. Alimente les mini-graphiques de `/admin`.
+Tests : `supabase/tests/activite_quotidienne_keyli.test.sql` (5 tests).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — documents_keyli + bucket documents_keyli
 Créés le 2026-10-02 (migration `20261002140000_documents_keyli.sql`), avec les
 enums `document_type_keyli` et `document_status_keyli`. Colonnes identiques
