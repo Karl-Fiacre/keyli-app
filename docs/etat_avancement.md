@@ -313,8 +313,17 @@ concernés :
    bord ; lien « Tableau de bord » dans l'en-tête. L'agence utilise
    provisoirement le dashboard propriétaire. Reste à faire : écran de
    création des alertes de recherche (la table existe, aucun écran encore).
-   Semaine 17 : `AgencyDashboard` (pipeline de leads par menu, équipe,
-   insights à règles simples à faire valider).
+   Semaine 17 faite (2026-10-31) : `AgencyDashboard` — barre latérale
+   sombre, sélecteur 7/30/90 j (fond qui glisse, `PeriodeSelecteur`), 4 KPI
+   (annonces, vues, leads actifs, note), pipeline réel (étape et agent
+   changés par menu), répartition des annonces, 3 conseils à règles fixes
+   validées par le porteur, tableau `PerformanceEquipe` (conversion animée,
+   ajout et désactivation d'agents), visites à venir. Migration
+   `20261104120000_dashboard_agence_keyli.sql` (17 tests, 583 au total).
+   Correctif : les libellés masqués (`sr-only`) dans les zones à défilement
+   horizontal faisaient déborder la page — conteneurs en `relative`.
+   Reste à faire : attribuer un agent à une annonce depuis « Mes annonces ».
+   Semaine 18 : `Subscription.tsx` adapté aux 3 forfaits + `useSubscription.ts`.
    **Fin de projet (après les apps mobiles natives, Phase 3)** : produire la
    vidéo publicitaire à effets innovants demandée par le porteur le
    2026-10-30.
@@ -468,6 +477,8 @@ concernés :
   libéré de la place et redémarré).
 - 2026-10-28 : recherche et fiche d'annonce (tri vérifiées d'abord, filtres
   sans carte pour l'instant, contact par messagerie Keyli seule).
+- 2026-10-31 (Sprint 3bis, semaine 17) : dashboard Agence sur données
+  réelles ; règles des conseils et sélecteur de période validés.
 - 2026-10-30 (Sprint 3bis, semaine 16) : tableaux de bord Propriétaire et
   Chercheur sur données réelles ; score de pertinence validé par le porteur.
 - 2026-10-30 (Sprint 3bis, semaine 15) : composites du pipeline de leads,

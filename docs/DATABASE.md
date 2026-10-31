@@ -928,6 +928,27 @@ Migration `20261103120000_tableaux_de_bord_keyli.sql`, aucune table nouvelle :
   moi ou dont je suis le visiteur, nom public de l'autre partie.
 Tests : `supabase/tests/tableaux_de_bord_keyli.test.sql` (18 tests).
 
+## (2026-10-31) — dashboard Agence
+Migration `20261104120000_dashboard_agence_keyli.sql`, aucune table nouvelle :
+- Index `idx_leads_agent_date (agent_id, created_at) WHERE agent_id IS NOT NULL`.
+- `pipeline_leads_keyli()` (INVOKER) : leads en cours et conclus de moins de
+  90 jours, nom public du contact (ou nom saisi), bien, agent.
+- `tableau_bord_agence_keyli(p_jours)` (INVOKER, 7 à 90 j) : indicateurs du
+  propriétaire + leads actifs / reçus / conclus, note moyenne et nombre
+  d'avis, annonces en attente de vérification et archivées.
+- `performance_equipe_keyli(p_jours)` (INVOKER) : par agent — annonces en
+  ligne, leads reçus sur la période, conclus, conversion (% des leads de la
+  période aujourd'hui conclus), note moyenne des biens attribués.
+- `conseils_agence_keyli()` (INVOKER) : 3 conseils à **règles fixes
+  validées par le porteur le 2026-10-31** — prix (annonces à plus de 15 % du
+  prix moyen fiable du quartier), opportunité (quartier le plus recherché
+  sur 30 j sans annonce de l'agence), réactivité (leads « Nouveau » sans
+  réponse depuis plus de 48 h, sinon félicitation).
+- Côté écran : l'agence change l'étape et l'agent d'un lead (UPDATE direct,
+  RLS « Propriétaire fait avancer ses leads »), ajoute et désactive ses
+  agents (policies existantes de `agency_agents_keyli`).
+Tests : `supabase/tests/dashboard_agence_keyli.test.sql` (17 tests).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — documents_keyli + bucket documents_keyli
 Créés le 2026-10-02 (migration `20261002140000_documents_keyli.sql`), avec les
 enums `document_type_keyli` et `document_status_keyli`. Colonnes identiques

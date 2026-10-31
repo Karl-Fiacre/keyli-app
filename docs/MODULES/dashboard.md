@@ -48,9 +48,10 @@ la forme *cible* que chaque hook doit produire, pas un contrat d'API figé.
   //   derniereActivite: updated_at, agentAssigne?: agent_id → nom }
   statutAnnonces: { verifiees: number, enAttente: number, brouillon: number },
   insights: Array<{ type: 'warn'|'ok'|'neutre', texte: string }>,
-  //   ⚠️ génération des insights = règles à définir, pas un modèle IA
-  //   entraîné — commencer par des règles simples (seuils fixes) documentées
-  //   ici avant d'envisager autre chose
+  //   ✅ Règles fixes validées par le porteur (2026-10-31), calcul en base
+  //   (conseils_agence_keyli) : prix > ±15 % du prix moyen fiable du
+  //   quartier ; quartier le plus recherché (30 j) sans annonce ; leads
+  //   « Nouveau » sans réponse depuis plus de 48 h
   equipe: Array<{ agentId: string, nom: string, annonces: number, conversion: number, note: number }>
   //   DÉCISION ACTÉE : agents internes à l'agence, sans compte de connexion
   //   séparé — table agency_agents_keyli (voir DATABASE.md). "note" ici est
