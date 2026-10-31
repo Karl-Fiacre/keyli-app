@@ -14,9 +14,9 @@ import { formatDate } from '@/lib/format'
 import { cn } from '@/lib/utils'
 
 const STATUTS: Record<StatutDocument, { libelle: string; style: string }> = {
-  pending: { libelle: 'En cours d\'examen', style: 'bg-pending/15 text-pending' },
-  approved: { libelle: 'Approuvé', style: 'bg-success/15 text-success' },
-  rejected: { libelle: 'À renvoyer', style: 'bg-destructive/10 text-destructive' },
+  pending: { libelle: "En cours d'examen", style: 'bg-pending/15 text-pending-texte' },
+  approved: { libelle: 'Approuvé', style: 'bg-success/15 text-success-texte' },
+  rejected: { libelle: 'À renvoyer', style: 'bg-destructive/10 text-destructive-texte' },
 }
 
 // Un document de vérification : statut du dernier envoi et, s'il n'y en a
@@ -53,7 +53,7 @@ export function EmplacementDocument({
         <p className="text-xs text-muted-foreground">Envoyé le {formatDate(document.created_at)}.</p>
       )}
       {statut === 'rejected' && document?.review_notes && (
-        <p className="text-xs text-destructive">Motif : {document.review_notes}</p>
+        <p className="text-xs text-destructive-texte">Motif : {document.review_notes}</p>
       )}
       {peutEnvoyer && (
         <>

@@ -329,10 +329,37 @@ concernés :
    mois, règle de dépassement par forfait, confirmation du changement de
    forfait (jours perdus, montant), recommandation de forfait, historique des
    paiements. Aucune migration.
-   Semaine 19 : QA transverse (accessibilité, responsive, suppression des
-   données de démonstration) — à étudier aussi : pages Abonnement, Mes
-   annonces, Messages et Profil hors du cadre des dashboards (la barre
-   latérale disparaît quand on y navigue).
+   Semaine 19 faite (2026-10-31) — QA transverse, Sprint 3bis terminé :
+   * Navigation (décision du porteur « tout dans le cadre ») : tableau de
+     bord, Mes annonces, Publier, Messages, Favoris, Abonnement (+ retour de
+     paiement) et Profil s'affichent dans le cadre du tableau de bord
+     (`CadreConnecte`, layout route protégée dans `App.tsx`), barre latérale
+     selon le rôle centralisée dans `lib/navigation.ts` (les 3 dashboards ne
+     déclarent plus leur cadre). Accueil, Recherche, fiche d'annonce,
+     authentification et `/admin` gardent l'en-tête public. Un admin qui
+     ouvre Profil ou Messages voit une barre « Back-office ».
+   * Accessibilité : audit axe-core (installé temporairement, hors
+     `package.json`) sur tous les écrans avec les 4 comptes de démo →
+     0 violation WCAG A/AA. Corrigé : teintes de texte foncées
+     `--success-texte`, `--pending-texte`, `--destructive-texte` (voir
+     DESIGN_SYSTEM.md), `--muted-foreground` légèrement foncé, titre `h1`
+     manquant (Abonnement et Publier côté chercheur), lien « Aller au
+     contenu » dans les deux cadres, flèche du menu profil sans transition
+     en mouvements réduits.
+   * Responsive : aucun débordement horizontal à 360 px sur tous les écrans
+     (4 rôles) ; hauteur de Messages ajustée au cadre (mobile et bureau).
+   * Données de démonstration : aucune dans le build de production
+     (`/dev/composants` exclu, aucun compte ni identifiant de démo dans
+     `dist/`). Les données de démo restent uniquement dans les scripts SQL
+     locaux du développeur, jamais dans les migrations.
+   Aucune migration (583 tests inchangés).
+   Reste à faire (noté plus haut) : écran de création des alertes de
+   recherche ; attribuer un agent depuis « Mes annonces ».
+   Prochaine étape du calendrier : Sprint 4 (sem. 20-21) — onboarding du
+   panel pilote (500 propriétés). C'est surtout du terrain ; côté code, il
+   dépend des éléments attendus du porteur : premier super_admin sur le
+   distant, clés Cloudinary (photos), fournisseur d'email, Paystack en mode
+   live, jeton Mapbox. En attendant : les deux écrans restants ci-dessus.
    **Fin de projet (après les apps mobiles natives, Phase 3)** : produire la
    vidéo publicitaire à effets innovants demandée par le porteur le
    2026-10-30.

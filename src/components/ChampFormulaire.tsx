@@ -21,7 +21,7 @@ export function ChampFormulaire({
       <Label htmlFor={id}>{libelle}</Label>
       {children({ id, 'aria-invalid': !!erreur, 'aria-describedby': erreur || aide ? idMessage : undefined })}
       {erreur ? (
-        <p id={idMessage} className="text-xs font-medium text-destructive">
+        <p id={idMessage} className="text-xs font-medium text-destructive-texte">
           {erreur}
         </p>
       ) : aide ? (

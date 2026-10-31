@@ -39,7 +39,7 @@ export function LeadPipeline({
               <span
                 className={cn(
                   'rounded-pill px-2 py-0.5 text-[11px] font-semibold tabular-nums',
-                  col.code === 'conclu' ? 'bg-success/15 text-success' : 'bg-background text-foreground',
+                  col.code === 'conclu' ? 'bg-success/15 text-success-texte' : 'bg-background text-foreground',
                 )}
               >
                 {cartes.length}

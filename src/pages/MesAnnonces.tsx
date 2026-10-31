@@ -26,7 +26,7 @@ export default function MesAnnonces() {
   const documents = useMesDocuments()
 
   return (
-    <section className="container py-12">
+    <section>
       <div className="mx-auto max-w-3xl space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-2xl font-bold tracking-tight">Mes annonces</h1>
@@ -77,7 +77,7 @@ export default function MesAnnonces() {
                       className={
                         a.archived_at || masquees
                           ? 'rounded-pill bg-muted px-3 py-1 text-xs font-semibold text-muted-foreground'
-                          : 'rounded-pill bg-success/15 px-3 py-1 text-xs font-semibold text-success'
+                          : 'rounded-pill bg-success/15 px-3 py-1 text-xs font-semibold text-success-texte'
                       }
                     >
                       {a.archived_at ? 'Archivée' : masquees ? 'Masquée' : 'En ligne'}

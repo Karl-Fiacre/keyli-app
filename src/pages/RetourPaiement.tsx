@@ -24,18 +24,23 @@ export default function RetourPaiement() {
   const statut = verification.data
 
   return (
-    <section className="container flex justify-center py-12">
+    <section className="flex justify-center py-6">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Paiement de l'abonnement</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {!reference && <Alert variant="erreur">Référence de paiement absente.</Alert>}
-          {verification.isPending && <p className="text-muted-foreground">Vérification du paiement auprès de Paystack…</p>}
+          {verification.isPending && (
+            <p className="text-muted-foreground">Vérification du paiement auprès de Paystack…</p>
+          )}
           {verification.isError && <Alert variant="erreur">{verification.error.message}</Alert>}
           {statut === 'success' && <Alert variant="succes">Paiement confirmé : votre abonnement est actif.</Alert>}
           {statut === 'failed' && (
-            <Alert variant="erreur">Le paiement n'a pas pu être validé. Si un montant a été débité, contactez le support Keyli avec la référence {reference}.</Alert>
+            <Alert variant="erreur">
+              Le paiement n'a pas pu être validé. Si un montant a été débité, contactez le support Keyli avec la
+              référence {reference}.
+            </Alert>
           )}
           {statut === 'pending' && (
             <Alert>

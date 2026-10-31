@@ -11,7 +11,11 @@ src/
 │                     MotDePasseOublie, NouveauMotDePasse, Profil, PageIntrouvable
 ├── components/
 │   ├── ui/           Shadcn/ui : button, input, label, card, alert
-│   ├── layout/       MiseEnPage (en-tête avec le logotype, pied de page)
+│   ├── layout/       MiseEnPage (en-tête public : Accueil, Recherche, fiche
+│   │                 d'annonce, authentification, admin), CadreConnecte
+│   │                 (espace connecté dans le cadre du tableau de bord,
+│   │                 navigation par rôle dans lib/navigation.ts — décision
+│   │                 du 2026-10-31), LienEvitement (« Aller au contenu »)
 │   └── (métier)      ChampFormulaire, IndicateurRobustesse, RouteProtegee,
 │                     VerifiedBadge
 ├── hooks/            useSession (FournisseurSession), useCompte (inscription,

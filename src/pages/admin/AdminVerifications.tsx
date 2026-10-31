@@ -30,8 +30,14 @@ export default function AdminVerifications() {
     <div className="space-y-4">
       <div className="flex flex-wrap gap-2" role="tablist" aria-label="Statut des documents">
         {FILTRES.map(([v, l]) => (
-          <Button key={v} size="sm" variant={statut === v ? 'default' : 'outline'} role="tab" aria-selected={statut === v}
-            onClick={() => setStatut(v)}>
+          <Button
+            key={v}
+            size="sm"
+            variant={statut === v ? 'default' : 'outline'}
+            role="tab"
+            aria-selected={statut === v}
+            onClick={() => setStatut(v)}
+          >
             {l}
           </Button>
         ))}
@@ -55,7 +61,10 @@ export default function AdminVerifications() {
               <div className="min-w-0">
                 <p className="font-semibold">{LIBELLES_DOCUMENT[d.doc_type]}</p>
                 <p className="text-sm">
-                  {d.nom} <span className="text-muted-foreground">· {ROLES[d.role ?? ''] ?? d.role} · {d.email}</span>
+                  {d.nom}{' '}
+                  <span className="text-muted-foreground">
+                    · {ROLES[d.role ?? ''] ?? d.role} · {d.email}
+                  </span>
                 </p>
                 {d.titre_bien && d.property_id && (
                   <Link to={`/annonce/${d.property_id}`} className="text-sm text-primary-glow hover:underline">
@@ -67,12 +76,16 @@ export default function AdminVerifications() {
                   {d.revu_le && ` · traité le ${formatDate(d.revu_le)}`}
                   {d.compte_verifie && ' · compte déjà vérifié'}
                 </p>
-                {d.notes && <p className="text-xs text-destructive">Motif du rejet : {d.notes}</p>}
+                {d.notes && <p className="text-xs text-destructive-texte">Motif du rejet : {d.notes}</p>}
               </div>
-              <Button size="sm" variant="outline" onClick={() => {
-                setErreurOuverture(null)
-                ouvrirDocument(d.fichier).catch(() => setErreurOuverture('Impossible d\'ouvrir ce document.'))
-              }}>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => {
+                  setErreurOuverture(null)
+                  ouvrirDocument(d.fichier).catch(() => setErreurOuverture("Impossible d'ouvrir ce document."))
+                }}
+              >
                 <ExternalLink className="mr-1.5 h-4 w-4" aria-hidden />
                 Ouvrir le document
               </Button>
@@ -85,7 +98,10 @@ export default function AdminVerifications() {
                   onSubmit={(e) => {
                     e.preventDefault()
                     if (rejet.motif.trim())
-                      reviser.mutate({ id: d.id, decision: 'rejected', notes: rejet.motif }, { onSuccess: () => setRejet(null) })
+                      reviser.mutate(
+                        { id: d.id, decision: 'rejected', notes: rejet.motif },
+                        { onSuccess: () => setRejet(null) },
+                      )
                   }}
                 >
                   <label className="block space-y-1">
@@ -100,7 +116,12 @@ export default function AdminVerifications() {
                     />
                   </label>
                   <div className="flex gap-2">
-                    <Button type="submit" size="sm" variant="destructive" disabled={!rejet.motif.trim() || reviser.isPending}>
+                    <Button
+                      type="submit"
+                      size="sm"
+                      variant="destructive"
+                      disabled={!rejet.motif.trim() || reviser.isPending}
+                    >
                       Confirmer le rejet
                     </Button>
                     <Button type="button" size="sm" variant="ghost" onClick={() => setRejet(null)}>
@@ -110,7 +131,11 @@ export default function AdminVerifications() {
                 </form>
               ) : (
                 <div className={cn('flex flex-wrap gap-2 border-t pt-3')}>
-                  <Button size="sm" disabled={reviser.isPending} onClick={() => reviser.mutate({ id: d.id, decision: 'approved' })}>
+                  <Button
+                    size="sm"
+                    disabled={reviser.isPending}
+                    onClick={() => reviser.mutate({ id: d.id, decision: 'approved' })}
+                  >
                     Approuver
                   </Button>
                   <Button size="sm" variant="outline" onClick={() => setRejet({ id: d.id, motif: '' })}>

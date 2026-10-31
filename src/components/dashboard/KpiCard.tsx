@@ -56,8 +56,8 @@ export function KpiCard({
         <p
           className={cn(
             'mt-3 inline-block rounded-pill px-2.5 py-0.5 text-xs font-semibold',
-            atteinte === true && 'bg-success/15 text-success',
-            atteinte === false && 'bg-pending/15 text-pending',
+            atteinte === true && 'bg-success/15 text-success-texte',
+            atteinte === false && 'bg-pending/15 text-pending-texte',
             atteinte == null && 'bg-muted text-muted-foreground',
           )}
         >
@@ -76,7 +76,11 @@ function BadgeVariation({ valeur, unite = '' }: { valeur: number; unite?: string
     <span
       className={cn(
         'inline-flex items-center gap-0.5 rounded-pill px-2 py-0.5 text-xs font-semibold tabular-nums',
-        nulle ? 'bg-muted text-muted-foreground' : hausse ? 'bg-success/15 text-success' : 'bg-destructive/10 text-destructive',
+        nulle
+          ? 'bg-muted text-muted-foreground'
+          : hausse
+            ? 'bg-success/15 text-success-texte'
+            : 'bg-destructive/10 text-destructive-texte',
       )}
     >
       <span aria-hidden>{nulle ? '=' : hausse ? '▲' : '▼'}</span>

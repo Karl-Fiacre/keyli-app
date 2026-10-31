@@ -11,9 +11,9 @@ export interface Paiement {
 }
 
 const STATUTS: Record<Paiement['statut'], { libelle: string; classe: string }> = {
-  completed: { libelle: 'Payé', classe: 'bg-success/15 text-success' },
-  pending: { libelle: 'En attente', classe: 'bg-pending/15 text-pending' },
-  failed: { libelle: 'Échoué', classe: 'bg-destructive/10 text-destructive' },
+  completed: { libelle: 'Payé', classe: 'bg-success/15 text-success-texte' },
+  pending: { libelle: 'En attente', classe: 'bg-pending/15 text-pending-texte' },
+  failed: { libelle: 'Échoué', classe: 'bg-destructive/10 text-destructive-texte' },
 }
 
 // Historique des paiements d'abonnement (transactions_keyli du compte).
