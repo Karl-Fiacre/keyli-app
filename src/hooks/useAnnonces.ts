@@ -28,11 +28,7 @@ export function useAvantages() {
     queryKey: ['avantages'],
     staleTime: 60 * 60_000,
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('avantages_keyli')
-        .select('*')
-        .order('categorie')
-        .order('ordre')
+      const { data, error } = await supabase.from('avantages_keyli').select('*').order('categorie').order('ordre')
       if (error) throw error
       return data
     },
@@ -116,9 +112,13 @@ export function useMesAnnonces() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('properties_keyli')
-        .select('id, title, type, status, price, city, archived_at, is_verified, created_at, quartiers_keyli(nom)')
+        .select(
+          'id, title, type, status, price, city, archived_at, is_verified, created_at, agent_id, quartiers_keyli(nom)',
+        )
         .eq('owner_id', userId as string)
         .order('created_at', { ascending: false })
+        // Départage stable : la liste ne doit pas se réordonner après une modification
+        .order('id')
       if (error) throw error
       return data
     },

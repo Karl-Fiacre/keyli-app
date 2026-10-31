@@ -311,8 +311,8 @@ concernés :
    vérifiée 15). Migration `20261103120000_tableaux_de_bord_keyli.sql`
    (18 tests, 566 au total). Après connexion, arrivée sur le tableau de
    bord ; lien « Tableau de bord » dans l'en-tête. L'agence utilise
-   provisoirement le dashboard propriétaire. Reste à faire : écran de
-   création des alertes de recherche (la table existe, aucun écran encore).
+   provisoirement le dashboard propriétaire. Écran de création des alertes
+   de recherche : fait le 2026-10-31 (voir après la semaine 19).
    Semaine 17 faite (2026-10-31) : `AgencyDashboard` — barre latérale
    sombre, sélecteur 7/30/90 j (fond qui glisse, `PeriodeSelecteur`), 4 KPI
    (annonces, vues, leads actifs, note), pipeline réel (étape et agent
@@ -322,7 +322,7 @@ concernés :
    `20261104120000_dashboard_agence_keyli.sql` (17 tests, 583 au total).
    Correctif : les libellés masqués (`sr-only`) dans les zones à défilement
    horizontal faisaient déborder la page — conteneurs en `relative`.
-   Reste à faire : attribuer un agent à une annonce depuis « Mes annonces ».
+   Attribution d'un agent depuis « Mes annonces » : faite le 2026-10-31.
    Semaine 18 faite (2026-10-31) : la souscription et le changement de
    forfait pour les 3 paliers existaient depuis le Sprint 1 (`Abonnement.tsx`,
    `useAbonnement.ts`, paiement Paystack testé) ; ajoutés : consommation du
@@ -353,13 +353,23 @@ concernés :
      `dist/`). Les données de démo restent uniquement dans les scripts SQL
      locaux du développeur, jamais dans les migrations.
    Aucune migration (583 tests inchangés).
-   Reste à faire (noté plus haut) : écran de création des alertes de
-   recherche ; attribuer un agent depuis « Mes annonces ».
+   Faits ensuite le même jour (branche `feature/alertes-agents`, aucune
+   migration — la base gérait déjà tout) :
+   * Alertes de recherche : bouton « Créer une alerte » sur Recherche (filtres
+     en cours ; visiteur → connexion puis retour), doublon détecté (« Alerte
+     active » / « Réactiver »), équipements signalés comme non pris en
+     compte ; dashboard chercheur : « Voir », « Mettre en pause »,
+     « Réactiver ». Détail : `MODULES/annonces.md`.
+   * Agence : menu « Agent responsable » sur chaque annonce non archivée de
+     « Mes annonces » (agents actifs + agent désactivé encore attribué) ;
+     sans agent, lien vers le bloc Équipe du dashboard (`#equipe`). La RLS
+     vérifie que l'agent appartient à l'agence. Liste « Mes annonces » triée
+     de façon stable (départage par id).
    Prochaine étape du calendrier : Sprint 4 (sem. 20-21) — onboarding du
    panel pilote (500 propriétés). C'est surtout du terrain ; côté code, il
    dépend des éléments attendus du porteur : premier super_admin sur le
    distant, clés Cloudinary (photos), fournisseur d'email, Paystack en mode
-   live, jeton Mapbox. En attendant : les deux écrans restants ci-dessus.
+   live, jeton Mapbox.
    **Fin de projet (après les apps mobiles natives, Phase 3)** : produire la
    vidéo publicitaire à effets innovants demandée par le porteur le
    2026-10-30.

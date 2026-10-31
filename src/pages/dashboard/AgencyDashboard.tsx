@@ -1,5 +1,5 @@
-import { useState, type FormEvent } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState, type FormEvent } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { KpiCard } from '@/components/dashboard/KpiCard'
 import { LeadPipeline } from '@/components/dashboard/LeadPipeline'
 import { DonutChart } from '@/components/dashboard/DonutChart'
@@ -42,6 +42,12 @@ export default function AgencyDashboard({ profil }: { profil: Profil }) {
   const ajouterAgent = useAjouterAgent()
   const activerAgent = useActiverAgent()
   const [nouvelAgent, setNouvelAgent] = useState('')
+  // Arrivée par « ajoutez votre équipe » (Mes annonces) : aller au bloc Équipe
+  const { hash } = useLocation()
+  const equipeChargee = !equipe.isPending
+  useEffect(() => {
+    if (hash === '#equipe' && equipeChargee) document.getElementById('equipe')?.scrollIntoView({ block: 'start' })
+  }, [hash, equipeChargee])
 
   const i = indicateurs.data
   const nom = profil.nom_agence || [profil.first_name, profil.last_name].filter(Boolean).join(' ') || 'Mon agence'
@@ -173,7 +179,7 @@ export default function AgencyDashboard({ profil }: { profil: Profil }) {
       </div>
 
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
-        <section className="space-y-4 rounded-lg border bg-card p-5 xl:col-span-2">
+        <section id="equipe" className="scroll-mt-6 space-y-4 rounded-lg border bg-card p-5 xl:col-span-2">
           <h2 className="font-semibold">Performance de l'équipe ({jours} j)</h2>
           <PerformanceEquipe
             lignes={(equipe.data ?? []).map((a) => ({

@@ -7,11 +7,13 @@ import { MessagePreviewList } from '@/components/dashboard/MessagePreviewList'
 import { AgendaList } from '@/components/dashboard/AgendaList'
 import { useConversations } from '@/hooks/useMessagerie'
 import { useMesFavoris } from '@/hooks/useFavoris'
+import { useBasculerAlerte } from '@/hooks/useAlertes'
 import { useMesAlertes, useRecommandations, useTendancesQuartiers, useVisitesAVenir } from '@/hooks/useTableauDeBord'
 import type { Profil } from '@/hooks/useProfil'
 import { CRITERES_COMPARAISON, libelleAlerte, pctSigne } from '@/lib/dashboard'
 import { formatXof } from '@/lib/format'
 import { cheminConversation } from '@/lib/messagerie'
+import { rechercheDepuisAlerte } from '@/lib/recherche'
 import { LIBELLES_TYPE } from '@/lib/validation'
 import { cn } from '@/lib/utils'
 
@@ -26,6 +28,7 @@ export default function UserDashboard({ profil }: { profil: Profil }) {
   const recos = useRecommandations(10)
   const favoris = useMesFavoris()
   const alertes = useMesAlertes()
+  const pauseAlerte = useBasculerAlerte()
   const tendances = useTendancesQuartiers(5)
   const conversations = useConversations()
   const visites = useVisitesAVenir(5)
@@ -174,20 +177,41 @@ export default function UserDashboard({ profil }: { profil: Profil }) {
             )}
           </div>
           {(alertes.data ?? []).length === 0 ? (
-            <p className="text-sm text-muted-foreground">Aucune alerte de recherche pour l'instant.</p>
+            <p className="text-sm text-muted-foreground">
+              Aucune alerte pour l'instant.{' '}
+              <Link to="/recherche" className="font-semibold text-primary-glow hover:underline">
+                Créez-en une depuis la recherche
+              </Link>{' '}
+              pour être prévenu des nouvelles annonces.
+            </p>
           ) : (
             <ul className="divide-y">
               {(alertes.data ?? []).map((a) => (
-                <li
-                  key={a.id}
-                  className={cn('flex items-center justify-between gap-3 py-3 text-sm', !a.actif && 'opacity-60')}
-                >
-                  <span className="min-w-0">
+                <li key={a.id} className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-3 text-sm">
+                  <span className={cn('min-w-0', !a.actif && 'text-muted-foreground')}>
                     {libelleAlerte(a.criteres as Record<string, unknown>, a.quartier, a.commune)}
-                    {!a.actif && <span className="text-muted-foreground"> — en pause</span>}
+                    {!a.actif && <span> — en pause</span>}
+                    <span className="block text-xs text-muted-foreground">
+                      {a.nouvelles > 0
+                        ? `${a.nouvelles} nouvelle${a.nouvelles > 1 ? 's' : ''} cette semaine`
+                        : 'Rien de neuf cette semaine'}
+                    </span>
                   </span>
-                  <span className="shrink-0 text-xs text-muted-foreground">
-                    {a.nouvelles > 0 ? `${a.nouvelles} cette semaine` : 'rien de neuf'}
+                  <span className="flex shrink-0 items-center gap-3 text-xs font-semibold">
+                    <Link
+                      to={rechercheDepuisAlerte(a.criteres as Record<string, unknown>)}
+                      className="text-primary-glow hover:underline"
+                    >
+                      Voir
+                    </Link>
+                    <button
+                      type="button"
+                      className="text-muted-foreground hover:text-foreground hover:underline disabled:opacity-50"
+                      disabled={pauseAlerte.isPending && pauseAlerte.variables?.id === a.id}
+                      onClick={() => pauseAlerte.mutate({ id: a.id, actif: !a.actif })}
+                    >
+                      {a.actif ? 'Mettre en pause' : 'Réactiver'}
+                    </button>
                   </span>
                 </li>
               ))}
