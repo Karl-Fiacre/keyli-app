@@ -37,14 +37,19 @@ export default function Profil() {
 
   useEffect(() => {
     if (p) {
-      reset({ prenom: p.first_name ?? '', nom: p.last_name ?? '', telephone: p.phone ?? '', nomAgence: p.nom_agence ?? '' })
+      reset({
+        prenom: p.first_name ?? '',
+        nom: p.last_name ?? '',
+        telephone: p.phone ?? '',
+        nomAgence: p.nom_agence ?? '',
+      })
     }
   }, [p, reset])
 
-  if (profil.isPending) return <p className="container py-16 text-center text-muted-foreground">Chargement…</p>
+  if (profil.isPending) return <p className="py-16 text-center text-muted-foreground">Chargement…</p>
   if (profil.isError || !p) {
     return (
-      <section className="container py-12">
+      <section>
         <Alert variant="erreur">{messageErreur(profil.error)}</Alert>
       </section>
     )
@@ -60,7 +65,7 @@ export default function Profil() {
   )
 
   return (
-    <section className="container flex justify-center py-12">
+    <section className="flex justify-center py-6">
       <Card className="w-full max-w-lg">
         <CardHeader>
           <div className="flex flex-wrap items-center justify-between gap-2">
@@ -68,7 +73,9 @@ export default function Profil() {
             {p.verified ? (
               <VerifiedBadge />
             ) : (
-              <span className="rounded-pill bg-pending/15 px-3 py-1 text-xs font-semibold text-pending">Non vérifié</span>
+              <span className="rounded-pill bg-pending/15 px-3 py-1 text-xs font-semibold text-pending-texte">
+                Non vérifié
+              </span>
             )}
           </div>
           <CardDescription>
@@ -83,10 +90,17 @@ export default function Profil() {
           )}
           <form onSubmit={envoyer} noValidate className="space-y-5">
             {estAgence && (
-              <ChampFormulaire libelle="Nom de l'agence" erreur={errors.nomAgence?.message}
-                aide={!nomAgenceModifiable && (
-                  <p className="text-xs text-muted-foreground">Agence vérifiée : le nom ne se modifie plus que sur demande à l'équipe Keyli.</p>
-                )}>
+              <ChampFormulaire
+                libelle="Nom de l'agence"
+                erreur={errors.nomAgence?.message}
+                aide={
+                  !nomAgenceModifiable && (
+                    <p className="text-xs text-muted-foreground">
+                      Agence vérifiée : le nom ne se modifie plus que sur demande à l'équipe Keyli.
+                    </p>
+                  )
+                }
+              >
                 {(a) => <Input {...a} disabled={!nomAgenceModifiable} {...register('nomAgence')} />}
               </ChampFormulaire>
             )}

@@ -18,13 +18,19 @@ import { cn } from '@/lib/utils'
 
 const LIBELLES: Record<StatutVisite, string> = { planifiee: 'Planifiée', effectuee: 'Effectuée', annulee: 'Annulée' }
 const STYLES: Record<StatutVisite, string> = {
-  planifiee: 'bg-pending/15 text-pending',
-  effectuee: 'bg-success/15 text-success',
+  planifiee: 'bg-pending/15 text-pending-texte',
+  effectuee: 'bg-success/15 text-success-texte',
   annulee: 'bg-muted text-muted-foreground',
 }
 
 const quand = (iso: string) =>
-  new Date(iso).toLocaleString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })
+  new Date(iso).toLocaleString('fr-FR', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
 
 // Valeur d'un champ date-heure local (« 2026-10-31T10:00 »), dans 1 h par défaut
 function champDateHeure(d: Date) {
@@ -80,12 +86,18 @@ export function PanneauVisite({
           <div key={v.id} className="flex flex-wrap items-center gap-2">
             <CalendarClock className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
             <span className="first-letter:uppercase">Visite : {quand(v.scheduled_at)}</span>
-            <span className={cn('rounded-pill px-2 py-0.5 text-xs font-semibold', STYLES[statut])}>{LIBELLES[statut]}</span>
+            <span className={cn('rounded-pill px-2 py-0.5 text-xs font-semibold', STYLES[statut])}>
+              {LIBELLES[statut]}
+            </span>
             {estProprietaire && statut === 'planifiee' && (
               <span className="ml-auto flex flex-wrap gap-1">
                 {passee ? (
-                  <Button size="sm" variant="outline" disabled={majVisite.isPending}
-                    onClick={() => majVisite.mutate({ id: v.id, statut: 'effectuee' })}>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={majVisite.isPending}
+                    onClick={() => majVisite.mutate({ id: v.id, statut: 'effectuee' })}
+                  >
                     <CalendarCheck className="mr-1 h-4 w-4" aria-hidden />
                     Visite effectuée
                   </Button>
@@ -94,8 +106,12 @@ export function PanneauVisite({
                     Déplacer
                   </Button>
                 )}
-                <Button size="sm" variant="ghost" disabled={majVisite.isPending}
-                  onClick={() => majVisite.mutate({ id: v.id, statut: 'annulee' })}>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  disabled={majVisite.isPending}
+                  onClick={() => majVisite.mutate({ id: v.id, statut: 'annulee' })}
+                >
                   <CalendarX className="mr-1 h-4 w-4" aria-hidden />
                   Annuler
                 </Button>
@@ -134,7 +150,12 @@ export function PanneauVisite({
           </Button>
         </form>
       ) : formulaire === 'avis' ? (
-        <FormulaireAvis propertyId={propertyId} note={interlocuteur} nomNote={nomInterlocuteur} onFini={() => setFormulaire(null)} />
+        <FormulaireAvis
+          propertyId={propertyId}
+          note={interlocuteur}
+          nomNote={nomInterlocuteur}
+          onFini={() => setFormulaire(null)}
+        />
       ) : (
         <div className="flex flex-wrap gap-2">
           {estProprietaire && (

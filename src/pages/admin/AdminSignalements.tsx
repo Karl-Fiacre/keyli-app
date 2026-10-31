@@ -40,8 +40,14 @@ export default function AdminSignalements() {
     <div className="space-y-4">
       <div className="flex flex-wrap gap-2" role="tablist" aria-label="Statut des signalements">
         {FILTRES.map(([v, l]) => (
-          <Button key={v} size="sm" variant={statut === v ? 'default' : 'outline'} role="tab" aria-selected={statut === v}
-            onClick={() => setStatut(v)}>
+          <Button
+            key={v}
+            size="sm"
+            variant={statut === v ? 'default' : 'outline'}
+            role="tab"
+            aria-selected={statut === v}
+            onClick={() => setStatut(v)}
+          >
             {l}
           </Button>
         ))}
@@ -68,7 +74,7 @@ export default function AdminSignalements() {
                 </p>
               </div>
               {Number(s.signalements_en_attente) > 1 && (
-                <span className="rounded-pill bg-destructive/10 px-2.5 py-0.5 text-xs font-semibold text-destructive">
+                <span className="rounded-pill bg-destructive/10 px-2.5 py-0.5 text-xs font-semibold text-destructive-texte">
                   {Number(s.signalements_en_attente)} signalements en attente sur cette annonce
                 </span>
               )}
@@ -83,7 +89,8 @@ export default function AdminSignalements() {
                 <span>Signalement sans annonce</span>
               )}
               <span className="text-muted-foreground">
-                {' '}· {s.annonceur ?? '—'}
+                {' '}
+                · {s.annonceur ?? '—'}
                 {s.bien_verifie && ' · bien vérifié'}
                 {s.bien_archive && ' · archivée'}
                 {s.annonceur_suspendu && ' · annonceur suspendu'}
@@ -92,47 +99,79 @@ export default function AdminSignalements() {
 
             {statut !== 'resolved' &&
               (action?.id === s.id ? (
-                <form className="space-y-2" onSubmit={(e) => {
-                  e.preventDefault()
-                  if (action.type === 'resolution' || action.texte.trim()) confirmer(s)
-                }}>
+                <form
+                  className="space-y-2"
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    if (action.type === 'resolution' || action.texte.trim()) confirmer(s)
+                  }}
+                >
                   <label className="block space-y-1">
                     <span className="text-xs font-medium">
                       {action.type === 'resolution'
-                        ? 'Note de traitement (facultative, journal d\'audit)'
+                        ? "Note de traitement (facultative, journal d'audit)"
                         : action.type === 'retrait'
-                          ? 'Motif du retrait de vérification (envoyé à l\'annonceur)'
-                          : 'Motif de la suspension (envoyé à l\'annonceur)'}
+                          ? "Motif du retrait de vérification (envoyé à l'annonceur)"
+                          : "Motif de la suspension (envoyé à l'annonceur)"}
                     </span>
-                    <textarea rows={2} value={action.texte}
-                      aria-label={action.type === 'resolution' ? 'Note de traitement' : action.type === 'retrait' ? 'Motif du retrait de vérification' : 'Motif de la suspension'}
+                    <textarea
+                      rows={2}
+                      value={action.texte}
+                      aria-label={
+                        action.type === 'resolution'
+                          ? 'Note de traitement'
+                          : action.type === 'retrait'
+                            ? 'Motif du retrait de vérification'
+                            : 'Motif de la suspension'
+                      }
                       onChange={(e) => setAction({ ...action, texte: e.target.value })}
-                      className="flex w-full rounded-lg border border-input bg-background px-3 py-2 text-sm" />
+                      className="flex w-full rounded-lg border border-input bg-background px-3 py-2 text-sm"
+                    />
                   </label>
                   <div className="flex gap-2">
-                    <Button type="submit" size="sm" variant={action.type === 'resolution' ? 'default' : 'destructive'}
-                      disabled={enCours || (action.type !== 'resolution' && !action.texte.trim())}>
+                    <Button
+                      type="submit"
+                      size="sm"
+                      variant={action.type === 'resolution' ? 'default' : 'destructive'}
+                      disabled={enCours || (action.type !== 'resolution' && !action.texte.trim())}
+                    >
                       Confirmer
                     </Button>
-                    <Button type="button" size="sm" variant="ghost" onClick={() => setAction(null)}>Annuler</Button>
+                    <Button type="button" size="sm" variant="ghost" onClick={() => setAction(null)}>
+                      Annuler
+                    </Button>
                   </div>
                 </form>
               ) : (
                 <div className="flex flex-wrap gap-2 border-t pt-3">
                   {statut === 'pending' && (
-                    <Button size="sm" variant="outline" disabled={enCours}
-                      onClick={() => traiter.mutate({ id: s.id, statut: 'reviewed' })}>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={enCours}
+                      onClick={() => traiter.mutate({ id: s.id, statut: 'reviewed' })}
+                    >
                       Marquer examiné
                     </Button>
                   )}
-                  <Button size="sm" onClick={() => setAction({ id: s.id, type: 'resolution', texte: '' })}>Résoudre…</Button>
+                  <Button size="sm" onClick={() => setAction({ id: s.id, type: 'resolution', texte: '' })}>
+                    Résoudre…
+                  </Button>
                   {s.bien_verifie && (
-                    <Button size="sm" variant="outline" onClick={() => setAction({ id: s.id, type: 'retrait', texte: '' })}>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => setAction({ id: s.id, type: 'retrait', texte: '' })}
+                    >
                       Retirer la vérification du bien…
                     </Button>
                   )}
                   {s.annonceur_id && !s.annonceur_suspendu && (
-                    <Button size="sm" variant="outline" onClick={() => setAction({ id: s.id, type: 'suspension', texte: '' })}>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => setAction({ id: s.id, type: 'suspension', texte: '' })}
+                    >
                       Suspendre l'annonceur…
                     </Button>
                   )}

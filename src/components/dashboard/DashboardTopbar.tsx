@@ -51,7 +51,10 @@ export function DashboardTopbar({
             recherche.onRecherche(String(champ ?? '').trim())
           }}
         >
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
+          <Search
+            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+            aria-hidden
+          />
           <input
             name="q"
             type="search"
@@ -77,7 +80,10 @@ export function DashboardTopbar({
             {photo ? (
               <img src={photo} alt="" className="h-9 w-9 rounded-pill object-cover" />
             ) : (
-              <span className="flex h-9 w-9 items-center justify-center rounded-pill bg-primary text-xs font-bold text-primary-foreground" aria-hidden>
+              <span
+                className="flex h-9 w-9 items-center justify-center rounded-pill bg-primary text-xs font-bold text-primary-foreground"
+                aria-hidden
+              >
                 {initiales(nom)}
               </span>
             )}
@@ -85,14 +91,25 @@ export function DashboardTopbar({
               <span className="block max-w-40 truncate text-sm font-semibold">{nom}</span>
               <span className="block text-xs text-muted-foreground">{role}</span>
             </span>
-            <ChevronDown className={cn('h-4 w-4 text-muted-foreground transition-transform duration-150', menu && 'rotate-180')} aria-hidden />
+            <ChevronDown
+              className={cn(
+                'h-4 w-4 text-muted-foreground transition-transform duration-150 motion-reduce:transition-none',
+                menu && 'rotate-180',
+              )}
+              aria-hidden
+            />
           </button>
           {menu && (
             <div
               role="menu"
               className="kf-panneau-ouvre absolute right-0 top-full z-50 mt-2 w-48 overflow-hidden rounded-lg border bg-card py-1 shadow-lift"
             >
-              <Link role="menuitem" to="/profil" className="block px-4 py-2 text-sm hover:bg-secondary" onClick={() => setMenu(false)}>
+              <Link
+                role="menuitem"
+                to="/profil"
+                className="block px-4 py-2 text-sm hover:bg-secondary"
+                onClick={() => setMenu(false)}
+              >
                 Mon profil
               </Link>
               <button

@@ -7,9 +7,9 @@ import UserDashboard from '@/pages/dashboard/UserDashboard'
 // Point d'entrée /tableau-de-bord : le dashboard dépend du rôle du compte.
 export default function TableauDeBord() {
   const profil = useProfil()
-  if (profil.isPending) return <p className="container py-16 text-center text-muted-foreground">Chargement…</p>
+  if (profil.isPending) return <p className="py-16 text-center text-muted-foreground">Chargement…</p>
   if (profil.isError || !profil.data)
-    return <p className="container py-16 text-center text-destructive">Impossible de charger votre profil.</p>
+    return <p className="py-16 text-center text-destructive-texte">Impossible de charger votre profil.</p>
 
   const p = profil.data
   switch (p.role_keyli) {

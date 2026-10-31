@@ -44,18 +44,19 @@ export default function PublierAnnonce() {
 
   const role = profil.data?.role_keyli
   if (profil.isPending || etat.isPending) {
-    return <p className="container py-16 text-center text-muted-foreground">Chargement…</p>
+    return <p className="py-16 text-center text-muted-foreground">Chargement…</p>
   }
   if (role !== 'owner' && role !== 'agency') {
     return (
-      <section className="container flex justify-center py-12">
-        <Alert className="max-w-lg">La publication d'annonces est réservée aux propriétaires et aux agences.</Alert>
+      <section className="mx-auto max-w-lg space-y-4 py-6">
+        <h1 className="text-2xl font-bold tracking-tight">Publier une annonce</h1>
+        <Alert>La publication d'annonces est réservée aux propriétaires et aux agences.</Alert>
       </section>
     )
   }
   if (etat.isError || !etat.data) {
     return (
-      <section className="container py-12">
+      <section>
         <Alert variant="erreur">{messageErreur(etat.error)}</Alert>
       </section>
     )
@@ -81,7 +82,7 @@ export default function PublierAnnonce() {
   )
 
   return (
-    <section className="container flex justify-center py-12">
+    <section className="flex justify-center py-6">
       <Card className="w-full max-w-2xl">
         <CardHeader>
           <CardTitle>Publier une annonce</CardTitle>
@@ -232,7 +233,7 @@ export default function PublierAnnonce() {
                   <Link to="/annonces">Annuler</Link>
                 </Button>
                 <Button type="submit" disabled={publication.isPending || (depassement && !accord)}>
-                  {publication.isPending ? 'Publication…' : 'Publier l\'annonce'}
+                  {publication.isPending ? 'Publication…' : "Publier l'annonce"}
                 </Button>
               </div>
             </form>

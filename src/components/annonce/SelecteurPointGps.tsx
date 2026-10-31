@@ -123,12 +123,12 @@ export function SelecteurPointGps({
         )}
       </div>
       {localisation === 'refus' && (
-        <p className="text-xs text-destructive">
+        <p className="text-xs text-destructive-texte">
           Position indisponible : autorisez la localisation dans votre navigateur
           {jeton.data ? ' ou cliquez sur la carte' : ''}.
         </p>
       )}
-      {erreur && <p className="text-xs font-medium text-destructive">{erreur}</p>}
+      {erreur && <p className="text-xs font-medium text-destructive-texte">{erreur}</p>}
     </div>
   )
 }

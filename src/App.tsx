@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { FournisseurSession } from '@/hooks/useSession'
 import { MiseEnPage } from '@/components/layout/MiseEnPage'
+import { CadreConnecte } from '@/components/layout/CadreConnecte'
 import { RouteProtegee } from '@/components/RouteProtegee'
 import Accueil from '@/pages/Accueil'
 import Inscription from '@/pages/Inscription'
@@ -50,15 +51,25 @@ function App() {
                 }
               />
             )}
-            {/* Dashboards : leur propre cadre (barre latérale), hors de l'en-tête commun */}
+            {/* Espace connecté : cadre du tableau de bord (barre latérale selon le rôle).
+                Décision du porteur, 2026-10-31. L'admin garde son propre écran. */}
             <Route
-              path="tableau-de-bord"
               element={
                 <RouteProtegee>
-                  <TableauDeBord />
+                  <CadreConnecte />
                 </RouteProtegee>
               }
-            />
+            >
+              <Route path="tableau-de-bord" element={<TableauDeBord />} />
+              <Route path="profil" element={<Profil />} />
+              <Route path="abonnement" element={<Abonnement />} />
+              <Route path="abonnement/retour" element={<RetourPaiement />} />
+              <Route path="annonces" element={<MesAnnonces />} />
+              <Route path="annonces/nouvelle" element={<PublierAnnonce />} />
+              <Route path="messages" element={<Messages />} />
+              <Route path="messages/:bien/:interlocuteur" element={<Messages />} />
+              <Route path="favoris" element={<MesFavoris />} />
+            </Route>
             <Route element={<MiseEnPage />}>
               <Route index element={<Accueil />} />
               <Route path="recherche" element={<Recherche />} />
@@ -68,70 +79,6 @@ function App() {
               <Route path="verifier-email" element={<VerifierEmail />} />
               <Route path="mot-de-passe-oublie" element={<MotDePasseOublie />} />
               <Route path="nouveau-mot-de-passe" element={<NouveauMotDePasse />} />
-              <Route
-                path="profil"
-                element={
-                  <RouteProtegee>
-                    <Profil />
-                  </RouteProtegee>
-                }
-              />
-              <Route
-                path="abonnement"
-                element={
-                  <RouteProtegee>
-                    <Abonnement />
-                  </RouteProtegee>
-                }
-              />
-              <Route
-                path="abonnement/retour"
-                element={
-                  <RouteProtegee>
-                    <RetourPaiement />
-                  </RouteProtegee>
-                }
-              />
-              <Route
-                path="annonces"
-                element={
-                  <RouteProtegee>
-                    <MesAnnonces />
-                  </RouteProtegee>
-                }
-              />
-              <Route
-                path="annonces/nouvelle"
-                element={
-                  <RouteProtegee>
-                    <PublierAnnonce />
-                  </RouteProtegee>
-                }
-              />
-              <Route
-                path="messages"
-                element={
-                  <RouteProtegee>
-                    <Messages />
-                  </RouteProtegee>
-                }
-              />
-              <Route
-                path="messages/:bien/:interlocuteur"
-                element={
-                  <RouteProtegee>
-                    <Messages />
-                  </RouteProtegee>
-                }
-              />
-              <Route
-                path="favoris"
-                element={
-                  <RouteProtegee>
-                    <MesFavoris />
-                  </RouteProtegee>
-                }
-              />
               <Route
                 path="admin"
                 element={

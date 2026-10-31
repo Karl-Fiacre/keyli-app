@@ -20,9 +20,9 @@ export default function Messages() {
   const resume = conversations.data?.find((c) => cheminConversation(c) === actif)
 
   return (
-    <section className="container py-6 md:py-10">
+    <section>
       <h1 className={cn('mb-4 text-2xl font-bold tracking-tight', filOuvert && 'hidden md:block')}>Messages</h1>
-      <div className="grid h-[calc(100vh-12rem)] min-h-[28rem] overflow-hidden rounded-lg border bg-card md:grid-cols-[22rem_1fr]">
+      <div className="grid h-[calc(100dvh-14rem)] lg:h-[calc(100dvh-11rem)] min-h-[28rem] overflow-hidden rounded-lg border bg-card md:grid-cols-[22rem_1fr]">
         <div className={cn('min-h-0 overflow-y-auto border-r', filOuvert && 'hidden md:block')}>
           {conversations.isPending && <p className="p-6 text-sm text-muted-foreground">Chargement…</p>}
           {conversations.isError && (

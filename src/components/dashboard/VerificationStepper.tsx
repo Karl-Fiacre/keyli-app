@@ -27,7 +27,7 @@ export function VerificationStepper({ etapes, note }: { etapes: Etape[]; note?: 
                   className={cn(
                     'flex h-9 w-9 items-center justify-center rounded-pill border-2 text-sm font-bold',
                     e.etat === 'fait' && 'kf-pastille-apparait border-success bg-success text-primary-foreground',
-                    e.etat === 'en_cours' && 'border-pending bg-pending/15 text-pending',
+                    e.etat === 'en_cours' && 'border-pending bg-pending/15 text-pending-texte',
                     e.etat === 'a_faire' && 'border-border bg-background text-muted-foreground',
                   )}
                   style={e.etat === 'fait' ? { animationDelay: `${i * 300}ms` } : undefined}

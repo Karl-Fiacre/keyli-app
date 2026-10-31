@@ -6,8 +6,8 @@ import { cn } from '@/lib/utils'
 export type TypeInsight = 'warn' | 'ok' | 'neutre'
 
 const STYLES: Record<TypeInsight, { bordure: string; icone: typeof Lightbulb; couleur: string; libelle: string }> = {
-  warn: { bordure: 'border-l-pending', icone: AlertTriangle, couleur: 'text-pending', libelle: 'À surveiller' },
-  ok: { bordure: 'border-l-success', icone: CheckCircle2, couleur: 'text-success', libelle: 'Bonne pratique' },
+  warn: { bordure: 'border-l-pending', icone: AlertTriangle, couleur: 'text-pending-texte', libelle: 'À surveiller' },
+  ok: { bordure: 'border-l-success', icone: CheckCircle2, couleur: 'text-success-texte', libelle: 'Bonne pratique' },
   neutre: { bordure: 'border-l-purple', icone: Lightbulb, couleur: 'text-purple', libelle: 'Opportunité' },
 }
 

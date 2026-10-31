@@ -8,7 +8,7 @@ const alertVariants = cva('rounded-lg border px-4 py-3 text-sm', {
   variants: {
     variant: {
       info: 'border-primary/20 bg-secondary text-foreground',
-      erreur: 'border-destructive/40 bg-destructive/10 text-destructive',
+      erreur: 'border-destructive/40 bg-destructive/10 text-destructive-texte',
       succes: 'border-success/40 bg-success/10 text-foreground',
     },
   },
@@ -20,5 +20,11 @@ export function Alert({
   variant,
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>) {
-  return <div role={variant === 'erreur' ? 'alert' : 'status'} className={cn(alertVariants({ variant }), className)} {...props} />
+  return (
+    <div
+      role={variant === 'erreur' ? 'alert' : 'status'}
+      className={cn(alertVariants({ variant }), className)}
+      {...props}
+    />
+  )
 }

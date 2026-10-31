@@ -57,13 +57,14 @@ export default function Abonnement() {
   const totalDepassements = depassements.reduce((s, d) => s + Number(d.montant), 0)
 
   if (profil.isPending || forfaits.isPending || abonnement.isPending) {
-    return <p className="container py-16 text-center text-muted-foreground">Chargement…</p>
+    return <p className="py-16 text-center text-muted-foreground">Chargement…</p>
   }
 
   if (!publie) {
     return (
-      <section className="container flex justify-center py-12">
-        <Alert className="max-w-lg">
+      <section className="mx-auto max-w-lg space-y-4 py-6">
+        <h1 className="text-2xl font-bold tracking-tight">Abonnement</h1>
+        <Alert>
           La recherche de logement est gratuite : aucun abonnement n'est nécessaire pour un compte chercheur.{' '}
           <Link to="/" className="font-semibold text-primary-glow hover:underline">
             Retour à l'accueil
@@ -87,7 +88,7 @@ export default function Abonnement() {
     paiement.mutate(planId, { onSuccess: ({ authorization_url }) => window.location.assign(authorization_url) })
 
   return (
-    <section className="container py-12">
+    <section>
       <div className="mx-auto max-w-4xl space-y-6">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Mon abonnement</h1>
@@ -116,7 +117,7 @@ export default function Abonnement() {
         {recoActuelle && (
           <Alert>
             <p className="font-semibold">{recoActuelle.titre}</p>
-            {recoActuelle.contenu && <p className="mt-1 text-sm text-muted-foreground">{recoActuelle.contenu}</p>}
+            {recoActuelle.contenu && <p className="mt-1 text-sm text-foreground/80">{recoActuelle.contenu}</p>}
           </Alert>
         )}
 
