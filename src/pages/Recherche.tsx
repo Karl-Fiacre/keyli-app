@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Alert } from '@/components/ui/alert'
 import { CarteAnnonce } from '@/components/annonce/CarteAnnonce'
 import { FiltresRecherche } from '@/components/annonce/FiltresRecherche'
+import { BoutonAlerte } from '@/components/annonce/BoutonAlerte'
 import { TAILLE_PAGE, useRecherche, type FiltresRecherche as Filtres, type TriRecherche } from '@/hooks/useRecherche'
 import { messageErreur } from '@/lib/erreurs'
 import { ecrireFiltres, LIBELLES_TRI, lireFiltres, nombreFiltresActifs } from '@/lib/recherche'
@@ -31,7 +32,12 @@ export default function Recherche() {
           <div className="rounded-lg border bg-card p-5 lg:sticky lg:top-6">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-semibold">Filtres</h2>
-              <Button variant="ghost" className="lg:hidden" aria-label="Fermer les filtres" onClick={() => setPanneauOuvert(false)}>
+              <Button
+                variant="ghost"
+                className="lg:hidden"
+                aria-label="Fermer les filtres"
+                onClick={() => setPanneauOuvert(false)}
+              >
                 <X className="h-5 w-5" aria-hidden />
               </Button>
             </div>
@@ -75,12 +81,16 @@ export default function Recherche() {
             </div>
           </div>
 
+          <BoutonAlerte filtres={filtres} />
+
           {recherche.isError && <Alert variant="erreur">{messageErreur(recherche.error)}</Alert>}
 
           {recherche.data && total === 0 && (
             <div className="rounded-lg border border-dashed p-10 text-center">
               <p className="font-medium">Aucune annonce ne correspond à ces critères.</p>
-              <p className="mt-1 text-sm text-muted-foreground">Élargissez la fourchette de prix ou retirez un filtre.</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Élargissez la fourchette de prix ou retirez un filtre.
+              </p>
             </div>
           )}
 
