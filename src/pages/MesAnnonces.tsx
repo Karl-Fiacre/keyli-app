@@ -7,6 +7,7 @@ import { VerifiedBadge } from '@/components/VerifiedBadge'
 import { useMesAnnonces } from '@/hooks/useAnnonces'
 import { useAbonnementActif } from '@/hooks/useAbonnement'
 import { useProfil } from '@/hooks/useProfil'
+import { useAttribuerAgentAnnonce, useMesAgents } from '@/hooks/useAgence'
 import { dernierDocument, useMesDocuments } from '@/hooks/useVerification'
 import { EmplacementDocument } from '@/components/verification/EmplacementDocument'
 import { messageErreur } from '@/lib/erreurs'
@@ -22,7 +23,12 @@ export default function MesAnnonces() {
   const masquees = !abonnement.isPending && !abonnement.data
   // Badge « Vérifié » d'un bien = son ACD approuvé ; dépôt réservé aux
   // propriétaires (règle en base)
-  const estProprietaire = useProfil().data?.role_keyli === 'owner'
+  const role = useProfil().data?.role_keyli
+  const estProprietaire = role === 'owner'
+  // Agence : chaque annonce peut être confiée à un agent interne
+  const estAgence = role === 'agency'
+  const agents = useMesAgents(estAgence)
+  const attribuer = useAttribuerAgentAnnonce()
   const documents = useMesDocuments()
 
   return (
@@ -50,6 +56,7 @@ export default function MesAnnonces() {
 
         {annonces.isPending && <p className="text-muted-foreground">Chargement…</p>}
         {annonces.isError && <Alert variant="erreur">{messageErreur(annonces.error)}</Alert>}
+        {attribuer.isError && <Alert variant="erreur">{messageErreur(attribuer.error)}</Alert>}
         {annonces.data?.length === 0 && (
           <p className="text-muted-foreground">Vous n'avez pas encore publié d'annonce.</p>
         )}
@@ -83,6 +90,43 @@ export default function MesAnnonces() {
                       {a.archived_at ? 'Archivée' : masquees ? 'Masquée' : 'En ligne'}
                     </span>
                   </div>
+                  {estAgence && !a.archived_at && (
+                    <div className="flex w-full flex-wrap items-center gap-3 border-t pt-3">
+                      <label htmlFor={`agent-${a.id}`} className="text-xs text-muted-foreground">
+                        Agent responsable
+                      </label>
+                      {(agents.data ?? []).length === 0 ? (
+                        <span className="text-xs text-muted-foreground">
+                          Aucun agent :{' '}
+                          <Link
+                            to="/tableau-de-bord#equipe"
+                            className="font-semibold text-primary-glow hover:underline"
+                          >
+                            ajoutez votre équipe
+                          </Link>
+                        </span>
+                      ) : (
+                        <select
+                          id={`agent-${a.id}`}
+                          className="h-9 rounded-lg border border-input bg-background px-2 text-sm disabled:opacity-60"
+                          value={a.agent_id ?? ''}
+                          disabled={attribuer.isPending && attribuer.variables?.id === a.id}
+                          onChange={(e) => attribuer.mutate({ id: a.id, agentId: e.target.value || null })}
+                        >
+                          <option value="">Aucun agent</option>
+                          {(agents.data ?? [])
+                            // Un agent désactivé reste affiché s'il suit encore cette annonce
+                            .filter((ag) => ag.actif || ag.id === a.agent_id)
+                            .map((ag) => (
+                              <option key={ag.id} value={ag.id}>
+                                {ag.nom}
+                                {ag.actif ? '' : ' (désactivé)'}
+                              </option>
+                            ))}
+                        </select>
+                      )}
+                    </div>
+                  )}
                   {estProprietaire && !a.archived_at && !a.is_verified && (
                     <div className="flex w-full flex-wrap items-center gap-3 border-t pt-3">
                       <span className="text-xs text-muted-foreground">Faire vérifier ce bien (ACD) :</span>

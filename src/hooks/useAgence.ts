@@ -130,3 +130,34 @@ export function useActiverAgent() {
     onSuccess: rafraichir,
   })
 }
+
+// Agents de l'agence (actifs et désactivés), pour les menus d'attribution
+export function useMesAgents(actif = true) {
+  const { session } = useSession()
+  return useQuery({
+    queryKey: ['agence', 'agents', session?.user.id],
+    enabled: !!session && actif,
+    queryFn: async () => {
+      const { data, error } = await supabase.from('agency_agents_keyli').select('id, nom, actif').order('nom')
+      if (error) throw error
+      return data
+    },
+  })
+}
+
+// Attribuer une annonce à un agent (ou la retirer). La RLS vérifie que
+// l'annonce et l'agent appartiennent bien à l'agence connectée.
+export function useAttribuerAgentAnnonce() {
+  const client = useQueryClient()
+  const rafraichir = useRafraichirAgence()
+  return useMutation({
+    mutationFn: async ({ id, agentId }: { id: string; agentId: string | null }) => {
+      const { error } = await supabase.from('properties_keyli').update({ agent_id: agentId }).eq('id', id)
+      if (error) throw error
+    },
+    onSettled: () => {
+      client.invalidateQueries({ queryKey: ['mes-annonces'] })
+      rafraichir()
+    },
+  })
+}
