@@ -35,13 +35,27 @@ Les accents fonctionnels des dashboards (violet, orange, rouge) ne changent pas.
 --primary-glow   218 100% 36%   #0046b8   Bleu du logo — liens/accents secondaires (2026-11-02)
 --success        142 71% 45%    #21c45d   Vert — vérifié, hausse, positif
 --secondary      210 40% 96.1%  #eef2f7   Fond de carte/zone secondaire
---muted-fg       215.4 16.3% 46.9%        Texte secondaire/gris
+--muted-fg       215.4 16.3% 43%  #5c6a80 Texte secondaire/gris (46,9 % → 43 % le 2026-10-31)
 --border         214.3 31.8% 91.4%        Bordures
 ```
 ⚠️ `#22c55e` (vert Tailwind standard) a circulé dans une version précédente
 de ce fichier comme équivalent de `--success` — ce n'est pas exact. La
 valeur calculée réelle de `hsl(142 71% 45%)` est `#21c45d`. Utiliser la
 valeur HSL comme référence, pas un hex mémorisé approximativement.
+
+## Teintes de texte accessibles (audit axe, 2026-10-31)
+Le vert, l'orange et le rouge de la palette sont trop clairs pour du texte
+sur fond clair (contraste 2 à 3,8 pour un minimum WCAG AA de 4,5). Pour le
+**texte** uniquement, utiliser leur variante foncée ; pastilles, fonds,
+bordures, icônes et cœur favori gardent la couleur de base.
+```
+--success-texte      142 76% 26%   #107535   classe text-success-texte
+--pending-texte      22 90% 36%    #ae4609   classe text-pending-texte
+--destructive-texte  0 74% 42%     #ba1c1c   classe text-destructive-texte
+```
+Ne plus écrire `text-success`, `text-pending` ni `text-destructive` sur du
+texte. Le badge « Vérifié » (image SVG) ne change pas : seul son libellé
+passe en `text-success-texte`.
 
 ## Couleur d'accent — différenciée par écran (décision actée)
 | Écran | Token d'accent | Valeur | Usage |
