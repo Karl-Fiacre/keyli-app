@@ -12,14 +12,18 @@ export function LeadPipeline({
   onChangerEtape,
   leadEnCours,
   maxParColonne = 6,
+  agents,
+  onAssigner,
 }: {
   leads: Lead[]
   onChangerEtape?: (leadId: string, etape: EtapeLead) => void
   leadEnCours?: string | null
   maxParColonne?: number
+  agents?: Array<{ id: string; nom: string }>
+  onAssigner?: (leadId: string, agentId: string | null) => void
 }) {
   return (
-    <div className="-mx-1 flex snap-x gap-3 overflow-x-auto px-1 pb-2 lg:grid lg:grid-cols-4 lg:overflow-visible">
+    <div className="relative -mx-1 flex snap-x gap-3 overflow-x-auto px-1 pb-2 lg:grid lg:grid-cols-4 lg:overflow-visible">
       {ETAPES_LEAD.map((col) => {
         const cartes = leads.filter((l) => l.etape === col.code)
         return (
@@ -51,6 +55,8 @@ export function LeadPipeline({
                     lead={l}
                     enCours={leadEnCours === l.id}
                     onChangerEtape={onChangerEtape ? (e) => onChangerEtape(l.id, e) : undefined}
+                    agents={agents}
+                    onAssigner={onAssigner ? (a) => onAssigner(l.id, a) : undefined}
                   />
                 ))}
                 {cartes.length > maxParColonne && (

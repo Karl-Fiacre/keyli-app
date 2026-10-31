@@ -40,11 +40,20 @@ export function InsightCard({
         <p className={cn('text-[11px] font-semibold uppercase tracking-wider', s.couleur)}>{s.libelle}</p>
         <p className="font-semibold">{titre}</p>
         <p className="text-sm text-muted-foreground">{texte}</p>
-        {action && (
-          <Link to={action.vers} className="inline-block pt-1 text-sm font-semibold text-primary-glow hover:underline">
-            {action.libelle} →
-          </Link>
-        )}
+        {action &&
+          // Ancre dans la page (#pipeline) : lien simple, qui fait défiler
+          (action.vers.startsWith('#') ? (
+            <a href={action.vers} className="inline-block pt-1 text-sm font-semibold text-primary-glow hover:underline">
+              {action.libelle} →
+            </a>
+          ) : (
+            <Link
+              to={action.vers}
+              className="inline-block pt-1 text-sm font-semibold text-primary-glow hover:underline"
+            >
+              {action.libelle} →
+            </Link>
+          ))}
       </div>
     </article>
   )
