@@ -33,7 +33,7 @@ export function CompareTable({
     return v ?? <span className="text-muted-foreground">—</span>
   }
   return (
-    <div className="overflow-x-auto rounded-lg border">
+    <div className="relative overflow-x-auto rounded-lg border">
       <table className="w-full min-w-max border-collapse text-sm">
         <thead>
           <tr className="bg-secondary/60">

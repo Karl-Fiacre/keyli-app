@@ -694,6 +694,11 @@ isOneToOne: false
 "confirmer_paiement_keyli":
 { Args: { "p_devise": string,"p_montant_subunit": number,"p_paystack_id": string,"p_reference": string }; Returns: string
                            },
+"conseils_agence_keyli":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "action_libelle": string,"action_vers": string,"regle": string,"texte": string,"titre": string,"type": string
+            }[]
+                           },
 "criteres_alerte_valides_keyli":
 { Args: { "c": Json }; Returns: boolean
                            },
@@ -752,6 +757,16 @@ isOneToOne: false
               "id": string,"interlocuteur": string,"nom": string,"property_id": string,"scheduled_at": string,"status": Database["public"]['Enums']["visit_status_keyli"],"titre": string
             }[]
                            },
+"performance_equipe_keyli":
+{ Args: { "p_jours"?: number }; Returns: {
+              "actif": boolean,"agent_id": string,"annonces": number,"conclus": number,"conversion": number,"leads": number,"nb_avis": number,"nom": string,"note": number
+            }[]
+                           },
+"pipeline_leads_keyli":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "agent": string,"agent_id": string,"bien": string,"contact": string,"contact_user_id": string,"derniere_activite": string,"etape": Database["public"]['Enums']["lead_stage_keyli"],"id": string,"property_id": string
+            }[]
+                           },
 "preferences_chercheur_keyli":
 { Args: Record<PropertyKey, never>; Returns: Json
                            },
@@ -782,6 +797,9 @@ isOneToOne: false
                            },
 "super_admin_modifier_forfait_keyli":
 { Args: { "p_actif": boolean,"p_plan": string,"p_prix_depassement_unitaire": number,"p_prix_mensuel": number,"p_seuil_max": number,"p_seuil_min": number }; Returns: undefined
+                           },
+"tableau_bord_agence_keyli":
+{ Args: { "p_jours"?: number }; Returns: Json
                            },
 "tableau_bord_proprietaire_keyli":
 { Args: { "p_jours"?: number }; Returns: Json

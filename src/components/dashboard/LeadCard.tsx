@@ -12,6 +12,7 @@ export interface Lead {
   etape: EtapeLead
   derniereActivite: string // ISO
   agent?: string | null // agent assigné (agence)
+  agentId?: string | null
   vers?: string | null // conversation, si le contact a un compte Keyli
 }
 
@@ -23,12 +24,22 @@ export function LeadCard({
   lead,
   onChangerEtape,
   enCours = false,
+  agents,
+  onAssigner,
 }: {
   lead: Lead
   onChangerEtape?: (etape: EtapeLead) => void
   enCours?: boolean // changement d'étape en cours d'enregistrement
+  agents?: Array<{ id: string; nom: string }> // agents actifs de l'agence
+  onAssigner?: (agentId: string | null) => void
 }) {
   const idMenu = useId()
+  const idAgent = useId()
+  // Agent assigné mais désactivé depuis : il reste affiché dans le menu
+  const options =
+    lead.agentId && agents && !agents.some((a) => a.id === lead.agentId)
+      ? [...agents, { id: lead.agentId, nom: lead.agent ?? 'Agent' }]
+      : agents
   return (
     <article className="kf-souleve space-y-2 rounded-lg border bg-card p-3 shadow-sm">
       <div>
@@ -62,6 +73,27 @@ export function LeadCard({
             {ETAPES_LEAD.map((e) => (
               <option key={e.code} value={e.code}>
                 {e.libelle}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+      {onAssigner && options && options.length > 0 && (
+        <div>
+          <label htmlFor={idAgent} className="sr-only">
+            Agent chargé du lead {lead.contact}
+          </label>
+          <select
+            id={idAgent}
+            value={lead.agentId ?? ''}
+            disabled={enCours}
+            onChange={(e) => onAssigner(e.target.value || null)}
+            className="h-8 w-full rounded-md border border-input bg-background px-2 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60"
+          >
+            <option value="">Aucun agent</option>
+            {options.map((a) => (
+              <option key={a.id} value={a.id}>
+                {a.nom}
               </option>
             ))}
           </select>
