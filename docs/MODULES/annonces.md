@@ -125,3 +125,12 @@ maquettes (Accueil, dashboard Chercheur) n'avait aucune table.
       meublé, rayon autour d'un point — clés validées en base
 - [x] `actif = false` désactive l'alerte sans la supprimer (historique
       conservé, réactivable) — aucune suppression possible, testé
+- [x] Écran (2026-10-31) : bouton « Créer une alerte » sur la page
+      Recherche, qui enregistre les filtres en cours (`BoutonAlerte`,
+      `criteresAlerte()` dans `lib/recherche.ts`) ; même alerte déjà
+      enregistrée → « Alerte active » ou « Réactiver l'alerte » ; visiteur →
+      connexion puis retour sur la même recherche. Les équipements et le
+      rayon ne sont pas proposés par l'écran (la page Recherche n'a pas de
+      recherche par rayon) ; les équipements sont signalés comme ignorés.
+      Gestion dans le dashboard chercheur : « Voir » (rouvre la recherche),
+      « Mettre en pause » / « Réactiver ».
