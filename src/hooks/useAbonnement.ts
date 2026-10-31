@@ -10,11 +10,7 @@ export function useForfaits() {
   return useQuery({
     queryKey: ['forfaits'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('plans_keyli')
-        .select('*')
-        .eq('actif', true)
-        .order('seuil_min')
+      const { data, error } = await supabase.from('plans_keyli').select('*').eq('actif', true).order('seuil_min')
       if (error) throw error
       return data
     },
@@ -77,6 +73,68 @@ export function useDepassementsAPayer() {
         .select('id, cycle_debut, cycle_fin, nb_depassement, montant')
         .eq('statut', 'a_payer')
         .order('cycle_debut')
+      if (error) throw error
+      return data
+    },
+  })
+}
+
+// Cycle mensuel en cours de l'abonnement (bornes calculées par la base :
+// le seuil d'annonces est mensuel, même pour un abonnement prolongé)
+export function useCycleEnCours(abonnement: { start_date: string; end_date: string } | null | undefined) {
+  return useQuery({
+    queryKey: ['abonnement', 'cycle', abonnement?.start_date, abonnement?.end_date],
+    enabled: !!abonnement,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .rpc('cycle_abonnement_keyli', {
+          p_start: abonnement!.start_date,
+          p_end: abonnement!.end_date,
+          p_at: new Date().toISOString(),
+        })
+        .maybeSingle()
+      if (error) throw error
+      return data
+    },
+  })
+}
+
+// Historique des paiements (ses propres transactions, RLS), le plus récent d'abord
+export function useHistoriquePaiements(limite = 12) {
+  const { session } = useSession()
+  const userId = session?.user.id
+  return useQuery({
+    queryKey: ['abonnement', userId, 'historique', limite],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('transactions_keyli')
+        .select('id, amount, currency, status, paystack_ref, created_at, subscriptions_keyli(plans_keyli(nom))')
+        .order('created_at', { ascending: false })
+        .limit(limite)
+      if (error) throw error
+      return data
+    },
+  })
+}
+
+// Dernière recommandation de forfait (règle des 2 mois de dépassement,
+// envoyée par la base) reçue depuis moins de 60 jours
+export function useRecommandationForfait() {
+  const { session } = useSession()
+  const userId = session?.user.id
+  return useQuery({
+    queryKey: ['abonnement', userId, 'recommandation'],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('notifications_keyli')
+        .select('id, titre, contenu, created_at')
+        .eq('type', 'recommandation_forfait')
+        .gt('created_at', new Date(Date.now() - 60 * 86_400_000).toISOString())
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle()
       if (error) throw error
       return data
     },

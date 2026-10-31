@@ -51,6 +51,22 @@ porteur, 2026-10-23). Mode test Paystack d'abord.
       `success`)
 - [ ] Passage en mode live (clé `sk_live_…`, URL de production)
 
+## Écran Abonnement (semaine 18, 2026-10-31)
+`src/pages/Abonnement.tsx` (nommé `Subscription.tsx` dans le calendrier
+d'origine) et `src/hooks/useAbonnement.ts` (ex-`useSubscription.ts`) gèrent
+les 3 paliers depuis le Sprint 1 ; ajouts de la semaine 18, sans migration :
+- [x] Consommation du mois (`ConsommationForfait`) : mises en ligne du cycle
+      face au seuil (`etat_publication_keyli`), date de remise à zéro du
+      compteur (`cycle_abonnement_keyli`), alerte à 80 % et en dépassement
+- [x] Règle au-delà du seuil affichée sur chaque forfait (prix à l'unité,
+      montée de gamme pour Agence Moyenne, formule personnalisée pour Grande
+      Agence) ; l'agence ne voit pas le forfait Propriétaire
+- [x] Changement de forfait en cours d'abonnement : confirmation préalable
+      (jours restants perdus, sans remboursement, montant total)
+- [x] Recommandation de forfait (notification « recommandation_forfait » de
+      moins de 60 jours, postérieure au forfait actuel) affichée en tête
+- [x] Historique des paiements (`HistoriquePaiements`, `transactions_keyli`)
+
 ## Dépassement de seuil
 Détection et contrôle faits **en base** depuis le 2026-10-02 (trigger
 `controler_publication_keyli`, voir DATABASE.md) : sans abonnement → refus

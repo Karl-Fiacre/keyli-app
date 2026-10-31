@@ -323,7 +323,16 @@ concernés :
    Correctif : les libellés masqués (`sr-only`) dans les zones à défilement
    horizontal faisaient déborder la page — conteneurs en `relative`.
    Reste à faire : attribuer un agent à une annonce depuis « Mes annonces ».
-   Semaine 18 : `Subscription.tsx` adapté aux 3 forfaits + `useSubscription.ts`.
+   Semaine 18 faite (2026-10-31) : la souscription et le changement de
+   forfait pour les 3 paliers existaient depuis le Sprint 1 (`Abonnement.tsx`,
+   `useAbonnement.ts`, paiement Paystack testé) ; ajoutés : consommation du
+   mois, règle de dépassement par forfait, confirmation du changement de
+   forfait (jours perdus, montant), recommandation de forfait, historique des
+   paiements. Aucune migration.
+   Semaine 19 : QA transverse (accessibilité, responsive, suppression des
+   données de démonstration) — à étudier aussi : pages Abonnement, Mes
+   annonces, Messages et Profil hors du cadre des dashboards (la barre
+   latérale disparaît quand on y navigue).
    **Fin de projet (après les apps mobiles natives, Phase 3)** : produire la
    vidéo publicitaire à effets innovants demandée par le porteur le
    2026-10-30.
@@ -477,6 +486,8 @@ concernés :
   libéré de la place et redémarré).
 - 2026-10-28 : recherche et fiche d'annonce (tri vérifiées d'abord, filtres
   sans carte pour l'instant, contact par messagerie Keyli seule).
+- 2026-10-31 (Sprint 3bis, semaine 18) : page Abonnement complétée
+  (consommation, confirmation de changement, historique des paiements).
 - 2026-10-31 (Sprint 3bis, semaine 17) : dashboard Agence sur données
   réelles ; règles des conseils et sélecteur de période validés.
 - 2026-10-30 (Sprint 3bis, semaine 16) : tableaux de bord Propriétaire et
