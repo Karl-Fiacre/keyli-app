@@ -370,7 +370,8 @@ concernés :
    dépend des éléments attendus du porteur : clés Cloudinary (photos),
    fournisseur d'email, Paystack en mode live (voir « Blocages »). Fait le 2026-10-31 : fiacrenguessan@outlook.com
    promu super_admin sur le distant (procédure `SETUP.md`) ; carte Mapbox
-   remplacée par Google Maps ; clé posée et carte vérifiée le 2026-11-01.
+   remplacée par Google Maps ; clé posée et carte vérifiée le 2026-11-01,
+   ancienne Edge Function `get-mapbox-token` supprimée du distant.
    **Fin de projet (après les apps mobiles natives, Phase 3)** : produire la
    vidéo publicitaire à effets innovants demandée par le porteur le
    2026-10-30.
