@@ -831,13 +831,13 @@ référence n'avait aucune colonne. Décision du porteur : **liste fermée**.
   en une transaction ; contrôles titre, prix > 0, point GPS valide,
   avantages connus ; forfait et droits contrôlés par la RLS et le trigger
   existants.
-- Photos : second temps (Cloudinary). Point GPS : Mapbox + « ma position ».
+- Photos : second temps (Cloudinary). Point GPS : carte (Google Maps depuis le 2026-10-31) + « ma position ».
 Tests : `supabase/tests/avantages_publication_keyli.test.sql` (18 tests).
 
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-28) — recherche d'annonces
 Migration `20261028120000_recherche_annonces_keyli.sql`. Décisions du
 porteur : tri par défaut **vérifiées d'abord** ; filtres d'abord, carte et
-rayon plus tard (jeton Mapbox) ; contact par la **messagerie Keyli seule**
+rayon plus tard (carte Google Maps) ; contact par la **messagerie Keyli seule**
 (téléphone jamais exposé, cohérent avec `profils_publics_keyli`).
 - `rechercher_annonces_keyli(...)` (SECURITY INVOKER, anon et
   authenticated) : filtres, tri (`pertinence` | `recent` | `prix_croissant`

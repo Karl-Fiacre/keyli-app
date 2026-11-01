@@ -27,8 +27,8 @@ justifier l'option la plus légère.
 
 ## Toujours à trancher (n'a pas changé)
 - [ ] Rayon par défaut proposé à l'utilisateur
-- [ ] Unité affichée (distance seule, ou aussi temps de trajet estimé — Mapbox
-      Directions API, non intégrée actuellement)
+- [ ] Unité affichée (distance seule, ou aussi temps de trajet estimé — Google
+      Routes API, non intégrée actuellement)
 - [ ] Interface de sélection du point (géolocalisation utilisateur, adresse
       saisie, clic sur carte — probablement les trois, ordre non défini)
 - [ ] Interaction avec les filtres existants (cumulatif avec quartier/prix,
@@ -38,8 +38,9 @@ justifier l'option la plus légère.
 - [ ] `useGeolocation.ts` (position de l'utilisateur côté client) reste tel
       quel — c'est la moitié "où est l'utilisateur" du problème, toujours
       valide avec le nouveau schéma
-- [ ] `mapbox-gl` reste la librairie d'affichage carte — PostGIS ne change
-      rien côté affichage, seulement côté requête
+- [x] Affichage carte : Google Maps JavaScript API (remplace Mapbox, décision
+      du 2026-10-31) — PostGIS ne change rien côté affichage, seulement côté
+      requête
 - [ ] Ne jamais requêter `ST_DWithin` sans l'index GiST correspondant — sur
       la table complète, ça ne passera pas à l'échelle après quelques
       centaines de biens

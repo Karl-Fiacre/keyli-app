@@ -13,7 +13,8 @@ TailwindCSS 3.4 + tailwindcss-animate (Shadcn/ui)
 @tanstack/react-query 5.83
 react-router-dom 7.18
 react-hook-form 7.61 + zod 4.6 (@hookform/resolvers 5)
-mapbox-gl 3.17
+Google Maps JavaScript API (chargée à la demande, sans bibliothèque npm ;
+  types : @types/google.maps 3.66.7 en dépendance de développement)
 cloudinary 2.7
 ```
 Montées de version validées par le porteur le 2026-10-26 (failles signalées
@@ -44,7 +45,16 @@ pour la structure cible détaillée.
 Paiements     : Paystack
 Médias        : Cloudinary (maintenu face à Firebase — voir PRD section 13.2)
 Documents     : Supabase Storage (limite de taille appliquée côté serveur)
-Cartographie  : Mapbox
+Cartographie  : Google Maps Platform (Maps JavaScript API) — remplace
+                Mapbox, décision du porteur du 2026-10-31. Projet Google
+                Cloud « Nguessan-IT » (limite de projets du compte atteinte),
+                clé « Keyli – web » restreinte aux référents HTTP
+                (localhost:5173, 127.0.0.1:5173, keyli.com, *.keyli.com) et à
+                la seule Maps JavaScript API ; Map ID « Keyli – web »
+                (repères AdvancedMarker). Clé + Map ID servis par l'Edge
+                Function get-maps-config (secrets GOOGLE_MAPS_API_KEY,
+                GOOGLE_MAPS_MAP_ID). Ajouter le domaine d'hébergement réel
+                aux référents de la clé le jour du déploiement.
 IA            : recherche en langage naturel (Edge Function intelligent-search)
 ```
 

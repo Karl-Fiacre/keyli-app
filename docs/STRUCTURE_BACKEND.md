@@ -22,7 +22,8 @@ supabase/
     ├── chatbot
     ├── check-expired-subscriptions  (remplacée par une tâche SQL pg_cron, 2026-10-25)
     ├── cloudinary-signature
-    ├── get-mapbox-token             (créée le 2026-10-27, jeton public pk.… uniquement)
+    ├── get-maps-config              (2026-10-31, remplace get-mapbox-token : clé
+    │                                 Google Maps restreinte + Map ID)
     ├── handle-paystack-payment      (créée le 2026-10-23)
     ├── intelligent-search
     ├── notify-admin-critical
