@@ -245,14 +245,21 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine, Content-Security-
   Policy avant l'ouverture publique. Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Page d'accueil refondue** (2026-11-01, branche
+  `feature/accueil-reference`) — bannière avec recherche intégrée,
+  annonces vérifiées réelles, parcours en 4 étapes, communes, espace
+  annonceurs, vision sous-régionale. Détail : DESIGN_SYSTEM.md, section
+  « Page d'accueil ». À mettre en ligne avec `npm run deploy` (porteur).
 - **Photos des annonces — mise en service** — code fait le 2026-11-01
   (migration `20261105120000_photos_annonces_keyli.sql`, Edge Function
   `cloudinary-signature`, 1 à 10 photos, gestion dans « Mes annonces »,
   20 tests pgTAP). Compte Cloudinary `djizi4dod` créé et reporté dans
-  `cloudinary_cloud_keyli()`. Reste : le porteur pose
-  `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
-  dans les secrets d'Edge Functions ; puis déploiement de la fonction,
-  migration poussée sur le distant, `npm run deploy`, test réel. Détail :
+  `cloudinary_cloud_keyli()`. Fait le 2026-11-01 : 3 secrets Cloudinary
+  posés par le porteur, migration poussée sur le distant (603 tests verts
+  sur le distant), Edge Function `cloudinary-signature` déployée. Reste :
+  `npm run deploy` par le porteur (le site en ligne appelle encore
+  l'ancienne `publier_annonce_keyli` : publication en panne d'ici là),
+  puis test réel. Détail :
   `docs/MODULES/photos.md`.
 - **Google Maps — domaine de production** — clé posée et carte vérifiée le
   2026-11-01 (secret `GOOGLE_MAPS_API_KEY` + `.env` local). Le jour du

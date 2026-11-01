@@ -53,6 +53,7 @@ Navigateur ── adresses ──► publier_annonce_keyli / property_media_keyl
       suffisante pour le pilote
 - [x] Nom du compte (cloud name) `djizi4dod` reporté dans
       `cloudinary_cloud_keyli()`
-- [ ] Secrets posés par le porteur : `npx supabase secrets set
+- [x] Secrets posés par le porteur (2026-11-01) : `npx supabase secrets set
       CLOUDINARY_CLOUD_NAME=… CLOUDINARY_API_KEY=… CLOUDINARY_API_SECRET=…`
-- [ ] Edge Function déployée, migration poussée, test réel de publication
+- [x] Edge Function déployée, migration poussée (2026-11-01)
+- [ ] Site redéployé (`npm run deploy`, porteur), test réel de publication

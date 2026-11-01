@@ -122,6 +122,22 @@ Cambria `#1a1f2e` (--primary), bouton bleu nuit texte blanc, liens `#0046b8`
 (--primary-glow), notes `#5c6a80` (--muted-foreground). Logo
 `keyli-logo-240.png` affiché à 120 px. Jamais le badge « Vérifié ».
 
+## Page d'accueil (2026-11-01)
+Refonte « référence nationale » : `src/pages/Accueil.tsx` compose des blocs
+indépendants de `src/components/accueil/` — `BanniereAccueil` (fond bleu
+nuit, motif de toits turquoise `MotifToits` à 12 % d'opacité, halos flous
+turquoise/bleu du logo, titre Cambria, `RechercheRapide` louer/acheter +
+commune + type + budget, raccourcis vers les communes phares, carte « Que
+garantit le badge Vérifié ? »), `AnnoncesVedette` (6 annonces réelles, tri
+« vérifiées d'abord », section masquée si la base est vide),
+`ParcoursConfiance` (4 étapes), `ExplorerCommunes` (toutes les communes de
+la base), `EspaceAnnonceurs` (masqué pour les comptes chercheur/admin),
+`BandeauVision` (Abidjan → Côte d'Ivoire → Afrique de l'Ouest).
+Règles : aucun chiffre ni annonce inventés (les statistiques viendront de
+la base quand le volume sera significatif) ; animations limitées à
+`kf-cascade` ; motif décoratif ≠ logo ; aucun badge « Vérifié » décoratif
+(seule l'icône de la carte d'explication, sans le badge officiel).
+
 ## Composants dashboard — patterns visuels obligatoires
 Détail complet : `KEYLI_DASHBOARD_DESIGN_SPEC.md` + captures dans
 `design-reference/`. Résumé des règles non négociables :
