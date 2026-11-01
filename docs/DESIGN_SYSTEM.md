@@ -102,6 +102,17 @@ Détail complet des règles d'usage, palette de secours, et assets manquants
 touche à la marque elle-même. Ce fichier-ci couvre l'application de la
 charte à l'interface (composants, écrans).
 
+## Carte Google Maps (2026-11-01)
+Fond de carte réglé dans Google Cloud (style « Keyli – web », associé au Map
+ID), source : `docs/reference/google-maps-style-keyli.json`. Le format de
+Google n'accepte que de l'hexadécimal : teintes dérivées des tokens —
+`#1a1f2e` (--primary) pour les villes et autoroutes, `#0046b8`
+(--primary-glow) pour les communes, `#5c6a80` (--muted-foreground) pour les
+quartiers et rues, `#eef2f7` (--secondary) pour les zones urbaines,
+turquoise `#00a898` éclairci (`#b9e6e1`, `#d3ede6`) pour l'eau et les parcs.
+Repère : `src/lib/repereCarte.ts` (tokens CSS, pas de hex). Pas de logo ni de
+badge « Vérifié » sur la carte.
+
 ## Composants dashboard — patterns visuels obligatoires
 Détail complet : `KEYLI_DASHBOARD_DESIGN_SPEC.md` + captures dans
 `design-reference/`. Résumé des règles non négociables :

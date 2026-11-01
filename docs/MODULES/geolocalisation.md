@@ -41,6 +41,14 @@ justifier l'option la plus légère.
 - [x] Affichage carte : Google Maps JavaScript API (remplace Mapbox, décision
       du 2026-10-31) — PostGIS ne change rien côté affichage, seulement côté
       requête
+- [x] Carte aux couleurs Keyli (2026-11-01) — style cloud « Keyli – web »
+      associé au Map ID dans Google Cloud (projet Nguessan-IT), source
+      versionnée : `docs/reference/google-maps-style-keyli.json` (toute
+      retouche : modifier ce fichier puis le réimporter dans la console,
+      onglet JSON). Repère maison `src/lib/repereCarte.ts` (goutte bleu nuit,
+      maison turquoise, tokens CSS). Commerces et restaurants masqués ;
+      hôpitaux, écoles, parcs, aéroport et lieux repères gardés. Gestes
+      « coopératifs » (deux doigts sur mobile) pour ne pas bloquer le défilement
 - [ ] Ne jamais requêter `ST_DWithin` sans l'index GiST correspondant — sur
       la table complète, ça ne passera pas à l'échelle après quelques
       centaines de biens

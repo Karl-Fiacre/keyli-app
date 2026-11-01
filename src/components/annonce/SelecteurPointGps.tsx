@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { LocateFixed, MapPin } from 'lucide-react'
+import { Hand, LocateFixed, MapPin } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useConfigCarte } from '@/hooks/useAnnonces'
 import { chargerGoogleMaps } from '@/lib/googleMaps'
+import { animerRepere, creerRepereKeyli } from '@/lib/repereCarte'
 
 export interface Point {
   latitude: number
@@ -40,6 +41,7 @@ export function SelecteurPointGps({
   surChangement.current = onChange
   const [localisation, setLocalisation] = useState<'attente' | 'refus' | null>(null)
   const [carteIndisponible, setCarteIndisponible] = useState(false)
+  const [carteChargee, setCarteChargee] = useState(false)
 
   // Chargement de la carte (bibliothèque chargée seulement sur cet écran)
   useEffect(() => {
@@ -51,21 +53,25 @@ export function SelecteurPointGps({
       .then(([maps, marker]) => {
         if (annule || !conteneur.current) return
         const { Map } = maps as google.maps.MapsLibrary
-        const { AdvancedMarkerElement, PinElement } = marker as google.maps.MarkerLibrary
+        const { AdvancedMarkerElement } = marker as google.maps.MarkerLibrary
+        // Couleurs du fond de carte : style « Keyli – web » associé au Map ID
+        // dans Google Cloud (source : docs/reference/google-maps-style-keyli.json)
         const c = new Map(conteneur.current, {
           center: ABIDJAN,
           zoom: 12,
+          minZoom: 6,
           mapId: cfg.mapId,
-          streetViewControl: false,
-          mapTypeControl: false,
-          fullscreenControl: false,
+          disableDefaultUI: true,
+          zoomControl: true,
+          zoomControlOptions: { position: google.maps.ControlPosition.RIGHT_BOTTOM },
+          fullscreenControl: true,
+          fullscreenControlOptions: { position: google.maps.ControlPosition.RIGHT_TOP },
+          // Sur mobile, la page défile au doigt ; la carte se manipule à deux doigts
+          gestureHandling: 'cooperative',
           clickableIcons: false,
         })
-        // Couleur du repère : token --primary de la charte (src/index.css)
-        const primaire = `hsl(${getComputedStyle(document.documentElement).getPropertyValue('--primary').trim()})`
-        const epingle = new PinElement({ background: primaire, borderColor: primaire, glyphColor: '#ffffff' })
         const m = new AdvancedMarkerElement({
-          content: epingle.element,
+          content: creerRepereKeyli(),
           gmpDraggable: true,
           title: 'Emplacement du bien',
         })
@@ -79,6 +85,7 @@ export function SelecteurPointGps({
         })
         carte.current = c
         marqueur.current = m
+        c.addListener('tilesloaded', () => setCarteChargee(true))
       })
       .catch(() => {
         if (!annule) setCarteIndisponible(true)
@@ -102,6 +109,7 @@ export function SelecteurPointGps({
     if (!valeur || !carte.current || !marqueur.current) return
     marqueur.current.position = { lat: valeur.latitude, lng: valeur.longitude }
     marqueur.current.map = carte.current
+    if (marqueur.current.content instanceof HTMLElement) animerRepere(marqueur.current.content)
   }, [valeur])
 
   const maPosition = () => {
@@ -126,11 +134,20 @@ export function SelecteurPointGps({
   return (
     <div className="space-y-3">
       {config.data && !carteIndisponible ? (
-        <div
-          ref={conteneur}
-          className="h-72 w-full overflow-hidden rounded-lg border"
-          aria-label="Carte : cliquez pour placer le bien"
-        />
+        <div className="relative overflow-hidden rounded-xl border bg-secondary shadow-sm">
+          <div ref={conteneur} className="h-80 w-full" aria-label="Carte : cliquez pour placer le bien" />
+          {!carteChargee && (
+            <p className="absolute inset-0 flex items-center justify-center text-sm text-muted-foreground">
+              Chargement de la carte…
+            </p>
+          )}
+          {carteChargee && !valeur && (
+            <p className="pointer-events-none absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-card/95 px-3 py-1.5 text-xs font-medium text-foreground shadow-sm">
+              <Hand className="h-3.5 w-3.5 text-primary-glow" aria-hidden />
+              Cliquez sur la carte pour placer le bien
+            </p>
+          )}
+        </div>
       ) : (
         !config.isPending && (
           <p className="text-xs text-muted-foreground">
