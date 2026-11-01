@@ -5,6 +5,7 @@ import { BoutonFavori } from '@/components/annonce/BoutonFavori'
 import type { StatutBien, TypeBien } from '@/hooks/useAnnonces'
 import { formatXof } from '@/lib/format'
 import { LIBELLES_TYPE } from '@/lib/validation'
+import { urlPhoto } from '@/lib/cloudinary'
 
 export interface ResumeAnnonce {
   id: string
@@ -35,7 +36,7 @@ export function CarteAnnonce({ annonce: a, source = 'search' }: { annonce: Resum
       >
         <div className="relative aspect-[4/3] bg-secondary">
           {a.image ? (
-            <img src={a.image} alt="" loading="lazy" className="h-full w-full object-cover" />
+            <img src={urlPhoto(a.image, 640, 480)} alt="" loading="lazy" className="h-full w-full object-cover" />
           ) : (
             <div className="flex h-full items-center justify-center text-muted-foreground">
               <Home className="h-10 w-10" aria-hidden />

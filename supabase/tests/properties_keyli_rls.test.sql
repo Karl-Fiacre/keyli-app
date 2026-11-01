@@ -37,6 +37,13 @@ insert into public.documents_keyli (user_id, doc_type, file_url, status)
 select id, 'registre', id::text || '/registre.pdf', 'approved'
   from unnest(array['aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa']::uuid[]) as id;
 
+-- Photos Keyli du propriétaire P (seules adresses acceptées depuis
+-- 20261105120000_photos_annonces_keyli.sql)
+select set_config('test.salon', 'https://res.cloudinary.com/' || public.cloudinary_cloud_keyli()
+  || '/image/upload/keyli/annonces/cccccccc-cccc-cccc-cccc-cccccccccccc/00000000-0000-4000-8000-000000000001.jpg', true);
+select set_config('test.facade', 'https://res.cloudinary.com/' || public.cloudinary_cloud_keyli()
+  || '/image/upload/keyli/annonces/cccccccc-cccc-cccc-cccc-cccccccccccc/00000000-0000-4000-8000-000000000002.jpg', true);
+
 -- Identifiant réel de l'agent de B : un attaquant passerait l'UUID brut,
 -- pas une recherche par nom (que la RLS lui masque)
 select set_config('test.agent_b',
@@ -123,22 +130,22 @@ select throws_ok(
 select lives_ok(
   $$ insert into public.property_media_keyli (property_id, media_type, url, order_index)
      select id, 'image', u, o from public.properties_keyli,
-            (values ('https://exemple.test/salon.jpg', 1), ('https://exemple.test/facade.jpg', 0)) as v(u, o)
+            (values (current_setting('test.salon'), 1), (current_setting('test.facade'), 0)) as v(u, o)
       where title = 'Villa Riviera' $$,
   'Un propriétaire ajoute des photos à son annonce'
 );
 select is(
   (select main_image_url from public.properties_keyli where title = 'Villa Riviera'),
-  'https://exemple.test/facade.jpg',
+  current_setting('test.facade'),
   'L''image principale est la photo d''ordre 0'
 );
 select lives_ok(
-  $$ delete from public.property_media_keyli where url = 'https://exemple.test/facade.jpg' $$,
+  $$ delete from public.property_media_keyli where url = current_setting('test.facade') $$,
   'Un propriétaire retire une photo'
 );
 select is(
   (select main_image_url from public.properties_keyli where title = 'Villa Riviera'),
-  'https://exemple.test/salon.jpg',
+  current_setting('test.salon'),
   'L''image principale suit la photo restante'
 );
 

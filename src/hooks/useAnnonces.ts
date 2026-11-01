@@ -67,9 +67,11 @@ export interface NouvelleAnnonce {
   meuble: boolean
   avantages: string[]
   accepteDepassement: boolean
+  // Adresses Cloudinary (1 à 10), dans l'ordre d'affichage
+  photos: string[]
 }
 
-// Publication atomique (annonce + avantages) — la base refait tous les
+// Publication atomique (annonce + avantages + photos) — la base refait tous les
 // contrôles du forfait (KY001 à KY004)
 export function usePublierAnnonce() {
   const client = useQueryClient()
@@ -84,6 +86,7 @@ export function usePublierAnnonce() {
         p_quartier: a.quartierId ?? undefined,
         p_latitude: a.latitude,
         p_longitude: a.longitude,
+        p_photos: a.photos,
         p_description: a.description || undefined,
         p_surface: a.surface,
         p_pieces: a.pieces,
@@ -114,7 +117,7 @@ export function useMesAnnonces() {
       const { data, error } = await supabase
         .from('properties_keyli')
         .select(
-          'id, title, type, status, price, city, archived_at, is_verified, created_at, agent_id, quartiers_keyli(nom)',
+          'id, title, type, status, price, city, archived_at, is_verified, created_at, agent_id, main_image_url, quartiers_keyli(nom)',
         )
         .eq('owner_id', userId as string)
         .order('created_at', { ascending: false })

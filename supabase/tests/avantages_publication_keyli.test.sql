@@ -32,11 +32,21 @@ language sql as $$
   select set_config('request.jwt.claims', json_build_object('sub', uid, 'role', 'authenticated')::text, true);
 $$;
 
+-- Adresse d'une photo Keyli (dossier Cloudinary du compte connecté),
+-- seule forme acceptée par la base depuis 20261105120000
+create function pg_temp.photo() returns text
+language sql volatile as $$
+  select 'https://res.cloudinary.com/' || public.cloudinary_cloud_keyli()
+      || '/image/upload/v1700000000/keyli/annonces/' || (select auth.uid())::text
+      || '/' || gen_random_uuid()::text || '.jpg';
+$$;
+grant execute on function pg_temp.photo() to authenticated;
+
 -- Publie une annonce standard pour le compte connecté
 create function pg_temp.publier(titre text, avantages uuid[] default '{}', accord boolean default false) returns uuid
 language sql as $$
   select public.publier_annonce_keyli(
-    titre, 'appartement', 'a_louer', 150000, 'Abidjan', 5.35, -4.0,
+    titre, 'appartement', 'a_louer', 150000, 'Abidjan', 5.35, -4.0, array[pg_temp.photo()],
     current_setting('test.quartier')::uuid, 'Bel appartement', 80, 3, 2, true, avantages, accord);
 $$;
 grant execute on function pg_temp.publier(text, uuid[], boolean) to authenticated;
@@ -70,9 +80,9 @@ select is((select count(*)::int from public.property_publications_keyli where pr
   1, 'La mise en ligne est comptée dans le forfait');
 
 select throws_ok($$ select pg_temp.publier('   ') $$, '23514', null, 'Titre obligatoire');
-select throws_ok($$ select public.publier_annonce_keyli('T', 'studio', 'a_louer', 0, 'Abidjan', 5.3, -4.0) $$,
+select throws_ok($$ select public.publier_annonce_keyli('T', 'studio', 'a_louer', 0, 'Abidjan', 5.3, -4.0, array[pg_temp.photo()]) $$,
   '23514', null, 'Prix strictement positif');
-select throws_ok($$ select public.publier_annonce_keyli('T', 'studio', 'a_louer', 1000, 'Abidjan', 95, -4.0) $$,
+select throws_ok($$ select public.publier_annonce_keyli('T', 'studio', 'a_louer', 1000, 'Abidjan', 95, -4.0, array[pg_temp.photo()]) $$,
   '23514', null, 'Point GPS hors limites refusé');
 select throws_ok($$ select pg_temp.publier('Inconnu', array[gen_random_uuid()]) $$,
   '23514', null, 'Avantage inconnu refusé');

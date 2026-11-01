@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, useNavigate } from 'react-router-dom'
@@ -10,6 +11,8 @@ import { AccordDepassement, EtatForfait } from '@/components/annonce/EtatForfait
 import { publicationPossible } from '@/lib/publication'
 import { SelecteurAvantages } from '@/components/annonce/SelecteurAvantages'
 import { SelecteurPointGps } from '@/components/annonce/SelecteurPointGps'
+import { GrillePhotos } from '@/components/annonce/GrillePhotos'
+import { envoyerPhotos, MAX_PHOTOS } from '@/lib/cloudinary'
 import { useAvantages, useEtatPublication, usePublierAnnonce, useQuartiers } from '@/hooks/useAnnonces'
 import { useProfil } from '@/hooks/useProfil'
 import { messageErreur } from '@/lib/erreurs'
@@ -20,8 +23,15 @@ import { cn } from '@/lib/utils'
 const champNatif =
   'flex w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 aria-[invalid=true]:border-destructive'
 
-// Publication d'une annonce (docs/MODULES/annonces.md). Les photos
-// s'ajouteront dans un second temps (Cloudinary).
+// Photo choisie, pas encore envoyée : aperçu local en attendant la publication
+interface PhotoLocale {
+  cle: string
+  fichier: File
+  src: string
+}
+
+// Publication d'une annonce (docs/MODULES/annonces.md). Photos : 1 à 10,
+// envoyées à Cloudinary au moment de publier (docs/MODULES/photos.md).
 export default function PublierAnnonce() {
   const profil = useProfil()
   const etat = useEtatPublication()
@@ -29,6 +39,15 @@ export default function PublierAnnonce() {
   const quartiers = useQuartiers()
   const publication = usePublierAnnonce()
   const naviguer = useNavigate()
+  const [photos, setPhotos] = useState<PhotoLocale[]>([])
+  const [erreurPhotos, setErreurPhotos] = useState<string>()
+  const [progression, setProgression] = useState<number | null>(null)
+
+  // Libère les aperçus locaux en quittant l'écran (les photos retirées sont
+  // libérées au moment du retrait)
+  const photosCourantes = useRef(photos)
+  photosCourantes.current = photos
+  useEffect(() => () => photosCourantes.current.forEach((p) => URL.revokeObjectURL(p.src)), [])
 
   const {
     register,
@@ -70,16 +89,42 @@ export default function PublierAnnonce() {
   const latitude = watch('latitude')
   const longitude = watch('longitude')
 
-  const envoyer = handleSubmit((d) =>
+  const photosManquantes = () => {
+    if (photos.length > 0) return false
+    setErreurPhotos('Ajoutez au moins une photo du bien')
+    return true
+  }
+
+  const envoyer = handleSubmit(async (d) => {
+    if (photosManquantes()) return
+    setErreurPhotos(undefined)
+    let adresses: string[]
+    try {
+      setProgression(0)
+      adresses = await envoyerPhotos(
+        photos.map((p) => p.fichier),
+        setProgression,
+      )
+    } catch (err) {
+      setErreurPhotos(messageErreur(err))
+      setProgression(null)
+      return
+    }
     publication.mutate(
       {
         ...d,
         quartierId: d.quartierId || null,
         accepteDepassement: depassement && d.accepteDepassement,
+        photos: adresses,
       },
-      { onSuccess: () => naviguer('/annonces', { state: { publiee: true } }) },
-    ),
-  )
+      {
+        onSuccess: () => naviguer('/annonces', { state: { publiee: true } }),
+        onSettled: () => setProgression(null),
+      },
+    )
+  }, photosManquantes)
+
+  const envoiEnCours = progression !== null || publication.isPending
 
   return (
     <section className="flex justify-center py-6">
@@ -179,6 +224,45 @@ export default function PublierAnnonce() {
                 />
               </div>
 
+              <div className="space-y-2">
+                <p className="text-sm font-medium">Photos du bien</p>
+                <GrillePhotos
+                  photos={photos}
+                  max={MAX_PHOTOS}
+                  occupe={envoiEnCours}
+                  progression={progression}
+                  erreur={erreurPhotos}
+                  onAjouter={(fichiers) => {
+                    setErreurPhotos(undefined)
+                    setPhotos((liste) => [
+                      ...liste,
+                      ...fichiers.map((fichier) => ({
+                        cle: crypto.randomUUID(),
+                        fichier,
+                        src: URL.createObjectURL(fichier),
+                      })),
+                    ])
+                  }}
+                  onRetirer={(cle) =>
+                    setPhotos((liste) => {
+                      const retiree = liste.find((p) => p.cle === cle)
+                      if (retiree) URL.revokeObjectURL(retiree.src)
+                      return liste.filter((p) => p.cle !== cle)
+                    })
+                  }
+                  onDeplacer={(cle, sens) =>
+                    setPhotos((liste) => {
+                      const i = liste.findIndex((p) => p.cle === cle)
+                      const j = i + sens
+                      if (i < 0 || j < 0 || j >= liste.length) return liste
+                      const copie = [...liste]
+                      ;[copie[i], copie[j]] = [copie[j], copie[i]]
+                      return copie
+                    })
+                  }
+                />
+              </div>
+
               <div className="grid gap-4 sm:grid-cols-3">
                 <ChampFormulaire libelle="Surface (m²)" erreur={errors.surface?.message}>
                   {(a) => <Input {...a} type="number" inputMode="decimal" min={0} {...register('surface')} />}
@@ -232,8 +316,12 @@ export default function PublierAnnonce() {
                 <Button type="button" variant="ghost" asChild>
                   <Link to="/annonces">Annuler</Link>
                 </Button>
-                <Button type="submit" disabled={publication.isPending || (depassement && !accord)}>
-                  {publication.isPending ? 'Publication…' : "Publier l'annonce"}
+                <Button type="submit" disabled={envoiEnCours || (depassement && !accord)}>
+                  {progression !== null && !publication.isPending
+                    ? 'Envoi des photos…'
+                    : publication.isPending
+                      ? 'Publication…'
+                      : "Publier l'annonce"}
                 </Button>
               </div>
             </form>

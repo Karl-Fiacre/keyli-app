@@ -688,6 +688,9 @@ isOneToOne: false
 "cloturer_cycles_keyli":
 { Args: Record<PropertyKey, never>; Returns: number
                            },
+"cloudinary_cloud_keyli":
+{ Args: Record<PropertyKey, never>; Returns: string
+                           },
 "compte_actif_keyli":
 { Args: { "p_user": string }; Returns: boolean
                            },
@@ -757,6 +760,9 @@ isOneToOne: false
               "id": string,"interlocuteur": string,"nom": string,"property_id": string,"scheduled_at": string,"status": Database["public"]['Enums']["visit_status_keyli"],"titre": string
             }[]
                            },
+"ordonner_photos_keyli":
+{ Args: { "p_ids": (string)[],"p_property": string }; Returns: undefined
+                           },
 "performance_equipe_keyli":
 { Args: { "p_jours"?: number }; Returns: {
               "actif": boolean,"agent_id": string,"annonces": number,"conclus": number,"conversion": number,"leads": number,"nb_avis": number,"nom": string,"note": number
@@ -774,7 +780,7 @@ isOneToOne: false
 { Args: { "p_debut": string,"p_fin": string,"p_owner": string }; Returns: number
                            },
 "publier_annonce_keyli":
-{ Args: { "p_accepte_depassement"?: boolean,"p_avantages"?: (string)[],"p_description"?: string,"p_latitude": number,"p_longitude": number,"p_meuble"?: boolean,"p_pieces"?: number,"p_prix": number,"p_quartier"?: string,"p_salles_de_bain"?: number,"p_statut": Database["public"]['Enums']["property_status_keyli"],"p_surface"?: number,"p_titre": string,"p_type": Database["public"]['Enums']["property_type_keyli"],"p_ville": string }; Returns: string
+{ Args: { "p_accepte_depassement"?: boolean,"p_avantages"?: (string)[],"p_description"?: string,"p_latitude": number,"p_longitude": number,"p_meuble"?: boolean,"p_photos": (string)[],"p_pieces"?: number,"p_prix": number,"p_quartier"?: string,"p_salles_de_bain"?: number,"p_statut": Database["public"]['Enums']["property_status_keyli"],"p_surface"?: number,"p_titre": string,"p_type": Database["public"]['Enums']["property_type_keyli"],"p_ville": string }; Returns: string
                            },
 "rechercher_annonces_keyli":
 { Args: { "p_avantages"?: (string)[],"p_commune"?: string,"p_decalage"?: number,"p_limite"?: number,"p_meuble"?: boolean,"p_pieces_min"?: number,"p_prix_max"?: number,"p_prix_min"?: number,"p_quartier"?: string,"p_statut"?: Database["public"]['Enums']["property_status_keyli"],"p_tri"?: string,"p_type"?: Database["public"]['Enums']["property_type_keyli"] }; Returns: {
@@ -808,6 +814,9 @@ isOneToOne: false
 { Args: Record<PropertyKey, never>; Returns: {
               "expirations": number,"rappels_j1": number,"rappels_j7": number
             }[]
+                           },
+"url_photo_keyli_valide":
+{ Args: { "p_proprietaire": string,"p_url": string }; Returns: boolean
                            }
           }
           Enums: {

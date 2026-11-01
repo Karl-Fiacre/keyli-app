@@ -9,14 +9,14 @@ interface ErreurSupabase {
 
 const MESSAGES_AUTH: Array<[RegExp, string]> = [
   [/invalid login credentials/i, 'Email ou mot de passe incorrect.'],
-  [/email not confirmed/i, 'Votre adresse email n\'est pas encore confirmée. Ouvrez le lien reçu par email.'],
+  [/email not confirmed/i, "Votre adresse email n'est pas encore confirmée. Ouvrez le lien reçu par email."],
   [/user already registered/i, 'Un compte existe déjà avec cette adresse email.'],
   [/password should be at least/i, 'Le mot de passe est trop court.'],
   [/rate limit|too many requests/i, 'Trop de tentatives. Patientez quelques minutes avant de réessayer.'],
   [/user is banned|banned/i, 'Ce compte est suspendu. Contactez le support Keyli.'],
-  [/same password|different from the old password/i, 'Le nouveau mot de passe doit être différent de l\'ancien.'],
-  [/nom de l'agence est obligatoire/i, 'Le nom de l\'agence est obligatoire pour inscrire une agence.'],
-  [/database error saving new user/i, 'L\'inscription n\'a pas pu aboutir. Vérifiez les informations saisies.'],
+  [/same password|different from the old password/i, "Le nouveau mot de passe doit être différent de l'ancien."],
+  [/nom de l'agence est obligatoire/i, "Le nom de l'agence est obligatoire pour inscrire une agence."],
+  [/database error saving new user/i, "L'inscription n'a pas pu aboutir. Vérifiez les informations saisies."],
   [/failed to fetch|network/i, 'Connexion impossible. Vérifiez votre accès à Internet.'],
 ]
 
@@ -27,14 +27,20 @@ const MESSAGES_BASE: Record<string, string> = {
   '23505': 'Cette information existe déjà.',
   // Publication d'annonce (trigger de forfait, docs/DATABASE.md)
   KY001: 'Un abonnement actif est nécessaire pour publier une annonce.',
-  KY002: 'Votre forfait a atteint son nombre maximal d\'annonces.',
+  KY002: "Votre forfait a atteint son nombre maximal d'annonces.",
   KY003: 'Cette annonce dépasse votre forfait : confirmez le dépassement pour la publier.',
   KY004: 'Votre registre de commerce doit être approuvé avant de publier.',
+}
+
+// Erreur dont le message, déjà en français, s'affiche tel quel
+export function erreurKeyli(message: string): Error {
+  return Object.assign(new Error(message), { code: 'KEYLI' })
 }
 
 export function messageErreur(erreur: unknown): string {
   const e = (erreur ?? {}) as ErreurSupabase
   const message = e.message ?? ''
+  if (e.code === 'KEYLI' && message) return message
   for (const [motif, traduction] of MESSAGES_AUTH) {
     if (motif.test(message)) return traduction
   }
