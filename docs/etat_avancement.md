@@ -253,6 +253,11 @@ concernés :
   déploiement : ajouter le domaine d'hébergement aux référents de la clé
   « Keyli – web » (Google Cloud, projet Nguessan-IT).
 
+- **Emails** — Resend choisi (2026-11-01). Modèles français prêts
+  (`supabase/templates/`). Bloqué par le domaine : keyli.ci disponible au
+  registre, achat par le porteur chez un bureau d'enregistrement NIC.CI,
+  puis DNS sur Cloudflare. Checklist : `docs/MODULES/emails.md`.
+
 ## Prochaine étape recommandée
 
 1. Phase 0 fusionnée dans `main` le 2026-10-01 (CI verte), `.env` en place ;
