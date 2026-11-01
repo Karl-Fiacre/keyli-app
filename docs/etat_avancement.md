@@ -244,10 +244,10 @@ concernés :
 - **Clés Cloudinary** (porteur) — `CLOUDINARY_CLOUD_NAME`,
   `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` dans les secrets d'Edge
   Functions : nécessaires pour les photos des annonces.
-- **Jeton Mapbox** (porteur) — créer un jeton PUBLIC (`pk.…`, restreint aux
-  URL de l'application) et le poser en secret `MAPBOX_PUBLIC_TOKEN` ; puis
-  `npx supabase functions deploy get-mapbox-token`. Sans lui, le formulaire
-  propose seulement « Utiliser ma position ».
+- **Google Maps — domaine de production** — clé posée et carte vérifiée le
+  2026-11-01 (secret `GOOGLE_MAPS_API_KEY` + `.env` local). Le jour du
+  déploiement : ajouter le domaine d'hébergement aux référents de la clé
+  « Keyli – web » (Google Cloud, projet Nguessan-IT).
 
 ## Prochaine étape recommandée
 
@@ -367,15 +367,16 @@ concernés :
      de façon stable (départage par id).
    Prochaine étape du calendrier : Sprint 4 (sem. 20-21) — onboarding du
    panel pilote (500 propriétés). C'est surtout du terrain ; côté code, il
-   dépend des éléments attendus du porteur : premier super_admin sur le
-   distant, clés Cloudinary (photos), fournisseur d'email, Paystack en mode
-   live, jeton Mapbox.
+   dépend des éléments attendus du porteur : clés Cloudinary (photos),
+   fournisseur d'email, Paystack en mode live (voir « Blocages »). Fait le 2026-10-31 : fiacrenguessan@outlook.com
+   promu super_admin sur le distant (procédure `SETUP.md`) ; carte Mapbox
+   remplacée par Google Maps ; clé posée et carte vérifiée le 2026-11-01.
    **Fin de projet (après les apps mobiles natives, Phase 3)** : produire la
    vidéo publicitaire à effets innovants demandée par le porteur le
    2026-10-30.
 5. **Sprint 3 (semaines 9-10) — back-office admin : fait le 2026-11-01.**
-   Suite recommandée : le porteur crée son compte et se promeut super_admin
-   (procédure `SETUP.md`), puis teste l'envoi et l'ouverture de documents
+   Premier super_admin promu le 2026-10-31 ; suite recommandée : le porteur
+   teste l'envoi et l'ouverture de documents
    sur le projet distant (le stockage n'est pas lancé dans la pile locale).
    Ensuite : dashboards enrichis (Sprints 3bis, Sem. 11-19) ; photos dès les
    clés Cloudinary ; emails (fournisseur à choisir) ; écran de gestion des

@@ -3,7 +3,7 @@
 Fichiers créés (2026-10-27) : `src/pages/PublierAnnonce.tsx`,
 `src/pages/MesAnnonces.tsx`, `src/components/annonce/` (EtatForfait,
 SelecteurAvantages, SelecteurPointGps), `src/hooks/useAnnonces.ts`,
-`src/lib/publication.ts`, Edge Function `get-mapbox-token`.
+`src/lib/publication.ts`, Edge Function `get-maps-config`.
 Fichiers prévus à l'origine : `src/pages/CreateProperty.tsx`, `Search.tsx`,
 `AISearch.tsx`, `MapView.tsx`, `PropertyDetails.tsx`,
 `src/components/PropertyMap.tsx`, `AdvantagesDisplay.tsx`/`AdvantagesInput.tsx`,
@@ -33,10 +33,11 @@ Réalisé le 2026-10-27 (décisions du porteur) :
       `publier_annonce_keyli` (annonce + avantages en une transaction)
 - [x] Avantages/proximités en **liste fermée** (`avantages_keyli`,
       `property_avantages_keyli`)
-- [x] Point GPS : carte **Mapbox** (clic ou glisser le marqueur) + « Utiliser
-      ma position » ; jeton public servi par `get-mapbox-token`
-      (secret `MAPBOX_PUBLIC_TOKEN`, pk.… uniquement) ; sans jeton, « ma
-      position » seule
+- [x] Point GPS : carte **Google Maps** (clic ou glisser le repère) +
+      « Utiliser ma position » ; clé de navigateur restreinte et Map ID servis
+      par `get-maps-config` (secrets `GOOGLE_MAPS_API_KEY`, clé « AIza… »
+      uniquement, et `GOOGLE_MAPS_MAP_ID`) ; sans configuration, « ma
+      position » seule. Remplace Mapbox (décision du porteur, 2026-10-31).
 - [x] Écran `/annonces` : mes annonces (en ligne, masquée, archivée)
 - [ ] Photos (Cloudinary) — **second temps**, dès que les clés sont posées
 - [ ] Choix de l'agent par une agence (`agent_id`), archivage et
@@ -58,15 +59,16 @@ CarteAnnonce, FormulaireContact), `src/hooks/useRecherche.ts`,
       l'annonceur, vue enregistrée (`property_interactions_keyli`, source)
 - [x] Contact par la **messagerie Keyli seule** (compte requis, gratuit) ;
       le téléphone reste privé ; WhatsApp Business plus tard
-- [ ] Carte et recherche par rayon : quand le jeton Mapbox sera posé
+- [ ] Carte et recherche par rayon : maintenant possible avec Google Maps
       (rayon par défaut et combinaison avec le quartier à trancher alors)
 - [ ] Recherche en langage naturel (`intelligent-search`)
 
 - Filtres structurés : prix, type, quartier, pièces, avantages
 - Recherche en langage naturel → Edge Function `intelligent-search` traduit
   en filtres structurés (ne pas dupliquer cette logique côté client)
-- Carte : `mapbox-gl`, jeton récupéré via Edge Function `get-mapbox-token`
-  (ne jamais exposer le token Mapbox en dur côté client)
+- Carte : Google Maps JavaScript API (`lib/googleMaps.ts`), clé et Map ID
+  récupérés via l'Edge Function `get-maps-config` (jamais en dur dans le
+  code ; en développement local seulement, repli sur `.env`)
 
 ## Section Logements de Confiance (TrustedProperties.tsx)
 - [ ] Uniquement des annonces avec `is_verified = true` ET note moyenne
