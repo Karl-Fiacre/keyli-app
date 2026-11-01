@@ -22,7 +22,8 @@ src/
 │                     connexion, déconnexion, renvoi, réinitialisation),
 │                     useProfil (lecture + modification)
 ├── lib/              utils (cn), validation (schémas zod), erreurs
-│                     (traduction FR des erreurs Supabase)
+│                     (traduction FR des erreurs Supabase), googleMaps
+│                     (chargement de l'API), repereCarte (repère Keyli)
 └── integrations/supabase/   client.ts, types.ts (généré)
 ```
 Tailwind 3.4 + tokens de DESIGN_SYSTEM.md dans `src/index.css` /
