@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import type { Map as CarteMapbox, Marker } from 'mapbox-gl'
 import { LocateFixed, MapPin } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useJetonMapbox } from '@/hooks/useAnnonces'
+import { useConfigCarte } from '@/hooks/useAnnonces'
+import { chargerGoogleMaps } from '@/lib/googleMaps'
 
 export interface Point {
   latitude: number
@@ -10,11 +10,19 @@ export interface Point {
 }
 
 // Centre d'Abidjan (pilote) : vue de départ de la carte
-const ABIDJAN: [number, number] = [-4.0083, 5.36]
+const ABIDJAN = { lat: 5.36, lng: -4.0083 }
 
-// Point GPS obligatoire de l'annonce : clic (ou glisser) sur la carte Mapbox,
-// ou position du navigateur. Sans jeton Mapbox configuré, seule « ma
-// position » est proposée.
+// Position d'un repère Google Maps, quelle que soit sa forme
+function versPoint(p: google.maps.LatLng | google.maps.LatLngLiteral | google.maps.LatLngAltitude | null | undefined) {
+  if (!p) return null
+  return typeof p.lat === 'function'
+    ? { latitude: (p as google.maps.LatLng).lat(), longitude: (p as google.maps.LatLng).lng() }
+    : { latitude: p.lat as number, longitude: p.lng as number }
+}
+
+// Point GPS obligatoire de l'annonce : clic (ou glisser du repère) sur la
+// carte Google Maps, ou position du navigateur. Sans carte configurée, seule
+// « ma position » est proposée.
 export function SelecteurPointGps({
   valeur,
   onChange,
@@ -24,57 +32,76 @@ export function SelecteurPointGps({
   onChange: (p: Point) => void
   erreur?: string
 }) {
-  const jeton = useJetonMapbox()
+  const config = useConfigCarte()
   const conteneur = useRef<HTMLDivElement>(null)
-  const carte = useRef<CarteMapbox | null>(null)
-  const marqueur = useRef<Marker | null>(null)
+  const carte = useRef<google.maps.Map | null>(null)
+  const marqueur = useRef<google.maps.marker.AdvancedMarkerElement | null>(null)
   const surChangement = useRef(onChange)
   surChangement.current = onChange
   const [localisation, setLocalisation] = useState<'attente' | 'refus' | null>(null)
+  const [carteIndisponible, setCarteIndisponible] = useState(false)
 
   // Chargement de la carte (bibliothèque chargée seulement sur cet écran)
   useEffect(() => {
-    if (!jeton.data || !conteneur.current || carte.current) return
+    const cfg = config.data
+    if (!cfg || !conteneur.current || carte.current) return
     let annule = false
-    Promise.all([import('mapbox-gl'), import('mapbox-gl/dist/mapbox-gl.css')]).then(([{ default: mapboxgl }]) => {
-      if (annule || !conteneur.current) return
-      mapboxgl.accessToken = jeton.data as string
-      const c = new mapboxgl.Map({
-        container: conteneur.current,
-        style: 'mapbox://styles/mapbox/streets-v12',
-        center: ABIDJAN,
-        zoom: 11,
+    chargerGoogleMaps(cfg.cle)
+      .then(() => Promise.all([google.maps.importLibrary('maps'), google.maps.importLibrary('marker')]))
+      .then(([maps, marker]) => {
+        if (annule || !conteneur.current) return
+        const { Map } = maps as google.maps.MapsLibrary
+        const { AdvancedMarkerElement, PinElement } = marker as google.maps.MarkerLibrary
+        const c = new Map(conteneur.current, {
+          center: ABIDJAN,
+          zoom: 12,
+          mapId: cfg.mapId,
+          streetViewControl: false,
+          mapTypeControl: false,
+          fullscreenControl: false,
+          clickableIcons: false,
+        })
+        // Couleur du repère : token --primary de la charte (src/index.css)
+        const primaire = `hsl(${getComputedStyle(document.documentElement).getPropertyValue('--primary').trim()})`
+        const epingle = new PinElement({ background: primaire, borderColor: primaire, glyphColor: '#ffffff' })
+        const m = new AdvancedMarkerElement({
+          content: epingle.element,
+          gmpDraggable: true,
+          title: 'Emplacement du bien',
+        })
+        m.addListener('dragend', () => {
+          const p = versPoint(m.position)
+          if (p) surChangement.current(p)
+        })
+        c.addListener('click', (e: google.maps.MapMouseEvent) => {
+          const p = versPoint(e.latLng)
+          if (p) surChangement.current(p)
+        })
+        carte.current = c
+        marqueur.current = m
       })
-      c.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right')
-      // Couleur du marqueur : token --primary de la charte (src/index.css)
-      const primaire = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim()
-      const m = new mapboxgl.Marker({ draggable: true, color: `hsl(${primaire})` })
-      m.on('dragend', () => {
-        const { lng, lat } = m.getLngLat()
-        surChangement.current({ latitude: lat, longitude: lng })
+      .catch(() => {
+        if (!annule) setCarteIndisponible(true)
       })
-      c.on('click', (e) => surChangement.current({ latitude: e.lngLat.lat, longitude: e.lngLat.lng }))
-      carte.current = c
-      marqueur.current = m
-    })
     return () => {
       annule = true
     }
-  }, [jeton.data])
+  }, [config.data])
 
-  // Démontage : libère la carte
+  // Démontage : détache le repère
   useEffect(
     () => () => {
-      carte.current?.remove()
+      if (marqueur.current) marqueur.current.map = null
       carte.current = null
     },
     [],
   )
 
-  // Le marqueur suit la valeur du formulaire
+  // Le repère suit la valeur du formulaire
   useEffect(() => {
     if (!valeur || !carte.current || !marqueur.current) return
-    marqueur.current.setLngLat([valeur.longitude, valeur.latitude]).addTo(carte.current)
+    marqueur.current.position = { lat: valeur.latitude, lng: valeur.longitude }
+    marqueur.current.map = carte.current
   }, [valeur])
 
   const maPosition = () => {
@@ -88,7 +115,8 @@ export function SelecteurPointGps({
         setLocalisation(null)
         const p = { latitude: pos.coords.latitude, longitude: pos.coords.longitude }
         onChange(p)
-        carte.current?.flyTo({ center: [p.longitude, p.latitude], zoom: 16 })
+        carte.current?.panTo({ lat: p.latitude, lng: p.longitude })
+        carte.current?.setZoom(17)
       },
       () => setLocalisation('refus'),
       { enableHighAccuracy: true, timeout: 15_000 },
@@ -97,14 +125,14 @@ export function SelecteurPointGps({
 
   return (
     <div className="space-y-3">
-      {jeton.data ? (
+      {config.data && !carteIndisponible ? (
         <div
           ref={conteneur}
           className="h-72 w-full overflow-hidden rounded-lg border"
           aria-label="Carte : cliquez pour placer le bien"
         />
       ) : (
-        !jeton.isPending && (
+        !config.isPending && (
           <p className="text-xs text-muted-foreground">
             Carte bientôt disponible : utilisez votre position, de préférence sur place.
           </p>
@@ -125,7 +153,7 @@ export function SelecteurPointGps({
       {localisation === 'refus' && (
         <p className="text-xs text-destructive-texte">
           Position indisponible : autorisez la localisation dans votre navigateur
-          {jeton.data ? ' ou cliquez sur la carte' : ''}.
+          {config.data && !carteIndisponible ? ' ou cliquez sur la carte' : ''}.
         </p>
       )}
       {erreur && <p className="text-xs font-medium text-destructive-texte">{erreur}</p>}
