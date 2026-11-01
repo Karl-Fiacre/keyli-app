@@ -239,8 +239,12 @@ concernés :
   l'accord du porteur : `.wslconfig` limité à 3 Go, conteneurs iic et
   naellys-express arrêtés sans redémarrage automatique. Ne garder que
   `supabase_db_keyli` pendant une session Keyli.
-- **Hébergement web non confirmé** — recommandation Cloudflare Pages
-  documentée (`docs/MODULES/hebergement-securite.md`), pas actée.
+- **Site en ligne, à finaliser** — Cloudflare Pages acté et déployé le
+  2026-11-01 : https://keyli-2gc.pages.dev (`npm run deploy`). Reste :
+  secret `KEYLI_APP_URL=https://keyli-2gc.pages.dev` à poser par le porteur
+  (retour après paiement Paystack), achat d'un domaine, Content-Security-
+  Policy avant l'ouverture publique. Détail :
+  `docs/MODULES/hebergement-securite.md`.
 - **Clés Cloudinary** (porteur) — `CLOUDINARY_CLOUD_NAME`,
   `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` dans les secrets d'Edge
   Functions : nécessaires pour les photos des annonces.

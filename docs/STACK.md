@@ -49,12 +49,17 @@ Cartographie  : Google Maps Platform (Maps JavaScript API) — remplace
                 Mapbox, décision du porteur du 2026-10-31. Projet Google
                 Cloud « Nguessan-IT » (limite de projets du compte atteinte),
                 clé « Keyli – web » restreinte aux référents HTTP
-                (localhost:5173, 127.0.0.1:5173, keyli.com, *.keyli.com) et à
+                (localhost:5173, 127.0.0.1:5173, keyli.com, *.keyli.com,
+                keyli-2gc.pages.dev, *.keyli-2gc.pages.dev) et à
                 la seule Maps JavaScript API ; Map ID « Keyli – web »
                 (repères AdvancedMarker). Clé + Map ID servis par l'Edge
                 Function get-maps-config (secrets GOOGLE_MAPS_API_KEY,
-                GOOGLE_MAPS_MAP_ID). Ajouter le domaine d'hébergement réel
-                aux référents de la clé le jour du déploiement.
+                GOOGLE_MAPS_MAP_ID). Ajouter tout nouveau domaine aux
+                référents de la clé.
+Hébergement   : Cloudflare Pages (décision du porteur, 2026-11-01), projet
+                « keyli » → https://keyli-2gc.pages.dev (domaine propre à
+                venir). Déploiement : `npm run deploy` (build local puis
+                wrangler pages deploy). En-têtes de sécurité : public/_headers.
 IA            : recherche en langage naturel (Edge Function intelligent-search)
 ```
 
