@@ -39,7 +39,9 @@ Réalisé le 2026-10-27 (décisions du porteur) :
       uniquement, et `GOOGLE_MAPS_MAP_ID`) ; sans configuration, « ma
       position » seule. Remplace Mapbox (décision du porteur, 2026-10-31).
 - [x] Écran `/annonces` : mes annonces (en ligne, masquée, archivée)
-- [ ] Photos (Cloudinary) — **second temps**, dès que les clés sont posées
+- [x] Photos (Cloudinary) — 2026-11-01 : 1 à 10 par annonce, publication +
+      « Mes annonces », galerie sur la fiche (`docs/MODULES/photos.md`).
+      Mise en service dès que le compte Cloudinary et ses clés sont posés
 - [ ] Choix de l'agent par une agence (`agent_id`), archivage et
       republication depuis l'écran, modification d'une annonce
 

@@ -245,9 +245,15 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine, Content-Security-
   Policy avant l'ouverture publique. Détail :
   `docs/MODULES/hebergement-securite.md`.
-- **Clés Cloudinary** (porteur) — `CLOUDINARY_CLOUD_NAME`,
-  `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` dans les secrets d'Edge
-  Functions : nécessaires pour les photos des annonces.
+- **Photos des annonces — mise en service** — code fait le 2026-11-01
+  (migration `20261105120000_photos_annonces_keyli.sql`, Edge Function
+  `cloudinary-signature`, 1 à 10 photos, gestion dans « Mes annonces »,
+  20 tests pgTAP). Compte Cloudinary `djizi4dod` créé et reporté dans
+  `cloudinary_cloud_keyli()`. Reste : le porteur pose
+  `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
+  dans les secrets d'Edge Functions ; puis déploiement de la fonction,
+  migration poussée sur le distant, `npm run deploy`, test réel. Détail :
+  `docs/MODULES/photos.md`.
 - **Google Maps — domaine de production** — clé posée et carte vérifiée le
   2026-11-01 (secret `GOOGLE_MAPS_API_KEY` + `.env` local). Le jour du
   déploiement : ajouter le domaine d'hébergement aux référents de la clé

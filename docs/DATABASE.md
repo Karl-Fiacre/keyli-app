@@ -831,8 +831,33 @@ référence n'avait aucune colonne. Décision du porteur : **liste fermée**.
   en une transaction ; contrôles titre, prix > 0, point GPS valide,
   avantages connus ; forfait et droits contrôlés par la RLS et le trigger
   existants.
-- Photos : second temps (Cloudinary). Point GPS : carte (Google Maps depuis le 2026-10-31) + « ma position ».
+- Photos : voir « Photos des annonces » ci-dessous (2026-11-01). Point GPS : carte (Google Maps depuis le 2026-10-31) + « ma position ».
 Tests : `supabase/tests/avantages_publication_keyli.test.sql` (18 tests).
+
+## ⚠️ DÉCISIONS ACTÉES (2026-11-01) — photos des annonces
+Migration `20261105120000_photos_annonces_keyli.sql` (détail :
+`docs/MODULES/photos.md`). Décisions du porteur : **1 à 10 photos** par
+annonce ; gestion à la publication puis depuis « Mes annonces ».
+- **`cloudinary_cloud_keyli()`** : nom (public) du compte Cloudinary de
+  Keyli, fixé en SQL.
+- **`url_photo_keyli_valide(url, compte)`** : seules les adresses
+  `https://res.cloudinary.com/<compte Keyli>/image/upload/[v…/]keyli/annonces/<compte>/<uuid>.(jpg|jpeg|png|webp)`
+  sont acceptées.
+- **`property_media_keyli`** : la policy « for all » d'origine est
+  remplacée par quatre policies (lecture de ses médias, ajout de photos
+  Keyli de son dossier sur ses annonces, réordonnancement, retrait).
+- **Trigger `limites_photos_keyli`** (avant insertion / suppression,
+  annonce verrouillée) : 10 photos au plus ; la dernière photo d'une
+  annonce ne se retire pas.
+- **`publier_annonce_keyli`** : nouveau paramètre obligatoire `p_photos
+  text[]` (8e position, après la longitude) — 1 à 10 adresses distinctes et
+  valides, enregistrées dans l'ordre (la première devient
+  `main_image_url`). L'ancienne signature est supprimée.
+- **`ordonner_photos_keyli(p_property, p_ids)`** (SECURITY INVOKER) :
+  nouvel ordre complet en une seule écriture (des mises à jour séparées en
+  parallèle laissaient `main_image_url` sur un état intermédiaire).
+Tests : `supabase/tests/photos_annonces_keyli.test.sql` (20 tests) ;
+`avantages_publication_keyli` et `properties_keyli_rls` adaptés.
 
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-28) — recherche d'annonces
 Migration `20261028120000_recherche_annonces_keyli.sql`. Décisions du
@@ -947,7 +972,7 @@ Migration `20261104120000_dashboard_agence_keyli.sql`, aucune table nouvelle :
 - Côté écran : l'agence change l'étape et l'agent d'un lead (UPDATE direct,
   RLS « Propriétaire fait avancer ses leads »), ajoute et désactive ses
   agents (policies existantes de `agency_agents_keyli`).
-Tests : `supabase/tests/dashboard_agence_keyli.test.sql` (17 tests).
+Tests : `supabase/tests/dashboard_agence_keyli.test.sql` (20 tests).
 
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-02) — documents_keyli + bucket documents_keyli
 Créés le 2026-10-02 (migration `20261002140000_documents_keyli.sql`), avec les
