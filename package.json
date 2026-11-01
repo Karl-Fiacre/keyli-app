@@ -9,6 +9,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "deploy": "npm run build && npx wrangler@4 pages deploy dist --project-name keyli --branch main",
     "db:start": "supabase db start",
     "db:reset": "supabase db reset",
     "db:test": "supabase test db",

@@ -1,6 +1,25 @@
 # MODULE : Hébergement & sécurité Cloudflare
 
-## Recommandation (à confirmer, pas encore actée)
+## ✅ Décision actée (porteur, 2026-11-01) — Cloudflare Pages
+Projet Pages « keyli » (compte Cloudflare fiacrenguessan@outlook.com),
+adresse provisoire https://keyli-2gc.pages.dev (le nom « keyli » était pris
+sur pages.dev, d'où le suffixe). Pas encore de domaine : à l'achat, l'ajouter
+au projet Pages (Custom domains), aux référents de la clé Google Maps, à
+l'URL du site et aux URL de redirection de Supabase Auth, et à KEYLI_APP_URL.
+- Déploiement : `npm run deploy` (build avec le `.env` local qui pointe vers
+  le Supabase distant, puis `wrangler pages deploy dist`). Connexion préalable
+  une fois par poste : `npx wrangler login`.
+- Application monopage : pas de `404.html`, Pages renvoie `index.html` pour
+  toute route.
+- En-têtes : `public/_headers` (nosniff, X-Frame-Options DENY,
+  Referrer-Policy, Permissions-Policy, HSTS, cache long sur /assets).
+  Pas encore de Content-Security-Policy : à écrire avec soin (Supabase,
+  Google Maps, Paystack, Cloudinary) avant l'ouverture publique.
+- Supabase Auth (2026-11-01) : Site URL = https://keyli-2gc.pages.dev ;
+  Redirect URLs = https://keyli-2gc.pages.dev/**, http://localhost:5173/**,
+  http://127.0.0.1:5173/**.
+
+## Recommandation d'origine
 Puisque Cloudflare est voulu pour la sécurité, **héberger directement sur
 Cloudflare Pages** plutôt que sur un autre hébergeur avec Cloudflare en
 proxy devant. Raison : Keyli est une SPA React/Vite (build statique) —
