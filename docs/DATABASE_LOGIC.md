@@ -90,6 +90,17 @@ publier_annonce_keyli (RPC SECURITY INVOKER, 2026-10-27)
     droits de l'utilisateur : RLS de publication, trigger de forfait
     (KY001 à KY004) et compte suspendu s'appliquent ; rien n'est créé si une
     partie échoue
+  → depuis le 2026-11-01 : insère aussi les photos (1 à 10 adresses
+    Cloudinary Keyli, p_photos) dans la même transaction
+
+Photos d'une annonce (Mes annonces, fiche) — 2026-11-01
+  → lecture : property_media_keyli where property_id = ? and media_type =
+    'image' order by order_index — index idx_property_media_property
+    (property_id, order_index) existant
+  → ordre : RPC ordonner_photos_keyli (une seule écriture, photo principale
+    cohérente)
+  → ajout / retrait : écritures directes sous RLS ; trigger
+    limites_photos_keyli (1 à 10) qui verrouille la ligne de l'annonce
 
 cloturer_cycles_keyli (fonction SQL + pg_cron, toutes les heures à hh:10 —
   décision du 2026-10-26, remplace l'Edge Function check-subscription-overage)

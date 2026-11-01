@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Plus } from 'lucide-react'
+import { Home, Images, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Alert } from '@/components/ui/alert'
 import { Card, CardContent } from '@/components/ui/card'
@@ -10,6 +11,8 @@ import { useProfil } from '@/hooks/useProfil'
 import { useAttribuerAgentAnnonce, useMesAgents } from '@/hooks/useAgence'
 import { dernierDocument, useMesDocuments } from '@/hooks/useVerification'
 import { EmplacementDocument } from '@/components/verification/EmplacementDocument'
+import { GestionPhotos } from '@/components/annonce/GestionPhotos'
+import { urlPhoto } from '@/lib/cloudinary'
 import { messageErreur } from '@/lib/erreurs'
 import { LIBELLES_TYPE } from '@/lib/validation'
 import { formatXof } from '@/lib/format'
@@ -30,6 +33,8 @@ export default function MesAnnonces() {
   const agents = useMesAgents(estAgence)
   const attribuer = useAttribuerAgentAnnonce()
   const documents = useMesDocuments()
+  // Annonce dont le panneau Photos est ouvert
+  const [photosOuvertes, setPhotosOuvertes] = useState<string | null>(null)
 
   return (
     <section>
@@ -66,13 +71,22 @@ export default function MesAnnonces() {
             <li key={a.id}>
               <Card>
                 <CardContent className="flex flex-wrap items-center justify-between gap-3 p-4">
-                  <div className="min-w-0">
-                    <p className="truncate font-semibold">{a.title}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {LIBELLES_TYPE[a.type]} · {a.status === 'a_louer' ? 'À louer' : 'À vendre'} ·{' '}
-                      {a.quartiers_keyli?.nom ? `${a.quartiers_keyli.nom}, ` : ''}
-                      {a.city}
-                    </p>
+                  <div className="flex min-w-0 items-center gap-3">
+                    <div className="h-14 w-20 shrink-0 overflow-hidden rounded-md bg-secondary">
+                      {a.main_image_url ? (
+                        <img src={urlPhoto(a.main_image_url, 160, 112)} alt="" className="h-full w-full object-cover" />
+                      ) : (
+                        <Home className="m-auto mt-4 h-6 w-6 text-muted-foreground" aria-hidden />
+                      )}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="truncate font-semibold">{a.title}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {LIBELLES_TYPE[a.type]} · {a.status === 'a_louer' ? 'À louer' : 'À vendre'} ·{' '}
+                        {a.quartiers_keyli?.nom ? `${a.quartiers_keyli.nom}, ` : ''}
+                        {a.city}
+                      </p>
+                    </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-semibold">
@@ -90,6 +104,25 @@ export default function MesAnnonces() {
                       {a.archived_at ? 'Archivée' : masquees ? 'Masquée' : 'En ligne'}
                     </span>
                   </div>
+                  {!a.archived_at && (
+                    <div className="w-full border-t pt-3">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        aria-expanded={photosOuvertes === a.id}
+                        onClick={() => setPhotosOuvertes((id) => (id === a.id ? null : a.id))}
+                      >
+                        <Images className="mr-2 h-4 w-4" aria-hidden />
+                        {photosOuvertes === a.id ? 'Fermer les photos' : 'Photos'}
+                      </Button>
+                      {photosOuvertes === a.id && (
+                        <div className="mt-3">
+                          <GestionPhotos propertyId={a.id} />
+                        </div>
+                      )}
+                    </div>
+                  )}
                   {estAgence && !a.archived_at && (
                     <div className="flex w-full flex-wrap items-center gap-3 border-t pt-3">
                       <label htmlFor={`agent-${a.id}`} className="text-xs text-muted-foreground">

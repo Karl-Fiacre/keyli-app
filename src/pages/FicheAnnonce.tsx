@@ -6,6 +6,7 @@ import { VerifiedBadge } from '@/components/VerifiedBadge'
 import { FormulaireContact } from '@/components/annonce/FormulaireContact'
 import { BoutonFavori } from '@/components/annonce/BoutonFavori'
 import { BoutonSignaler } from '@/components/annonce/BoutonSignaler'
+import { GaleriePhotos } from '@/components/annonce/GaleriePhotos'
 import { Etoiles } from '@/components/avis/Etoiles'
 import { ListeAvis } from '@/components/avis/ListeAvis'
 import { useSession } from '@/hooks/useSession'
@@ -55,7 +56,9 @@ export default function FicheAnnonce() {
     .map((pa) => pa.avantages_keyli)
     .filter((v): v is NonNullable<typeof v> => !!v)
     .sort((x, y) => x.ordre - y.ordre)
-  const photos = a.property_media_keyli.filter((m) => m.media_type === 'image').sort((x, y) => (x.order_index ?? 0) - (y.order_index ?? 0))
+  const photos = a.property_media_keyli
+    .filter((m) => m.media_type === 'image')
+    .sort((x, y) => (x.order_index ?? 0) - (y.order_index ?? 0))
   const caracteristiques = [
     { icone: Home, texte: LIBELLES_TYPE[a.type] },
     a.area_m2 !== null && { icone: Ruler, texte: `${a.area_m2} m²` },
@@ -66,25 +69,21 @@ export default function FicheAnnonce() {
 
   return (
     <section className="container py-8 md:py-12">
-      <Link to="/recherche" className="mb-5 inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground">
+      <Link
+        to="/recherche"
+        className="mb-5 inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground"
+      >
         <ArrowLeft className="mr-1 h-4 w-4" aria-hidden />
         Retour à la recherche
       </Link>
 
-      {a.archived_at && <Alert className="mb-5">Cette annonce est archivée : elle n'apparaît plus dans les recherches.</Alert>}
+      {a.archived_at && (
+        <Alert className="mb-5">Cette annonce est archivée : elle n'apparaît plus dans les recherches.</Alert>
+      )}
 
       <div className="grid gap-8 lg:grid-cols-[1fr_22rem]">
         <div className="min-w-0 space-y-6">
-          <div className="aspect-[16/9] overflow-hidden rounded-lg bg-secondary">
-            {photos[0] ? (
-              <img src={photos[0].url} alt={a.title} className="h-full w-full object-cover" />
-            ) : (
-              <div className="flex h-full flex-col items-center justify-center gap-2 text-muted-foreground">
-                <Home className="h-12 w-12" aria-hidden />
-                <span className="text-sm">Photos bientôt disponibles</span>
-              </div>
-            )}
-          </div>
+          <GaleriePhotos photos={photos} titre={a.title} />
 
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-3">
