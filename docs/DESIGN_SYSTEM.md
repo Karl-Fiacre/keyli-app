@@ -113,6 +113,15 @@ turquoise `#00a898` éclairci (`#b9e6e1`, `#d3ede6`) pour l'eau et les parcs.
 Repère : `src/lib/repereCarte.ts` (tokens CSS, pas de hex). Pas de logo ni de
 badge « Vérifié » sur la carte.
 
+## Emails (2026-11-01)
+Modèles `supabase/templates/` (détail : `docs/MODULES/emails.md`). Les
+clients mail ignorent les variables CSS : teintes recopiées en hexadécimal
+depuis les tokens — fond `#eef2f7` (--secondary), carte blanche bordée
+`#e2e8f0` (--border) avec filet turquoise `#00a898` (--turquoise), titres
+Cambria `#1a1f2e` (--primary), bouton bleu nuit texte blanc, liens `#0046b8`
+(--primary-glow), notes `#5c6a80` (--muted-foreground). Logo
+`keyli-logo-240.png` affiché à 120 px. Jamais le badge « Vérifié ».
+
 ## Composants dashboard — patterns visuels obligatoires
 Détail complet : `KEYLI_DASHBOARD_DESIGN_SPEC.md` + captures dans
 `design-reference/`. Résumé des règles non négociables :
