@@ -52,6 +52,19 @@ champ de filtre/tri — sinon la requête est lente en développement (peu de
 données) et devient un vrai problème en production dès que le pilote
 atteint son volume cible (500 biens).
 
+### Réservations (séjours courts, 2026-11-01)
+| Écran | Requête | Index |
+|---|---|---|
+| Fiche — calendrier | `nuits_completes_keyli(annonce, chambre, début, fin)` (≤ 400 jours) | `idx_reservations_occupation` (partiel `acceptee`) |
+| Fiche — devis | `devis_sejour_keyli(...)` | idem |
+| Recherche par dates | `rechercher_annonces_keyli(p_arrivee, p_depart, p_voyageurs)` | `idx_properties_sejour`, `idx_reservations_occupation`, `idx_types_chambres_property` |
+| Mes séjours | `reservations_keyli` où `voyageur_id = moi`, tri arrivée | `idx_reservations_voyageur` |
+| Demandes reçues | `reservations_keyli` où `owner_id = moi` | `idx_reservations_hote` |
+Écritures atomiques : `demander_reservation_keyli` (réservation + message +
+notification), `repondre_reservation_keyli` (verrou annonce, acceptation,
+refus d'office des demandes concurrentes, notifications),
+`annuler_reservation_keyli`.
+
 ## Actions sensibles = Edge Function, jamais une écriture client directe
 
 Une écriture Postgres directe depuis le client (même protégée par RLS) ne

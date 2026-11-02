@@ -67,6 +67,9 @@ export interface NouvelleAnnonce {
   meuble: boolean
   avantages: string[]
   accepteDepassement: boolean
+  sejourCourt: boolean
+  nuitsMin?: number
+  voyageursMax?: number
   // Adresses Cloudinary (1 à 10), dans l'ordre d'affichage
   photos: string[]
 }
@@ -94,6 +97,9 @@ export function usePublierAnnonce() {
         p_meuble: a.meuble,
         p_avantages: a.avantages,
         p_accepte_depassement: a.accepteDepassement,
+        p_sejour_court: a.sejourCourt,
+        p_nuits_min: a.nuitsMin,
+        p_voyageurs_max: a.voyageursMax,
       })
       if (error) throw error
       return data
@@ -117,7 +123,7 @@ export function useMesAnnonces() {
       const { data, error } = await supabase
         .from('properties_keyli')
         .select(
-          'id, title, type, status, price, city, archived_at, is_verified, created_at, agent_id, main_image_url, quartiers_keyli(nom)',
+          'id, title, type, status, price, sejour_court, city, archived_at, is_verified, created_at, agent_id, main_image_url, quartiers_keyli(nom)',
         )
         .eq('owner_id', userId as string)
         .order('created_at', { ascending: false })

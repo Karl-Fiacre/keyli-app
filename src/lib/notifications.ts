@@ -9,6 +9,11 @@ export function lienNotification(type: string, propertyId: string | null): strin
     case 'visite_annulee':
     case 'visite_effectuee':
       return '/messages'
+    case 'reservation_demandee':
+    case 'reservation_acceptee':
+    case 'reservation_refusee':
+    case 'reservation_annulee':
+      return '/reservations'
     case 'abonnement_rappel':
     case 'abonnement_expire':
     case 'depassement_cycle':
@@ -29,7 +34,7 @@ export function lienNotification(type: string, propertyId: string | null): strin
 // « il y a 5 min », « il y a 3 h », puis date courte
 export function ilYA(iso: string): string {
   const minutes = Math.round((Date.now() - new Date(iso).getTime()) / 60_000)
-  if (minutes < 1) return 'à l\'instant'
+  if (minutes < 1) return "à l'instant"
   if (minutes < 60) return `il y a ${minutes} min`
   const heures = Math.round(minutes / 60)
   if (heures < 24) return `il y a ${heures} h`

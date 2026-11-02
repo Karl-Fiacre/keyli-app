@@ -23,6 +23,12 @@ export default function Recherche() {
   const total = recherche.data?.total ?? 0
   const pages = Math.max(1, Math.ceil(total / TAILLE_PAGE))
   const actifs = nombreFiltresActifs(filtres)
+  // Dates et voyageurs transmis à la fiche (carte de réservation pré-remplie)
+  const requeteSejour = new URLSearchParams(
+    Object.entries({ arrivee: filtres.arrivee, depart: filtres.depart, voyageurs: filtres.voyageurs })
+      .filter(([, v]) => v !== undefined)
+      .map(([k, v]) => [k, String(v)]),
+  ).toString()
 
   return (
     <section className="container py-8 md:py-12">
@@ -48,7 +54,9 @@ export default function Recherche() {
         <div className="min-w-0 flex-1 space-y-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h1 className="text-2xl font-bold tracking-tight">Logements à Abidjan</h1>
+              <h1 className="text-2xl font-bold tracking-tight">
+                {filtres.sejour ? 'Séjours à Abidjan' : 'Logements à Abidjan'}
+              </h1>
               <p className="text-sm text-muted-foreground" aria-live="polite">
                 {recherche.isPending ? 'Recherche…' : `${total} annonce${total > 1 ? 's' : ''}`}
               </p>
@@ -97,7 +105,7 @@ export default function Recherche() {
           <ul className={cn('grid gap-5 sm:grid-cols-2 xl:grid-cols-3', recherche.isFetching && 'opacity-60')}>
             {recherche.data?.annonces.map((a) => (
               <li key={a.id}>
-                <CarteAnnonce annonce={a} />
+                <CarteAnnonce annonce={a} sejour={requeteSejour} />
               </li>
             ))}
           </ul>

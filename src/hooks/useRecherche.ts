@@ -18,6 +18,11 @@ export interface FiltresRecherche {
   piecesMin?: number
   meuble?: boolean
   avantages: string[]
+  // Séjours courts : à la nuit seulement, libres entre ces dates
+  sejour?: boolean
+  arrivee?: string
+  depart?: string
+  voyageurs?: number
   tri: TriRecherche
   page: number
 }
@@ -44,6 +49,10 @@ export function useRecherche(f: FiltresRecherche) {
         p_tri: f.tri,
         p_limite: TAILLE_PAGE,
         p_decalage: (f.page - 1) * TAILLE_PAGE,
+        p_sejour: f.sejour,
+        p_arrivee: f.arrivee,
+        p_depart: f.depart,
+        p_voyageurs: f.voyageurs,
       })
       if (error) throw error
       return { annonces: data, total: Number(data[0]?.total ?? 0) }
@@ -75,7 +84,7 @@ export function useFicheAnnonce(id: string | undefined) {
         .from('properties_keyli')
         // Chaîne unique : le client Supabase en déduit le type du résultat
         .select(
-          'id, owner_id, title, type, status, price, description, city, area_m2, rooms, bathrooms, furnished, main_image_url, is_verified, archived_at, created_at, quartiers_keyli(nom, communes_keyli(nom)), property_avantages_keyli(avantages_keyli(id, libelle, categorie, ordre)), property_media_keyli(id, url, media_type, order_index)',
+          'id, owner_id, title, type, status, price, sejour_court, nuits_min, voyageurs_max, description, city, area_m2, rooms, bathrooms, furnished, main_image_url, is_verified, archived_at, created_at, quartiers_keyli(nom, communes_keyli(nom)), property_avantages_keyli(avantages_keyli(id, libelle, categorie, ordre)), property_media_keyli(id, url, media_type, order_index)',
         )
         .eq('id', id as string)
         .maybeSingle()
@@ -134,7 +143,15 @@ export function useVueAnnonce(id: string | undefined, source?: string) {
 export function useContacterAnnonceur() {
   const { session } = useSession()
   return useMutation({
-    mutationFn: async ({ propertyId, destinataire, message }: { propertyId: string; destinataire: string; message: string }) => {
+    mutationFn: async ({
+      propertyId,
+      destinataire,
+      message,
+    }: {
+      propertyId: string
+      destinataire: string
+      message: string
+    }) => {
       if (!session) throw new Error('Connectez-vous pour envoyer un message.')
       const { error } = await supabase.from('messages_keyli').insert({
         from_user: session.user.id,

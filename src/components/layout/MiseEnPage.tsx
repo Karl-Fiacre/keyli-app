@@ -35,6 +35,7 @@ export function MiseEnPage() {
       ? [{ vers: '/tableau-de-bord', libelle: 'Tableau de bord' }]
       : []),
     { vers: '/messages', libelle: 'Messages', pastille: nonLus },
+    { vers: '/reservations', libelle: 'Réservations' },
     { vers: '/favoris', libelle: 'Favoris' },
     ...(publie
       ? [

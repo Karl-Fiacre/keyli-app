@@ -19,19 +19,30 @@ export interface ResumeAnnonce {
   pieces: number | null
   image: string | null
   verifiee: boolean
+  sejour_court?: boolean
 }
 
 // Carte d'un résultat de recherche : photo (ou visuel neutre en attendant
 // les photos), prix, lieu, badge « Vérifié » si l'annonce l'est. Le cœur
 // favori est posé à côté du lien (un bouton ne va pas dans un lien).
-export function CarteAnnonce({ annonce: a, source = 'search' }: { annonce: ResumeAnnonce; source?: string }) {
+export function CarteAnnonce({
+  annonce: a,
+  source = 'search',
+  sejour,
+}: {
+  annonce: ResumeAnnonce
+  source?: string
+  // Dates de la recherche (« arrivee=…&depart=…&voyageurs=… »), reprises sur la fiche
+  sejour?: string
+}) {
+  const hotelier = a.type === 'hotel' || a.type === 'auberge'
   const lieu = [a.quartier, a.commune && a.commune !== a.quartier ? a.commune : null, a.ville]
     .filter(Boolean)
     .join(', ')
   return (
     <div className="relative">
       <Link
-        to={`/annonce/${a.id}?source=${source}`}
+        to={`/annonce/${a.id}?source=${source}${a.sejour_court && sejour ? `&${sejour}` : ''}`}
         className="group block overflow-hidden rounded-lg border bg-card shadow-sm transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:hover:translate-y-0"
       >
         <div className="relative aspect-[4/3] bg-secondary">
@@ -43,14 +54,19 @@ export function CarteAnnonce({ annonce: a, source = 'search' }: { annonce: Resum
             </div>
           )}
           <span className="absolute left-3 top-3 rounded-pill bg-background/90 px-3 py-1 text-xs font-semibold">
-            {a.statut === 'a_louer' ? 'À louer' : 'À vendre'}
+            {a.sejour_court ? 'Séjour court' : a.statut === 'a_louer' ? 'À louer' : 'À vendre'}
           </span>
         </div>
         <div className="space-y-1.5 p-4">
           <div className="flex items-start justify-between gap-2">
             <p className="text-lg font-bold">
+              {a.sejour_court && hotelier && <span className="text-sm font-normal text-muted-foreground">dès </span>}
               {formatXof(Number(a.prix))}
-              {a.statut === 'a_louer' && <span className="text-sm font-normal text-muted-foreground"> / mois</span>}
+              {a.statut === 'a_louer' && (
+                <span className="text-sm font-normal text-muted-foreground">
+                  {a.sejour_court ? ' / nuit' : ' / mois'}
+                </span>
+              )}
             </p>
             {a.verifiee && <VerifiedBadge className="shrink-0 text-xs" />}
           </div>

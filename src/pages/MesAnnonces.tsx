@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Home, Images, Plus } from 'lucide-react'
+import { BedDouble, Home, Images, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Alert } from '@/components/ui/alert'
 import { Card, CardContent } from '@/components/ui/card'
@@ -12,6 +12,7 @@ import { useAttribuerAgentAnnonce, useMesAgents } from '@/hooks/useAgence'
 import { dernierDocument, useMesDocuments } from '@/hooks/useVerification'
 import { EmplacementDocument } from '@/components/verification/EmplacementDocument'
 import { GestionPhotos } from '@/components/annonce/GestionPhotos'
+import { GestionChambres } from '@/components/reservation/GestionChambres'
 import { urlPhoto } from '@/lib/cloudinary'
 import { messageErreur } from '@/lib/erreurs'
 import { LIBELLES_TYPE } from '@/lib/validation'
@@ -35,6 +36,7 @@ export default function MesAnnonces() {
   const documents = useMesDocuments()
   // Annonce dont le panneau Photos est ouvert
   const [photosOuvertes, setPhotosOuvertes] = useState<string | null>(null)
+  const [chambresOuvertes, setChambresOuvertes] = useState<string | null>(null)
 
   return (
     <section>
@@ -91,7 +93,11 @@ export default function MesAnnonces() {
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-semibold">
                       {formatXof(Number(a.price))}
-                      {a.status === 'a_louer' && <span className="font-normal text-muted-foreground"> / mois</span>}
+                      {a.status === 'a_louer' && (
+                        <span className="font-normal text-muted-foreground">
+                          {a.sejour_court ? ' / nuit' : ' / mois'}
+                        </span>
+                      )}
                     </span>
                     {a.is_verified && <VerifiedBadge />}
                     <span
@@ -116,9 +122,27 @@ export default function MesAnnonces() {
                         <Images className="mr-2 h-4 w-4" aria-hidden />
                         {photosOuvertes === a.id ? 'Fermer les photos' : 'Photos'}
                       </Button>
+                      {a.sejour_court && (a.type === 'hotel' || a.type === 'auberge') && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          className="ml-2"
+                          aria-expanded={chambresOuvertes === a.id}
+                          onClick={() => setChambresOuvertes((id) => (id === a.id ? null : a.id))}
+                        >
+                          <BedDouble className="mr-2 h-4 w-4" aria-hidden />
+                          {chambresOuvertes === a.id ? 'Fermer les chambres' : 'Chambres'}
+                        </Button>
+                      )}
                       {photosOuvertes === a.id && (
                         <div className="mt-3">
                           <GestionPhotos propertyId={a.id} />
+                        </div>
+                      )}
+                      {chambresOuvertes === a.id && (
+                        <div className="mt-3">
+                          <GestionChambres propertyId={a.id} />
                         </div>
                       )}
                     </div>

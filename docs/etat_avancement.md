@@ -245,6 +245,16 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine, Content-Security-
   Policy avant l'ouverture publique. Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Séjours courts et demandes de réservation** (2026-11-01, branche
+  `feature/reservations-sejours`) — amendement du PRD décidé par le
+  porteur : dates d'arrivée/départ façon Booking, hôtels et auberges par
+  types de chambres, demande acceptée/refusée par l'hôte, sans paiement en
+  ligne. Migration `20261106120000_reservations_sejours_keyli.sql`
+  (35 tests pgTAP, 638 au total), page `/reservations`, calendrier,
+  recherche par dates, gestion des chambres. Détail :
+  `docs/MODULES/reservations.md`. À pousser sur le distant
+  (`db push`) puis `npm run deploy` (porteur). Suites possibles : paiement
+  en ligne, blocage manuel de dates, tarifs saisonniers.
 - **Page d'accueil refondue** (2026-11-01, branche
   `feature/accueil-reference`) — bannière avec recherche intégrée,
   annonces vérifiées réelles, parcours en 4 étapes, communes, espace

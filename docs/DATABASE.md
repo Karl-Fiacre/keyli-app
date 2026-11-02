@@ -834,6 +834,45 @@ référence n'avait aucune colonne. Décision du porteur : **liste fermée**.
 - Photos : voir « Photos des annonces » ci-dessous (2026-11-01). Point GPS : carte (Google Maps depuis le 2026-10-31) + « ma position ».
 Tests : `supabase/tests/avantages_publication_keyli.test.sql` (18 tests).
 
+## ⚠️ DÉCISIONS ACTÉES (2026-11-01) — séjours courts et réservations
+Migration `20261106120000_reservations_sejours_keyli.sql` (amendement PRD
+§5.2, détail `docs/MODULES/reservations.md`).
+- **`properties_keyli`** : `sejour_court BOOLEAN NOT NULL DEFAULT false`,
+  `nuits_min INTEGER NOT NULL DEFAULT 1` (1 à 90), `voyageurs_max INTEGER`
+  (1 à 50, logements entiers). CHECK : séjour court ⇒ `a_louer` ; hôtel ou
+  auberge à louer ⇒ séjour court. Pour un séjour court, `price` = prix par
+  nuit (hôtel : chambre active la moins chère, tenu par trigger
+  `sync_prix_hotel_keyli`). Index partiel `idx_properties_sejour`.
+- **`types_chambres_keyli`** (nouvelle) : id, property_id (cascade), nom,
+  description, quantite (1-500), prix_nuit (> 0), voyageurs_max (1-20),
+  actif, created_at, updated_at. Hôtels/auberges uniquement (trigger
+  `coherence_type_chambre_keyli`). RLS : lecture publique des chambres
+  actives d'annonces publiées ; le propriétaire lit, ajoute, modifie ; pas
+  de suppression (désactiver).
+- **`reservations_keyli`** (nouvelle) + enum **`reservation_status_keyli`**
+  (`demandee`, `acceptee`, `refusee`, `annulee`) : property_id, chambre_id
+  (NULL = logement entier), voyageur_id, owner_id (recopié de l'annonce),
+  date_arrivee, date_depart, nuits (générée), voyageurs, nb_chambres,
+  prix_nuit et montant_total (figés par la base), statut, message, motif,
+  annulee_par, repondu_at, horodatages. CHECK départ > arrivée ; logement
+  entier ⇒ 1 « chambre ». RLS : lecture voyageur / hôte / admin ; **aucune
+  écriture directe** (pas de droit INSERT/UPDATE/DELETE).
+  Index : occupation (partiel `acceptee`), voyageur, hôte.
+- Fonctions : `occupation_sejour_keyli` (SECURITY DEFINER, nombres
+  seulement), `nuits_completes_keyli`, `devis_sejour_keyli`,
+  `demander_reservation_keyli`, `repondre_reservation_keyli`,
+  `annuler_reservation_keyli`, `est_hotelier_keyli`.
+- `publier_annonce_keyli` : + `p_sejour_court`, `p_nuits_min`,
+  `p_voyageurs_max` (ancienne signature supprimée).
+- `rechercher_annonces_keyli` : + `p_sejour`, `p_arrivee`, `p_depart`,
+  `p_voyageurs` ; renvoie `sejour_court`, `nuits_min` (ancienne version
+  supprimée).
+- Notifications : types `reservation_demandee`, `reservation_acceptee`,
+  `reservation_refusee`, `reservation_annulee`.
+- La demande insère aussi un message (voyageur → hôte) dans
+  `messages_keyli`.
+Tests : `supabase/tests/reservations_sejours_keyli.test.sql` (35 tests).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-11-01) — photos des annonces
 Migration `20261105120000_photos_annonces_keyli.sql` (détail :
 `docs/MODULES/photos.md`). Décisions du porteur : **1 à 10 photos** par

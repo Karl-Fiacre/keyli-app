@@ -300,13 +300,13 @@ isOneToOne: false
                   ]
                 },"properties_keyli": {
                   Row: {
-                    "accepte_depassement": boolean,"agent_id": string | null,"archived_at": string | null,"area_m2": number | null,"bathrooms": number | null,"city": string,"contacts_count": number | null,"created_at": string | null,"description": string | null,"furnished": boolean | null,"geolocation": unknown,"id": string,"is_verified": boolean | null,"main_image_url": string | null,"owner_id": string,"price": number,"quartier_id": string | null,"rooms": number | null,"status": Database["public"]['Enums']["property_status_keyli"],"title": string,"type": Database["public"]['Enums']["property_type_keyli"],"updated_at": string | null,"video_url": string | null,"views_count": number | null
+                    "accepte_depassement": boolean,"agent_id": string | null,"archived_at": string | null,"area_m2": number | null,"bathrooms": number | null,"city": string,"contacts_count": number | null,"created_at": string | null,"description": string | null,"furnished": boolean | null,"geolocation": unknown,"id": string,"is_verified": boolean | null,"main_image_url": string | null,"nuits_min": number,"owner_id": string,"price": number,"quartier_id": string | null,"rooms": number | null,"sejour_court": boolean,"status": Database["public"]['Enums']["property_status_keyli"],"title": string,"type": Database["public"]['Enums']["property_type_keyli"],"updated_at": string | null,"video_url": string | null,"views_count": number | null,"voyageurs_max": number | null
                   }
                   Insert: {
-                    "accepte_depassement"?: boolean,"agent_id"?: string | null,"archived_at"?: string | null,"area_m2"?: number | null,"bathrooms"?: number | null,"city": string,"contacts_count"?: number | null,"created_at"?: string | null,"description"?: string | null,"furnished"?: boolean | null,"geolocation": unknown,"id"?: string,"is_verified"?: boolean | null,"main_image_url"?: string | null,"owner_id": string,"price": number,"quartier_id"?: string | null,"rooms"?: number | null,"status": Database["public"]['Enums']["property_status_keyli"],"title": string,"type": Database["public"]['Enums']["property_type_keyli"],"updated_at"?: string | null,"video_url"?: string | null,"views_count"?: number | null
+                    "accepte_depassement"?: boolean,"agent_id"?: string | null,"archived_at"?: string | null,"area_m2"?: number | null,"bathrooms"?: number | null,"city": string,"contacts_count"?: number | null,"created_at"?: string | null,"description"?: string | null,"furnished"?: boolean | null,"geolocation": unknown,"id"?: string,"is_verified"?: boolean | null,"main_image_url"?: string | null,"nuits_min"?: number,"owner_id": string,"price": number,"quartier_id"?: string | null,"rooms"?: number | null,"sejour_court"?: boolean,"status": Database["public"]['Enums']["property_status_keyli"],"title": string,"type": Database["public"]['Enums']["property_type_keyli"],"updated_at"?: string | null,"video_url"?: string | null,"views_count"?: number | null,"voyageurs_max"?: number | null
                   }
                   Update: {
-                    "accepte_depassement"?: boolean,"agent_id"?: string | null,"archived_at"?: string | null,"area_m2"?: number | null,"bathrooms"?: number | null,"city"?: string,"contacts_count"?: number | null,"created_at"?: string | null,"description"?: string | null,"furnished"?: boolean | null,"geolocation"?: unknown,"id"?: string,"is_verified"?: boolean | null,"main_image_url"?: string | null,"owner_id"?: string,"price"?: number,"quartier_id"?: string | null,"rooms"?: number | null,"status"?: Database["public"]['Enums']["property_status_keyli"],"title"?: string,"type"?: Database["public"]['Enums']["property_type_keyli"],"updated_at"?: string | null,"video_url"?: string | null,"views_count"?: number | null
+                    "accepte_depassement"?: boolean,"agent_id"?: string | null,"archived_at"?: string | null,"area_m2"?: number | null,"bathrooms"?: number | null,"city"?: string,"contacts_count"?: number | null,"created_at"?: string | null,"description"?: string | null,"furnished"?: boolean | null,"geolocation"?: unknown,"id"?: string,"is_verified"?: boolean | null,"main_image_url"?: string | null,"nuits_min"?: number,"owner_id"?: string,"price"?: number,"quartier_id"?: string | null,"rooms"?: number | null,"sejour_court"?: boolean,"status"?: Database["public"]['Enums']["property_status_keyli"],"title"?: string,"type"?: Database["public"]['Enums']["property_type_keyli"],"updated_at"?: string | null,"video_url"?: string | null,"views_count"?: number | null,"voyageurs_max"?: number | null
                   }
                   Relationships: [
                     {
@@ -505,6 +505,31 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"reservations_keyli": {
+                  Row: {
+                    "annulee_par": string | null,"chambre_id": string | null,"created_at": string,"date_arrivee": string,"date_depart": string,"id": string,"message": string | null,"montant_total": number,"motif": string | null,"nb_chambres": number,"nuits": number | null,"owner_id": string,"prix_nuit": number,"property_id": string,"repondu_at": string | null,"statut": Database["public"]['Enums']["reservation_status_keyli"],"updated_at": string,"voyageur_id": string,"voyageurs": number
+                  }
+                  Insert: {
+                    "annulee_par"?: string | null,"chambre_id"?: string | null,"created_at"?: string,"date_arrivee": string,"date_depart": string,"id"?: string,"message"?: string | null,"montant_total": number,"motif"?: string | null,"nb_chambres"?: number,"nuits"?: never,"owner_id": string,"prix_nuit": number,"property_id": string,"repondu_at"?: string | null,"statut"?: Database["public"]['Enums']["reservation_status_keyli"],"updated_at"?: string,"voyageur_id": string,"voyageurs": number
+                  }
+                  Update: {
+                    "annulee_par"?: string | null,"chambre_id"?: string | null,"created_at"?: string,"date_arrivee"?: string,"date_depart"?: string,"id"?: string,"message"?: string | null,"montant_total"?: number,"motif"?: string | null,"nb_chambres"?: number,"nuits"?: never,"owner_id"?: string,"prix_nuit"?: number,"property_id"?: string,"repondu_at"?: string | null,"statut"?: Database["public"]['Enums']["reservation_status_keyli"],"updated_at"?: string,"voyageur_id"?: string,"voyageurs"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "reservations_keyli_chambre_id_fkey"
+      columns: ["chambre_id"]
+isOneToOne: false
+      referencedRelation: "types_chambres_keyli"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "reservations_keyli_property_id_fkey"
+      columns: ["property_id"]
+isOneToOne: false
+      referencedRelation: "properties_keyli"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"search_alerts_keyli": {
                   Row: {
                     "actif": boolean | null,"created_at": string | null,"criteres": NonNullable<Json>,"derniere_notification_at": string | null,"id": string,"user_id": string
@@ -566,6 +591,25 @@ isOneToOne: false
       columns: ["subscription_id"]
 isOneToOne: false
       referencedRelation: "subscriptions_keyli"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"types_chambres_keyli": {
+                  Row: {
+                    "actif": boolean,"created_at": string,"description": string | null,"id": string,"nom": string,"prix_nuit": number,"property_id": string,"quantite": number,"updated_at": string,"voyageurs_max": number
+                  }
+                  Insert: {
+                    "actif"?: boolean,"created_at"?: string,"description"?: string | null,"id"?: string,"nom": string,"prix_nuit": number,"property_id": string,"quantite": number,"updated_at"?: string,"voyageurs_max": number
+                  }
+                  Update: {
+                    "actif"?: boolean,"created_at"?: string,"description"?: string | null,"id"?: string,"nom"?: string,"prix_nuit"?: number,"property_id"?: string,"quantite"?: number,"updated_at"?: string,"voyageurs_max"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "types_chambres_keyli_property_id_fkey"
+      columns: ["property_id"]
+isOneToOne: false
+      referencedRelation: "properties_keyli"
       referencedColumns: ["id"]
     }
                   ]
@@ -677,6 +721,9 @@ isOneToOne: false
 "annonce_correspond_alerte_keyli":
 { Args: { "c": Json,"p": Database["public"]['Tables']["properties_keyli"]['Row'] }; Returns: boolean
                            },
+"annuler_reservation_keyli":
+{ Args: { "p_motif"?: string,"p_reservation": string }; Returns: undefined
+                           },
 "avis_recus_keyli":
 { Args: { "p_limite"?: number,"p_user": string }; Returns: {
               "auteur": string,"commentaire": string,"date_avis": string,"id": string,"note": number,"titre_bien": string
@@ -713,11 +760,22 @@ isOneToOne: false
               "debut": string,"fin": string
             }[]
                            },
+"demander_reservation_keyli":
+{ Args: { "p_arrivee": string,"p_chambre": string,"p_chambres"?: number,"p_depart": string,"p_message"?: string,"p_property": string,"p_voyageurs": number }; Returns: string
+                           },
+"devis_sejour_keyli":
+{ Args: { "p_arrivee": string,"p_chambre": string,"p_chambres"?: number,"p_depart": string,"p_property": string,"p_voyageurs": number }; Returns: {
+              "montant_total": number,"motif": string,"nuits": number,"prix_nuit": number,"restantes": number
+            }[]
+                           },
 "echec_paiement_keyli":
 { Args: { "p_message": string,"p_reference": string }; Returns: undefined
                            },
 "est_admin_keyli":
 { Args: Record<PropertyKey, never>; Returns: boolean
+                           },
+"est_hotelier_keyli":
+{ Args: { "p_type": Database["public"]['Enums']["property_type_keyli"] }; Returns: boolean
                            },
 "est_super_admin_keyli":
 { Args: Record<PropertyKey, never>; Returns: boolean
@@ -760,6 +818,14 @@ isOneToOne: false
               "id": string,"interlocuteur": string,"nom": string,"property_id": string,"scheduled_at": string,"status": Database["public"]['Enums']["visit_status_keyli"],"titre": string
             }[]
                            },
+"nuits_completes_keyli":
+{ Args: { "p_a": string,"p_chambre": string,"p_de": string,"p_property": string }; Returns: string[]
+                           },
+"occupation_sejour_keyli":
+{ Args: { "p_a": string,"p_chambre": string,"p_de": string,"p_property": string }; Returns: {
+              "capacite": number,"jour": string,"occupees": number
+            }[]
+                           },
 "ordonner_photos_keyli":
 { Args: { "p_ids": (string)[],"p_property": string }; Returns: undefined
                            },
@@ -780,11 +846,11 @@ isOneToOne: false
 { Args: { "p_debut": string,"p_fin": string,"p_owner": string }; Returns: number
                            },
 "publier_annonce_keyli":
-{ Args: { "p_accepte_depassement"?: boolean,"p_avantages"?: (string)[],"p_description"?: string,"p_latitude": number,"p_longitude": number,"p_meuble"?: boolean,"p_photos": (string)[],"p_pieces"?: number,"p_prix": number,"p_quartier"?: string,"p_salles_de_bain"?: number,"p_statut": Database["public"]['Enums']["property_status_keyli"],"p_surface"?: number,"p_titre": string,"p_type": Database["public"]['Enums']["property_type_keyli"],"p_ville": string }; Returns: string
+{ Args: { "p_accepte_depassement"?: boolean,"p_avantages"?: (string)[],"p_description"?: string,"p_latitude": number,"p_longitude": number,"p_meuble"?: boolean,"p_nuits_min"?: number,"p_photos": (string)[],"p_pieces"?: number,"p_prix": number,"p_quartier"?: string,"p_salles_de_bain"?: number,"p_sejour_court"?: boolean,"p_statut": Database["public"]['Enums']["property_status_keyli"],"p_surface"?: number,"p_titre": string,"p_type": Database["public"]['Enums']["property_type_keyli"],"p_ville": string,"p_voyageurs_max"?: number }; Returns: string
                            },
 "rechercher_annonces_keyli":
-{ Args: { "p_avantages"?: (string)[],"p_commune"?: string,"p_decalage"?: number,"p_limite"?: number,"p_meuble"?: boolean,"p_pieces_min"?: number,"p_prix_max"?: number,"p_prix_min"?: number,"p_quartier"?: string,"p_statut"?: Database["public"]['Enums']["property_status_keyli"],"p_tri"?: string,"p_type"?: Database["public"]['Enums']["property_type_keyli"] }; Returns: {
-              "commune": string,"id": string,"image": string,"meuble": boolean,"pieces": number,"prix": number,"publiee_le": string,"quartier": string,"salles_de_bain": number,"statut": Database["public"]['Enums']["property_status_keyli"],"surface": number,"titre": string,"total": number,"type": Database["public"]['Enums']["property_type_keyli"],"verifiee": boolean,"ville": string
+{ Args: { "p_arrivee"?: string,"p_avantages"?: (string)[],"p_commune"?: string,"p_decalage"?: number,"p_depart"?: string,"p_limite"?: number,"p_meuble"?: boolean,"p_pieces_min"?: number,"p_prix_max"?: number,"p_prix_min"?: number,"p_quartier"?: string,"p_sejour"?: boolean,"p_statut"?: Database["public"]['Enums']["property_status_keyli"],"p_tri"?: string,"p_type"?: Database["public"]['Enums']["property_type_keyli"],"p_voyageurs"?: number }; Returns: {
+              "commune": string,"id": string,"image": string,"meuble": boolean,"nuits_min": number,"pieces": number,"prix": number,"publiee_le": string,"quartier": string,"salles_de_bain": number,"sejour_court": boolean,"statut": Database["public"]['Enums']["property_status_keyli"],"surface": number,"titre": string,"total": number,"type": Database["public"]['Enums']["property_type_keyli"],"verifiee": boolean,"ville": string
             }[]
                            },
 "recommandations_keyli":
@@ -794,6 +860,9 @@ isOneToOne: false
                            },
 "relation_notable_keyli":
 { Args: { "p_autre": string,"p_property": string }; Returns: boolean
+                           },
+"repondre_reservation_keyli":
+{ Args: { "p_accepter": boolean,"p_motif"?: string,"p_reservation": string }; Returns: undefined
                            },
 "super_admin_changer_role_keyli":
 { Args: { "p_role": Database["public"]['Enums']["user_role_keyli"],"p_user": string }; Returns: undefined
@@ -820,7 +889,7 @@ isOneToOne: false
                            }
           }
           Enums: {
-            "document_status_keyli": "pending"|"approved"|"rejected","document_type_keyli": "acd"|"registre"|"extrait_naissance"|"cert_residence","inscription_status_keyli": "en_attente"|"contacte"|"converti"|"rejete","interaction_type_keyli": "view"|"click_contact"|"click_phone"|"click_whatsapp"|"click_favorite"|"click_gallery"|"click_map"|"search_neighborhood","lead_stage_keyli": "nouveau"|"visite_planifiee"|"negociation"|"conclu","priority_level_keyli": "haute"|"moyenne"|"basse","property_status_keyli": "a_louer"|"a_vendre","property_type_keyli": "maison"|"duplex"|"villa"|"appartement"|"studio"|"residence_meublee"|"auberge"|"hotel"|"bureau"|"magasin","report_status_keyli": "pending"|"reviewed"|"resolved","subscription_status_keyli": "active"|"expired"|"canceled","transaction_status_keyli": "pending"|"completed"|"failed","user_role_keyli": "user"|"owner"|"agency"|"admin"|"super_admin","visit_status_keyli": "planifiee"|"effectuee"|"annulee"
+            "document_status_keyli": "pending"|"approved"|"rejected","document_type_keyli": "acd"|"registre"|"extrait_naissance"|"cert_residence","inscription_status_keyli": "en_attente"|"contacte"|"converti"|"rejete","interaction_type_keyli": "view"|"click_contact"|"click_phone"|"click_whatsapp"|"click_favorite"|"click_gallery"|"click_map"|"search_neighborhood","lead_stage_keyli": "nouveau"|"visite_planifiee"|"negociation"|"conclu","priority_level_keyli": "haute"|"moyenne"|"basse","property_status_keyli": "a_louer"|"a_vendre","property_type_keyli": "maison"|"duplex"|"villa"|"appartement"|"studio"|"residence_meublee"|"auberge"|"hotel"|"bureau"|"magasin","report_status_keyli": "pending"|"reviewed"|"resolved","reservation_status_keyli": "demandee"|"acceptee"|"refusee"|"annulee","subscription_status_keyli": "active"|"expired"|"canceled","transaction_status_keyli": "pending"|"completed"|"failed","user_role_keyli": "user"|"owner"|"agency"|"admin"|"super_admin","visit_status_keyli": "planifiee"|"effectuee"|"annulee"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -936,7 +1005,7 @@ export type CompositeTypes<
 export const Constants = {
   "public": {
           Enums: {
-            "document_status_keyli": ["pending", "approved", "rejected"],"document_type_keyli": ["acd", "registre", "extrait_naissance", "cert_residence"],"inscription_status_keyli": ["en_attente", "contacte", "converti", "rejete"],"interaction_type_keyli": ["view", "click_contact", "click_phone", "click_whatsapp", "click_favorite", "click_gallery", "click_map", "search_neighborhood"],"lead_stage_keyli": ["nouveau", "visite_planifiee", "negociation", "conclu"],"priority_level_keyli": ["haute", "moyenne", "basse"],"property_status_keyli": ["a_louer", "a_vendre"],"property_type_keyli": ["maison", "duplex", "villa", "appartement", "studio", "residence_meublee", "auberge", "hotel", "bureau", "magasin"],"report_status_keyli": ["pending", "reviewed", "resolved"],"subscription_status_keyli": ["active", "expired", "canceled"],"transaction_status_keyli": ["pending", "completed", "failed"],"user_role_keyli": ["user", "owner", "agency", "admin", "super_admin"],"visit_status_keyli": ["planifiee", "effectuee", "annulee"]
+            "document_status_keyli": ["pending", "approved", "rejected"],"document_type_keyli": ["acd", "registre", "extrait_naissance", "cert_residence"],"inscription_status_keyli": ["en_attente", "contacte", "converti", "rejete"],"interaction_type_keyli": ["view", "click_contact", "click_phone", "click_whatsapp", "click_favorite", "click_gallery", "click_map", "search_neighborhood"],"lead_stage_keyli": ["nouveau", "visite_planifiee", "negociation", "conclu"],"priority_level_keyli": ["haute", "moyenne", "basse"],"property_status_keyli": ["a_louer", "a_vendre"],"property_type_keyli": ["maison", "duplex", "villa", "appartement", "studio", "residence_meublee", "auberge", "hotel", "bureau", "magasin"],"report_status_keyli": ["pending", "reviewed", "resolved"],"reservation_status_keyli": ["demandee", "acceptee", "refusee", "annulee"],"subscription_status_keyli": ["active", "expired", "canceled"],"transaction_status_keyli": ["pending", "completed", "failed"],"user_role_keyli": ["user", "owner", "agency", "admin", "super_admin"],"visit_status_keyli": ["planifiee", "effectuee", "annulee"]
           }
         }
 } as const
