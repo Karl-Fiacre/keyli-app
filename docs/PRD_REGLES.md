@@ -86,6 +86,18 @@ résumé, pas la source primaire.
       publique des notes") écrite dans la même migration que la table — ne
       pas restreindre par erreur
 
+## MODULE RÉSERVATIONS (reservations_keyli — amendement du 2026-11-01)
+- [x] Séjours courts uniquement (hôtel/auberge à louer : toujours ; autre
+      location : case « séjour court ») — contraintes CHECK, testé
+- [x] Prix, nuits et total calculés par la base (`devis_sejour_keyli`),
+      jamais par l'écran — testé
+- [x] Seule une réservation acceptée bloque des nuits ; acceptation sous
+      verrou, jamais au-delà de la capacité ; demandes devenues impossibles
+      refusées d'office — testé
+- [x] Aucune écriture directe : demander / répondre / annuler par fonctions
+      contrôlées ; lecture limitée au voyageur, à l'hôte et à l'admin — testé
+- [x] Pas de paiement en ligne des séjours (réglés avec l'hôte)
+
 ## MODULE ADMIN
 - [x] Toute action admin sensible écrite dans `audit_logs_keyli` (fonctions
       SQL, même transaction, testé)

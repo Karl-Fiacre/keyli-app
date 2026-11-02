@@ -135,6 +135,8 @@ Keyli ne cherche pas à être la plateforme avec le plus d'annonces, mais celle 
 
 -   Réservation par calendrier de disponibilité (dates d'entrée/de fin), inventaire hôtelier/auberge — relève de la vision long terme (voir Résumé exécutif et section 12.1), pas du produit v1.
 
+    **Amendement du 2026-11-01 (décision du porteur)** : une première forme entre dans la v1 — *demande* de réservation par dates pour les séjours courts (hôtels, auberges par types de chambres, logements marqués « séjour court »), acceptée ou refusée par l'hôte, **sans paiement en ligne**. Le paiement en ligne des séjours reste hors v1. Détail : `docs/MODULES/reservations.md`.
+
 ### 5.3 Spécificités par plateforme
 
   ———————————————- ———————-- ————————————
@@ -435,7 +437,7 @@ Aucun paywall côté chercheur en v1. La mise en relation (messagerie interne et
 
 ### 12.1 Au-delà de la phase 5 — ambition long terme
 
-Objectif de fond à rappeler dans la documentation produit, non calendarisé dans les phases ci-dessus : faire de Keyli la plateforme de référence pour la réservation de logement en Côte d'Ivoire, voire dans la sous-région ouest-africaine, à l'image des applications occidentales de réservation, en couvrant logements, hôtels et auberges avec disponibilité par dates de séjour (entrée/fin de bail ou de séjour).
+Objectif de fond à rappeler dans la documentation produit, non calendarisé dans les phases ci-dessus : faire de Keyli la plateforme de référence pour la réservation de logement en Côte d'Ivoire, voire dans la sous-région ouest-africaine, à l'image des applications occidentales de réservation, en couvrant logements, hôtels et auberges avec disponibilité par dates de séjour (entrée/fin de bail ou de séjour). *Amendement du 2026-11-01 : un premier palier (demande de réservation de séjours courts, sans paiement en ligne) est livré en v1 — voir section 5.2 et `docs/MODULES/reservations.md` ; le paiement en ligne, l'inventaire avancé et l'international restent l'objectif de long terme.*
 
 -   Le moment opportun pour encourager les propriétaires et agences à renseigner la disponibilité de leurs biens (dates d'entrée/fin) sera étudié au fil des évolutions du produit, pas décidé par anticipation.
 
