@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { LIBELLES_TYPE, TYPES_BIEN } from '@/lib/validation'
 import { cn } from '@/lib/utils'
+import { DatesSejour } from '@/components/reservation/DatesSejour'
 
 const champNatif =
   'flex h-11 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
@@ -19,13 +20,7 @@ const nombreSaisi = (v: string) => {
 // Filtres de la recherche. Chaque changement repart de la page 1 ; les prix
 // s'appliquent à la sortie du champ (ou sur Entrée) pour ne pas relancer la
 // recherche à chaque chiffre tapé.
-export function FiltresRecherche({
-  filtres: f,
-  onChange,
-}: {
-  filtres: Filtres
-  onChange: (f: Filtres) => void
-}) {
+export function FiltresRecherche({ filtres: f, onChange }: { filtres: Filtres; onChange: (f: Filtres) => void }) {
   const communes = useCommunes()
   const quartiers = useQuartiers()
   const avantages = useAvantages()
@@ -56,29 +51,48 @@ export function FiltresRecherche({
     <div className="space-y-5">
       <fieldset>
         <legend className="mb-2 text-sm font-medium">Transaction</legend>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 gap-2">
           {(
             [
-              [undefined, 'Tout'],
-              ['a_louer', 'À louer'],
-              ['a_vendre', 'À vendre'],
+              [undefined, false, 'Tout'],
+              ['a_louer', false, 'À louer'],
+              ['a_vendre', false, 'À vendre'],
+              ['a_louer', true, 'Séjour court'],
             ] as const
-          ).map(([v, l]) => (
-            <button
-              key={l}
-              type="button"
-              aria-pressed={f.statut === v}
-              onClick={() => maj({ statut: v })}
-              className={cn(
-                'h-10 rounded-lg border text-sm font-medium transition-colors duration-150',
-                f.statut === v ? 'border-primary bg-primary text-primary-foreground' : 'hover:bg-secondary',
-              )}
-            >
-              {l}
-            </button>
-          ))}
+          ).map(([v, sejour, l]) => {
+            const actif = sejour ? !!f.sejour : !f.sejour && f.statut === v
+            return (
+              <button
+                key={l}
+                type="button"
+                aria-pressed={actif}
+                onClick={() =>
+                  maj(
+                    sejour
+                      ? { statut: 'a_louer', sejour: true }
+                      : { statut: v, sejour: undefined, arrivee: undefined, depart: undefined, voyageurs: undefined },
+                  )
+                }
+                className={cn(
+                  'h-10 rounded-lg border text-sm font-medium transition-colors duration-150',
+                  actif ? 'border-primary bg-primary text-primary-foreground' : 'hover:bg-secondary',
+                )}
+              >
+                {l}
+              </button>
+            )
+          })}
         </div>
       </fieldset>
+
+      {f.sejour && (
+        <DatesSejour
+          arrivee={f.arrivee}
+          depart={f.depart}
+          voyageurs={f.voyageurs}
+          onChange={(partiel) => maj(partiel)}
+        />
+      )}
 
       <div className="space-y-2">
         <Label htmlFor="filtre-type">Type de bien</Label>

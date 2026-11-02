@@ -16,7 +16,14 @@ import { envoyerPhotos, MAX_PHOTOS } from '@/lib/cloudinary'
 import { useAvantages, useEtatPublication, usePublierAnnonce, useQuartiers } from '@/hooks/useAnnonces'
 import { useProfil } from '@/hooks/useProfil'
 import { messageErreur } from '@/lib/erreurs'
-import { LIBELLES_TYPE, schemaAnnonce, TYPES_BIEN, type DonneesAnnonce, type SaisieAnnonce } from '@/lib/validation'
+import {
+  estHotelier,
+  LIBELLES_TYPE,
+  schemaAnnonce,
+  TYPES_BIEN,
+  type DonneesAnnonce,
+  type SaisieAnnonce,
+} from '@/lib/validation'
 import { cn } from '@/lib/utils'
 
 // Mêmes styles que Input pour les listes et la zone de texte natives
@@ -58,7 +65,14 @@ export default function PublierAnnonce() {
     formState: { errors },
   } = useForm<SaisieAnnonce, unknown, DonneesAnnonce>({
     resolver: zodResolver(schemaAnnonce),
-    defaultValues: { statut: 'a_louer', ville: 'Abidjan', meuble: false, avantages: [], accepteDepassement: false },
+    defaultValues: {
+      statut: 'a_louer',
+      ville: 'Abidjan',
+      meuble: false,
+      avantages: [],
+      accepteDepassement: false,
+      sejourCourt: false,
+    },
   })
 
   const role = profil.data?.role_keyli
@@ -86,6 +100,10 @@ export default function PublierAnnonce() {
   const depassement = e.statut === 'depassement'
   const accord = watch('accepteDepassement')
   const statut = watch('statut')
+  const typeBien = watch('type')
+  const hotelier = estHotelier(typeBien)
+  // Hôtel ou auberge à louer : toujours à la nuit (la base l'impose aussi)
+  const sejour = statut === 'a_louer' && (hotelier || !!watch('sejourCourt'))
   const latitude = watch('latitude')
   const longitude = watch('longitude')
 
@@ -115,6 +133,7 @@ export default function PublierAnnonce() {
         ...d,
         quartierId: d.quartierId || null,
         accepteDepassement: depassement && d.accepteDepassement,
+        sejourCourt: d.statut === 'a_louer' && (d.sejourCourt || estHotelier(d.type)),
         photos: adresses,
       },
       {
@@ -187,11 +206,82 @@ export default function PublierAnnonce() {
                 </fieldset>
               </div>
 
+              {statut === 'a_louer' && (
+                <div className="space-y-3 rounded-lg border bg-secondary/50 p-4">
+                  <label className="flex cursor-pointer items-start gap-3 text-sm">
+                    <input
+                      type="checkbox"
+                      className="mt-0.5 h-4 w-4 accent-primary"
+                      checked={sejour}
+                      disabled={hotelier}
+                      onChange={(ev) => setValue('sejourCourt', ev.target.checked)}
+                    />
+                    <span>
+                      <span className="font-semibold">Séjour court — réservation à la nuit</span>
+                      <span className="block text-muted-foreground">
+                        {hotelier
+                          ? 'Toujours activé pour un hôtel ou une auberge. Après la publication, ajoutez vos types de chambres (prix, quantité) dans « Mes annonces ».'
+                          : 'Les voyageurs choisissent leurs dates d’arrivée et de départ et vous envoient une demande à accepter.'}
+                      </span>
+                    </span>
+                  </label>
+                  {sejour && (
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <ChampFormulaire libelle="Nuits minimum" erreur={errors.nuitsMin?.message}>
+                        {(a) => (
+                          <Input
+                            {...a}
+                            type="number"
+                            inputMode="numeric"
+                            min={1}
+                            max={90}
+                            placeholder="1"
+                            {...register('nuitsMin')}
+                          />
+                        )}
+                      </ChampFormulaire>
+                      {!hotelier && (
+                        <ChampFormulaire libelle="Voyageurs maximum" erreur={errors.voyageursMax?.message}>
+                          {(a) => (
+                            <Input
+                              {...a}
+                              type="number"
+                              inputMode="numeric"
+                              min={1}
+                              max={50}
+                              placeholder="4"
+                              {...register('voyageursMax')}
+                            />
+                          )}
+                        </ChampFormulaire>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+
               <ChampFormulaire
-                libelle={statut === 'a_vendre' ? 'Prix de vente (XOF)' : 'Loyer mensuel (XOF)'}
+                libelle={
+                  statut === 'a_vendre'
+                    ? 'Prix de vente (XOF)'
+                    : hotelier
+                      ? 'Prix de la chambre la moins chère, par nuit (XOF)'
+                      : sejour
+                        ? 'Prix par nuit (XOF)'
+                        : 'Loyer mensuel (XOF)'
+                }
                 erreur={errors.prix?.message}
               >
-                {(a) => <Input {...a} type="number" inputMode="numeric" min={1} step={1000} {...register('prix')} />}
+                {(a) => (
+                  <Input
+                    {...a}
+                    type="number"
+                    inputMode="numeric"
+                    min={1}
+                    step={sejour ? 500 : 1000}
+                    {...register('prix')}
+                  />
+                )}
               </ChampFormulaire>
 
               <div className="grid gap-4 sm:grid-cols-2">

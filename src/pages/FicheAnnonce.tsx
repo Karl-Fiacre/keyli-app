@@ -7,6 +7,7 @@ import { FormulaireContact } from '@/components/annonce/FormulaireContact'
 import { BoutonFavori } from '@/components/annonce/BoutonFavori'
 import { BoutonSignaler } from '@/components/annonce/BoutonSignaler'
 import { GaleriePhotos } from '@/components/annonce/GaleriePhotos'
+import { ReservationSejour } from '@/components/reservation/ReservationSejour'
 import { Etoiles } from '@/components/avis/Etoiles'
 import { ListeAvis } from '@/components/avis/ListeAvis'
 import { useSession } from '@/hooks/useSession'
@@ -14,6 +15,7 @@ import { useFicheAnnonce, useVueAnnonce } from '@/hooks/useRecherche'
 import { messageErreur } from '@/lib/erreurs'
 import { formatDate, formatXof } from '@/lib/format'
 import { LIBELLES_TYPE } from '@/lib/validation'
+import { pluriel } from '@/lib/sejour'
 
 // Sources acceptées par la base (property_interactions_keyli) ; « favoris »
 // est enregistré comme un lien direct
@@ -50,6 +52,8 @@ export default function FicheAnnonce() {
 
   const { annonce: a, annonceur } = fiche.data
   const estProprietaire = session?.user.id === a.owner_id
+  const hotelier = a.type === 'hotel' || a.type === 'auberge'
+  const reservable = a.sejour_court && a.status === 'a_louer' && !a.archived_at
   const quartier = a.quartiers_keyli
   const lieu = [quartier?.nom, quartier?.communes_keyli?.nom, a.city].filter(Boolean).join(', ')
   const avantages = a.property_avantages_keyli
@@ -99,9 +103,20 @@ export default function FicheAnnonce() {
               {lieu}
             </p>
             <p className="text-2xl font-bold">
+              {hotelier && <span className="text-base font-normal text-muted-foreground">À partir de </span>}
               {formatXof(Number(a.price))}
-              {a.status === 'a_louer' && <span className="text-base font-normal text-muted-foreground"> / mois</span>}
+              {a.status === 'a_louer' && (
+                <span className="text-base font-normal text-muted-foreground">
+                  {a.sejour_court ? ' / nuit' : ' / mois'}
+                </span>
+              )}
             </p>
+            {a.sejour_court && (
+              <p className="inline-flex items-center gap-2 rounded-pill bg-turquoise/15 px-3 py-1 text-xs font-semibold">
+                Séjour court · réservation en ligne
+                {a.nuits_min > 1 && <span className="font-normal">· {pluriel(a.nuits_min, 'nuit')} minimum</span>}
+              </p>
+            )}
           </div>
 
           <ul className="flex flex-wrap gap-3">
@@ -157,6 +172,16 @@ export default function FicheAnnonce() {
         </div>
 
         <aside className="space-y-5 lg:sticky lg:top-6 lg:self-start">
+          {reservable && (
+            <ReservationSejour
+              propertyId={a.id}
+              hotelier={hotelier}
+              prixNuit={Number(a.price)}
+              nuitsMin={a.nuits_min}
+              voyageursMax={a.voyageurs_max}
+              estProprietaire={estProprietaire}
+            />
+          )}
           {annonceur && (
             <Card>
               <CardHeader className="pb-3">
@@ -184,7 +209,9 @@ export default function FicheAnnonce() {
 
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base">Contacter l'annonceur</CardTitle>
+              <CardTitle className="text-base">
+                {reservable ? "Une question pour l'hôte ?" : "Contacter l'annonceur"}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               {estProprietaire ? (

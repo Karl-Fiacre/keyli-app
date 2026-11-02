@@ -20,6 +20,7 @@ import Recherche from '@/pages/Recherche'
 import FicheAnnonce from '@/pages/FicheAnnonce'
 import Messages from '@/pages/Messages'
 import MesFavoris from '@/pages/MesFavoris'
+import Reservations from '@/pages/Reservations'
 import Admin from '@/pages/admin/Admin'
 import AdminIndicateurs from '@/pages/admin/AdminIndicateurs'
 import AdminVerifications from '@/pages/admin/AdminVerifications'
@@ -69,6 +70,7 @@ function App() {
               <Route path="messages" element={<Messages />} />
               <Route path="messages/:bien/:interlocuteur" element={<Messages />} />
               <Route path="favoris" element={<MesFavoris />} />
+              <Route path="reservations" element={<Reservations />} />
             </Route>
             <Route element={<MiseEnPage />}>
               <Route index element={<Accueil />} />

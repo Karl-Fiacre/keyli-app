@@ -1,6 +1,7 @@
 import type { FiltresRecherche, TriRecherche } from '@/hooks/useRecherche'
 import type { StatutBien, TypeBien } from '@/hooks/useAnnonces'
 import { TYPES_BIEN } from '@/lib/validation'
+import { aujourdhuiIso, isoValide } from '@/lib/sejour'
 
 // Filtres de recherche ↔ paramètres d'URL : une recherche se partage et se
 // retrouve avec le bouton « retour » du navigateur.
@@ -25,7 +26,16 @@ export function lireFiltres(p: URLSearchParams): FiltresRecherche {
   const type = p.get('type')
   const tri = p.get('tri') as TriRecherche | null
   const meuble = p.get('meuble')
+  // Dates de séjour : ignorées si invalides, passées ou dans le désordre
+  const arrivee = p.get('arrivee')
+  const depart = p.get('depart')
+  const datesValides = isoValide(arrivee) && isoValide(depart) && arrivee >= aujourdhuiIso() && depart > arrivee
+  const voyageurs = nombre(p.get('voyageurs'))
   return {
+    sejour: p.get('sejour') === '1' || datesValides ? true : undefined,
+    arrivee: datesValides ? arrivee : undefined,
+    depart: datesValides ? depart : undefined,
+    voyageurs: voyageurs && voyageurs >= 1 ? Math.floor(voyageurs) : undefined,
     statut: statut === 'a_louer' || statut === 'a_vendre' ? (statut as StatutBien) : undefined,
     type: type && (TYPES_BIEN as readonly string[]).includes(type) ? (type as TypeBien) : undefined,
     commune: p.get('commune') || undefined,
@@ -51,6 +61,12 @@ export function ecrireFiltres(f: FiltresRecherche): URLSearchParams {
   if (f.piecesMin !== undefined) p.set('pieces', String(f.piecesMin))
   if (f.meuble !== undefined) p.set('meuble', f.meuble ? 'oui' : 'non')
   f.avantages.forEach((a) => p.append('avantage', a))
+  if (f.sejour) p.set('sejour', '1')
+  if (f.arrivee && f.depart) {
+    p.set('arrivee', f.arrivee)
+    p.set('depart', f.depart)
+  }
+  if (f.voyageurs) p.set('voyageurs', String(f.voyageurs))
   if (f.tri !== 'pertinence') p.set('tri', f.tri)
   if (f.page > 1) p.set('page', String(f.page))
   return p
@@ -59,9 +75,19 @@ export function ecrireFiltres(f: FiltresRecherche): URLSearchParams {
 // Nombre de filtres actifs (hors tri et page), pour le bouton « Filtres »
 export function nombreFiltresActifs(f: FiltresRecherche): number {
   return (
-    [f.statut, f.type, f.commune, f.quartier, f.prixMin, f.prixMax, f.piecesMin, f.meuble].filter(
-      (v) => v !== undefined,
-    ).length + f.avantages.length
+    [
+      f.statut,
+      f.type,
+      f.commune,
+      f.quartier,
+      f.prixMin,
+      f.prixMax,
+      f.piecesMin,
+      f.meuble,
+      f.sejour,
+      f.arrivee,
+      f.voyageurs,
+    ].filter((v) => v !== undefined).length + f.avantages.length
   )
 }
 

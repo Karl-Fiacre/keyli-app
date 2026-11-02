@@ -38,7 +38,7 @@ export const schemaInscription = z
   })
   .refine((d) => d.role !== 'agency' || !!d.nomAgence, {
     path: ['nomAgence'],
-    message: 'Le nom de l\'agence est obligatoire.',
+    message: "Le nom de l'agence est obligatoire.",
   })
 export type DonneesInscription = z.infer<typeof schemaInscription>
 
@@ -74,9 +74,20 @@ const nombreFacultatif = (message: string, entier = false) =>
     (entier ? z.number().int(message) : z.number()).min(0, message).optional(),
   )
 
+// Hôtel ou auberge : réservation par types de chambres
+export const estHotelier = (t: string | undefined) => t === 'hotel' || t === 'auberge'
+
 export const TYPES_BIEN = [
-  'appartement', 'studio', 'maison', 'villa', 'duplex',
-  'residence_meublee', 'bureau', 'magasin', 'auberge', 'hotel',
+  'appartement',
+  'studio',
+  'maison',
+  'villa',
+  'duplex',
+  'residence_meublee',
+  'bureau',
+  'magasin',
+  'auberge',
+  'hotel',
 ] as const
 
 export const LIBELLES_TYPE: Record<(typeof TYPES_BIEN)[number], string> = {
@@ -99,8 +110,7 @@ export const schemaAnnonce = z.object({
   statut: z.enum(['a_louer', 'a_vendre'], { error: 'À louer ou à vendre ?' }),
   prix: z.preprocess(
     (v) => (v === '' || v === undefined ? undefined : Number(v)),
-    z.number({ error: 'Le prix est requis.' })
-      .positive('Le prix doit être supérieur à zéro.'),
+    z.number({ error: 'Le prix est requis.' }).positive('Le prix doit être supérieur à zéro.'),
   ),
   ville: z.string().trim().min(1, 'La ville est requise.').max(80),
   quartierId: z.string().optional(),
@@ -113,6 +123,16 @@ export const schemaAnnonce = z.object({
   latitude: z.number({ error: 'Placez le bien sur la carte ou utilisez votre position.' }),
   longitude: z.number({ error: 'Placez le bien sur la carte ou utilisez votre position.' }),
   accepteDepassement: z.boolean(),
+  // Séjour court : réservation à la nuit (imposé pour un hôtel ou une auberge à louer)
+  sejourCourt: z.boolean(),
+  nuitsMin: z.preprocess(
+    (v) => (v === '' || v === null || v === undefined || Number.isNaN(v) ? undefined : Number(v)),
+    z.number().int('Nombre entier.').min(1, 'Au moins 1 nuit.').max(90, '90 nuits au plus.').optional(),
+  ),
+  voyageursMax: z.preprocess(
+    (v) => (v === '' || v === null || v === undefined || Number.isNaN(v) ? undefined : Number(v)),
+    z.number().int('Nombre entier.').min(1, 'Au moins 1 voyageur.').max(50, '50 voyageurs au plus.').optional(),
+  ),
 })
 export type DonneesAnnonce = z.output<typeof schemaAnnonce>
 // Valeurs du formulaire avant validation (champs numériques encore bruts)

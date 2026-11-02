@@ -1,4 +1,14 @@
-import { CreditCard, Heart, Home, LayoutGrid, MessageSquare, Search, Shield, UserRound } from 'lucide-react'
+import {
+  CalendarDays,
+  CreditCard,
+  Heart,
+  Home,
+  LayoutGrid,
+  MessageSquare,
+  Search,
+  Shield,
+  UserRound,
+} from 'lucide-react'
 import type { SectionNav } from '@/components/dashboard/DashboardSidebar'
 import type { Database } from '@/integrations/supabase/types'
 
@@ -25,6 +35,8 @@ export function navigationParRole(
   const accueil = { vers: '/tableau-de-bord', libelle: "Vue d'ensemble", icone: LayoutGrid, fin: true }
   const rechercher = { vers: '/recherche', libelle: 'Rechercher', icone: Search }
   const profil = { vers: '/profil', libelle: 'Mon profil', icone: UserRound }
+  // Séjours courts : demandes reçues (hôte) et séjours réservés (tous)
+  const reservations = { vers: '/reservations', libelle: 'Réservations', icone: CalendarDays }
 
   switch (role) {
     case 'agency':
@@ -32,7 +44,15 @@ export function navigationParRole(
         variante: 'sombre',
         libelleRole: 'Compte Agence',
         sections: [
-          { entrees: [accueil, { vers: '/annonces', libelle: 'Annonces', icone: Home }, messages, rechercher] },
+          {
+            entrees: [
+              accueil,
+              { vers: '/annonces', libelle: 'Annonces', icone: Home },
+              reservations,
+              messages,
+              rechercher,
+            ],
+          },
           {
             titre: 'Compte',
             entrees: [
@@ -51,6 +71,7 @@ export function navigationParRole(
             entrees: [
               accueil,
               { vers: '/annonces', libelle: 'Mes biens', icone: Home },
+              reservations,
               messages,
               { vers: '/abonnement', libelle: 'Abonnement', icone: CreditCard },
               rechercher,
@@ -75,7 +96,13 @@ export function navigationParRole(
         libelleRole: 'Chercheur',
         sections: [
           {
-            entrees: [accueil, rechercher, { vers: '/favoris', libelle: 'Favoris', icone: Heart }, messages],
+            entrees: [
+              accueil,
+              rechercher,
+              reservations,
+              { vers: '/favoris', libelle: 'Favoris', icone: Heart },
+              messages,
+            ],
           },
           { titre: 'Compte', entrees: [profil] },
         ],
