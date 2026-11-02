@@ -29,6 +29,27 @@ carte (`LeadCard`), sans glisser-déposer ni animation de layout.
 Aucune animation ne doit dépasser 500ms (KEYLI_DASHBOARD_DESIGN_SPEC.md
 5.2). Seule exception spécifiée : le compteur de valeur KPI, 600ms (5.3).
 
+## Site public — registre « élégant et discret » (porteur, 2026-11-02)
+Même fichier, mêmes constantes, toutes neutralisées en mouvements réduits :
+- **Changement de page** : `TransitionPage` (`src/components/animation/`)
+  enveloppe le contenu de `MiseEnPage` et de `DashboardShell` — fondu +
+  montée de 6 px, 250 ms (`kf-page`), clé = première partie de l'adresse
+  (changer de conversation ne rejoue pas l'animation). Remonte en haut de
+  page à chaque navigation, sauf retour arrière.
+- **Apparition au défilement** : `ZoneRevele` pose `data-visible` une seule
+  fois (hook `useRevele`) ; ses enfants `kf-revele` apparaissent (fondu +
+  12 px, 400 ms), en cascade via `delaiCascade(i)` (`src/lib/animation.ts`,
+  plafonné à 420 ms). `kf-revele-trait` : filet qui se trace (500 ms).
+  Utilisé sur les sections de l'accueil sous la bannière.
+- **Photos** : `ImageFondu` — fondu de 300 ms à la fin du chargement
+  (`kf-photo`), immédiat si l'image est en cache. Galerie de la fiche :
+  fondu enchaîné (l'ancienne photo reste dessous). Cartes d'annonce : zoom
+  doux 1,04 au survol (`kf-zoom`, 400 ms).
+- **Résultats de recherche** : cascade `kf-cascade` (×50 ms, plafond 300 ms).
+- **Favori** : battement du cœur à l'ajout seulement (`kf-battement`, 250 ms).
+- **Menu mobile** : ouverture `kf-panneau-ouvre`. En-tête public collant
+  (fond légèrement translucide).
+
 ## Règle prefers-reduced-motion (OBLIGATOIRE)
 À implémenter dans `dashboard-animations.css` dès sa création (voir
 KEYLI_DASHBOARD_DESIGN_SPEC.md 5.2) — ensuite, ne pas la retirer en copiant
@@ -55,6 +76,10 @@ des classes vers un nouveau composant sans vérifier qu'elle suit.
    changement d'étape par menu (décision du porteur, 2026-10-30). Framer
    Motion et `@dnd-kit/core` restent non installés — ne pas les ajouter sans
    nouvelle validation du porteur.
-4. Pas d'animation sur le scroll de page (parallax) — coût de performance
-   inutile sur les connexions mobiles ciblées par le pilote.
+4. Pas de parallax ni d'animation pilotée en continu par le défilement —
+   coût de performance inutile sur les connexions mobiles ciblées par le
+   pilote. **Amendement du porteur (2026-11-02)** : seule exception, une
+   apparition légère et unique des sections quand elles entrent dans
+   l'écran (`ZoneRevele` + `kf-revele`, IntersectionObserver, aucun
+   écouteur `scroll`).
 5. Pas de son, pas de vibration.

@@ -3,6 +3,8 @@ import { BadgeCheck, BarChart3, Building2, CalendarClock, Check, Home } from 'lu
 import { Button } from '@/components/ui/button'
 import { useSession } from '@/hooks/useSession'
 import { useProfil } from '@/hooks/useProfil'
+import { ZoneRevele } from '@/components/animation/ZoneRevele'
+import { delaiCascade } from '@/lib/animation'
 
 const AVANTAGES = [
   { icone: BadgeCheck, texte: 'Badge « Vérifié » qui inspire confiance et vous place en tête des résultats' },
@@ -20,60 +22,62 @@ export function EspaceAnnonceurs() {
 
   return (
     <section className="container pb-16 md:pb-20" aria-labelledby="titre-annonceurs">
-      <div className="relative isolate overflow-hidden rounded-accueil bg-primary px-6 py-12 text-primary-foreground shadow-lift md:px-12 md:py-14">
-        <div
-          aria-hidden
-          className="absolute -bottom-24 -right-24 -z-10 h-72 w-72 rounded-full bg-turquoise/20 blur-3xl"
-        />
-        <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-center">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-turquoise">Propriétaires et agences</p>
-            <h2 id="titre-annonceurs" className="mt-2 font-titre text-3xl font-bold md:text-4xl">
-              Louez plus vite, à des locataires sérieux
-            </h2>
-            <ul className="mt-6 space-y-3">
-              {AVANTAGES.map(({ icone: Icone, texte }) => (
-                <li key={texte} className="flex gap-3">
-                  <Icone className="mt-0.5 h-5 w-5 shrink-0 text-turquoise" aria-hidden />
-                  <span className="text-primary-foreground/85">{texte}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button variant="turquoise" size="lg" asChild>
-                <Link to={annonceur ? '/annonces/nouvelle' : '/inscription'}>
-                  {annonceur ? 'Publier une annonce' : 'Publier mon bien'}
-                </Link>
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-glow"
-                asChild
-              >
-                {annonceur ? (
-                  <Link to="/abonnement">Voir les forfaits</Link>
-                ) : (
-                  <Link to="/connexion">J’ai déjà un compte</Link>
-                )}
-              </Button>
+      <ZoneRevele>
+        <div className="kf-revele relative isolate overflow-hidden rounded-accueil bg-primary px-6 py-12 text-primary-foreground shadow-lift md:px-12 md:py-14">
+          <div
+            aria-hidden
+            className="absolute -bottom-24 -right-24 -z-10 h-72 w-72 rounded-full bg-turquoise/20 blur-3xl"
+          />
+          <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-center">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wider text-turquoise">Propriétaires et agences</p>
+              <h2 id="titre-annonceurs" className="mt-2 font-titre text-3xl font-bold md:text-4xl">
+                Louez plus vite, à des locataires sérieux
+              </h2>
+              <ul className="mt-6 space-y-3">
+                {AVANTAGES.map(({ icone: Icone, texte }, i) => (
+                  <li key={texte} className="kf-revele flex gap-3" style={delaiCascade(i + 2, 90)}>
+                    <Icone className="mt-0.5 h-5 w-5 shrink-0 text-turquoise" aria-hidden />
+                    <span className="text-primary-foreground/85">{texte}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Button variant="turquoise" size="lg" asChild>
+                  <Link to={annonceur ? '/annonces/nouvelle' : '/inscription'}>
+                    {annonceur ? 'Publier une annonce' : 'Publier mon bien'}
+                  </Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-glow"
+                  asChild
+                >
+                  {annonceur ? (
+                    <Link to="/abonnement">Voir les forfaits</Link>
+                  ) : (
+                    <Link to="/connexion">J’ai déjà un compte</Link>
+                  )}
+                </Button>
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+              <Profil
+                icone={Home}
+                titre="Particulier propriétaire"
+                points={['De 1 à 4 annonces', 'Vérification de vos pièces', 'Messagerie et visites incluses']}
+              />
+              <Profil
+                icone={Building2}
+                titre="Agence immobilière"
+                points={['Jusqu’à 30 annonces et plus', 'Registre de commerce vérifié', 'Suivi des contacts (leads)']}
+              />
             </div>
           </div>
-
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-            <Profil
-              icone={Home}
-              titre="Particulier propriétaire"
-              points={['De 1 à 4 annonces', 'Vérification de vos pièces', 'Messagerie et visites incluses']}
-            />
-            <Profil
-              icone={Building2}
-              titre="Agence immobilière"
-              points={['Jusqu’à 30 annonces et plus', 'Registre de commerce vérifié', 'Suivi des contacts (leads)']}
-            />
-          </div>
         </div>
-      </div>
+      </ZoneRevele>
     </section>
   )
 }

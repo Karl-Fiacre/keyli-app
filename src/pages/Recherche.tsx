@@ -10,6 +10,7 @@ import { TAILLE_PAGE, useRecherche, type FiltresRecherche as Filtres, type TriRe
 import { messageErreur } from '@/lib/erreurs'
 import { ecrireFiltres, LIBELLES_TRI, lireFiltres, nombreFiltresActifs } from '@/lib/recherche'
 import { cn } from '@/lib/utils'
+import { delaiCascade } from '@/lib/animation'
 
 // Recherche d'annonces par filtres (Sprint 2). Les filtres vivent dans l'URL ;
 // la base filtre et trie (vérifiées d'abord par défaut).
@@ -102,9 +103,14 @@ export default function Recherche() {
             </div>
           )}
 
-          <ul className={cn('grid gap-5 sm:grid-cols-2 xl:grid-cols-3', recherche.isFetching && 'opacity-60')}>
-            {recherche.data?.annonces.map((a) => (
-              <li key={a.id}>
+          <ul
+            className={cn(
+              'grid gap-5 transition-opacity duration-150 sm:grid-cols-2 xl:grid-cols-3',
+              recherche.isFetching && 'opacity-60',
+            )}
+          >
+            {recherche.data?.annonces.map((a, i) => (
+              <li key={a.id} className="kf-cascade" style={delaiCascade(i, 50, 300)}>
                 <CarteAnnonce annonce={a} sejour={requeteSejour} />
               </li>
             ))}

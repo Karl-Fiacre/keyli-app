@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { CarteAnnonce } from '@/components/annonce/CarteAnnonce'
 import { useRecherche } from '@/hooks/useRecherche'
+import { ZoneRevele } from '@/components/animation/ZoneRevele'
+import { delaiCascade } from '@/lib/animation'
 
 const NOMBRE = 6
 
@@ -28,7 +30,7 @@ export function AnnoncesVedette() {
     <Cadre>
       <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {annonces.map((a, i) => (
-          <li key={a.id} className="kf-cascade" style={{ ['--kf-delai' as string]: `${i * 60}ms` }}>
+          <li key={a.id} className="kf-revele" style={delaiCascade(i + 1)}>
             <CarteAnnonce annonce={a} />
           </li>
         ))}
@@ -40,26 +42,28 @@ export function AnnoncesVedette() {
 function Cadre({ children }: { children: React.ReactNode }) {
   return (
     <section className="container py-16 md:py-20" aria-labelledby="titre-vedette">
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-wider text-primary-glow">À la une</p>
-          <h2 id="titre-vedette" className="mt-1 font-titre text-3xl font-bold md:text-4xl">
-            Logements de confiance
-          </h2>
-          <p className="mt-2 text-muted-foreground">Les annonces vérifiées apparaissent en premier.</p>
+      <ZoneRevele>
+        <div className="kf-revele mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-wider text-primary-glow">À la une</p>
+            <h2 id="titre-vedette" className="mt-1 font-titre text-3xl font-bold md:text-4xl">
+              Logements de confiance
+            </h2>
+            <p className="mt-2 text-muted-foreground">Les annonces vérifiées apparaissent en premier.</p>
+          </div>
+          <Link
+            to="/recherche"
+            className="group inline-flex items-center gap-1.5 font-semibold text-primary-glow hover:underline"
+          >
+            Voir toutes les annonces
+            <ArrowRight
+              className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-0.5 motion-reduce:transition-none"
+              aria-hidden
+            />
+          </Link>
         </div>
-        <Link
-          to="/recherche"
-          className="group inline-flex items-center gap-1.5 font-semibold text-primary-glow hover:underline"
-        >
-          Voir toutes les annonces
-          <ArrowRight
-            className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-0.5 motion-reduce:transition-none"
-            aria-hidden
-          />
-        </Link>
-      </div>
-      {children}
+        {children}
+      </ZoneRevele>
     </section>
   )
 }

@@ -1,4 +1,6 @@
 import { CalendarCheck, MessagesSquare, Search, Star } from 'lucide-react'
+import { ZoneRevele } from '@/components/animation/ZoneRevele'
+import { delaiCascade } from '@/lib/animation'
 
 const ETAPES = [
   {
@@ -27,8 +29,8 @@ const ETAPES = [
 export function ParcoursConfiance() {
   return (
     <section className="bg-secondary py-16 md:py-20" aria-labelledby="titre-parcours">
-      <div className="container">
-        <div className="mx-auto max-w-2xl text-center">
+      <ZoneRevele className="container">
+        <div className="kf-revele mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold uppercase tracking-wider text-primary-glow">Comment ça marche</p>
           <h2 id="titre-parcours" className="mt-1 font-titre text-3xl font-bold md:text-4xl">
             De la recherche aux clés, en confiance
@@ -38,10 +40,10 @@ export function ParcoursConfiance() {
           {/* Filet qui relie les étapes sur grand écran */}
           <span
             aria-hidden
-            className="absolute left-[12.5%] right-[12.5%] top-7 hidden h-px bg-gradient-to-r from-turquoise/0 via-turquoise to-turquoise/0 md:block"
+            className="kf-revele-trait absolute left-[12.5%] right-[12.5%] top-7 hidden h-px bg-gradient-to-r from-turquoise/0 via-turquoise to-turquoise/0 md:block"
           />
           {ETAPES.map(({ icone: Icone, titre, texte }, i) => (
-            <li key={titre} className="relative text-center">
+            <li key={titre} className="kf-revele relative text-center" style={delaiCascade(i + 1, 90)}>
               <span className="relative mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-card ring-4 ring-secondary">
                 <Icone className="h-6 w-6" aria-hidden />
                 <span className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-turquoise text-xs font-bold text-primary">
@@ -53,7 +55,7 @@ export function ParcoursConfiance() {
             </li>
           ))}
         </ol>
-      </div>
+      </ZoneRevele>
     </section>
   )
 }
