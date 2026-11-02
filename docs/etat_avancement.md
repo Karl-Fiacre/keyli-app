@@ -245,15 +245,25 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine, Content-Security-
   Policy avant l'ouverture publique. Détail :
   `docs/MODULES/hebergement-securite.md`.
-- **Séjours courts et demandes de réservation** (2026-11-01, branche
+- **Animations et transitions du site** (2026-11-02, branche
+  `feature/animations-transitions`) — registre « élégant et discret »
+  choisi par le porteur : transition et retour en haut à chaque page,
+  apparition des sections de l'accueil au défilement (amendement de la
+  règle 4 de `docs/ANIMATIONS.md`), photos en fondu, fondu enchaîné de la
+  galerie, zoom des cartes au survol, cascade des résultats, battement du
+  cœur favori, menu mobile animé, en-tête collant. Tout est neutralisé en
+  mouvements réduits. Détail : `docs/ANIMATIONS.md`.
+- **Séjours courts et demandes de réservation** (déployés le 2026-11-02 :
+  migration poussée, 33 fichiers de tests verts sur le distant, site mis
+  en ligne par le porteur) (2026-11-01, branche
   `feature/reservations-sejours`) — amendement du PRD décidé par le
   porteur : dates d'arrivée/départ façon Booking, hôtels et auberges par
   types de chambres, demande acceptée/refusée par l'hôte, sans paiement en
   ligne. Migration `20261106120000_reservations_sejours_keyli.sql`
   (35 tests pgTAP, 638 au total), page `/reservations`, calendrier,
   recherche par dates, gestion des chambres. Détail :
-  `docs/MODULES/reservations.md`. À pousser sur le distant
-  (`db push`) puis `npm run deploy` (porteur). Suites possibles : paiement
+  `docs/MODULES/reservations.md`. Test réel à faire par le porteur
+  (publier un hôtel, ajouter des chambres, réserver). Suites possibles : paiement
   en ligne, blocage manuel de dates, tarifs saisonniers.
 - **Page d'accueil refondue** (2026-11-01, branche
   `feature/accueil-reference`) — bannière avec recherche intégrée,

@@ -1,4 +1,6 @@
 import { MotifToits } from '@/components/accueil/MotifToits'
+import { ZoneRevele } from '@/components/animation/ZoneRevele'
+import { delaiCascade } from '@/lib/animation'
 
 // Étapes de l'ambition (docs/CONTEXT.md : pilote Abidjan, puis sous-région).
 // Formulées comme une trajectoire, sans date ni chiffre promis.
@@ -15,8 +17,8 @@ export function BandeauVision() {
       aria-labelledby="titre-vision"
     >
       <MotifToits className="absolute inset-0 -z-10 h-full w-full opacity-[0.07]" />
-      <div className="container">
-        <div className="mx-auto max-w-3xl text-center">
+      <ZoneRevele className="container">
+        <div className="kf-revele mx-auto max-w-3xl text-center">
           <h2 id="titre-vision" className="font-titre text-3xl font-bold md:text-4xl">
             Abidjan aujourd’hui. <span className="text-primary-glow">L’Afrique de l’Ouest demain.</span>
           </h2>
@@ -29,10 +31,11 @@ export function BandeauVision() {
           {ETAPES.map((e, i) => (
             <li
               key={e.lieu}
+              style={delaiCascade(i + 1, 110)}
               className={
                 e.actif
-                  ? 'rounded-accueil border-2 border-turquoise bg-card p-5 text-center shadow-card'
-                  : 'rounded-accueil border border-dashed bg-card/70 p-5 text-center'
+                  ? 'kf-revele rounded-accueil border-2 border-turquoise bg-card p-5 text-center shadow-card'
+                  : 'kf-revele rounded-accueil border border-dashed bg-card/70 p-5 text-center'
               }
             >
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Étape {i + 1}</p>
@@ -50,7 +53,7 @@ export function BandeauVision() {
             </li>
           ))}
         </ol>
-      </div>
+      </ZoneRevele>
     </section>
   )
 }

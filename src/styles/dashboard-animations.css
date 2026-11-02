@@ -105,9 +105,80 @@
   box-shadow: var(--shadow-lift);
 }
 
+/* ---- Site public (décision du porteur, 2026-11-02 : registre « élégant et
+   discret ») ---- */
+
+/* Changement de page — le contenu entrant apparaît en fondu + montée de
+   6 px, 250 ms (TransitionPage) */
+@keyframes kf-page {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.kf-page {
+  animation: kf-page var(--kf-base) var(--kf-ease-out) both;
+}
+
+/* Apparition au défilement — une seule fois par élément, déclenchée par
+   ZoneRevele (IntersectionObserver, aucun écouteur de défilement, pas de
+   parallax). Fondu + montée de 12 px, 400 ms, décalage via --kf-delai. */
+.kf-revele {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity var(--kf-slow) var(--kf-ease-out),
+    transform var(--kf-slow) var(--kf-ease-out);
+  transition-delay: var(--kf-delai, 0ms);
+}
+.kf-revele[data-visible],
+[data-visible] .kf-revele {
+  opacity: 1;
+  transform: none;
+}
+
+/* Filet qui se trace de gauche à droite quand sa zone se révèle (étapes
+   « Comment ça marche »), 500 ms après les titres */
+.kf-revele-trait {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 500ms var(--kf-ease-out) 150ms;
+}
+[data-visible] .kf-revele-trait {
+  transform: scaleX(1);
+}
+
+/* Photos — fondu à la fin du chargement, 300 ms (ImageFondu) : plus de
+   photo qui « tombe » ligne par ligne sur les réseaux lents */
+.kf-photo {
+  opacity: 0;
+  transition: opacity 300ms var(--kf-ease-out);
+}
+.kf-photo[data-chargee] {
+  opacity: 1;
+}
+
+/* Zoom doux de la photo au survol d'une carte (parent .group), 400 ms */
+.kf-zoom {
+  transition: transform var(--kf-slow) var(--kf-ease-out);
+}
+.group:hover .kf-zoom {
+  transform: scale(1.04);
+}
+
+/* Cœur favori — petit battement à l'ajout, 250 ms */
+@keyframes kf-battement {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+.kf-battement {
+  animation: kf-battement var(--kf-base) var(--kf-ease-out-back) 1;
+}
+
 /* Règle OBLIGATOIRE (docs/ANIMATIONS.md) : mouvements réduits → aucune
    animation ni transition décorative (le contenu reste affiché tel quel) */
 @media (prefers-reduced-motion: reduce) {
+  .kf-page,
+  .kf-battement,
   .kf-cloche-oscille,
   .kf-pastille-apparait,
   .kf-panneau-ouvre,
@@ -125,5 +196,14 @@
   .kf-souleve:hover {
     transition: none;
     transform: none;
+  }
+  .kf-revele,
+  .kf-revele-trait,
+  .kf-photo,
+  .kf-zoom,
+  .group:hover .kf-zoom {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

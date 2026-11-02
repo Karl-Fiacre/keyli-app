@@ -2,11 +2,14 @@ import { useState } from 'react'
 import { ChevronLeft, ChevronRight, Home } from 'lucide-react'
 import { urlPhoto } from '@/lib/cloudinary'
 import { cn } from '@/lib/utils'
+import { ImageFondu } from '@/components/animation/ImageFondu'
 
 // Galerie de la fiche d'annonce : grande photo, flèches et vignettes.
 // Images servies par Cloudinary au format et à la taille de l'écran.
 export function GaleriePhotos({ photos, titre }: { photos: { id: string; url: string }[]; titre: string }) {
   const [courante, setCourante] = useState(0)
+  // Photo affichée avant la dernière bascule (fond du fondu enchaîné)
+  const [precedente, setPrecedente] = useState<number | null>(null)
   const n = photos.length
 
   if (n === 0) {
@@ -19,17 +22,33 @@ export function GaleriePhotos({ photos, titre }: { photos: { id: string; url: st
   }
 
   const i = Math.min(courante, n - 1)
-  const aller = (sens: -1 | 1) => setCourante((i + sens + n) % n)
+  const montrer = (k: number) => {
+    if (k === i) return
+    setPrecedente(i)
+    setCourante(k)
+  }
+  const aller = (sens: -1 | 1) => montrer((i + sens + n) % n)
 
   return (
     <div className="space-y-3">
       <div className="relative aspect-[16/9] overflow-hidden rounded-lg bg-secondary">
-        <img
+        {/* Fondu enchaîné : la photo précédente reste dessous pendant que
+            la nouvelle apparaît (kf-photo, docs/ANIMATIONS.md) */}
+        {precedente !== null && precedente !== i && photos[precedente] && (
+          <img
+            src={urlPhoto(photos[precedente].url, 1280, 720)}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        )}
+        <ImageFondu
+          key={photos[i].id}
           src={urlPhoto(photos[i].url, 1280, 720)}
           srcSet={`${urlPhoto(photos[i].url, 640, 360)} 640w, ${urlPhoto(photos[i].url, 1280, 720)} 1280w`}
           sizes="(min-width: 1024px) 50vw, 100vw"
           alt={`${titre} — photo ${i + 1} sur ${n}`}
-          className="h-full w-full object-cover"
+          className="relative h-full w-full object-cover"
         />
         {n > 1 && (
           <>
@@ -61,15 +80,20 @@ export function GaleriePhotos({ photos, titre }: { photos: { id: string; url: st
             <li key={p.id} className="shrink-0">
               <button
                 type="button"
-                onClick={() => setCourante(k)}
+                onClick={() => montrer(k)}
                 aria-label={`Voir la photo ${k + 1}`}
                 aria-current={k === i}
                 className={cn(
-                  'h-16 w-24 overflow-hidden rounded-md border-2 transition-opacity',
+                  'h-16 w-24 overflow-hidden rounded-md border-2 transition-[opacity,border-color] duration-150',
                   k === i ? 'border-primary' : 'border-transparent opacity-70 hover:opacity-100',
                 )}
               >
-                <img src={urlPhoto(p.url, 192, 128)} alt="" loading="lazy" className="h-full w-full object-cover" />
+                <ImageFondu
+                  src={urlPhoto(p.url, 192, 128)}
+                  alt=""
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
               </button>
             </li>
           ))}

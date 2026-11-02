@@ -6,6 +6,7 @@ import type { StatutBien, TypeBien } from '@/hooks/useAnnonces'
 import { formatXof } from '@/lib/format'
 import { LIBELLES_TYPE } from '@/lib/validation'
 import { urlPhoto } from '@/lib/cloudinary'
+import { ImageFondu } from '@/components/animation/ImageFondu'
 
 export interface ResumeAnnonce {
   id: string
@@ -45,9 +46,14 @@ export function CarteAnnonce({
         to={`/annonce/${a.id}?source=${source}${a.sejour_court && sejour ? `&${sejour}` : ''}`}
         className="group block overflow-hidden rounded-lg border bg-card shadow-sm transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:hover:translate-y-0"
       >
-        <div className="relative aspect-[4/3] bg-secondary">
+        <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
           {a.image ? (
-            <img src={urlPhoto(a.image, 640, 480)} alt="" loading="lazy" className="h-full w-full object-cover" />
+            <ImageFondu
+              src={urlPhoto(a.image, 640, 480)}
+              alt=""
+              loading="lazy"
+              className="kf-zoom h-full w-full object-cover"
+            />
           ) : (
             <div className="flex h-full items-center justify-center text-muted-foreground">
               <Home className="h-10 w-10" aria-hidden />

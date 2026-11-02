@@ -9,6 +9,7 @@ import { useMessagesNonLus, useMessagesTempsReel } from '@/hooks/useMessagerie'
 import { cn } from '@/lib/utils'
 import { ClocheNotifications } from '@/components/layout/ClocheNotifications'
 import { LienEvitement } from '@/components/layout/LienEvitement'
+import { TransitionPage } from '@/components/animation/TransitionPage'
 
 // Mise en page commune : en-tête avec le logotype officiel
 // (public/keyli-logo-*.png, déclinés par docs/keyli_brand_assets/generer-raster.cjs
@@ -56,7 +57,7 @@ export function MiseEnPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <LienEvitement />
-      <header className="border-b bg-background">
+      <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
         <div className="container flex h-16 items-center justify-between gap-3">
           <Link to="/" aria-label="Keyli — accueil" className="shrink-0">
             <img
@@ -104,7 +105,7 @@ export function MiseEnPage() {
             </Button>
           </div>
         </div>
-        <nav id="menu-principal" className={cn('border-t lg:hidden', !menuOuvert && 'hidden')}>
+        <nav id="menu-principal" className={cn('border-t lg:hidden', menuOuvert ? 'kf-panneau-ouvre' : 'hidden')}>
           <div className="container flex flex-col gap-1 py-3">
             {(session ? liens : liens.slice(0, 1)).map((l) => (
               <Button key={l.vers} variant="ghost" asChild className="justify-start">
@@ -132,7 +133,9 @@ export function MiseEnPage() {
         </nav>
       </header>
       <main id="contenu" tabIndex={-1} className="flex-1 outline-none">
-        <Outlet />
+        <TransitionPage>
+          <Outlet />
+        </TransitionPage>
       </main>
       <footer className="border-t py-6 text-center text-xs text-muted-foreground">
         © {new Date().getFullYear()} Keyli — Nguessan-IT, Abidjan

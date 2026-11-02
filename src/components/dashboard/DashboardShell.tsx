@@ -2,6 +2,7 @@ import type { ComponentProps, ReactNode } from 'react'
 import { DashboardSidebar } from '@/components/dashboard/DashboardSidebar'
 import { DashboardTopbar } from '@/components/dashboard/DashboardTopbar'
 import { LienEvitement } from '@/components/layout/LienEvitement'
+import { TransitionPage } from '@/components/animation/TransitionPage'
 
 // Cadre commun des dashboards : barre latérale + barre du haut + contenu.
 // Chaque page de dashboard (Agence, Propriétaire, Chercheur) le compose avec
@@ -23,7 +24,7 @@ export function DashboardShell({
         <DashboardTopbar {...barre} />
         <DashboardSidebar {...navigation} affichage="barre" />
         <main id="contenu" tabIndex={-1} className="flex-1 px-4 py-6 outline-none md:px-8 md:py-8">
-          {children}
+          <TransitionPage>{children}</TransitionPage>
         </main>
       </div>
     </div>
