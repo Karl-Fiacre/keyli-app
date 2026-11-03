@@ -65,6 +65,15 @@ notification), `repondre_reservation_keyli` (verrou annonce, acceptation,
 refus d'office des demandes concurrentes, notifications),
 `annuler_reservation_keyli`.
 
+### Emails de notification (2026-11-02)
+| Traitement | Requête | Index |
+|---|---|---|
+| Tâche chaque minute | existe-t-il un email `en_attente` dû ? | `idx_emails_sortants_a_envoyer` (partiel) |
+| Lot à envoyer | `prendre_emails_keyli(25)` — `for update skip locked` | idem |
+| Regroupement des messages | dernier email de la conversation | `idx_emails_sortants_conversation` |
+Écritures atomiques : déclencheurs de mise en file (dans la transaction de
+la notification ou du message), `terminer_email_keyli`.
+
 ## Actions sensibles = Edge Function, jamais une écriture client directe
 
 Une écriture Postgres directe depuis le client (même protégée par RLS) ne
