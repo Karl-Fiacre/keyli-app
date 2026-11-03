@@ -834,6 +834,30 @@ référence n'avait aucune colonne. Décision du porteur : **liste fermée**.
 - Photos : voir « Photos des annonces » ci-dessous (2026-11-01). Point GPS : carte (Google Maps depuis le 2026-10-31) + « ma position ».
 Tests : `supabase/tests/avantages_publication_keyli.test.sql` (18 tests).
 
+## ⚠️ DÉCISIONS ACTÉES (2026-11-02) — emails de notification
+Migration `20261107120000_emails_notifications_keyli.sql` (détail
+`docs/MODULES/emails.md`).
+- **`profiles_keyli`** : `emails_notifications BOOLEAN NOT NULL DEFAULT
+  true` (modifiable par l'utilisateur, droit par colonne),
+  `jeton_desinscription UUID NOT NULL UNIQUE DEFAULT gen_random_uuid()`
+  (non modifiable).
+- **`emails_sortants_keyli`** (nouvelle) : id, user_id, categorie
+  (`notification` | `message`), notification_id, type, property_id,
+  expediteur_id, statut (`en_attente`, `en_cours`, `envoye`, `ignore`,
+  `echec`), tentatives, erreur, envoyer_apres, envoye_at, created_at,
+  updated_at. RLS : lecture admin seulement, aucune écriture directe.
+  Index : à envoyer (partiel `en_attente`), conversation, notification.
+- Fonctions : `notification_par_email_keyli`, `email_de_service_keyli`,
+  déclencheurs `file_email_notification_keyli` /
+  `file_email_message_keyli`, `prendre_emails_keyli` et
+  `terminer_email_keyli` (service_role uniquement),
+  `desinscrire_emails_keyli` (anon), `declencher_envoi_emails_keyli`
+  (pg_cron `keyli-envoi-emails`, chaque minute ; adresse et clé anon lues
+  dans Vault : `keyli_url_projet`, `keyli_cle_anon`).
+- Extension `pg_net` activée.
+Tests : `supabase/tests/emails_notifications_keyli.test.sql` (27 tests,
+665 au total).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-11-01) — séjours courts et réservations
 Migration `20261106120000_reservations_sejours_keyli.sql` (amendement PRD
 §5.2, détail `docs/MODULES/reservations.md`).

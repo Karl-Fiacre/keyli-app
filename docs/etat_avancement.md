@@ -245,6 +245,15 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine, Content-Security-
   Policy avant l'ouverture publique. Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Emails de notification** (2026-11-02, branche
+  `feature/emails-francais`) — architecture validée par le porteur : file
+  d'envoi + tâche planifiée + Edge Function `envoyer-emails` (Resend).
+  Réservations, visites, compte/vérification, abonnement, alertes,
+  nouveaux messages (regroupés). Interrupteur dans Profil, page
+  `/desinscription`. 27 tests (665 au total), chaîne complète vérifiée en
+  local (Mailpit). Mise en service par le porteur : checklist
+  `docs/MODULES/emails.md` (db push, deploy de la fonction, 2 valeurs dans
+  Vault, puis `RESEND_API_KEY` quand keyli.ci est vérifié).
 - **Animations et transitions du site** (2026-11-02, branche
   `feature/animations-transitions`) — registre « élégant et discret »
   choisi par le porteur : transition et retour en haut à chaque page,

@@ -32,6 +32,53 @@
   (Authentication > Emails > Templates), objet et contenu, une fois le SMTP
   Resend en place.
 
+## Emails de notification (décision du porteur, 2026-11-02)
+Migration `20261107120000_emails_notifications_keyli.sql`, Edge Function
+`envoyer-emails`, tests `emails_notifications_keyli.test.sql` (27).
+- **Architecture : file d'envoi + tâche planifiée.** Déclencheurs sur
+  `notifications_keyli` et `messages_keyli` → table
+  `emails_sortants_keyli` ; tâche `keyli-envoi-emails` (pg_cron, chaque
+  minute) → `declencher_envoi_emails_keyli()` → appel pg_net de l'Edge
+  Function seulement s'il y a des emails dus → `prendre_emails_keyli`
+  (lot verrouillé, `skip locked`) → Resend → `terminer_email_keyli`.
+  Échec : nouvel essai dans 5, 10, 15, 20 min, abandon à la 5e tentative.
+- **Événements (choix du porteur)** : réservations (demande, acceptée,
+  refusée, annulée), visites (planifiée, modifiée, annulée), compte et
+  vérification (document approuvé/rejeté, badge retiré, compte
+  suspendu/réactivé), abonnement (rappel, expiré, dépassement), alertes de
+  recherche, nouveaux messages. Restent dans l'application : recommandation
+  de forfait, visite effectuée.
+- **Messages regroupés** : un email par conversation au plus, envoyé
+  5 minutes après le premier message non lu et au moins 15 minutes après
+  le précédent ; écarté si tout a été lu entre-temps, ou si la conversation
+  vient d'être ouverte par une demande de réservation (déjà annoncée).
+- **Préférence** : `profiles_keyli.emails_notifications` (interrupteur
+  dans Profil). Emails de service toujours envoyés : compte suspendu /
+  réactivé, badge retiré. **Désinscription sans connexion** : lien
+  `/desinscription?jeton=…` (`profiles_keyli.jeton_desinscription`), avec
+  un clic de confirmation (les antivirus de messagerie ouvrent les liens).
+- Contenu : titre et texte de la notification (déjà rédigés en français
+  par la base), bouton vers la bonne page (table alignée sur
+  `src/lib/notifications.ts`), mise en page des modèles d'authentification.
+- Transport : `RESEND_API_KEY` (secret d'Edge Function) ; en local, sans
+  clé, Mailpit (`MAILPIT_URL=http://supabase_inbucket_keyli:8025`).
+  Expéditeur `EMAIL_EXPEDITEUR` (défaut `Keyli <no-reply@keyli.ci>`).
+  Liens : `KEYLI_APP_URL` (déjà posé pour Paystack).
+- Vérifié en local le 2026-11-02 : tâche planifiée → pg_net → fonction →
+  4 emails reçus dans Mailpit, 1 écarté (doublon de la demande de
+  réservation) ; page de désinscription.
+
+## Mise en service des notifications (porteur)
+- [ ] `npx supabase db push --linked` puis `npx supabase test db --linked`
+- [ ] `npx supabase functions deploy envoyer-emails`
+- [ ] Coffre (SQL Editor du projet distant) — valeurs publiques du site :
+      `select vault.create_secret('https://zcqirdowjussoaevqlbd.supabase.co', 'keyli_url_projet');`
+      `select vault.create_secret('<clé anon / publishable du projet>', 'keyli_cle_anon');`
+- [ ] Secret `RESEND_API_KEY` (et `EMAIL_EXPEDITEUR` si autre que
+      no-reply@keyli.ci) posé par le porteur, une fois le domaine vérifié
+      dans Resend. Avant cela, les emails restent en file et sont
+      réessayés puis abandonnés : rien n'est perdu côté application.
+
 ## Mise en service (quand keyli.ci est actif)
 - [ ] Compte Resend créé (porteur)
 - [ ] keyli.ci ajouté à Cloudflare (DNS), serveurs DNS changés chez le

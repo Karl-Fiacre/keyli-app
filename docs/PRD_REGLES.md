@@ -98,6 +98,15 @@ résumé, pas la source primaire.
       contrôlées ; lecture limitée au voyageur, à l'hôte et à l'admin — testé
 - [x] Pas de paiement en ligne des séjours (réglés avec l'hôte)
 
+## MODULE EMAILS (emails_sortants_keyli — 2026-11-02)
+- [x] Emails envoyés par le serveur uniquement (file + Edge Function) ;
+      aucune écriture de la file depuis le client — testé
+- [x] Préférence respectée, sauf emails de service (suspension, badge
+      retiré) — testé
+- [x] Messages regroupés (≤ 1 email / conversation / 15 min, seulement si
+      non lus) — testé
+- [x] Désinscription sans connexion par jeton personnel — testé
+
 ## MODULE ADMIN
 - [x] Toute action admin sensible écrite dans `audit_logs_keyli` (fonctions
       SQL, même transaction, testé)
