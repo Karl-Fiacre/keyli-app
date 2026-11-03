@@ -21,6 +21,7 @@ import FicheAnnonce from '@/pages/FicheAnnonce'
 import Messages from '@/pages/Messages'
 import MesFavoris from '@/pages/MesFavoris'
 import Reservations from '@/pages/Reservations'
+import Desinscription from '@/pages/Desinscription'
 import Admin from '@/pages/admin/Admin'
 import AdminIndicateurs from '@/pages/admin/AdminIndicateurs'
 import AdminVerifications from '@/pages/admin/AdminVerifications'
@@ -78,6 +79,7 @@ function App() {
               <Route path="annonce/:id" element={<FicheAnnonce />} />
               <Route path="inscription" element={<Inscription />} />
               <Route path="connexion" element={<Connexion />} />
+              <Route path="desinscription" element={<Desinscription />} />
               <Route path="verifier-email" element={<VerifierEmail />} />
               <Route path="mot-de-passe-oublie" element={<MotDePasseOublie />} />
               <Route path="nouveau-mot-de-passe" element={<NouveauMotDePasse />} />

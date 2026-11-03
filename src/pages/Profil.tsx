@@ -9,6 +9,7 @@ import { ChampFormulaire } from '@/components/ChampFormulaire'
 import { VerifiedBadge } from '@/components/VerifiedBadge'
 import { SectionVerification } from '@/components/verification/SectionVerification'
 import { useModificationProfil, useProfil } from '@/hooks/useProfil'
+import { PreferenceEmails } from '@/components/profil/PreferenceEmails'
 import { messageErreur } from '@/lib/erreurs'
 import { schemaProfil, type DonneesProfil } from '@/lib/validation'
 
@@ -123,6 +124,7 @@ export default function Profil() {
               {modification.isPending ? 'Enregistrement…' : 'Enregistrer'}
             </Button>
           </form>
+          <PreferenceEmails actif={p.emails_notifications} />
           {(p.role_keyli === 'owner' || p.role_keyli === 'agency') && (
             <div className="mt-8 border-t pt-6">
               <SectionVerification role={p.role_keyli} verifie={!!p.verified} />

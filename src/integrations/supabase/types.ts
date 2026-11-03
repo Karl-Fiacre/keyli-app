@@ -107,6 +107,31 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"emails_sortants_keyli": {
+                  Row: {
+                    "categorie": string,"created_at": string,"envoye_at": string | null,"envoyer_apres": string,"erreur": string | null,"expediteur_id": string | null,"id": string,"notification_id": string | null,"property_id": string | null,"statut": string,"tentatives": number,"type": string | null,"updated_at": string,"user_id": string
+                  }
+                  Insert: {
+                    "categorie": string,"created_at"?: string,"envoye_at"?: string | null,"envoyer_apres"?: string,"erreur"?: string | null,"expediteur_id"?: string | null,"id"?: string,"notification_id"?: string | null,"property_id"?: string | null,"statut"?: string,"tentatives"?: number,"type"?: string | null,"updated_at"?: string,"user_id": string
+                  }
+                  Update: {
+                    "categorie"?: string,"created_at"?: string,"envoye_at"?: string | null,"envoyer_apres"?: string,"erreur"?: string | null,"expediteur_id"?: string | null,"id"?: string,"notification_id"?: string | null,"property_id"?: string | null,"statut"?: string,"tentatives"?: number,"type"?: string | null,"updated_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "emails_sortants_keyli_notification_id_fkey"
+      columns: ["notification_id"]
+isOneToOne: false
+      referencedRelation: "notifications_keyli"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "emails_sortants_keyli_property_id_fkey"
+      columns: ["property_id"]
+isOneToOne: false
+      referencedRelation: "properties_keyli"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"favorites_keyli": {
                   Row: {
                     "created_at": string | null,"id": string,"property_id": string,"user_id": string
@@ -287,13 +312,13 @@ isOneToOne: false
                   ]
                 },"profiles_keyli": {
                   Row: {
-                    "created_at": string | null,"email": string,"first_name": string | null,"id": string,"id_number": string | null,"id_validity_date": string | null,"last_name": string | null,"nom_agence": string | null,"phone": string | null,"photo_url": string | null,"rating_avg": number | null,"role_keyli": Database["public"]['Enums']["user_role_keyli"],"suspendu": boolean,"suspension_fin": string | null,"suspension_motif": string | null,"updated_at": string | null,"user_id": string,"verification_date": string | null,"verified": boolean | null
+                    "created_at": string | null,"email": string,"emails_notifications": boolean,"first_name": string | null,"id": string,"id_number": string | null,"id_validity_date": string | null,"jeton_desinscription": string,"last_name": string | null,"nom_agence": string | null,"phone": string | null,"photo_url": string | null,"rating_avg": number | null,"role_keyli": Database["public"]['Enums']["user_role_keyli"],"suspendu": boolean,"suspension_fin": string | null,"suspension_motif": string | null,"updated_at": string | null,"user_id": string,"verification_date": string | null,"verified": boolean | null
                   }
                   Insert: {
-                    "created_at"?: string | null,"email": string,"first_name"?: string | null,"id"?: string,"id_number"?: string | null,"id_validity_date"?: string | null,"last_name"?: string | null,"nom_agence"?: string | null,"phone"?: string | null,"photo_url"?: string | null,"rating_avg"?: number | null,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"],"suspendu"?: boolean,"suspension_fin"?: string | null,"suspension_motif"?: string | null,"updated_at"?: string | null,"user_id": string,"verification_date"?: string | null,"verified"?: boolean | null
+                    "created_at"?: string | null,"email": string,"emails_notifications"?: boolean,"first_name"?: string | null,"id"?: string,"id_number"?: string | null,"id_validity_date"?: string | null,"jeton_desinscription"?: string,"last_name"?: string | null,"nom_agence"?: string | null,"phone"?: string | null,"photo_url"?: string | null,"rating_avg"?: number | null,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"],"suspendu"?: boolean,"suspension_fin"?: string | null,"suspension_motif"?: string | null,"updated_at"?: string | null,"user_id": string,"verification_date"?: string | null,"verified"?: boolean | null
                   }
                   Update: {
-                    "created_at"?: string | null,"email"?: string,"first_name"?: string | null,"id"?: string,"id_number"?: string | null,"id_validity_date"?: string | null,"last_name"?: string | null,"nom_agence"?: string | null,"phone"?: string | null,"photo_url"?: string | null,"rating_avg"?: number | null,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"],"suspendu"?: boolean,"suspension_fin"?: string | null,"suspension_motif"?: string | null,"updated_at"?: string | null,"user_id"?: string,"verification_date"?: string | null,"verified"?: boolean | null
+                    "created_at"?: string | null,"email"?: string,"emails_notifications"?: boolean,"first_name"?: string | null,"id"?: string,"id_number"?: string | null,"id_validity_date"?: string | null,"jeton_desinscription"?: string,"last_name"?: string | null,"nom_agence"?: string | null,"phone"?: string | null,"photo_url"?: string | null,"rating_avg"?: number | null,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"],"suspendu"?: boolean,"suspension_fin"?: string | null,"suspension_motif"?: string | null,"updated_at"?: string | null,"user_id"?: string,"verification_date"?: string | null,"verified"?: boolean | null
                   }
                   Relationships: [
                     
@@ -760,8 +785,14 @@ isOneToOne: false
               "debut": string,"fin": string
             }[]
                            },
+"declencher_envoi_emails_keyli":
+{ Args: Record<PropertyKey, never>; Returns: undefined
+                           },
 "demander_reservation_keyli":
 { Args: { "p_arrivee": string,"p_chambre": string,"p_chambres"?: number,"p_depart": string,"p_message"?: string,"p_property": string,"p_voyageurs": number }; Returns: string
+                           },
+"desinscrire_emails_keyli":
+{ Args: { "p_jeton": string }; Returns: boolean
                            },
 "devis_sejour_keyli":
 { Args: { "p_arrivee": string,"p_chambre": string,"p_chambres"?: number,"p_depart": string,"p_property": string,"p_voyageurs": number }; Returns: {
@@ -770,6 +801,9 @@ isOneToOne: false
                            },
 "echec_paiement_keyli":
 { Args: { "p_message": string,"p_reference": string }; Returns: undefined
+                           },
+"email_de_service_keyli":
+{ Args: { "p_type": string }; Returns: boolean
                            },
 "est_admin_keyli":
 { Args: Record<PropertyKey, never>; Returns: boolean
@@ -818,6 +852,9 @@ isOneToOne: false
               "id": string,"interlocuteur": string,"nom": string,"property_id": string,"scheduled_at": string,"status": Database["public"]['Enums']["visit_status_keyli"],"titre": string
             }[]
                            },
+"notification_par_email_keyli":
+{ Args: { "p_type": string }; Returns: boolean
+                           },
 "nuits_completes_keyli":
 { Args: { "p_a": string,"p_chambre": string,"p_de": string,"p_property": string }; Returns: string[]
                            },
@@ -841,6 +878,11 @@ isOneToOne: false
                            },
 "preferences_chercheur_keyli":
 { Args: Record<PropertyKey, never>; Returns: Json
+                           },
+"prendre_emails_keyli":
+{ Args: { "p_limite"?: number }; Returns: {
+              "categorie": string,"contenu": string,"destinataire": string,"expediteur": string,"expediteur_id": string,"extrait": string,"id": string,"jeton": string,"non_lus": number,"prenom": string,"property_id": string,"titre": string,"titre_annonce": string,"type": string
+            }[]
                            },
 "publications_periode_keyli":
 { Args: { "p_debut": string,"p_fin": string,"p_owner": string }; Returns: number
@@ -878,6 +920,9 @@ isOneToOne: false
                            },
 "tableau_bord_proprietaire_keyli":
 { Args: { "p_jours"?: number }; Returns: Json
+                           },
+"terminer_email_keyli":
+{ Args: { "p_erreur"?: string,"p_id": string,"p_ok": boolean }; Returns: undefined
                            },
 "traiter_echeances_abonnements_keyli":
 { Args: Record<PropertyKey, never>; Returns: {
