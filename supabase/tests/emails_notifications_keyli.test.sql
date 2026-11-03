@@ -163,9 +163,13 @@ select is((select e.statut from public.emails_sortants_keyli e join lot using (i
 -- ------------------------------------------------------------
 select set_config('test.jeton', (select jeton_desinscription::text from public.profiles_keyli
                                  where user_id = 'e6e00000-0000-0000-0000-000000000002'), true);
+-- Appel en visiteur anonyme ; vérification ensuite (pgTAP n'est pas
+-- forcément visible du rôle anon sur le projet distant)
 set local role anon;
-select is(public.desinscrire_emails_keyli(current_setting('test.jeton')::uuid), true, 'Lien de désinscription accepté');
+select set_config('test.desinscrit', public.desinscrire_emails_keyli(current_setting('test.jeton')::uuid)::text, true);
 reset role;
+set local role postgres;
+select is(current_setting('test.desinscrit'), 'true', 'Lien de désinscription accepté (visiteur non connecté)');
 select is((select emails_notifications from public.profiles_keyli where user_id = 'e6e00000-0000-0000-0000-000000000002'),
   false, 'Désinscription enregistrée');
 
