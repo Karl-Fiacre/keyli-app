@@ -1,5 +1,12 @@
 # Keyli — Instructions projet
 
+> **RÈGLE ABSOLUE — LANGUE : toujours répondre en français** (réponses
+> finales, messages d'avancement entre deux outils, questions, descriptions
+> de commandes), sauf autorisation explicite du porteur dans le chat. Un
+> contenu lu en anglais (capture, tableau de bord, erreur, terminal) ne
+> change jamais la langue de la réponse. Seuls le code, les identifiants,
+> les commandes et les citations exactes d'erreurs restent tels quels.
+
 Plateforme immobilière de confiance pour la Côte d'Ivoire (pilote Abidjan),
 ambition sous-régionale ouest-africaine à terme. Éditeur : Nguessan-IT.
 Web/PWA (React) + Mobile (React Native, cible) + Supabase. Dev solo assisté
