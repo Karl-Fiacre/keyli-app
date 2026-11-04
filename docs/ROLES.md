@@ -70,7 +70,9 @@ Implémenté le 2026-10-02 (module admin) : nommer/retirer les admins
 (`super_admin_modifier_forfait_keyli`), formules négociées
 (`super_admin_formule_negociee_keyli`), lecture du journal d'audit complet.
 Restent à implémenter : rapports et analyses, litiges, clés API, sécurité
-informatique, textes juridiques. Le rôle lui-même a été créé par la
+informatique. Textes juridiques : versionnés dans le code depuis le
+2026-11-04 (`docs/MODULES/juridique.md`), le droit s'exerce donc par Git
+pour l'instant. Le rôle lui-même a été créé par la
 migration `20261002120000_role_super_admin_keyli.sql`.
 
 ## Règle de vérification par rôle
