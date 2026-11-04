@@ -5,7 +5,7 @@
   serveur SMTP de Supabase Auth. Les emails d'authentification restent
   envoyés par Supabase ; Resend ne fait que les acheminer.
 - **Domaine : keyli.com** (décision du porteur du 2026-11-04, à la place
-  de keyli.com envisagé le 2026-11-01). Le 2026-11-04, keyli.com répondait
+  de keyli.ci envisagé le 2026-11-01). Le 2026-11-04, keyli.com répondait
   déjà sur Internet avec des serveurs `namefind.com` (domaine parqué,
   probablement à vendre) : achat à confirmer par le porteur.
   Adresse de contact prévue : `contact@keyli.com` (pas encore active). Resend n'envoie à des

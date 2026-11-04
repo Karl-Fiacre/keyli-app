@@ -32,7 +32,17 @@ export default function Inscription() {
     formState: { errors },
   } = useForm<DonneesInscription>({
     resolver: zodResolver(schemaInscription),
-    defaultValues: { role: 'user', nomAgence: '', prenom: '', nom: '', telephone: '', email: '', motDePasse: '', confirmation: '' },
+    defaultValues: {
+      role: 'user',
+      nomAgence: '',
+      prenom: '',
+      nom: '',
+      telephone: '',
+      email: '',
+      motDePasse: '',
+      confirmation: '',
+      cgu: false,
+    },
   })
   const role = watch('role')
   const motDePasse = watch('motDePasse')
@@ -48,7 +58,9 @@ export default function Inscription() {
       <Card className="w-full max-w-lg">
         <CardHeader>
           <CardTitle>Créer un compte Keyli</CardTitle>
-          <CardDescription>Gratuit pour chercher un logement. Les propriétaires et agences choisissent ensuite un forfait.</CardDescription>
+          <CardDescription>
+            Gratuit pour chercher un logement. Les propriétaires et agences choisissent ensuite un forfait.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={envoyer} noValidate className="space-y-5">
@@ -75,8 +87,15 @@ export default function Inscription() {
             </fieldset>
 
             {role === 'agency' && (
-              <ChampFormulaire libelle="Nom de l'agence (raison sociale)" erreur={errors.nomAgence?.message}
-                aide={<p className="text-xs text-muted-foreground">Tel qu'il figure sur votre registre de commerce : il sera figé après vérification.</p>}>
+              <ChampFormulaire
+                libelle="Nom de l'agence (raison sociale)"
+                erreur={errors.nomAgence?.message}
+                aide={
+                  <p className="text-xs text-muted-foreground">
+                    Tel qu'il figure sur votre registre de commerce : il sera figé après vérification.
+                  </p>
+                }
+              >
                 {(a) => <Input {...a} autoComplete="organization" {...register('nomAgence')} />}
               </ChampFormulaire>
             )}
@@ -91,15 +110,26 @@ export default function Inscription() {
             </div>
 
             <ChampFormulaire libelle="Téléphone (facultatif)" erreur={errors.telephone?.message}>
-              {(a) => <Input {...a} type="tel" placeholder="+225 07 00 00 00 00" autoComplete="tel" {...register('telephone')} />}
+              {(a) => (
+                <Input
+                  {...a}
+                  type="tel"
+                  placeholder="+225 07 00 00 00 00"
+                  autoComplete="tel"
+                  {...register('telephone')}
+                />
+              )}
             </ChampFormulaire>
 
             <ChampFormulaire libelle="Adresse email" erreur={errors.email?.message}>
               {(a) => <Input {...a} type="email" autoComplete="email" {...register('email')} />}
             </ChampFormulaire>
 
-            <ChampFormulaire libelle="Mot de passe" erreur={errors.motDePasse?.message}
-              aide={<IndicateurRobustesse motDePasse={motDePasse} />}>
+            <ChampFormulaire
+              libelle="Mot de passe"
+              erreur={errors.motDePasse?.message}
+              aide={<IndicateurRobustesse motDePasse={motDePasse} />}
+            >
               {(a) => <Input {...a} type="password" autoComplete="new-password" {...register('motDePasse')} />}
             </ChampFormulaire>
             {errors.motDePasse && <IndicateurRobustesse motDePasse={motDePasse} />}
@@ -107,6 +137,38 @@ export default function Inscription() {
             <ChampFormulaire libelle="Confirmer le mot de passe" erreur={errors.confirmation?.message}>
               {(a) => <Input {...a} type="password" autoComplete="new-password" {...register('confirmation')} />}
             </ChampFormulaire>
+
+            <div className="space-y-1">
+              <label className="flex items-start gap-3 text-sm">
+                <input
+                  type="checkbox"
+                  className="mt-0.5 h-4 w-4 accent-primary"
+                  aria-invalid={!!errors.cgu}
+                  aria-describedby={errors.cgu ? 'erreur-cgu' : undefined}
+                  {...register('cgu')}
+                />
+                <span>
+                  J’accepte les{' '}
+                  <Link to="/conditions" target="_blank" className="font-semibold text-primary-glow hover:underline">
+                    conditions générales d’utilisation
+                  </Link>{' '}
+                  et j’ai lu la{' '}
+                  <Link
+                    to="/confidentialite"
+                    target="_blank"
+                    className="font-semibold text-primary-glow hover:underline"
+                  >
+                    politique de confidentialité
+                  </Link>
+                  .
+                </span>
+              </label>
+              {errors.cgu && (
+                <p id="erreur-cgu" className="text-xs font-medium text-destructive-texte">
+                  {errors.cgu.message}
+                </p>
+              )}
+            </div>
 
             {inscription.isError && <Alert variant="erreur">{messageErreur(inscription.error)}</Alert>}
 

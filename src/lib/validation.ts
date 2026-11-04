@@ -31,6 +31,8 @@ export const schemaInscription = z
     email: z.string().trim().email('Adresse email invalide.'),
     motDePasse,
     confirmation: z.string(),
+    // Acceptation des CGU obligatoire (version enregistrée par la base)
+    cgu: z.boolean().refine((v) => v, 'Vous devez accepter les conditions générales pour créer un compte.'),
   })
   .refine((d) => d.motDePasse === d.confirmation, {
     path: ['confirmation'],

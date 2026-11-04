@@ -65,6 +65,12 @@ notification), `repondre_reservation_keyli` (verrou annonce, acceptation,
 refus d'office des demandes concurrentes, notifications),
 `annuler_reservation_keyli`.
 
+### Acceptation des CGU (2026-11-04)
+| Écran | Requête | Index |
+|---|---|---|
+| Écran d'acceptation (`PorteCgu`) | `cgu_version` lu avec le profil déjà chargé (`useProfil`) — aucune requête en plus | clé `user_id` |
+| Bouton « Continuer » | `accepter_cgu_keyli(p_version)` : mise à jour du profil de `auth.uid()` | clé `user_id` |
+
 ### Emails de notification (2026-11-02)
 | Traitement | Requête | Index |
 |---|---|---|

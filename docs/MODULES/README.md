@@ -15,6 +15,7 @@ sont maintenant livrés.**
       quartiers-tendance et de la relation agent↔agence, les deux résolus
       (voir prérequis DB ci-dessous)
 - [x] admin.md
+- [x] juridique.md — pages légales, acceptation des CGU (2026-11-04)
 - [x] quartiers-tendance.md — le moins mûr, surtout des questions ouvertes
 - [x] geolocalisation.md — recherche par rayon, PostGIS tranché pour le
       nouveau schéma (voir DATABASE.md, nouveau départ)

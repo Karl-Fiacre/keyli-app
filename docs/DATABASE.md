@@ -834,6 +834,20 @@ référence n'avait aucune colonne. Décision du porteur : **liste fermée**.
 - Photos : voir « Photos des annonces » ci-dessous (2026-11-01). Point GPS : carte (Google Maps depuis le 2026-10-31) + « ma position ».
 Tests : `supabase/tests/avantages_publication_keyli.test.sql` (18 tests).
 
+## ⚠️ DÉCISIONS ACTÉES (2026-11-04) — acceptation des CGU
+Migration `20261109120000_acceptation_cgu_keyli.sql` (détail
+`docs/MODULES/juridique.md`).
+- **`profiles_keyli`** : `cgu_version TEXT` (version acceptée, date de
+  publication ; NULL = jamais acceptées), `cgu_acceptees_at TIMESTAMPTZ`.
+  Aucun droit d'écriture direct.
+- Fonctions : `version_cgu_keyli()` (version en vigueur, anon et
+  authenticated), déclencheur `trg_cgu_a_inscription` →
+  `cgu_a_inscription_keyli()` (BEFORE INSERT sur `profiles_keyli`, lit
+  `raw_user_meta_data->>'cgu_version'`), `accepter_cgu_keyli(p_version)`
+  (authenticated ; 42501 non connecté, 22023 version périmée).
+Tests : `supabase/tests/acceptation_cgu_keyli.test.sql` (9 tests, 674 au
+total).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-11-02) — emails de notification
 Migration `20261107120000_emails_notifications_keyli.sql` (détail
 `docs/MODULES/emails.md`).

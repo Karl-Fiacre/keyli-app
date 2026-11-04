@@ -98,6 +98,14 @@ résumé, pas la source primaire.
       contrôlées ; lecture limitée au voyageur, à l'hôte et à l'admin — testé
 - [x] Pas de paiement en ligne des séjours (réglés avec l'hôte)
 
+## MODULE JURIDIQUE (acceptation des CGU — 2026-11-04)
+- [x] Acceptation des CGU obligatoire à l'inscription ; version et date
+      enregistrées par la base, jamais écrites par le client — testé
+- [x] Version périmée refusée ; nouvelle version = nouvelle acceptation à
+      la prochaine connexion — testé
+- [ ] Textes relus par un juriste, déclaration ARTCI faite (avant
+      l'ouverture au public)
+
 ## MODULE EMAILS (emails_sortants_keyli — 2026-11-02)
 - [x] Emails envoyés par le serveur uniquement (file + Edge Function) ;
       aucune écriture de la file depuis le client — testé

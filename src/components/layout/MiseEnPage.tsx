@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils'
 import { ClocheNotifications } from '@/components/layout/ClocheNotifications'
 import { LienEvitement } from '@/components/layout/LienEvitement'
 import { TransitionPage } from '@/components/animation/TransitionPage'
+import { PorteCgu } from '@/components/juridique/PorteCgu'
 
 // Mise en page commune : en-tête avec le logotype officiel
 // (public/keyli-logo-*.png, déclinés par docs/keyli_brand_assets/generer-raster.cjs
@@ -134,10 +135,26 @@ export function MiseEnPage() {
       </header>
       <main id="contenu" tabIndex={-1} className="flex-1 outline-none">
         <TransitionPage>
-          <Outlet />
+          <PorteCgu>
+            <Outlet />
+          </PorteCgu>
         </TransitionPage>
       </main>
       <footer className="border-t py-6 text-center text-xs text-muted-foreground">
+        <nav aria-label="Informations légales" className="mb-3 flex flex-wrap justify-center gap-x-5 gap-y-2">
+          <Link to="/aide" className="hover:text-foreground hover:underline">
+            Aide
+          </Link>
+          <Link to="/conditions" className="hover:text-foreground hover:underline">
+            Conditions générales
+          </Link>
+          <Link to="/confidentialite" className="hover:text-foreground hover:underline">
+            Confidentialité
+          </Link>
+          <Link to="/mentions-legales" className="hover:text-foreground hover:underline">
+            Mentions légales
+          </Link>
+        </nav>
         © {new Date().getFullYear()} Keyli — Nguessan-IT, Abidjan
       </footer>
     </div>

@@ -245,6 +245,18 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine, Content-Security-
   Policy avant l'ouverture publique. Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Pages légales et acceptation des CGU** (2026-11-04, branche
+  `feature/pages-legales`) — décisions du porteur : textes dans le code,
+  versionnés ; acceptation à la prochaine connexion. Pages `/conditions`,
+  `/confidentialite` (loi n° 2013-450, ARTCI), `/mentions-legales`,
+  `/aide`, liens dans le pied de page ; case obligatoire à l'inscription ;
+  écran d'acceptation pour les comptes connectés (`PorteCgu`). Migration
+  `20261109120000_acceptation_cgu_keyli.sql` (9 tests, 674 au total).
+  **Avant l'ouverture au public** : relecture par un juriste, déclaration
+  ARTCI, remplir les mentions « À COMPLÉTER » (forme juridique, RCCM,
+  adresse, récépissé ARTCI), activer contact@keyli.com. Mise en ligne :
+  `npx supabase db push --linked` **puis** `npm run deploy` (porteur).
+  Détail : `docs/MODULES/juridique.md`.
 - **Emails de notification** (2026-11-02, branche
   `feature/emails-francais`) — architecture validée par le porteur : file
   d'envoi + tâche planifiée + Edge Function `envoyer-emails` (Resend).
@@ -298,7 +310,7 @@ concernés :
 
 - **Emails** — Resend choisi (2026-11-01). Modèles français prêts
   (`supabase/templates/`). Bloqué par le domaine : **keyli.com** (décision
-  du porteur du 2026-11-04, à la place de keyli.com ; domaine apparemment
+  du porteur du 2026-11-04, à la place de keyli.ci ; domaine apparemment
   parqué chez namefind.com, achat à confirmer), puis DNS sur Cloudflare.
   Contact prévu : contact@keyli.com (pas encore actif). Checklist : `docs/MODULES/emails.md`.
 
