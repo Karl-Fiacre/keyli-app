@@ -834,6 +834,30 @@ référence n'avait aucune colonne. Décision du porteur : **liste fermée**.
 - Photos : voir « Photos des annonces » ci-dessous (2026-11-01). Point GPS : carte (Google Maps depuis le 2026-10-31) + « ma position ».
 Tests : `supabase/tests/avantages_publication_keyli.test.sql` (18 tests).
 
+## ⚠️ DÉCISIONS ACTÉES (2026-11-04) — carte du catalogue, position protégée
+Migration `20261110120000_carte_annonces_keyli.sql`. Décision du porteur :
+la carte publique montre une zone approximative, jamais la position exacte.
+- **`properties_keyli.geolocation` n'est plus lisible par le client**
+  (anon et authenticated) : le droit de lecture est accordé colonne par
+  colonne, toutes sauf `geolocation`. Avant, le droit portait sur toute la
+  table : le point GPS exact de chaque annonce publiée était lisible par
+  l'API. ⚠️ **Toute nouvelle colonne de `properties_keyli` doit être
+  ajoutée à ce `grant select (...)`** pour être lisible ; un
+  `select('*')` sur la table échoue côté client.
+- `position_approchee_keyli(id, geo)` (interne, non appelable par le
+  client) : arrondi dans une case de 0,004° (≈ 445 m) + décalage stable
+  propre à l'annonce (pas de superposition, pas de moyenne possible).
+- `positions_annonces_keyli(p_ids uuid[])` (anon, authenticated ; security
+  definer) : positions approximatives de 50 annonces publiées au plus.
+- `recommandations_keyli` réécrite avec des colonnes nommées (elle lisait
+  `p.*`) ; `mes_alertes_keyli` passe en security definer (elle passe la
+  ligne entière à `annonce_correspond_alerte_keyli`, rayon compris ; ne
+  lit que les alertes de l'appelant et des annonces publiques).
+Tests : `supabase/tests/carte_annonces_keyli.test.sql` (9 tests) ;
+`properties_keyli_rls` (la recherche par rayon depuis le client est
+remplacée par le refus de lire la position) et `avantages_publication`
+ajustés. 683 tests au total.
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-11-04) — acceptation des CGU
 Migration `20261109120000_acceptation_cgu_keyli.sql` (détail
 `docs/MODULES/juridique.md`).

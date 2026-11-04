@@ -245,6 +245,16 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine, Content-Security-
   Policy avant l'ouverture publique. Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Accueil, catalogue et page À propos** (2026-11-04, branche
+  `feature/accueil-catalogue-a-propos`) — décisions du porteur : l'accueil
+  garde la recherche, le catalogue des biens (liste ou carte) et les
+  communes ; la présentation passe dans `/a-propos` (qui sommes-nous,
+  garanties, parcours, annonceurs, vision, contact). Carte : positions
+  approximatives (≈ 450 m). **Faille corrigée au passage** : la position
+  GPS exacte des annonces était lisible par l'API ; elle ne l'est plus.
+  Migration `20261110120000_carte_annonces_keyli.sql` (9 tests, 683 au
+  total). Vue carte ajoutée aussi à Recherche. Mise en ligne :
+  `npx supabase db push --linked` **puis** `npm run deploy` (porteur).
 - **Pages légales et acceptation des CGU** (2026-11-04, branche
   `feature/pages-legales`) — décisions du porteur : textes dans le code,
   versionnés ; acceptation à la prochaine connexion. Pages `/conditions`,

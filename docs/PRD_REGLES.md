@@ -98,6 +98,12 @@ résumé, pas la source primaire.
       contrôlées ; lecture limitée au voyageur, à l'hôte et à l'admin — testé
 - [x] Pas de paiement en ligne des séjours (réglés avec l'hôte)
 
+## CATALOGUE ET CARTE (2026-11-04)
+- [x] La position exacte d'un bien n'est jamais lisible par le client
+      (anon comme connecté) — testé
+- [x] Carte publique : positions approximatives (case ≈ 450 m) calculées
+      par la base, stables d'un appel à l'autre — testé
+
 ## MODULE JURIDIQUE (acceptation des CGU — 2026-11-04)
 - [x] Acceptation des CGU obligatoire à l'inscription ; version et date
       enregistrées par la base, jamais écrites par le client — testé
