@@ -4,11 +4,14 @@
 - **Fournisseur : Resend** (choix du porteur, 2026-11-01), branché comme
   serveur SMTP de Supabase Auth. Les emails d'authentification restent
   envoyés par Supabase ; Resend ne fait que les acheminer.
-- **Domaine d'envoi : keyli.ci** (disponible au registre NIC.CI le
-  2026-11-01, achat en cours côté porteur). Resend n'envoie à des
+- **Domaine : keyli.com** (décision du porteur du 2026-11-04, à la place
+  de keyli.com envisagé le 2026-11-01). Le 2026-11-04, keyli.com répondait
+  déjà sur Internet avec des serveurs `namefind.com` (domaine parqué,
+  probablement à vendre) : achat à confirmer par le porteur.
+  Adresse de contact prévue : `contact@keyli.com` (pas encore active). Resend n'envoie à des
   destinataires quelconques qu'après vérification DNS d'un domaine : sans
   domaine vérifié, seul le titulaire du compte Resend reçoit les emails.
-- Expéditeur prévu : `Keyli <no-reply@keyli.ci>`.
+- Expéditeur prévu : `Keyli <no-reply@keyli.com>`.
 
 ## Modèles (supabase/templates/)
 | Fichier | Déclencheur Supabase | Objet |
@@ -62,7 +65,7 @@ Migration `20261107120000_emails_notifications_keyli.sql`, Edge Function
   `src/lib/notifications.ts`), mise en page des modèles d'authentification.
 - Transport : `RESEND_API_KEY` (secret d'Edge Function) ; en local, sans
   clé, Mailpit (`MAILPIT_URL=http://supabase_inbucket_keyli:8025`).
-  Expéditeur `EMAIL_EXPEDITEUR` (défaut `Keyli <no-reply@keyli.ci>`).
+  Expéditeur `EMAIL_EXPEDITEUR` (défaut `Keyli <no-reply@keyli.com>`).
   Liens : `KEYLI_APP_URL` (déjà posé pour Paystack).
 - Vérifié en local le 2026-11-02 : tâche planifiée → pg_net → fonction →
   4 emails reçus dans Mailpit, 1 écarté (doublon de la demande de
@@ -80,19 +83,20 @@ Migration `20261107120000_emails_notifications_keyli.sql`, Edge Function
       `select vault.create_secret('https://zcqirdowjussoaevqlbd.supabase.co', 'keyli_url_projet');`
       `select vault.create_secret('<clé anon / publishable du projet>', 'keyli_cle_anon');`
 - [ ] Secret `RESEND_API_KEY` (et `EMAIL_EXPEDITEUR` si autre que
-      no-reply@keyli.ci) posé par le porteur, une fois le domaine vérifié
+      no-reply@keyli.com) posé par le porteur, une fois le domaine vérifié
       dans Resend. Avant cela, les emails restent en file et sont
       réessayés puis abandonnés : rien n'est perdu côté application.
 
-## Mise en service (quand keyli.ci est actif)
+## Mise en service (quand keyli.com est actif)
 - [ ] Compte Resend créé (porteur)
-- [ ] keyli.ci ajouté à Cloudflare (DNS), serveurs DNS changés chez le
-      bureau d'enregistrement (porteur)
+- [ ] keyli.com acheté, ajouté à Cloudflare (DNS), serveurs DNS changés
+      chez le bureau d'enregistrement (porteur)
+- [ ] Boîte `contact@keyli.com` créée (porteur)
 - [ ] Domaine ajouté dans Resend, enregistrements DNS (SPF, DKIM, MX de
       retour) créés dans Cloudflare, domaine vérifié
 - [ ] Supabase distant : SMTP Resend (`smtp.resend.com`, port 465,
       utilisateur `resend`, mot de passe = clé d'API Resend saisie par le
-      porteur), expéditeur `no-reply@keyli.ci`, nom « Keyli »
+      porteur), expéditeur `no-reply@keyli.com`, nom « Keyli »
 - [ ] Modèles recopiés dans le tableau de bord, test réel d'inscription et
       de réinitialisation
 - [ ] Limite d'envoi Supabase relevée (Authentication > Rate Limits) une

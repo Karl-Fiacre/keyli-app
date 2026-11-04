@@ -6,7 +6,7 @@
 //
 // Transport : Resend (RESEND_API_KEY, secret posé par le porteur). En
 // local, sans clé Resend : Mailpit (MAILPIT_URL, http://127.0.0.1:54324).
-// Expéditeur : EMAIL_EXPEDITEUR (défaut « Keyli <no-reply@keyli.ci> »).
+// Expéditeur : EMAIL_EXPEDITEUR (défaut « Keyli <no-reply@keyli.com> »).
 import { clientServeur, json } from '../_shared/commun.ts'
 import { gabarit, type ContenuEmail } from './gabarit.ts'
 
@@ -83,7 +83,7 @@ function composer(e: EmailDu, urlApp: string): ContenuEmail & { sujet: string } 
 }
 
 async function envoyer(a: string, sujet: string, html: string, texte: string, desinscription: string) {
-  const expediteur = Deno.env.get('EMAIL_EXPEDITEUR')?.trim() || 'Keyli <no-reply@keyli.ci>'
+  const expediteur = Deno.env.get('EMAIL_EXPEDITEUR')?.trim() || 'Keyli <no-reply@keyli.com>'
   const cleResend = Deno.env.get('RESEND_API_KEY')?.trim()
   if (cleResend) {
     const r = await fetch('https://api.resend.com/emails', {
