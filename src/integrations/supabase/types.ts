@@ -312,13 +312,13 @@ isOneToOne: false
                   ]
                 },"profiles_keyli": {
                   Row: {
-                    "created_at": string | null,"email": string,"emails_notifications": boolean,"first_name": string | null,"id": string,"id_number": string | null,"id_validity_date": string | null,"jeton_desinscription": string,"last_name": string | null,"nom_agence": string | null,"phone": string | null,"photo_url": string | null,"rating_avg": number | null,"role_keyli": Database["public"]['Enums']["user_role_keyli"],"suspendu": boolean,"suspension_fin": string | null,"suspension_motif": string | null,"updated_at": string | null,"user_id": string,"verification_date": string | null,"verified": boolean | null
+                    "cgu_acceptees_at": string | null,"cgu_version": string | null,"created_at": string | null,"email": string,"emails_notifications": boolean,"first_name": string | null,"id": string,"id_number": string | null,"id_validity_date": string | null,"jeton_desinscription": string,"last_name": string | null,"nom_agence": string | null,"phone": string | null,"photo_url": string | null,"rating_avg": number | null,"role_keyli": Database["public"]['Enums']["user_role_keyli"],"suspendu": boolean,"suspension_fin": string | null,"suspension_motif": string | null,"updated_at": string | null,"user_id": string,"verification_date": string | null,"verified": boolean | null
                   }
                   Insert: {
-                    "created_at"?: string | null,"email": string,"emails_notifications"?: boolean,"first_name"?: string | null,"id"?: string,"id_number"?: string | null,"id_validity_date"?: string | null,"jeton_desinscription"?: string,"last_name"?: string | null,"nom_agence"?: string | null,"phone"?: string | null,"photo_url"?: string | null,"rating_avg"?: number | null,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"],"suspendu"?: boolean,"suspension_fin"?: string | null,"suspension_motif"?: string | null,"updated_at"?: string | null,"user_id": string,"verification_date"?: string | null,"verified"?: boolean | null
+                    "cgu_acceptees_at"?: string | null,"cgu_version"?: string | null,"created_at"?: string | null,"email": string,"emails_notifications"?: boolean,"first_name"?: string | null,"id"?: string,"id_number"?: string | null,"id_validity_date"?: string | null,"jeton_desinscription"?: string,"last_name"?: string | null,"nom_agence"?: string | null,"phone"?: string | null,"photo_url"?: string | null,"rating_avg"?: number | null,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"],"suspendu"?: boolean,"suspension_fin"?: string | null,"suspension_motif"?: string | null,"updated_at"?: string | null,"user_id": string,"verification_date"?: string | null,"verified"?: boolean | null
                   }
                   Update: {
-                    "created_at"?: string | null,"email"?: string,"emails_notifications"?: boolean,"first_name"?: string | null,"id"?: string,"id_number"?: string | null,"id_validity_date"?: string | null,"jeton_desinscription"?: string,"last_name"?: string | null,"nom_agence"?: string | null,"phone"?: string | null,"photo_url"?: string | null,"rating_avg"?: number | null,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"],"suspendu"?: boolean,"suspension_fin"?: string | null,"suspension_motif"?: string | null,"updated_at"?: string | null,"user_id"?: string,"verification_date"?: string | null,"verified"?: boolean | null
+                    "cgu_acceptees_at"?: string | null,"cgu_version"?: string | null,"created_at"?: string | null,"email"?: string,"emails_notifications"?: boolean,"first_name"?: string | null,"id"?: string,"id_number"?: string | null,"id_validity_date"?: string | null,"jeton_desinscription"?: string,"last_name"?: string | null,"nom_agence"?: string | null,"phone"?: string | null,"photo_url"?: string | null,"rating_avg"?: number | null,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"],"suspendu"?: boolean,"suspension_fin"?: string | null,"suspension_motif"?: string | null,"updated_at"?: string | null,"user_id"?: string,"verification_date"?: string | null,"verified"?: boolean | null
                   }
                   Relationships: [
                     
@@ -702,6 +702,9 @@ isOneToOne: false
 "abonnement_en_cours_keyli":
 { Args: { "p_user": string }; Returns: boolean
                            },
+"accepter_cgu_keyli":
+{ Args: { "p_version": string }; Returns: undefined
+                           },
 "admin_activite_quotidienne_keyli":
 { Args: { "p_jours"?: number }; Returns: {
               "contacts": number,"inscriptions": number,"jour": string,"vues": number
@@ -931,6 +934,9 @@ isOneToOne: false
                            },
 "url_photo_keyli_valide":
 { Args: { "p_proprietaire": string,"p_url": string }; Returns: boolean
+                           },
+"version_cgu_keyli":
+{ Args: Record<PropertyKey, never>; Returns: string
                            }
           }
           Enums: {
