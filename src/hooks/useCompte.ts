@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
 import type { DonneesInscription } from '@/lib/validation'
+import { VERSION_CGU } from '@/lib/juridique'
 
 // Actions de compte (Supabase Auth). Les pages utilisent ces hooks, jamais
 // le client Supabase directement (docs/CONVENTIONS.md).
@@ -24,6 +25,8 @@ export function useInscription() {
             last_name: d.nom,
             phone: d.telephone || null,
             nom_agence: d.role === 'agency' ? d.nomAgence : null,
+            // Version des CGU acceptée : la base ne l'enregistre que si c'est celle en vigueur
+            cgu_version: d.cgu ? VERSION_CGU : null,
           },
         },
       })
