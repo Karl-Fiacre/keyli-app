@@ -251,7 +251,8 @@ concernés :
   Réservations, visites, compte/vérification, abonnement, alertes,
   nouveaux messages (regroupés). Interrupteur dans Profil, page
   `/desinscription`. 27 tests (665 au total), chaîne complète vérifiée en
-  local (Mailpit). Mise en service par le porteur : checklist
+  local (Mailpit). En ligne le 2026-11-04 (migration, fonction, coffre, site
+  déployé) ; reste `RESEND_API_KEY` quand keyli.ci est vérifié. Checklist
   `docs/MODULES/emails.md` (db push, deploy de la fonction, 2 valeurs dans
   Vault, puis `RESEND_API_KEY` quand keyli.ci est vérifié).
 - **Animations et transitions du site** (2026-11-02, branche
