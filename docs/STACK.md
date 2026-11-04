@@ -61,7 +61,7 @@ Hébergement   : Cloudflare Pages (décision du porteur, 2026-11-01), projet
                 venir). Déploiement : `npm run deploy` (build local puis
                 wrangler pages deploy). En-têtes de sécurité : public/_headers.
 Emails        : Resend comme SMTP de Supabase Auth (choix du porteur,
-                2026-11-01), domaine d'envoi keyli.ci à venir — voir
+                2026-11-01), domaine d'envoi keyli.com à venir — voir
                 docs/MODULES/emails.md
 IA            : recherche en langage naturel (Edge Function intelligent-search)
 ```

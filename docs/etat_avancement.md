@@ -252,9 +252,9 @@ concernés :
   nouveaux messages (regroupés). Interrupteur dans Profil, page
   `/desinscription`. 27 tests (665 au total), chaîne complète vérifiée en
   local (Mailpit). En ligne le 2026-11-04 (migration, fonction, coffre, site
-  déployé) ; reste `RESEND_API_KEY` quand keyli.ci est vérifié. Checklist
+  déployé) ; reste `RESEND_API_KEY` quand keyli.com est vérifié. Checklist
   `docs/MODULES/emails.md` (db push, deploy de la fonction, 2 valeurs dans
-  Vault, puis `RESEND_API_KEY` quand keyli.ci est vérifié).
+  Vault, puis `RESEND_API_KEY` quand keyli.com est vérifié).
 - **Animations et transitions du site** (2026-11-02, branche
   `feature/animations-transitions`) — registre « élégant et discret »
   choisi par le porteur : transition et retour en haut à chaque page,
@@ -297,9 +297,10 @@ concernés :
   « Keyli – web » (Google Cloud, projet Nguessan-IT).
 
 - **Emails** — Resend choisi (2026-11-01). Modèles français prêts
-  (`supabase/templates/`). Bloqué par le domaine : keyli.ci disponible au
-  registre, achat par le porteur chez un bureau d'enregistrement NIC.CI,
-  puis DNS sur Cloudflare. Checklist : `docs/MODULES/emails.md`.
+  (`supabase/templates/`). Bloqué par le domaine : **keyli.com** (décision
+  du porteur du 2026-11-04, à la place de keyli.com ; domaine apparemment
+  parqué chez namefind.com, achat à confirmer), puis DNS sur Cloudflare.
+  Contact prévu : contact@keyli.com (pas encore actif). Checklist : `docs/MODULES/emails.md`.
 
 ## Prochaine étape recommandée
 
