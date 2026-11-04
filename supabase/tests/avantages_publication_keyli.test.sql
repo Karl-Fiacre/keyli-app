@@ -68,12 +68,16 @@ select pg_temp.connecter('abab0000-0000-0000-0000-000000000001');
 select set_config('test.annonce', pg_temp.publier('Appartement Cocody',
   array[current_setting('test.clim')::uuid, current_setting('test.ecole')::uuid, current_setting('test.clim')::uuid])::text, true);
 
+-- Position exacte : lisible par la base seulement (carte_annonces_keyli)
+reset role;
+set local role postgres;
 select results_eq(
   $$ select title, owner_id::text, round(extensions.st_y(geolocation::extensions.geometry)::numeric, 2),
             round(extensions.st_x(geolocation::extensions.geometry)::numeric, 2), furnished
        from public.properties_keyli where id = current_setting('test.annonce')::uuid $$,
   $$ values ('Appartement Cocody'::text, 'abab0000-0000-0000-0000-000000000001'::text, 5.35::numeric, -4.00::numeric, true) $$,
   'Annonce publiée au nom de l''utilisateur, point GPS enregistré (latitude, longitude)');
+set local role authenticated;
 select is((select count(*)::int from public.property_avantages_keyli where property_id = current_setting('test.annonce')::uuid),
   2, 'Avantages rattachés, sans doublon');
 select is((select count(*)::int from public.property_publications_keyli where property_id = current_setting('test.annonce')::uuid),
