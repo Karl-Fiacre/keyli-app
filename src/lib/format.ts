@@ -17,3 +17,11 @@ export function initiales(nom: string) {
       .join('') || 'K'
   )
 }
+
+// Prix abrégé pour un repère de carte : « 150 k F », « 1,2 M F »
+export function formatPrixCourt(v: number) {
+  const nf = (n: number) => new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 1 }).format(n)
+  if (v >= 1_000_000) return `${nf(v / 1_000_000)} M F`
+  if (v >= 1_000) return `${nf(Math.round(v / 1_000))} k F`
+  return `${nf(v)} F`
+}

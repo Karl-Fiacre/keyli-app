@@ -164,3 +164,20 @@ export function useContacterAnnonceur() {
     },
   })
 }
+
+// Positions APPROXIMATIVES des annonces affichées (case d'environ 450 m,
+// calculée par la base — la position exacte n'est jamais lisible par le
+// client). Chargées seulement quand la vue carte est ouverte.
+export function usePositionsAnnonces(ids: string[], actif: boolean) {
+  return useQuery({
+    queryKey: ['positions-annonces', ids],
+    enabled: actif && ids.length > 0,
+    staleTime: 5 * 60_000,
+    placeholderData: keepPreviousData,
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc('positions_annonces_keyli', { p_ids: ids })
+      if (error) throw error
+      return new Map(data.map((p) => [p.id, { lat: p.latitude, lng: p.longitude }]))
+    },
+  })
+}
