@@ -6,6 +6,9 @@ import { Alert } from '@/components/ui/alert'
 import { CarteAnnonce } from '@/components/annonce/CarteAnnonce'
 import { FiltresRecherche } from '@/components/annonce/FiltresRecherche'
 import { BoutonAlerte } from '@/components/annonce/BoutonAlerte'
+import { BasculeVue } from '@/components/annonce/BasculeVue'
+import { CarteCatalogue } from '@/components/annonce/CarteCatalogue'
+import { useVueCatalogue } from '@/hooks/useVueCatalogue'
 import { TAILLE_PAGE, useRecherche, type FiltresRecherche as Filtres, type TriRecherche } from '@/hooks/useRecherche'
 import { messageErreur } from '@/lib/erreurs'
 import { ecrireFiltres, LIBELLES_TRI, lireFiltres, nombreFiltresActifs } from '@/lib/recherche'
@@ -19,6 +22,7 @@ export default function Recherche() {
   const filtres = lireFiltres(parametres)
   const recherche = useRecherche(filtres)
   const [panneauOuvert, setPanneauOuvert] = useState(false)
+  const [vue, setVue] = useVueCatalogue()
 
   const appliquer = (f: Filtres) => setParametres(ecrireFiltres(f))
   const total = recherche.data?.total ?? 0
@@ -62,7 +66,8 @@ export default function Recherche() {
                 {recherche.isPending ? 'Recherche…' : `${total} annonce${total > 1 ? 's' : ''}`}
               </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <BasculeVue vue={vue} onChange={setVue} />
               <Button
                 variant="outline"
                 className="lg:hidden"
@@ -103,18 +108,23 @@ export default function Recherche() {
             </div>
           )}
 
-          <ul
-            className={cn(
-              'grid gap-5 transition-opacity duration-150 sm:grid-cols-2 xl:grid-cols-3',
-              recherche.isFetching && 'opacity-60',
-            )}
-          >
-            {recherche.data?.annonces.map((a, i) => (
-              <li key={a.id} className="kf-cascade" style={delaiCascade(i, 50, 300)}>
-                <CarteAnnonce annonce={a} sejour={requeteSejour} />
-              </li>
-            ))}
-          </ul>
+          {/* Carte : les annonces de la page en cours, à leur position approximative */}
+          {vue === 'carte' && recherche.data && total > 0 ? (
+            <CarteCatalogue annonces={recherche.data.annonces} sejour={requeteSejour} />
+          ) : (
+            <ul
+              className={cn(
+                'grid gap-5 transition-opacity duration-150 sm:grid-cols-2 xl:grid-cols-3',
+                recherche.isFetching && 'opacity-60',
+              )}
+            >
+              {recherche.data?.annonces.map((a, i) => (
+                <li key={a.id} className="kf-cascade" style={delaiCascade(i, 50, 300)}>
+                  <CarteAnnonce annonce={a} sejour={requeteSejour} />
+                </li>
+              ))}
+            </ul>
+          )}
 
           {pages > 1 && (
             <nav className="flex items-center justify-center gap-3" aria-label="Pages de résultats">

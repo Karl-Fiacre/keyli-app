@@ -122,7 +122,17 @@ Cambria `#1a1f2e` (--primary), bouton bleu nuit texte blanc, liens `#0046b8`
 (--primary-glow), notes `#5c6a80` (--muted-foreground). Logo
 `keyli-logo-240.png` affiché à 120 px. Jamais le badge « Vérifié ».
 
-## Page d'accueil (2026-11-01)
+## Accueil et À propos (2026-11-04)
+Décision du porteur : l'accueil garde ce qui sert à chercher —
+`BanniereAccueil`, `CatalogueAccueil` (tous les biens publiés, vérifiés
+d'abord, 20 par page, bascule Liste | Carte), `ExplorerCommunes`. La
+présentation part dans `/a-propos` (`src/pages/APropos.tsx`) : qui
+sommes-nous (fond bleu nuit + `MotifToits`), nos garanties (5 cartes),
+`ParcoursConfiance`, `EspaceAnnonceurs`, `BandeauVision`, contact.
+`AnnoncesVedette` est remplacé par le catalogue. Lien « À propos » dans
+l'en-tête (visible aussi des visiteurs) et le pied de page.
+
+## Page d'accueil (2026-11-01) — historique, voir ci-dessus
 Refonte « référence nationale » : `src/pages/Accueil.tsx` compose des blocs
 indépendants de `src/components/accueil/` — `BanniereAccueil` (fond bleu
 nuit, motif de toits turquoise `MotifToits` à 12 % d'opacité, halos flous

@@ -221,11 +221,12 @@ select results_eq(
   $$ values (1) $$,
   'Un visiteur voit les photos des annonces publiées'
 );
-select results_eq(
-  $$ select count(*)::int from public.properties_keyli
-      where extensions.st_dwithin(geolocation, 'SRID=4326;POINT(-3.9622 5.3600)'::extensions.geography, 2000) $$,
-  $$ values (1) $$,
-  'La recherche par rayon (2 km autour de la Riviera) fonctionne'
+-- Position exacte : plus lisible depuis le client (carte_annonces_keyli :
+-- la carte publique n'affiche que des positions approximatives)
+select throws_ok(
+  $$ select geolocation from public.properties_keyli $$,
+  '42501', null,
+  'Un visiteur ne lit pas la position exacte des annonces'
 );
 
 -- ------------------------------------------------------------

@@ -25,6 +25,17 @@ prendre l'option la plus robuste (index GiST, extensible à des zones/polygones
 plus tard) puisque le coût de migration de données n'existe plus pour
 justifier l'option la plus légère.
 
+## Carte du catalogue (2026-11-04)
+- [x] Vue « Carte » du catalogue (Accueil et Recherche), bascule
+      Liste | Carte mémorisée dans le navigateur ; repères de prix
+      (pleins = annonce vérifiée), aperçu de l'annonce au clic.
+- [x] **Positions approximatives** (décision du porteur) :
+      `positions_annonces_keyli`, case ≈ 450 m ; zoom maximum 16 ; mention
+      « Positions approximatives » sous la carte. La position exacte n'est
+      plus lisible par le client (DATABASE.md, 2026-11-04).
+- [ ] La recherche par rayon, quand elle sera faite, devra passer par une
+      fonction de la base (le client ne lit plus `geolocation`).
+
 ## Toujours à trancher (n'a pas changé)
 - [ ] Rayon par défaut proposé à l'utilisateur
 - [ ] Unité affichée (distance seule, ou aussi temps de trajet estimé — Google

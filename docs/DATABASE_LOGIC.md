@@ -65,6 +65,12 @@ notification), `repondre_reservation_keyli` (verrou annonce, acceptation,
 refus d'office des demandes concurrentes, notifications),
 `annuler_reservation_keyli`.
 
+### Catalogue et carte (2026-11-04)
+| Écran | Requête | Index |
+|---|---|---|
+| Accueil, catalogue (liste) | `rechercher_annonces_keyli` sans filtre, tri pertinence, 20 par page | idem Recherche |
+| Accueil / Recherche, vue carte | `positions_annonces_keyli(ids de la page)` — 50 au plus, seulement quand la vue carte est ouverte | clé primaire `id` |
+
 ### Acceptation des CGU (2026-11-04)
 | Écran | Requête | Index |
 |---|---|---|

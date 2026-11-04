@@ -879,6 +879,16 @@ isOneToOne: false
               "agent": string,"agent_id": string,"bien": string,"contact": string,"contact_user_id": string,"derniere_activite": string,"etape": Database["public"]['Enums']["lead_stage_keyli"],"id": string,"property_id": string
             }[]
                            },
+"position_approchee_keyli":
+{ Args: { "p_geo": unknown,"p_id": string }; Returns: {
+              "latitude": number,"longitude": number
+            }[]
+                           },
+"positions_annonces_keyli":
+{ Args: { "p_ids": (string)[] }; Returns: {
+              "id": string,"latitude": number,"longitude": number
+            }[]
+                           },
 "preferences_chercheur_keyli":
 { Args: Record<PropertyKey, never>; Returns: Json
                            },
