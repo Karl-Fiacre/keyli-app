@@ -32,6 +32,7 @@ import Conditions from '@/pages/juridique/Conditions'
 import Confidentialite from '@/pages/juridique/Confidentialite'
 import MentionsLegales from '@/pages/juridique/MentionsLegales'
 import Aide from '@/pages/juridique/Aide'
+import APropos from '@/pages/APropos'
 
 // Vitrine des composants de dashboard : développement uniquement (le code
 // n'est pas inclus dans le build de production)
@@ -88,6 +89,7 @@ function App() {
               <Route path="confidentialite" element={<Confidentialite />} />
               <Route path="mentions-legales" element={<MentionsLegales />} />
               <Route path="aide" element={<Aide />} />
+              <Route path="a-propos" element={<APropos />} />
               <Route path="verifier-email" element={<VerifierEmail />} />
               <Route path="mot-de-passe-oublie" element={<MotDePasseOublie />} />
               <Route path="nouveau-mot-de-passe" element={<NouveauMotDePasse />} />

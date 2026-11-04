@@ -33,6 +33,7 @@ export function MiseEnPage() {
 
   const liens: Array<{ vers: string; libelle: string; pastille?: number }> = [
     { vers: '/recherche', libelle: 'Rechercher' },
+    { vers: '/a-propos', libelle: 'À propos' },
     ...(role && role !== 'admin' && role !== 'super_admin'
       ? [{ vers: '/tableau-de-bord', libelle: 'Tableau de bord' }]
       : []),
@@ -70,7 +71,7 @@ export function MiseEnPage() {
           </Link>
           <div className="flex items-center gap-1">
             <nav className="hidden items-center gap-1 lg:flex">
-              {(session ? liens : liens.slice(0, 1)).map((l) => (
+              {(session ? liens : liens.slice(0, 2)).map((l) => (
                 <Button key={l.vers} variant="ghost" asChild>
                   <Link to={l.vers}>
                     {l.libelle}
@@ -108,7 +109,7 @@ export function MiseEnPage() {
         </div>
         <nav id="menu-principal" className={cn('border-t lg:hidden', menuOuvert ? 'kf-panneau-ouvre' : 'hidden')}>
           <div className="container flex flex-col gap-1 py-3">
-            {(session ? liens : liens.slice(0, 1)).map((l) => (
+            {(session ? liens : liens.slice(0, 2)).map((l) => (
               <Button key={l.vers} variant="ghost" asChild className="justify-start">
                 <Link to={l.vers}>
                   {l.libelle}
@@ -142,6 +143,9 @@ export function MiseEnPage() {
       </main>
       <footer className="border-t py-6 text-center text-xs text-muted-foreground">
         <nav aria-label="Informations légales" className="mb-3 flex flex-wrap justify-center gap-x-5 gap-y-2">
+          <Link to="/a-propos" className="hover:text-foreground hover:underline">
+            À propos
+          </Link>
           <Link to="/aide" className="hover:text-foreground hover:underline">
             Aide
           </Link>
