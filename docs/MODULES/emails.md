@@ -69,9 +69,14 @@ Migration `20261107120000_emails_notifications_keyli.sql`, Edge Function
   réservation) ; page de désinscription.
 
 ## Mise en service des notifications (porteur)
-- [ ] `npx supabase db push --linked` puis `npx supabase test db --linked`
-- [ ] `npx supabase functions deploy envoyer-emails`
-- [ ] Coffre (SQL Editor du projet distant) — valeurs publiques du site :
+- [x] `npx supabase db push --linked` puis `npx supabase test db --linked`
+      (fait le 2026-11-03 ; tests des emails verts sur le distant)
+- [x] `npx supabase functions deploy envoyer-emails` (2026-11-03)
+- [x] Coffre (SQL Editor du projet distant), fait le 2026-11-04 — la clé
+      attendue est l'**ancienne clé anon** (`eyJ…`, onglet « Legacy API
+      keys ») : la clé `sb_publishable_…` n'est pas un JWT et serait
+      refusée par l'Edge Function. Vérification sans révéler la valeur :
+      `select name, left(decrypted_secret, 4), length(decrypted_secret) from vault.decrypted_secrets where name like 'keyli_%';`
       `select vault.create_secret('https://zcqirdowjussoaevqlbd.supabase.co', 'keyli_url_projet');`
       `select vault.create_secret('<clé anon / publishable du projet>', 'keyli_cle_anon');`
 - [ ] Secret `RESEND_API_KEY` (et `EMAIL_EXPEDITEUR` si autre que
