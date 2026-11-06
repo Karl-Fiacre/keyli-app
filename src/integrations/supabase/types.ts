@@ -166,13 +166,13 @@ isOneToOne: false
                   ]
                 },"inscription_pilot_keyli": {
                   Row: {
-                    "budget": number | null,"city": string | null,"created_at": string | null,"email": string,"first_name": string | null,"id": string,"last_name": string | null,"message": string | null,"phone": string | null,"priority_level": Database["public"]['Enums']["priority_level_keyli"] | null,"property_type": Database["public"]['Enums']["property_type_keyli"] | null,"source": string | null,"status": Database["public"]['Enums']["inscription_status_keyli"] | null,"updated_at": string | null
+                    "budget": number | null,"city": string | null,"commune": string | null,"created_at": string | null,"email": string,"first_name": string | null,"id": string,"last_name": string | null,"message": string | null,"nb_biens": number | null,"nom_agence": string | null,"note_admin": string | null,"phone": string | null,"priority_level": Database["public"]['Enums']["priority_level_keyli"] | null,"profil": string | null,"property_type": Database["public"]['Enums']["property_type_keyli"] | null,"source": string | null,"status": Database["public"]['Enums']["inscription_status_keyli"] | null,"updated_at": string | null
                   }
                   Insert: {
-                    "budget"?: number | null,"city"?: string | null,"created_at"?: string | null,"email": string,"first_name"?: string | null,"id"?: string,"last_name"?: string | null,"message"?: string | null,"phone"?: string | null,"priority_level"?: Database["public"]['Enums']["priority_level_keyli"] | null,"property_type"?: Database["public"]['Enums']["property_type_keyli"] | null,"source"?: string | null,"status"?: Database["public"]['Enums']["inscription_status_keyli"] | null,"updated_at"?: string | null
+                    "budget"?: number | null,"city"?: string | null,"commune"?: string | null,"created_at"?: string | null,"email": string,"first_name"?: string | null,"id"?: string,"last_name"?: string | null,"message"?: string | null,"nb_biens"?: number | null,"nom_agence"?: string | null,"note_admin"?: string | null,"phone"?: string | null,"priority_level"?: Database["public"]['Enums']["priority_level_keyli"] | null,"profil"?: string | null,"property_type"?: Database["public"]['Enums']["property_type_keyli"] | null,"source"?: string | null,"status"?: Database["public"]['Enums']["inscription_status_keyli"] | null,"updated_at"?: string | null
                   }
                   Update: {
-                    "budget"?: number | null,"city"?: string | null,"created_at"?: string | null,"email"?: string,"first_name"?: string | null,"id"?: string,"last_name"?: string | null,"message"?: string | null,"phone"?: string | null,"priority_level"?: Database["public"]['Enums']["priority_level_keyli"] | null,"property_type"?: Database["public"]['Enums']["property_type_keyli"] | null,"source"?: string | null,"status"?: Database["public"]['Enums']["inscription_status_keyli"] | null,"updated_at"?: string | null
+                    "budget"?: number | null,"city"?: string | null,"commune"?: string | null,"created_at"?: string | null,"email"?: string,"first_name"?: string | null,"id"?: string,"last_name"?: string | null,"message"?: string | null,"nb_biens"?: number | null,"nom_agence"?: string | null,"note_admin"?: string | null,"phone"?: string | null,"priority_level"?: Database["public"]['Enums']["priority_level_keyli"] | null,"profil"?: string | null,"property_type"?: Database["public"]['Enums']["property_type_keyli"] | null,"source"?: string | null,"status"?: Database["public"]['Enums']["inscription_status_keyli"] | null,"updated_at"?: string | null
                   }
                   Relationships: [
                     
@@ -760,6 +760,14 @@ isOneToOne: false
 "calculer_quartiers_tendance_keyli":
 { Args: Record<PropertyKey, never>; Returns: undefined
                            },
+"candidater_pilote_keyli":
+{ Args: { "p_commune"?: string,"p_email": string,"p_message"?: string,"p_nb_biens"?: number,"p_nom": string,"p_nom_agence"?: string,"p_prenom": string,"p_profil": string,"p_telephone": string }; Returns: undefined
+                           },
+"candidatures_pilote_keyli":
+{ Args: { "p_statut": Database["public"]['Enums']["inscription_status_keyli"] }; Returns: {
+              "commune": string,"compte_cree": boolean,"created_at": string,"email": string,"id": string,"message": string,"nb_biens": number,"nom": string,"nom_agence": string,"note_admin": string,"prenom": string,"priorite": Database["public"]['Enums']["priority_level_keyli"],"profil": string,"statut": Database["public"]['Enums']["inscription_status_keyli"],"telephone": string
+            }[]
+                           },
 "cloturer_cycles_keyli":
 { Args: Record<PropertyKey, never>; Returns: number
                            },
@@ -923,6 +931,11 @@ isOneToOne: false
                            },
 "repondre_reservation_keyli":
 { Args: { "p_accepter": boolean,"p_motif"?: string,"p_reservation": string }; Returns: undefined
+                           },
+"suivi_pilote_keyli":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "annonceurs": number,"annonceurs_annonce": number,"annonceurs_documents": number,"annonceurs_forfait": number,"annonceurs_profil": number,"annonceurs_verifies": number,"avis": number,"candidatures_avec_compte": number,"candidatures_contactees": number,"candidatures_converties": number,"candidatures_en_attente": number,"candidatures_rejetees": number,"reservations_acceptees": number,"reservations_demandees": number,"retours_en_attente": number,"retours_total": number,"visites_effectuees": number,"visites_planifiees": number
+            }[]
                            },
 "super_admin_changer_role_keyli":
 { Args: { "p_role": Database["public"]['Enums']["user_role_keyli"],"p_user": string }; Returns: undefined

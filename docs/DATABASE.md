@@ -244,9 +244,24 @@ budget          NUMERIC
 message         TEXT
 status          inscription_status_keyli DEFAULT 'en_attente'
 priority_level  priority_level_keyli DEFAULT 'moyenne'
-source          TEXT DEFAULT 'pilot_landing'
+source          TEXT DEFAULT 'pilot_landing'   -- 'page_pilote' depuis /pilote
+-- Ajouts du 2026-11-06 (Sprint 5, migration 20261112120000_lancement_pilote_keyli)
+profil          TEXT CHECK IN ('proprietaire','agence','chercheur')
+commune         TEXT            -- nom d'une commune de communes_keyli
+nom_agence      TEXT            -- obligatoire si profil = 'agence' (contrôlé par la fonction)
+nb_biens        INTEGER CHECK 0..10000   -- annonceurs seulement
+note_admin      TEXT CHECK ≤ 2000        -- note interne de l'équipe
 created_at / updated_at
 ```
+Depuis le 2026-11-06 : plus d'insertion directe (l'unicité de l'email
+révélerait les adresses déjà inscrites). Envoi par
+`candidater_pilote_keyli(...)` (security definer, visiteurs compris) :
+validation, email en minuscules, 100 candidatures par heure au plus sur la
+plateforme, réponse identique que l'email soit connu ou non, mise à jour
+d'une candidature encore `en_attente`. Lecture admin par
+`candidatures_pilote_keyli(statut)` (avec `compte_cree`), suivi par
+`suivi_pilote_keyli()`. L'admin modifie `status`, `priority_level`,
+`note_admin`.
 
 ### onboarding_checklists_keyli
 ```sql

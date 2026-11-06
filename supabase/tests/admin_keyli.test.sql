@@ -177,7 +177,8 @@ select results_eq(
 set local role anon;
 select set_config('request.jwt.claims', '{"role": "anon"}', true);
 select lives_ok(
-  $$ insert into public.inscription_pilot_keyli (email, first_name, property_type) values ('pilote@test.local', 'Awa', 'villa') $$,
+  -- Depuis le Sprint 5, la candidature passe par candidater_pilote_keyli
+  $$ select public.candidater_pilote_keyli('pilote@test.local', 'Awa', 'Koné', '+2250700000000', 'chercheur') $$,
   'Un visiteur s''inscrit au pilote'
 );
 select throws_ok($$ select * from public.inscription_pilot_keyli $$, '42501', null,
