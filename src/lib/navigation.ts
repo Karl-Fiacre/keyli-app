@@ -5,6 +5,7 @@ import {
   Home,
   LayoutGrid,
   MessageSquare,
+  MessageSquareHeart,
   Search,
   Shield,
   UserRound,
@@ -35,6 +36,8 @@ export function navigationParRole(
   const accueil = { vers: '/tableau-de-bord', libelle: "Vue d'ensemble", icone: LayoutGrid, fin: true }
   const rechercher = { vers: '/recherche', libelle: 'Rechercher', icone: Search }
   const profil = { vers: '/profil', libelle: 'Mon profil', icone: UserRound }
+  // Retours à l'équipe Keyli (Sprint 4), pour tous les rôles
+  const avis = { vers: '/retours', libelle: 'Donner mon avis', icone: MessageSquareHeart }
   // Séjours courts : demandes reçues (hôte) et séjours réservés (tous)
   const reservations = { vers: '/reservations', libelle: 'Réservations', icone: CalendarDays }
 
@@ -58,6 +61,7 @@ export function navigationParRole(
             entrees: [
               { vers: '/abonnement', libelle: 'Facturation', icone: CreditCard },
               { ...profil, libelle: 'Paramètres' },
+              avis,
             ],
           },
         ],
@@ -77,7 +81,7 @@ export function navigationParRole(
               rechercher,
             ],
           },
-          { titre: 'Compte', entrees: [profil] },
+          { titre: 'Compte', entrees: [profil, avis] },
         ],
       }
     case 'admin':
@@ -87,7 +91,7 @@ export function navigationParRole(
         libelleRole: role === 'super_admin' ? 'Super administrateur' : 'Administrateur',
         sections: [
           { entrees: [{ vers: '/admin', libelle: 'Back-office', icone: Shield }, messages, rechercher] },
-          { titre: 'Compte', entrees: [profil] },
+          { titre: 'Compte', entrees: [profil, avis] },
         ],
       }
     default:
@@ -104,7 +108,7 @@ export function navigationParRole(
               messages,
             ],
           },
-          { titre: 'Compte', entrees: [profil] },
+          { titre: 'Compte', entrees: [profil, avis] },
         ],
       }
   }

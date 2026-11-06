@@ -22,6 +22,8 @@ export function lienNotification(type: string, propertyId: string | null): strin
     case 'document_approuve':
     case 'document_rejete':
       return propertyId ? '/annonces' : '/profil'
+    case 'retour_repondu':
+      return '/retours'
     case 'verification_retiree':
     case 'compte_suspendu':
     case 'compte_reactive':

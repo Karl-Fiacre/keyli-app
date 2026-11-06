@@ -26,6 +26,8 @@ import Admin from '@/pages/admin/Admin'
 import AdminIndicateurs from '@/pages/admin/AdminIndicateurs'
 import AdminVerifications from '@/pages/admin/AdminVerifications'
 import AdminSignalements from '@/pages/admin/AdminSignalements'
+import AdminRetours from '@/pages/admin/AdminRetours'
+import Retours from '@/pages/Retours'
 import PageIntrouvable from '@/pages/PageIntrouvable'
 import TableauDeBord from '@/pages/dashboard/TableauDeBord'
 import Conditions from '@/pages/juridique/Conditions'
@@ -77,6 +79,7 @@ function App() {
               <Route path="messages/:bien/:interlocuteur" element={<Messages />} />
               <Route path="favoris" element={<MesFavoris />} />
               <Route path="reservations" element={<Reservations />} />
+              <Route path="retours" element={<Retours />} />
             </Route>
             <Route element={<MiseEnPage />}>
               <Route index element={<Accueil />} />
@@ -104,6 +107,7 @@ function App() {
                 <Route index element={<AdminIndicateurs />} />
                 <Route path="verifications" element={<AdminVerifications />} />
                 <Route path="signalements" element={<AdminSignalements />} />
+                <Route path="retours" element={<AdminRetours />} />
               </Route>
               <Route path="*" element={<PageIntrouvable />} />
             </Route>
