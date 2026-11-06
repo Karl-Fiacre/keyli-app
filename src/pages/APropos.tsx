@@ -100,6 +100,26 @@ export default function APropos() {
 
       <BandeauVision />
 
+      {/* Candidature au pilote (Sprint 5) */}
+      <section className="container py-14 text-center" aria-labelledby="titre-rejoindre">
+        <ZoneRevele>
+          <div className="kf-revele mx-auto max-w-2xl">
+            <h2 id="titre-rejoindre" className="font-titre text-2xl font-bold md:text-3xl">
+              Participez au pilote d’Abidjan
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Propriétaires, agences ou chercheurs : rejoignez les premiers membres de Keyli, accompagnés par l’équipe.
+            </p>
+            <Link
+              to="/pilote"
+              className="mt-6 inline-flex h-11 items-center rounded-lg bg-primary px-6 font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              Rejoindre le pilote
+            </Link>
+          </div>
+        </ZoneRevele>
+      </section>
+
       {/* Contact */}
       <section className="border-t bg-secondary py-14" aria-labelledby="titre-contact">
         <ZoneRevele className="container">

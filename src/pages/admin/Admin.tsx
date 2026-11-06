@@ -1,14 +1,17 @@
+import { Suspense } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { Alert } from '@/components/ui/alert'
 import { useEstAdmin } from '@/hooks/useAdmin'
 import { useProfil } from '@/hooks/useProfil'
 import { cn } from '@/lib/utils'
+import { ChargementPage } from '@/components/ChargementPage'
 
 const ONGLETS = [
   { vers: '/admin', libelle: 'Indicateurs', fin: true },
   { vers: '/admin/verifications', libelle: 'Vérifications', fin: false },
   { vers: '/admin/signalements', libelle: 'Signalements', fin: false },
   { vers: '/admin/retours', libelle: 'Retours', fin: false },
+  { vers: '/admin/pilote', libelle: 'Pilote', fin: false },
 ]
 
 // Back-office (docs/MODULES/admin.md). L'accès est réservé aux admins par la
@@ -39,7 +42,9 @@ export default function Admin() {
             className={({ isActive }) =>
               cn(
                 '-mb-px whitespace-nowrap border-b-2 px-4 py-2.5 text-sm font-medium transition-colors duration-150',
-                isActive ? 'border-primary text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground',
+                isActive
+                  ? 'border-primary text-foreground'
+                  : 'border-transparent text-muted-foreground hover:text-foreground',
               )
             }
           >
@@ -48,7 +53,9 @@ export default function Admin() {
         ))}
       </nav>
       <div className="pt-6">
-        <Outlet />
+        <Suspense fallback={<ChargementPage />}>
+          <Outlet />
+        </Suspense>
       </div>
     </section>
   )
