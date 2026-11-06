@@ -49,7 +49,8 @@ Migration `20261107120000_emails_notifications_keyli.sql`, Edge Function
   refusée, annulée), visites (planifiée, modifiée, annulée), compte et
   vérification (document approuvé/rejeté, badge retiré, compte
   suspendu/réactivé), abonnement (rappel, expiré, dépassement), alertes de
-  recherche, nouveaux messages. Restent dans l'application : recommandation
+  recherche, nouveaux messages, réponse de l'équipe à un retour
+  (`retour_repondu`, ajouté le 2026-11-06). Restent dans l'application : recommandation
   de forfait, visite effectuée.
 - **Messages regroupés** : un email par conversation au plus, envoyé
   5 minutes après le premier message non lu et au moins 15 minutes après

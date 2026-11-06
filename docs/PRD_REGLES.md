@@ -98,6 +98,13 @@ résumé, pas la source primaire.
       contrôlées ; lecture limitée au voyageur, à l'hôte et à l'admin — testé
 - [x] Pas de paiement en ligne des séjours (réglés avec l'hôte)
 
+## SPRINT 4 — DÉMARRAGE ET RETOURS (2026-11-06)
+- [x] Étapes du parcours de démarrage calculées par la base, jamais
+      cochées par le client — testé
+- [x] Retours : longueurs bornées, 5 par jour au plus, réponse réservée à
+      l'admin et notifiée à l'auteur — testé
+- [ ] Tarif des annonceurs pendant le pilote : à décider avant l'ouverture
+
 ## CATALOGUE ET CARTE (2026-11-04)
 - [x] La position exacte d'un bien n'est jamais lisible par le client
       (anon comme connecté) — testé

@@ -245,6 +245,19 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine, Content-Security-
   Policy avant l'ouverture publique. Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Sprint 4 — accueil du panel pilote, en cours** (2026-11-06, branche
+  `feature/sprint4-demarrage-retours`) — périmètre choisi par le porteur :
+  parcours de démarrage des annonceurs (étapes calculées par la base, en
+  tête des tableaux de bord propriétaire et agence) et retours des
+  utilisateurs (« Donner mon avis », onglet « Retours » du back-office,
+  réponse notifiée par cloche et email). Migration
+  `20261111120000_demarrage_retours_keyli.sql` (16 tests, 699 au total) ;
+  fonction `envoyer-emails` redéployée (lien « Lire la réponse »).
+  **À décider avant l'ouverture** : tarif des annonceurs pendant le pilote
+  (offert ou payant → Paystack réel). Non retenus pour l'instant : page de
+  candidature au pilote, relances automatiques. Le reste du sprint est du
+  terrain (recrutement des 500 biens). Mise en ligne :
+  `npx supabase db push --linked` puis `npm run deploy` (porteur).
 - **Accueil, catalogue et page À propos** (2026-11-04, branche
   `feature/accueil-catalogue-a-propos`) — décisions du porteur : l'accueil
   garde la recherche, le catalogue des biens (liste ou carte) et les

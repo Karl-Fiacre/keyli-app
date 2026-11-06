@@ -48,6 +48,11 @@ report_status_keyli : pending → reviewed → resolved
       retirer la vérification du bien, suspendre l'annonceur (motif
       obligatoire)
 
+## Retours des utilisateurs (feedback_keyli) — 2026-11-06
+- [x] Onglet « Retours » (`/admin/retours`) : file par statut, auteur,
+      réponse notifiée (cloche + email). Détail :
+      `docs/MODULES/demarrage-retours.md`.
+
 ## Suivi du pilote (PilotDashboard.tsx, inscription_pilot_keyli)
 - [ ] `inscription_status_keyli` : en_attente → contacte → converti | rejete
 - [ ] `priority_level_keyli` sert au tri de la file de contact — pas de
