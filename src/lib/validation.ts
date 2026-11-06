@@ -150,3 +150,15 @@ export function robustesseMotDePasse(valeur: string): 0 | 1 | 2 | 3 | 4 {
   if (/\d/.test(valeur) && /[^A-Za-z0-9]/.test(valeur)) score++
   return Math.min(score, 4) as 0 | 1 | 2 | 3 | 4
 }
+
+// Retour à l'équipe Keyli (mêmes bornes que la base : feedback_keyli)
+export const schemaRetour = z.object({
+  type: z.enum(['suggestion', 'bug', 'complaint', 'recommendation'], { error: 'Choisissez un type de retour.' }),
+  sujet: z.string().trim().min(3, 'Sujet trop court (3 caractères au moins).').max(120, '120 caractères au plus.'),
+  message: z
+    .string()
+    .trim()
+    .min(10, 'Message trop court (10 caractères au moins).')
+    .max(2000, '2 000 caractères au plus.'),
+})
+export type DonneesRetour = z.infer<typeof schemaRetour>

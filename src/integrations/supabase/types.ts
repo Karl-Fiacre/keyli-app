@@ -817,6 +817,11 @@ isOneToOne: false
 "est_super_admin_keyli":
 { Args: Record<PropertyKey, never>; Returns: boolean
                            },
+"etapes_demarrage_keyli":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "etape": string,"faite": boolean,"ordre": number
+            }[]
+                           },
 "etat_publication_keyli":
 { Args: Record<PropertyKey, never>; Returns: {
               "plan_code": string,"prix_depassement": number,"publications_cycle": number,"seuil_max": number,"statut": string,"subscription_id": string

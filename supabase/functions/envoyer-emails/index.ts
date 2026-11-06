@@ -39,6 +39,7 @@ function chemin(type: string, bien: string | null): { libelle: string; chemin: s
   if (type.startsWith('reservation_')) return { libelle: 'Voir ma réservation', chemin: '/reservations' }
   if (type.startsWith('abonnement_') || type === 'depassement_cycle')
     return { libelle: 'Voir mon abonnement', chemin: '/abonnement' }
+  if (type === 'retour_repondu') return { libelle: 'Lire la réponse', chemin: '/retours' }
   if (type.startsWith('document_')) return { libelle: 'Voir ma vérification', chemin: bien ? '/annonces' : '/profil' }
   return { libelle: 'Ouvrir Keyli', chemin: '/profil' }
 }

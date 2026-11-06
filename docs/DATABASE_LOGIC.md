@@ -65,6 +65,14 @@ notification), `repondre_reservation_keyli` (verrou annonce, acceptation,
 refus d'office des demandes concurrentes, notifications),
 `annuler_reservation_keyli`.
 
+### Parcours de démarrage et retours (2026-11-06)
+| Écran | Requête | Index |
+|---|---|---|
+| Tableau de bord annonceur, parcours | `etapes_demarrage_keyli()` — existences sur documents, abonnements, annonces, agents de l'appelant | `uq_documents_keyli_en_cours`, `idx_properties_owner`, index des abonnements et agents existants |
+| Donner mon avis, « Mes retours » | `feedback_keyli` filtré `user_id`, tri date | `idx_feedback_user_date` |
+| Admin, retours | `feedback_keyli` filtré `status`, tri date (100 au plus) | `idx_feedback_status_date` |
+| Limite 5 / 24 h (déclencheur) | comptage `user_id` + `created_at` | `idx_feedback_user_date` |
+
 ### Catalogue et carte (2026-11-04)
 | Écran | Requête | Index |
 |---|---|---|

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { ParcoursDemarrage } from '@/components/dashboard/ParcoursDemarrage'
 import { KpiCard } from '@/components/dashboard/KpiCard'
 import { VerificationStepper } from '@/components/dashboard/VerificationStepper'
 import { MessagePreviewList } from '@/components/dashboard/MessagePreviewList'
@@ -49,6 +50,8 @@ export default function OwnerDashboard({ profil }: { profil: Profil }) {
           <Link to="/annonces/nouvelle">Publier une annonce</Link>
         </Button>
       </div>
+
+      <ParcoursDemarrage agence={agence} />
 
       {indicateurs.isError && <p className="text-sm text-destructive-texte">Impossible de charger vos indicateurs.</p>}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">

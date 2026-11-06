@@ -834,6 +834,21 @@ référence n'avait aucune colonne. Décision du porteur : **liste fermée**.
 - Photos : voir « Photos des annonces » ci-dessous (2026-11-01). Point GPS : carte (Google Maps depuis le 2026-10-31) + « ma position ».
 Tests : `supabase/tests/avantages_publication_keyli.test.sql` (18 tests).
 
+## ⚠️ DÉCISIONS ACTÉES (2026-11-06) — parcours de démarrage et retours
+Migration `20261111120000_demarrage_retours_keyli.sql` (détail
+`docs/MODULES/demarrage-retours.md`).
+- **`feedback_keyli`** : contraintes (NOT VALID) type obligatoire, sujet
+  3-120, message 10-2 000, réponse ≤ 2 000 ; index `(user_id, created_at
+  desc)` ; déclencheur `trg_feedback_keyli_limite` (5 retours / 24 h,
+  statut forcé à `pending`) ; déclencheur `trg_feedback_keyli_reponse`
+  (notification à l'auteur quand `admin_response` change).
+- **`notifications_keyli.type`** : + `retour_repondu` (envoyé aussi par
+  email : `notification_par_email_keyli` mise à jour).
+- Fonction `etapes_demarrage_keyli()` (authenticated) : étapes du parcours
+  calculées d'après les données de l'appelant.
+Tests : `supabase/tests/demarrage_retours_keyli.test.sql` (16 tests, 699 au
+total).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-11-04) — carte du catalogue, position protégée
 Migration `20261110120000_carte_annonces_keyli.sql`. Décision du porteur :
 la carte publique montre une zone approximative, jamais la position exacte.
