@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { ParcoursDemarrage } from '@/components/dashboard/ParcoursDemarrage'
 import { KpiCard } from '@/components/dashboard/KpiCard'
 import { LeadPipeline } from '@/components/dashboard/LeadPipeline'
 import { DonutChart } from '@/components/dashboard/DonutChart'
@@ -81,6 +82,8 @@ export default function AgencyDashboard({ profil }: { profil: Profil }) {
           </Button>
         </div>
       </div>
+
+      <ParcoursDemarrage agence />
 
       {indicateurs.isError && <p className="text-sm text-destructive-texte">Impossible de charger vos indicateurs.</p>}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
