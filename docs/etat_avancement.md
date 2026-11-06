@@ -245,7 +245,23 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine, Content-Security-
   Policy avant l'ouverture publique. Détail :
   `docs/MODULES/hebergement-securite.md`.
-- **Sprint 4 — accueil du panel pilote, en cours** (2026-11-06, branche
+- **Sprint 5 — lancement et suivi terrain** (2026-11-06, branche
+  `feature/sprint5-lancement-pilote`) — périmètre choisi par le porteur :
+  candidature au pilote (page publique `/pilote`, fonction
+  `candidater_pilote_keyli`, plus d'insertion directe pour ne pas révéler
+  les emails connus), onglet « Pilote » du back-office (entonnoir de
+  démarrage des annonceurs, candidatures, retours, visites, séjours ; file
+  des candidatures avec priorité, note et « compte créé »), bouton
+  Partager sur la fiche annonce (WhatsApp, lien copié, source
+  `lien_direct`) et aperçu des liens (Open Graph, générique), pages
+  chargées à la demande (fichier principal 792 Ko → 310 Ko). Migration
+  `20261112120000_lancement_pilote_keyli.sql` (15 tests, 714 au total).
+  Détail : `docs/MODULES/lancement-pilote.md`. Reste ouvert : tarif du
+  pilote, relances automatiques, aperçu de lien propre à chaque annonce
+  (rendu serveur). Docker local instable faute de mémoire (2026-11-06).
+  Mise en ligne : `npx supabase db push --linked` puis `npm run deploy`
+  (porteur).
+- **Sprint 4 — accueil du panel pilote, terminé** (2026-11-06, branche
   `feature/sprint4-demarrage-retours`) — périmètre choisi par le porteur :
   parcours de démarrage des annonceurs (étapes calculées par la base, en
   tête des tableaux de bord propriétaire et agence) et retours des

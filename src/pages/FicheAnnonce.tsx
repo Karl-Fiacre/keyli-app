@@ -6,6 +6,7 @@ import { VerifiedBadge } from '@/components/VerifiedBadge'
 import { FormulaireContact } from '@/components/annonce/FormulaireContact'
 import { BoutonFavori } from '@/components/annonce/BoutonFavori'
 import { BoutonSignaler } from '@/components/annonce/BoutonSignaler'
+import { BoutonPartager } from '@/components/annonce/BoutonPartager'
 import { GaleriePhotos } from '@/components/annonce/GaleriePhotos'
 import { ReservationSejour } from '@/components/reservation/ReservationSejour'
 import { Etoiles } from '@/components/avis/Etoiles'
@@ -95,7 +96,10 @@ export default function FicheAnnonce() {
                 {a.status === 'a_louer' ? 'À louer' : 'À vendre'}
               </span>
               {a.is_verified && <VerifiedBadge />}
-              {!estProprietaire && <BoutonFavori propertyId={a.id} className="ml-auto border" />}
+              <div className="ml-auto flex gap-2">
+                {!a.archived_at && <BoutonPartager propertyId={a.id} titre={a.title} />}
+                {!estProprietaire && <BoutonFavori propertyId={a.id} className="border" />}
+              </div>
             </div>
             <h1 className="text-2xl font-bold tracking-tight md:text-3xl">{a.title}</h1>
             <p className="flex items-center gap-1 text-muted-foreground">

@@ -1,9 +1,11 @@
+import { Suspense } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { DashboardShell } from '@/components/dashboard/DashboardShell'
 import { useProfil } from '@/hooks/useProfil'
 import { useMessagesNonLus, useMessagesTempsReel } from '@/hooks/useMessagerie'
 import { navigationParRole } from '@/lib/navigation'
 import { PorteCgu } from '@/components/juridique/PorteCgu'
+import { ChargementPage } from '@/components/ChargementPage'
 
 // Cadre de l'espace connecté : barre latérale selon le rôle + barre du haut
 // (cloche, profil, déconnexion), autour de chaque page protégée. Remplace
@@ -37,7 +39,9 @@ export function CadreConnecte() {
       }}
     >
       <PorteCgu>
-        <Outlet />
+        <Suspense fallback={<ChargementPage />}>
+          <Outlet />
+        </Suspense>
       </PorteCgu>
     </DashboardShell>
   )

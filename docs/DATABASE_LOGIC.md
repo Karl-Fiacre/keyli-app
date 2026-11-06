@@ -32,7 +32,8 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Admin — file de modération | RPC `admin_file_signalements_keyli(statut)` : `reports_keyli WHERE status = ?` + annonce, annonceur, auteur | `idx_reports_status_date` — créé |
 | Admin — journal d'audit | `audit_logs_keyli ORDER BY created_at DESC` (RLS : admin = ses entrées, super_admin = tout) | `idx_audit_created`, `idx_audit_admin`, `idx_audit_entity` — créés |
 | Admin — retours utilisateurs | `feedback_keyli WHERE status = 'pending' ORDER BY created_at` | `idx_feedback_status_date` — créé |
-| Admin — file pilote | `inscription_pilot_keyli WHERE status = ? ORDER BY priority_level, created_at` | `idx_inscription_pilot_file` — créé |
+| Admin — file pilote | `candidatures_pilote_keyli(statut)` : `inscription_pilot_keyli WHERE status = ?` tri priorité puis date (200 au plus), `compte_cree` par email dans `auth.users` | `idx_inscription_pilot_file` — créé |
+| Admin — suivi du pilote | `suivi_pilote_keyli()` : comptages (annonceurs par étape de démarrage, candidatures, retours, visites, séjours, avis) | volumes du pilote : pas d'index dédié |
 | Cloche de notifications (pastille + liste) | `notifications_keyli WHERE user_id = uid [AND NOT lue] ORDER BY created_at DESC LIMIT 20` (RLS ; temps réel sur INSERT) — écran fait le 2026-10-31 | `idx_notifications_user_non_lues`, `idx_notifications_user_date` — créés |
 | Accueil — quartiers populaires | `quartiers_populaires_keyli LIMIT 6` | `idx_quartiers_tendance_score` — créé (instantané nocturne) |
 | Dashboard Chercheur — TrendBar | `tendances_prix_keyli WHERE quartier_id IN (...)` | clé primaire `(niveau, zone_id)` |

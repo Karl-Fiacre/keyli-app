@@ -6,35 +6,41 @@ import { MiseEnPage } from '@/components/layout/MiseEnPage'
 import { CadreConnecte } from '@/components/layout/CadreConnecte'
 import { RouteProtegee } from '@/components/RouteProtegee'
 import Accueil from '@/pages/Accueil'
-import Inscription from '@/pages/Inscription'
-import Connexion from '@/pages/Connexion'
-import VerifierEmail from '@/pages/VerifierEmail'
-import MotDePasseOublie from '@/pages/MotDePasseOublie'
-import NouveauMotDePasse from '@/pages/NouveauMotDePasse'
-import Profil from '@/pages/Profil'
-import Abonnement from '@/pages/Abonnement'
-import RetourPaiement from '@/pages/RetourPaiement'
-import MesAnnonces from '@/pages/MesAnnonces'
-import PublierAnnonce from '@/pages/PublierAnnonce'
-import Recherche from '@/pages/Recherche'
-import FicheAnnonce from '@/pages/FicheAnnonce'
-import Messages from '@/pages/Messages'
-import MesFavoris from '@/pages/MesFavoris'
-import Reservations from '@/pages/Reservations'
-import Desinscription from '@/pages/Desinscription'
-import Admin from '@/pages/admin/Admin'
-import AdminIndicateurs from '@/pages/admin/AdminIndicateurs'
-import AdminVerifications from '@/pages/admin/AdminVerifications'
-import AdminSignalements from '@/pages/admin/AdminSignalements'
-import AdminRetours from '@/pages/admin/AdminRetours'
-import Retours from '@/pages/Retours'
 import PageIntrouvable from '@/pages/PageIntrouvable'
-import TableauDeBord from '@/pages/dashboard/TableauDeBord'
-import Conditions from '@/pages/juridique/Conditions'
-import Confidentialite from '@/pages/juridique/Confidentialite'
-import MentionsLegales from '@/pages/juridique/MentionsLegales'
-import Aide from '@/pages/juridique/Aide'
-import APropos from '@/pages/APropos'
+const Inscription = lazy(() => import('@/pages/Inscription'))
+const Connexion = lazy(() => import('@/pages/Connexion'))
+const VerifierEmail = lazy(() => import('@/pages/VerifierEmail'))
+const MotDePasseOublie = lazy(() => import('@/pages/MotDePasseOublie'))
+const NouveauMotDePasse = lazy(() => import('@/pages/NouveauMotDePasse'))
+const Profil = lazy(() => import('@/pages/Profil'))
+const Abonnement = lazy(() => import('@/pages/Abonnement'))
+const RetourPaiement = lazy(() => import('@/pages/RetourPaiement'))
+const MesAnnonces = lazy(() => import('@/pages/MesAnnonces'))
+const PublierAnnonce = lazy(() => import('@/pages/PublierAnnonce'))
+const Recherche = lazy(() => import('@/pages/Recherche'))
+const FicheAnnonce = lazy(() => import('@/pages/FicheAnnonce'))
+const Messages = lazy(() => import('@/pages/Messages'))
+const MesFavoris = lazy(() => import('@/pages/MesFavoris'))
+const Reservations = lazy(() => import('@/pages/Reservations'))
+const Desinscription = lazy(() => import('@/pages/Desinscription'))
+const Admin = lazy(() => import('@/pages/admin/Admin'))
+const AdminIndicateurs = lazy(() => import('@/pages/admin/AdminIndicateurs'))
+const AdminVerifications = lazy(() => import('@/pages/admin/AdminVerifications'))
+const AdminSignalements = lazy(() => import('@/pages/admin/AdminSignalements'))
+const AdminRetours = lazy(() => import('@/pages/admin/AdminRetours'))
+const Retours = lazy(() => import('@/pages/Retours'))
+const TableauDeBord = lazy(() => import('@/pages/dashboard/TableauDeBord'))
+const Conditions = lazy(() => import('@/pages/juridique/Conditions'))
+const Confidentialite = lazy(() => import('@/pages/juridique/Confidentialite'))
+const MentionsLegales = lazy(() => import('@/pages/juridique/MentionsLegales'))
+const Aide = lazy(() => import('@/pages/juridique/Aide'))
+const APropos = lazy(() => import('@/pages/APropos'))
+const Pilote = lazy(() => import('@/pages/Pilote'))
+const AdminPilote = lazy(() => import('@/pages/admin/AdminPilote'))
+
+// Pages chargées à la demande (Sprint 5, connexions mobiles lentes) : seul
+// l'accueil est dans le fichier principal. Les cadres affichent un
+// indicateur pendant le chargement (ChargementPage).
 
 // Vitrine des composants de dashboard : développement uniquement (le code
 // n'est pas inclus dans le build de production)
@@ -93,6 +99,7 @@ function App() {
               <Route path="mentions-legales" element={<MentionsLegales />} />
               <Route path="aide" element={<Aide />} />
               <Route path="a-propos" element={<APropos />} />
+              <Route path="pilote" element={<Pilote />} />
               <Route path="verifier-email" element={<VerifierEmail />} />
               <Route path="mot-de-passe-oublie" element={<MotDePasseOublie />} />
               <Route path="nouveau-mot-de-passe" element={<NouveauMotDePasse />} />
@@ -108,6 +115,7 @@ function App() {
                 <Route path="verifications" element={<AdminVerifications />} />
                 <Route path="signalements" element={<AdminSignalements />} />
                 <Route path="retours" element={<AdminRetours />} />
+                <Route path="pilote" element={<AdminPilote />} />
               </Route>
               <Route path="*" element={<PageIntrouvable />} />
             </Route>

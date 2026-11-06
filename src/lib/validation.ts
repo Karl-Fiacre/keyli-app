@@ -162,3 +162,33 @@ export const schemaRetour = z.object({
     .max(2000, '2 000 caractères au plus.'),
 })
 export type DonneesRetour = z.infer<typeof schemaRetour>
+
+// Candidature au pilote (Sprint 5) : la base revalide tout
+// (candidater_pilote_keyli). Téléphone obligatoire ici : l'équipe rappelle.
+export const PROFILS_PILOTE = ['proprietaire', 'agence', 'chercheur'] as const
+export type ProfilPilote = (typeof PROFILS_PILOTE)[number]
+
+export const schemaCandidature = z
+  .object({
+    profil: z.enum(PROFILS_PILOTE, { error: 'Choisissez votre profil.' }),
+    nomAgence: z.string().trim().max(120).optional(),
+    prenom: z.string().trim().min(1, 'Votre prénom est requis.').max(80),
+    nom: z.string().trim().min(1, 'Votre nom est requis.').max(80),
+    telephone: z
+      .string()
+      .trim()
+      .refine((v) => /^\+225\s?(\d\s?){10}$/.test(v), 'Format attendu : +225 suivi de 10 chiffres.'),
+    email: z.string().trim().email('Adresse email invalide.').max(254),
+    commune: z.string().optional(),
+    nbBiens: z.string().optional(),
+    message: z.string().trim().max(1000, '1 000 caractères au plus.').optional(),
+  })
+  .refine((d) => d.profil !== 'agence' || !!d.nomAgence, {
+    path: ['nomAgence'],
+    message: "Le nom de l'agence est obligatoire.",
+  })
+  .refine((d) => !d.nbBiens || /^\d{1,5}$/.test(d.nbBiens), {
+    path: ['nbBiens'],
+    message: 'Indiquez un nombre.',
+  })
+export type DonneesCandidature = z.infer<typeof schemaCandidature>

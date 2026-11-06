@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -11,6 +11,7 @@ import { ClocheNotifications } from '@/components/layout/ClocheNotifications'
 import { LienEvitement } from '@/components/layout/LienEvitement'
 import { TransitionPage } from '@/components/animation/TransitionPage'
 import { PorteCgu } from '@/components/juridique/PorteCgu'
+import { ChargementPage } from '@/components/ChargementPage'
 
 // Mise en page commune : en-tête avec le logotype officiel
 // (public/keyli-logo-*.png, déclinés par docs/keyli_brand_assets/generer-raster.cjs
@@ -137,7 +138,9 @@ export function MiseEnPage() {
       <main id="contenu" tabIndex={-1} className="flex-1 outline-none">
         <TransitionPage>
           <PorteCgu>
-            <Outlet />
+            <Suspense fallback={<ChargementPage />}>
+              <Outlet />
+            </Suspense>
           </PorteCgu>
         </TransitionPage>
       </main>
@@ -145,6 +148,9 @@ export function MiseEnPage() {
         <nav aria-label="Informations légales" className="mb-3 flex flex-wrap justify-center gap-x-5 gap-y-2">
           <Link to="/a-propos" className="hover:text-foreground hover:underline">
             À propos
+          </Link>
+          <Link to="/pilote" className="hover:text-foreground hover:underline">
+            Rejoindre le pilote
           </Link>
           <Link to="/aide" className="hover:text-foreground hover:underline">
             Aide
