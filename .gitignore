@@ -28,6 +28,12 @@ dist-ssr
 .env.*
 !.env.example
 
+# Projet vidéo Remotion (video/) : dépendances et rendus locaux
+video/node_modules
+video/out
+# Musique régénérée par video/scripts/musique.py (8 Mo)
+video/public/musique.wav
+
 # Supabase CLI — fichiers locaux générés
 supabase/.temp
 supabase/.branches
