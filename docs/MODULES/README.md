@@ -16,6 +16,7 @@ sont maintenant livrés.**
       (voir prérequis DB ci-dessous)
 - [x] admin.md
 - [x] demarrage-retours.md — Sprint 4 : parcours de démarrage, retours (2026-11-06)
+- [x] lancement-pilote.md — Sprint 5 : candidature, suivi du pilote, partage, vitesse (2026-11-06)
 - [x] juridique.md — pages légales, acceptation des CGU (2026-11-04)
 - [x] quartiers-tendance.md — le moins mûr, surtout des questions ouvertes
 - [x] geolocalisation.md — recherche par rayon, PostGIS tranché pour le

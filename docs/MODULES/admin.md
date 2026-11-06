@@ -53,11 +53,13 @@ report_status_keyli : pending → reviewed → resolved
       réponse notifiée (cloche + email). Détail :
       `docs/MODULES/demarrage-retours.md`.
 
-## Suivi du pilote (PilotDashboard.tsx, inscription_pilot_keyli)
-- [ ] `inscription_status_keyli` : en_attente → contacte → converti | rejete
-- [ ] `priority_level_keyli` sert au tri de la file de contact — pas de
-      règle automatique d'attribution de priorité confirmée dans ce lot,
-      probablement manuel côté admin (à vérifier)
+## Suivi du pilote (inscription_pilot_keyli) — 2026-11-06
+- [x] Onglet « Pilote » (`/admin/pilote`, `AdminPilote.tsx`) : entonnoir de
+      démarrage des annonceurs et activité (`suivi_pilote_keyli`), file des
+      candidatures par statut en_attente → contacte → converti | rejete
+      (`candidatures_pilote_keyli`). Détail : `docs/MODULES/lancement-pilote.md`.
+- [x] `priority_level_keyli` posé à la main par l'équipe (aucune règle
+      automatique validée).
 
 ## Analytics (AdminAnalytics.tsx)
 KPIs cibles pilote (voir PRD section 4.2, PRD_REGLES.md) : taux de
