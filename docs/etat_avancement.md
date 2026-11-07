@@ -245,6 +245,20 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine, Content-Security-
   Policy avant l'ouverture publique. Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Sprint 6 — stabilisation du pilote, terminé** (2026-11-07, branche
+  `feature/sprint6-stabilisation`) — périmètre choisi par le porteur :
+  relances automatiques des annonceurs bloqués (pièces non envoyées,
+  pièce refusée, compte vérifié sans annonce ; à 3 puis 7 jours, cloche et
+  email `relance_demarrage`), délais de vérification (âge des dossiers dans
+  la file, en rouge au-delà de 48 h ; dossiers en retard, délai moyen et
+  relances dans l'onglet Pilote), journal des erreurs (`/admin/erreurs`,
+  données nettoyées, 90 jours), Content-Security-Policy dans
+  `public/_headers` (testée sur le build, aucune violation). 15 tests
+  pgTAP verts en local. Détail : `docs/MODULES/stabilisation.md`.
+  **À faire par le porteur** : `npx supabase db push --linked`,
+  `npx supabase functions deploy envoyer-emails`, `npm run deploy`.
+  Vidéo de l'accueil intégrée (section « Keyli en 45 secondes »,
+  `public/videos/`).
 - **Vidéos Keyli** (2026-11-06, branche `feature/videos-keyli`) — demande
   du porteur : deux publicités de 30 s (voix off femme et homme, voix
   Windows), en 16:9 et 9:16, et une vidéo de 45 s sur l'accueil (atouts :

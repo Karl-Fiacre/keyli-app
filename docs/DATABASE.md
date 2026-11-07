@@ -597,6 +597,29 @@ Colonnes du schéma de référence, plus :
   toujours à trancher (MODULES/annonces.md).
 Tests : `supabase/tests/favoris_alertes_keyli.test.sql`.
 
+## ⚠️ DÉCISIONS ACTÉES (2026-11-07) — stabilisation du pilote (Sprint 6)
+Migration `20261113120000_stabilisation_pilote_keyli.sql`, détail :
+`docs/MODULES/stabilisation.md`.
+- `relances_keyli` : `id`, `user_id` (→ auth.users, cascade), `etape`
+  CHECK in (`documents`, `document_rejete`, `annonce`), `palier` CHECK in
+  (3, 7), `created_at` ; UNIQUE `(user_id, etape, palier)`. RLS : lecture
+  admin ; écriture par `relancer_annonceurs_keyli()` (security definer,
+  pg_cron `keyli-relances-annonceurs`, 9 h chaque jour).
+- `notifications_keyli.type` : nouveau type `relance_demarrage` (cloche et
+  email, `notification_par_email_keyli`).
+- `suivi_pilote_keyli()` : 4 colonnes de plus — `documents_en_attente`,
+  `documents_en_retard` (plus de 48 h), `delai_moyen_heures` (30 jours),
+  `relances_7j`.
+- `erreurs_client_keyli` : `id`, `user_id` (→ auth.users, set null),
+  `page` ≤ 300, `message` ≤ 500, `code` ≤ 50, `navigateur` ≤ 200,
+  `created_at` ; index `idx_erreurs_client_date (created_at desc)`. RLS :
+  lecture admin ; écriture uniquement par `journaliser_erreur_keyli(page,
+  message, code, navigateur)` (anon et authenticated, 30 par heure par
+  compte, 500 par heure pour les visiteurs, emails et numéros masqués).
+  Lecture : `erreurs_recentes_keyli(jours)` (admin). Purge à 90 jours :
+  `purger_erreurs_client_keyli()`, pg_cron `keyli-purge-erreurs`.
+Tests : `supabase/tests/stabilisation_pilote_keyli.test.sql`.
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-10-03) — leads_keyli / visits_keyli
 Créées le 2026-10-03 (migration `20261003120000_leads_visites_keyli.sql`), avec
 les enums `lead_stage_keyli` et `visit_status_keyli`. Colonnes et index du

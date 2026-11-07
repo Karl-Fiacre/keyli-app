@@ -34,6 +34,10 @@ transactionnelles, et comment éviter les incohérences entre tables.
 | Admin — retours utilisateurs | `feedback_keyli WHERE status = 'pending' ORDER BY created_at` | `idx_feedback_status_date` — créé |
 | Admin — file pilote | `candidatures_pilote_keyli(statut)` : `inscription_pilot_keyli WHERE status = ?` tri priorité puis date (200 au plus), `compte_cree` par email dans `auth.users` | `idx_inscription_pilot_file` — créé |
 | Admin — suivi du pilote | `suivi_pilote_keyli()` : comptages (annonceurs par étape de démarrage, candidatures, retours, visites, séjours, avis) | volumes du pilote : pas d'index dédié |
+| Admin — délais de vérification | `suivi_pilote_keyli()` : `documents_keyli WHERE status = 'pending'` (âge), délai moyen `reviewed_at - created_at` sur 30 jours | volumes du pilote : pas d'index dédié |
+| Relances quotidiennes | `relancer_annonceurs_keyli()` : annonceurs actifs × documents / annonces, anti-doublon par `relances_keyli` | `relances_keyli_user_id_etape_palier_key` (unique) — créé |
+| Journal des erreurs — écriture | `journaliser_erreur_keyli` : comptage de la dernière heure (par compte ou visiteurs) avant insertion | `idx_erreurs_client_date` — créé ; index par compte à ajouter si le volume grossit |
+| Admin — erreurs récentes | `erreurs_recentes_keyli(jours)` : `erreurs_client_keyli WHERE created_at > now() - jours` groupé par message, page, code (100 au plus) | `idx_erreurs_client_date` — créé |
 | Cloche de notifications (pastille + liste) | `notifications_keyli WHERE user_id = uid [AND NOT lue] ORDER BY created_at DESC LIMIT 20` (RLS ; temps réel sur INSERT) — écran fait le 2026-10-31 | `idx_notifications_user_non_lues`, `idx_notifications_user_date` — créés |
 | Accueil — quartiers populaires | `quartiers_populaires_keyli LIMIT 6` | `idx_quartiers_tendance_score` — créé (instantané nocturne) |
 | Dashboard Chercheur — TrendBar | `tendances_prix_keyli WHERE quartier_id IN (...)` | clé primaire `(niveau, zone_id)` |
