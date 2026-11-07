@@ -132,6 +132,19 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"erreurs_client_keyli": {
+                  Row: {
+                    "code": string | null,"created_at": string,"id": string,"message": string,"navigateur": string | null,"page": string,"user_id": string | null
+                  }
+                  Insert: {
+                    "code"?: string | null,"created_at"?: string,"id"?: string,"message": string,"navigateur"?: string | null,"page": string,"user_id"?: string | null
+                  }
+                  Update: {
+                    "code"?: string | null,"created_at"?: string,"id"?: string,"message"?: string,"navigateur"?: string | null,"page"?: string,"user_id"?: string | null
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"favorites_keyli": {
                   Row: {
                     "created_at": string | null,"id": string,"property_id": string,"user_id": string
@@ -511,6 +524,19 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"relances_keyli": {
+                  Row: {
+                    "created_at": string,"etape": string,"id": string,"palier": number,"user_id": string
+                  }
+                  Insert: {
+                    "created_at"?: string,"etape": string,"id"?: string,"palier": number,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"etape"?: string,"id"?: string,"palier"?: number,"user_id"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"reports_keyli": {
                   Row: {
                     "created_at": string | null,"id": string,"motif": string,"property_id": string | null,"reason": string | null,"reporter_id": string,"status": Database["public"]['Enums']["report_status_keyli"] | null,"updated_at": string | null
@@ -816,6 +842,11 @@ isOneToOne: false
 "email_de_service_keyli":
 { Args: { "p_type": string }; Returns: boolean
                            },
+"erreurs_recentes_keyli":
+{ Args: { "p_jours"?: number }; Returns: {
+              "code": string,"comptes": number,"derniere": string,"message": string,"occurrences": number,"page": string
+            }[]
+                           },
 "est_admin_keyli":
 { Args: Record<PropertyKey, never>; Returns: boolean
                            },
@@ -844,6 +875,9 @@ isOneToOne: false
 { Args: { "p_plan": string }; Returns: {
               "devise": string,"email": string,"montant": number,"montant_depassements": number,"montant_forfait": number,"plan_code": string,"reference": string
             }[]
+                           },
+"journaliser_erreur_keyli":
+{ Args: { "p_code"?: string,"p_message": string,"p_navigateur"?: string,"p_page": string }; Returns: undefined
                            },
 "journaliser_keyli":
 { Args: { "p_action": string,"p_details"?: Json,"p_entity_id": string,"p_entity_type": string }; Returns: undefined
@@ -916,6 +950,9 @@ isOneToOne: false
 "publier_annonce_keyli":
 { Args: { "p_accepte_depassement"?: boolean,"p_avantages"?: (string)[],"p_description"?: string,"p_latitude": number,"p_longitude": number,"p_meuble"?: boolean,"p_nuits_min"?: number,"p_photos": (string)[],"p_pieces"?: number,"p_prix": number,"p_quartier"?: string,"p_salles_de_bain"?: number,"p_sejour_court"?: boolean,"p_statut": Database["public"]['Enums']["property_status_keyli"],"p_surface"?: number,"p_titre": string,"p_type": Database["public"]['Enums']["property_type_keyli"],"p_ville": string,"p_voyageurs_max"?: number }; Returns: string
                            },
+"purger_erreurs_client_keyli":
+{ Args: Record<PropertyKey, never>; Returns: undefined
+                           },
 "rechercher_annonces_keyli":
 { Args: { "p_arrivee"?: string,"p_avantages"?: (string)[],"p_commune"?: string,"p_decalage"?: number,"p_depart"?: string,"p_limite"?: number,"p_meuble"?: boolean,"p_pieces_min"?: number,"p_prix_max"?: number,"p_prix_min"?: number,"p_quartier"?: string,"p_sejour"?: boolean,"p_statut"?: Database["public"]['Enums']["property_status_keyli"],"p_tri"?: string,"p_type"?: Database["public"]['Enums']["property_type_keyli"],"p_voyageurs"?: number }; Returns: {
               "commune": string,"id": string,"image": string,"meuble": boolean,"nuits_min": number,"pieces": number,"prix": number,"publiee_le": string,"quartier": string,"salles_de_bain": number,"sejour_court": boolean,"statut": Database["public"]['Enums']["property_status_keyli"],"surface": number,"titre": string,"total": number,"type": Database["public"]['Enums']["property_type_keyli"],"verifiee": boolean,"ville": string
@@ -926,6 +963,9 @@ isOneToOne: false
               "commune": string,"id": string,"image": string,"pertinence": number,"prix": number,"quartier": string,"statut": Database["public"]['Enums']["property_status_keyli"],"titre": string,"type": Database["public"]['Enums']["property_type_keyli"],"verifiee": boolean,"ville": string
             }[]
                            },
+"relancer_annonceurs_keyli":
+{ Args: Record<PropertyKey, never>; Returns: number
+                           },
 "relation_notable_keyli":
 { Args: { "p_autre": string,"p_property": string }; Returns: boolean
                            },
@@ -934,7 +974,7 @@ isOneToOne: false
                            },
 "suivi_pilote_keyli":
 { Args: Record<PropertyKey, never>; Returns: {
-              "annonceurs": number,"annonceurs_annonce": number,"annonceurs_documents": number,"annonceurs_forfait": number,"annonceurs_profil": number,"annonceurs_verifies": number,"avis": number,"candidatures_avec_compte": number,"candidatures_contactees": number,"candidatures_converties": number,"candidatures_en_attente": number,"candidatures_rejetees": number,"reservations_acceptees": number,"reservations_demandees": number,"retours_en_attente": number,"retours_total": number,"visites_effectuees": number,"visites_planifiees": number
+              "annonceurs": number,"annonceurs_annonce": number,"annonceurs_documents": number,"annonceurs_forfait": number,"annonceurs_profil": number,"annonceurs_verifies": number,"avis": number,"candidatures_avec_compte": number,"candidatures_contactees": number,"candidatures_converties": number,"candidatures_en_attente": number,"candidatures_rejetees": number,"delai_moyen_heures": number,"documents_en_attente": number,"documents_en_retard": number,"relances_7j": number,"reservations_acceptees": number,"reservations_demandees": number,"retours_en_attente": number,"retours_total": number,"visites_effectuees": number,"visites_planifiees": number
             }[]
                            },
 "super_admin_changer_role_keyli":
