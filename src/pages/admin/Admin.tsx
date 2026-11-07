@@ -12,6 +12,7 @@ const ONGLETS = [
   { vers: '/admin/signalements', libelle: 'Signalements', fin: false },
   { vers: '/admin/retours', libelle: 'Retours', fin: false },
   { vers: '/admin/pilote', libelle: 'Pilote', fin: false },
+  { vers: '/admin/erreurs', libelle: 'Erreurs', fin: false },
 ]
 
 // Back-office (docs/MODULES/admin.md). L'accès est réservé aux admins par la

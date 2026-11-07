@@ -24,6 +24,8 @@ export function lienNotification(type: string, propertyId: string | null): strin
       return propertyId ? '/annonces' : '/profil'
     case 'retour_repondu':
       return '/retours'
+    case 'relance_demarrage':
+      return '/tableau-de-bord'
     case 'verification_retiree':
     case 'compte_suspendu':
     case 'compte_reactive':
