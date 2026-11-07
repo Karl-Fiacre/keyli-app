@@ -58,7 +58,16 @@ export function urlApercu(url: string | null): string | null {
 }
 
 // Pages publiques indexables (plan du site, robots.txt)
-export const PAGES_PUBLIQUES = ['/', '/recherche', '/a-propos', '/partenaires', '/aide', '/conditions', '/confidentialite', '/mentions-legales']
+export const PAGES_PUBLIQUES = [
+  '/',
+  '/recherche',
+  '/a-propos',
+  '/partenaires',
+  '/aide',
+  '/conditions',
+  '/confidentialite',
+  '/mentions-legales',
+]
 
 // Espaces privés : jamais indexés
 export const PAGES_PRIVEES = [
