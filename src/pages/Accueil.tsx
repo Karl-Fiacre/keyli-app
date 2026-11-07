@@ -2,6 +2,7 @@ import { BanniereAccueil } from '@/components/accueil/BanniereAccueil'
 import { CatalogueAccueil } from '@/components/accueil/CatalogueAccueil'
 import { ExplorerCommunes } from '@/components/accueil/ExplorerCommunes'
 import { VideoAtouts } from '@/components/accueil/VideoAtouts'
+import { useTitrePage } from '@/hooks/useTitrePage'
 
 // Accueil public (registre « chaleureux » de DESIGN_SYSTEM.md : turquoise,
 // titres Cambria, rayon accueil). Page composée de blocs indépendants dans
@@ -11,6 +12,7 @@ import { VideoAtouts } from '@/components/accueil/VideoAtouts'
 // le catalogue (liste ou carte) et les communes ; la présentation (parcours,
 // annonceurs, vision) est dans la page À propos (src/pages/APropos.tsx).
 export default function Accueil() {
+  useTitrePage(null)
   return (
     <>
       <BanniereAccueil />

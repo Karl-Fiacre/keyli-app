@@ -18,6 +18,7 @@ import { formatDate, formatXof } from '@/lib/format'
 import { LIBELLES_TYPE } from '@/lib/validation'
 import { pluriel } from '@/lib/sejour'
 import { TexteCinema } from '@/components/animation/TexteCinema'
+import { useTitrePage } from '@/hooks/useTitrePage'
 
 // Sources acceptées par la base (property_interactions_keyli) ; « favoris »
 // est enregistré comme un lien direct
@@ -31,6 +32,9 @@ export default function FicheAnnonce() {
   const source = parametres.get('source')
   const { session } = useSession()
   const fiche = useFicheAnnonce(id)
+  // Titre de l'onglet et description (l'aperçu des réseaux sociaux est
+  // produit côté serveur : functions/annonce/[id].ts)
+  useTitrePage(fiche.data?.annonce.title, fiche.data?.annonce.description?.slice(0, 155))
   useVueAnnonce(fiche.data?.annonce.id, source && SOURCES.includes(source) ? source : 'lien_direct')
 
   if (fiche.isPending) return <p className="container py-16 text-center text-muted-foreground">Chargement…</p>

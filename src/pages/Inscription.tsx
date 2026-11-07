@@ -12,6 +12,7 @@ import { messageErreur } from '@/lib/erreurs'
 import { schemaInscription, type DonneesInscription, type RoleInscription } from '@/lib/validation'
 import { cn } from '@/lib/utils'
 import { Revele } from '@/components/animation/Revele'
+import { useTitrePage } from '@/hooks/useTitrePage'
 
 // Inscription (docs/MODULES/auth.md) : choix du rôle (jamais admin), nom
 // d'agence obligatoire pour une agence, indicateur de robustesse, email de
@@ -23,6 +24,7 @@ const ROLES: Array<{ valeur: RoleInscription; titre: string; description: string
 ]
 
 export default function Inscription() {
+  useTitrePage('Créer un compte', 'Créez gratuitement votre compte Keyli pour chercher un logement vérifié à Abidjan, ou publier vos biens.')
   const inscription = useInscription()
   const naviguer = useNavigate()
   const {

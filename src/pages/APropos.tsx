@@ -8,6 +8,7 @@ import { delaiCascade } from '@/lib/animation'
 import { EMAIL_CONTACT } from '@/lib/juridique'
 import { FondScene } from '@/components/animation/FondScene'
 import { TexteCinema } from '@/components/animation/TexteCinema'
+import { useTitrePage } from '@/hooks/useTitrePage'
 
 // Page « À propos » (décision du porteur, 2026-11-04) : qui sommes-nous,
 // garanties, fonctionnement, espace annonceurs et vision — les blocs de
@@ -42,6 +43,7 @@ const GARANTIES = [
 ]
 
 export default function APropos() {
+  useTitrePage('À propos', 'Keyli, plateforme immobilière de confiance conçue à Abidjan : vérification des annonceurs, avis après visite, carte des biens.')
   return (
     <>
       {/* Qui sommes-nous */}
@@ -106,21 +108,21 @@ export default function APropos() {
 
       <BandeauVision />
 
-      {/* Candidature au pilote (Sprint 5) */}
+      {/* Devenir partenaire (Sprint 7, ex-candidature au pilote) */}
       <section className="container py-14 text-center" aria-labelledby="titre-rejoindre">
         <ZoneRevele>
           <div className="kf-revele mx-auto max-w-2xl">
             <h2 id="titre-rejoindre" className="font-titre text-2xl font-bold md:text-3xl">
-              Participez au pilote d’Abidjan
+              Propriétaire ou agence ?
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Propriétaires, agences ou chercheurs : rejoignez les premiers membres de Keyli, accompagnés par l’équipe.
+              Publiez des biens vérifiés et touchez des locataires et acheteurs sérieux, accompagnés par l’équipe Keyli.
             </p>
             <Link
-              to="/pilote"
+              to="/partenaires"
               className="mt-6 inline-flex h-11 items-center rounded-lg bg-primary px-6 font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
             >
-              Rejoindre le pilote
+              Devenir partenaire
             </Link>
           </div>
         </ZoneRevele>

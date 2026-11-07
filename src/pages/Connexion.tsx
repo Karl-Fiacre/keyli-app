@@ -10,8 +10,10 @@ import { useConnexion } from '@/hooks/useCompte'
 import { messageErreur } from '@/lib/erreurs'
 import { schemaConnexion, type DonneesConnexion } from '@/lib/validation'
 import { Revele } from '@/components/animation/Revele'
+import { useTitrePage } from '@/hooks/useTitrePage'
 
 export default function Connexion() {
+  useTitrePage('Se connecter')
   const connexion = useConnexion()
   const naviguer = useNavigate()
   const etat = useLocation().state as { depuis?: string } | null

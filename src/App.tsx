@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MotionConfig } from 'motion/react'
 import { journaliserErreur } from '@/lib/journal'
@@ -30,6 +30,7 @@ const AdminIndicateurs = lazy(() => import('@/pages/admin/AdminIndicateurs'))
 const AdminVerifications = lazy(() => import('@/pages/admin/AdminVerifications'))
 const AdminSignalements = lazy(() => import('@/pages/admin/AdminSignalements'))
 const AdminRetours = lazy(() => import('@/pages/admin/AdminRetours'))
+const AdminSupport = lazy(() => import('@/pages/admin/AdminSupport'))
 const Retours = lazy(() => import('@/pages/Retours'))
 const TableauDeBord = lazy(() => import('@/pages/dashboard/TableauDeBord'))
 const Conditions = lazy(() => import('@/pages/juridique/Conditions'))
@@ -37,7 +38,7 @@ const Confidentialite = lazy(() => import('@/pages/juridique/Confidentialite'))
 const MentionsLegales = lazy(() => import('@/pages/juridique/MentionsLegales'))
 const Aide = lazy(() => import('@/pages/juridique/Aide'))
 const APropos = lazy(() => import('@/pages/APropos'))
-const Pilote = lazy(() => import('@/pages/Pilote'))
+const Partenaires = lazy(() => import('@/pages/Partenaires'))
 const AdminPilote = lazy(() => import('@/pages/admin/AdminPilote'))
 const AdminErreurs = lazy(() => import('@/pages/admin/AdminErreurs'))
 
@@ -108,7 +109,9 @@ function App() {
                 <Route path="mentions-legales" element={<MentionsLegales />} />
                 <Route path="aide" element={<Aide />} />
                 <Route path="a-propos" element={<APropos />} />
-                <Route path="pilote" element={<Pilote />} />
+                <Route path="partenaires" element={<Partenaires />} />
+                {/* Ancienne adresse du pilote (liens déjà partagés) */}
+                <Route path="pilote" element={<Navigate to="/partenaires" replace />} />
                 <Route path="verifier-email" element={<VerifierEmail />} />
                 <Route path="mot-de-passe-oublie" element={<MotDePasseOublie />} />
                 <Route path="nouveau-mot-de-passe" element={<NouveauMotDePasse />} />
@@ -124,6 +127,7 @@ function App() {
                   <Route path="verifications" element={<AdminVerifications />} />
                   <Route path="signalements" element={<AdminSignalements />} />
                   <Route path="retours" element={<AdminRetours />} />
+                  <Route path="support" element={<AdminSupport />} />
                   <Route path="pilote" element={<AdminPilote />} />
                   <Route path="erreurs" element={<AdminErreurs />} />
                 </Route>

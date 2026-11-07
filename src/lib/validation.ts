@@ -192,3 +192,20 @@ export const schemaCandidature = z
     message: 'Indiquez un nombre.',
   })
 export type DonneesCandidature = z.infer<typeof schemaCandidature>
+
+// Demande d'aide (Sprint 7) : mêmes bornes que la base
+// (envoyer_demande_support_keyli, demandes_support_keyli)
+export const SUJETS_SUPPORT = ['compte', 'annonce', 'verification', 'paiement', 'partenariat', 'autre'] as const
+export type SujetSupport = (typeof SUJETS_SUPPORT)[number]
+
+export const schemaSupport = z.object({
+  nom: z.string().trim().min(1, 'Votre nom est requis.').max(80, '80 caractères au plus.'),
+  email: z.string().trim().email('Adresse email invalide.').max(254),
+  sujet: z.enum(SUJETS_SUPPORT, { error: 'Choisissez un sujet.' }),
+  message: z
+    .string()
+    .trim()
+    .min(10, 'Message trop court (10 caractères au moins).')
+    .max(2000, '2 000 caractères au plus.'),
+})
+export type DonneesSupport = z.infer<typeof schemaSupport>

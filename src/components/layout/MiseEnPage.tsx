@@ -158,8 +158,8 @@ export function MiseEnPage() {
           <Link to="/a-propos" className="hover:text-foreground hover:underline">
             À propos
           </Link>
-          <Link to="/pilote" className="hover:text-foreground hover:underline">
-            Rejoindre le pilote
+          <Link to="/partenaires" className="hover:text-foreground hover:underline">
+            Devenir partenaire
           </Link>
           <Link to="/aide" className="hover:text-foreground hover:underline">
             Aide

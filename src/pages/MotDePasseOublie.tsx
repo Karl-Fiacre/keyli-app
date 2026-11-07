@@ -9,8 +9,10 @@ import { ChampFormulaire } from '@/components/ChampFormulaire'
 import { useDemandeReinitialisation } from '@/hooks/useCompte'
 import { messageErreur } from '@/lib/erreurs'
 import { schemaEmail, type DonneesEmail } from '@/lib/validation'
+import { useTitrePage } from '@/hooks/useTitrePage'
 
 export default function MotDePasseOublie() {
+  useTitrePage('Mot de passe oublié')
   const demande = useDemandeReinitialisation()
   const {
     register,

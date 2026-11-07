@@ -2,10 +2,10 @@ import { MotifToits } from '@/components/accueil/MotifToits'
 import { ZoneRevele } from '@/components/animation/ZoneRevele'
 import { delaiCascade } from '@/lib/animation'
 
-// Étapes de l'ambition (docs/CONTEXT.md : pilote Abidjan, puis sous-région).
+// Étapes de l'ambition (docs/CONTEXT.md : Abidjan, puis sous-région).
 // Formulées comme une trajectoire, sans date ni chiffre promis.
 const ETAPES = [
-  { lieu: 'Abidjan', etat: 'Pilote en cours', actif: true },
+  { lieu: 'Abidjan', etat: 'Ouvert à tous', actif: true },
   { lieu: 'Côte d’Ivoire', etat: 'Grandes villes ensuite', actif: false },
   { lieu: 'Afrique de l’Ouest', etat: 'La référence sous-régionale', actif: false },
 ]

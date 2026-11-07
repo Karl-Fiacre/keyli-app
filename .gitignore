@@ -37,3 +37,9 @@ video/public/musique.wav
 # Supabase CLI — fichiers locaux générés
 supabase/.temp
 supabase/.branches
+
+# Configuration publique des fonctions Cloudflare, générée au déploiement
+functions/_config.generated.ts
+
+# Cache local de wrangler (test des fonctions Cloudflare)
+.wrangler/

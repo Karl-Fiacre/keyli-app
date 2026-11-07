@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { DATE_VERSION_CGU } from '@/lib/juridique'
 import { TexteCinema } from '@/components/animation/TexteCinema'
+import { useTitrePage } from '@/hooks/useTitrePage'
 
 export interface SectionJuridique {
   id: string
@@ -20,9 +21,12 @@ export function PageJuridique({
   introduction?: ReactNode
   sections: SectionJuridique[]
 }) {
+  useTitrePage(titre)
   return (
     <article className="container max-w-3xl py-10">
-      <header className="kf-revele">
+      {/* kf-cascade (et non kf-revele, qui attend une ZoneRevele) : l'en-tête
+          doit apparaître au chargement */}
+      <header className="kf-cascade">
         <TexteCinema className="text-3xl font-bold" segments={[{ texte: titre }]} />
         <p className="mt-2 text-sm text-muted-foreground">Version en vigueur au {DATE_VERSION_CGU}</p>
         {introduction && <div className="mt-4 text-muted-foreground">{introduction}</div>}
