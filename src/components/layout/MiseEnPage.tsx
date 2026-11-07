@@ -1,6 +1,7 @@
 import { Suspense, useEffect, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
+import { motion, useScroll, useSpring } from 'motion/react'
 import { Button } from '@/components/ui/button'
 import { useSession } from '@/hooks/useSession'
 import { useDeconnexion } from '@/hooks/useCompte'
@@ -28,6 +29,9 @@ export function MiseEnPage() {
   // Messagerie : nouveaux messages en temps réel, pastille des non-lus
   useMessagesTempsReel()
   const nonLus = useMessagesNonLus().data ?? 0
+  // Trait de progression du défilement sous l'en-tête (registre cinématique)
+  const { scrollYProgress } = useScroll()
+  const progression = useSpring(scrollYProgress, { stiffness: 140, damping: 26, restDelta: 0.001 })
 
   // Le menu mobile se referme à chaque changement de page
   useEffect(() => setMenuOuvert(false), [pathname])
@@ -61,6 +65,11 @@ export function MiseEnPage() {
     <div className="flex min-h-screen flex-col">
       <LienEvitement />
       <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+        <motion.div
+          aria-hidden
+          className="absolute inset-x-0 -bottom-px h-0.5 origin-left bg-gradient-to-r from-turquoise via-primary-glow to-turquoise"
+          style={{ scaleX: progression }}
+        />
         <div className="container flex h-16 items-center justify-between gap-3">
           <Link to="/" aria-label="Keyli — accueil" className="shrink-0">
             <img
@@ -136,7 +145,7 @@ export function MiseEnPage() {
         </nav>
       </header>
       <main id="contenu" tabIndex={-1} className="flex-1 outline-none">
-        <TransitionPage>
+        <TransitionPage variante="rideau">
           <PorteCgu>
             <Suspense fallback={<ChargementPage />}>
               <Outlet />
