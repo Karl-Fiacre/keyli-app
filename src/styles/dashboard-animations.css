@@ -1,7 +1,11 @@
 /* Keyli — animations et transitions (docs/ANIMATIONS.md,
    docs/KEYLI_DASHBOARD_DESIGN_SPEC.md §5). Seul fichier de keyframes du
    projet : les composants importent ces classes, ils n'en réécrivent pas.
-   Aucune animation ne dépasse 500 ms (exception : compteur KPI, 600 ms). */
+   Registre « cinématique » depuis le 2026-11-07 (décision du porteur) :
+   mouvements plus amples, mise au point (flou → net), durées jusqu'à
+   ~1 s ; les animations Motion (src/lib/cinema.ts) suivent les mêmes
+   courbes. Les états finaux ne laissent ni flou ni décalage (filter: none),
+   pour ne pas casser les éléments fixes ou collants. */
 
 :root {
   --kf-fast: 150ms;
@@ -9,6 +13,9 @@
   --kf-slow: 400ms;
   --kf-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --kf-ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Registre cinématique (mêmes courbes que src/lib/cinema.ts) */
+  --kf-cinema: 900ms;
+  --kf-ease-cinema: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* 8. Cloche de notification — une seule oscillation courte (±8°, 400 ms) à
@@ -47,11 +54,11 @@
    translateY(8px → 0), 250 ms ; le décalage (×60 ms par carte) est passé
    par la variable --kf-delai sur l'élément */
 @keyframes kf-cascade {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(26px) scale(0.98); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
 }
 .kf-cascade {
-  animation: kf-cascade var(--kf-base) var(--kf-ease-out) both;
+  animation: kf-cascade 750ms var(--kf-ease-cinema) both;
   animation-delay: var(--kf-delai, 0ms);
 }
 
@@ -63,16 +70,16 @@
 }
 .kf-trace {
   stroke-dasharray: 1;
-  animation: kf-trace 500ms var(--kf-ease-out) both;
+  animation: kf-trace 1200ms var(--kf-ease-cinema) 200ms both;
 }
 
 /* 4. DonutChart — fondu + scale(0.9 → 1), 300 ms (pas de balayage) */
 @keyframes kf-donut {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
+  from { opacity: 0; transform: scale(0.75) rotate(-25deg); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
 }
 .kf-donut {
-  animation: kf-donut 300ms var(--kf-ease-out) both;
+  animation: kf-donut 1000ms var(--kf-ease-cinema) both;
 }
 
 /* 5. TrendBar — la barre grandit de 0 à sa valeur, 400 ms, décalage
@@ -83,25 +90,25 @@
 }
 .kf-barre {
   transform-origin: left center;
-  animation: kf-barre var(--kf-slow) var(--kf-ease-out) both;
+  animation: kf-barre 1000ms var(--kf-ease-cinema) both;
   animation-delay: var(--kf-delai, 0ms);
 }
 
 /* InsightCard — apparition : fondu + translateX(-8px → 0), 250 ms */
 @keyframes kf-glisse-gauche {
-  from { opacity: 0; transform: translateX(-8px); }
-  to { opacity: 1; transform: translateX(0); }
+  from { opacity: 0; transform: translateX(-28px); filter: blur(4px); }
+  to { opacity: 1; transform: none; filter: none; }
 }
 .kf-glisse-gauche {
-  animation: kf-glisse-gauche var(--kf-base) var(--kf-ease-out) both;
+  animation: kf-glisse-gauche 800ms var(--kf-ease-cinema) both;
 }
 
 /* 9. LeadCard / RecommendationCard — survol : léger soulèvement + ombre */
 .kf-souleve {
-  transition: transform var(--kf-fast) var(--kf-ease-out), box-shadow var(--kf-fast) var(--kf-ease-out);
+  transition: transform 350ms var(--kf-ease-cinema), box-shadow 350ms var(--kf-ease-cinema);
 }
 .kf-souleve:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
   box-shadow: var(--shadow-lift);
 }
 
@@ -123,16 +130,19 @@
    parallax). Fondu + montée de 12 px, 400 ms, décalage via --kf-delai. */
 .kf-revele {
   opacity: 0;
-  transform: translateY(12px);
+  transform: translateY(44px) scale(0.97);
+  filter: blur(8px);
   transition:
-    opacity var(--kf-slow) var(--kf-ease-out),
-    transform var(--kf-slow) var(--kf-ease-out);
+    opacity var(--kf-cinema) var(--kf-ease-cinema),
+    transform var(--kf-cinema) var(--kf-ease-cinema),
+    filter var(--kf-cinema) var(--kf-ease-cinema);
   transition-delay: var(--kf-delai, 0ms);
 }
 .kf-revele[data-visible],
 [data-visible] .kf-revele {
   opacity: 1;
   transform: none;
+  filter: none;
 }
 
 /* Filet qui se trace de gauche à droite quand sa zone se révèle (étapes
@@ -140,7 +150,7 @@
 .kf-revele-trait {
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform 500ms var(--kf-ease-out) 150ms;
+  transition: transform 1100ms var(--kf-ease-cinema) 300ms;
 }
 [data-visible] .kf-revele-trait {
   transform: scaleX(1);
@@ -150,18 +160,34 @@
    photo qui « tombe » ligne par ligne sur les réseaux lents */
 .kf-photo {
   opacity: 0;
-  transition: opacity 300ms var(--kf-ease-out);
+  transform: scale(1.06);
+  filter: blur(6px);
+  transition:
+    opacity 700ms var(--kf-ease-cinema),
+    transform 1200ms var(--kf-ease-cinema),
+    filter 700ms var(--kf-ease-cinema);
 }
 .kf-photo[data-chargee] {
   opacity: 1;
+  transform: none;
+  filter: none;
 }
 
 /* Zoom doux de la photo au survol d'une carte (parent .group), 400 ms */
 .kf-zoom {
-  transition: transform var(--kf-slow) var(--kf-ease-out);
+  transition: transform 1100ms var(--kf-ease-cinema), filter 1100ms var(--kf-ease-cinema);
 }
 .group:hover .kf-zoom {
-  transform: scale(1.04);
+  transform: scale(1.08);
+  filter: saturate(1.12);
+}
+/* Photo de carte d'annonce : fondu d'apparition ET zoom au survol (sans
+   cette règle, la transition du zoom remplacerait celle du fondu) */
+.kf-photo.kf-zoom {
+  transition:
+    opacity 700ms var(--kf-ease-cinema),
+    transform 1100ms var(--kf-ease-cinema),
+    filter 900ms var(--kf-ease-cinema);
 }
 
 /* Cœur favori — petit battement à l'ajout, 250 ms */
@@ -204,6 +230,7 @@
   .group:hover .kf-zoom {
     opacity: 1;
     transform: none;
+    filter: none;
     transition: none;
   }
 }
