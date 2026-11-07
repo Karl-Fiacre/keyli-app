@@ -15,6 +15,7 @@ import { ecrireFiltres, LIBELLES_TRI, lireFiltres, nombreFiltresActifs } from '@
 import { cn } from '@/lib/utils'
 import { delaiCascade } from '@/lib/animation'
 import { TexteCinema } from '@/components/animation/TexteCinema'
+import { useTitrePage } from '@/hooks/useTitrePage'
 
 // Recherche d'annonces par filtres (Sprint 2). Les filtres vivent dans l'URL ;
 // la base filtre et trie (vérifiées d'abord par défaut).
@@ -24,6 +25,10 @@ export default function Recherche() {
   const recherche = useRecherche(filtres)
   const [panneauOuvert, setPanneauOuvert] = useState(false)
   const [vue, setVue] = useVueCatalogue()
+  useTitrePage(
+    filtres.sejour ? 'Séjours à Abidjan' : 'Logements à Abidjan',
+    'Appartements, studios, maisons et villas à louer ou à vendre à Abidjan, annonces vérifiées par l’équipe Keyli.',
+  )
 
   const appliquer = (f: Filtres) => setParametres(ecrireFiltres(f))
   const total = recherche.data?.total ?? 0
