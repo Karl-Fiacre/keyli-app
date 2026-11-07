@@ -13,3 +13,7 @@
 # Le point d'entrée doit toujours être revalidé pour servir la dernière version
 /index.html
   Cache-Control: no-cache
+
+# Vidéo de l'accueil (fichier non versionné par empreinte) : cache d'un jour
+/videos/*
+  Cache-Control: public, max-age=86400
