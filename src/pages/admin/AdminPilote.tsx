@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Alert } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { KpiCard } from '@/components/dashboard/KpiCard'
@@ -70,6 +71,34 @@ function SuiviPilote() {
           ))}
         </div>
       </section>
+
+      {/* Vérification et relances (Sprint 6) */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        <Link
+          to="/admin/verifications"
+          className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <KpiCard
+            libelle="Dossiers en retard"
+            nombre={Number(s.documents_en_retard)}
+            detail={`en attente depuis plus de 48 h, sur ${Number(s.documents_en_attente)} en attente`}
+            rang={0}
+          />
+        </Link>
+        <KpiCard
+          libelle="Délai moyen de vérification"
+          nombre={s.delai_moyen_heures === null ? null : Number(s.delai_moyen_heures)}
+          formater={(n) => `${n.toLocaleString('fr-FR', { maximumFractionDigits: 1 })} h`}
+          detail="du dépôt à la décision, 30 derniers jours"
+          rang={1}
+        />
+        <KpiCard
+          libelle="Relances envoyées (7 j)"
+          nombre={Number(s.relances_7j)}
+          detail="annonceurs bloqués relancés par cloche et email"
+          rang={2}
+        />
+      </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <KpiCard

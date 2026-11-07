@@ -124,3 +124,15 @@ export function useModeration() {
   })
   return { traiter, retirerVerificationBien, suspendre }
 }
+
+// Journal des erreurs (Sprint 6) : erreurs regroupées, les plus fréquentes d'abord
+export function useErreursRecentes(jours: number) {
+  return useQuery({
+    queryKey: ['admin', 'erreurs', jours],
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc('erreurs_recentes_keyli', { p_jours: jours })
+      if (error) throw error
+      return data
+    },
+  })
+}

@@ -76,6 +76,7 @@ export default function AdminVerifications() {
                   {d.revu_le && ` · traité le ${formatDate(d.revu_le)}`}
                   {d.compte_verifie && ' · compte déjà vérifié'}
                 </p>
+                {!d.revu_le && d.depose_le && <Attente depuis={d.depose_le} />}
                 {d.notes && <p className="text-xs text-destructive-texte">Motif du rejet : {d.notes}</p>}
               </div>
               <Button
@@ -147,5 +148,19 @@ export default function AdminVerifications() {
         ))}
       </ul>
     </div>
+  )
+}
+
+// Ancienneté d'un dossier en attente (Sprint 6) : en rouge au-delà de 48 h
+const SEUIL_RETARD_HEURES = 48
+function Attente({ depuis }: { depuis: string }) {
+  const heures = Math.max(0, Math.floor((Date.now() - new Date(depuis).getTime()) / 3_600_000))
+  const texte = heures < 24 ? `${heures} h` : `${Math.floor(heures / 24)} j ${heures % 24} h`
+  const retard = heures >= SEUIL_RETARD_HEURES
+  return (
+    <p className={cn('text-xs font-semibold', retard ? 'text-destructive-texte' : 'text-pending-texte')}>
+      En attente depuis {texte}
+      {retard && ' — au-delà de 48 h'}
+    </p>
   )
 }

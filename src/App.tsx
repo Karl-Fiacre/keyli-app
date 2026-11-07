@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { journaliserErreur } from '@/lib/journal'
 import { FournisseurSession } from '@/hooks/useSession'
 import { MiseEnPage } from '@/components/layout/MiseEnPage'
 import { CadreConnecte } from '@/components/layout/CadreConnecte'
@@ -37,6 +38,7 @@ const Aide = lazy(() => import('@/pages/juridique/Aide'))
 const APropos = lazy(() => import('@/pages/APropos'))
 const Pilote = lazy(() => import('@/pages/Pilote'))
 const AdminPilote = lazy(() => import('@/pages/admin/AdminPilote'))
+const AdminErreurs = lazy(() => import('@/pages/admin/AdminErreurs'))
 
 // Pages chargées à la demande (Sprint 5, connexions mobiles lentes) : seul
 // l'accueil est dans le fichier principal. Les cadres affichent un
@@ -46,7 +48,10 @@ const AdminPilote = lazy(() => import('@/pages/admin/AdminPilote'))
 // n'est pas inclus dans le build de production)
 const Composants = import.meta.env.DEV ? lazy(() => import('@/pages/dev/Composants')) : null
 
+// Les erreurs de lecture et d'écriture inattendues vont au journal (Sprint 6)
 const clientRequetes = new QueryClient({
+  queryCache: new QueryCache({ onError: (e) => journaliserErreur(e, 'lecture') }),
+  mutationCache: new MutationCache({ onError: (e) => journaliserErreur(e, 'action') }),
   defaultOptions: { queries: { staleTime: 30_000, retry: 1, refetchOnWindowFocus: false } },
 })
 
@@ -116,6 +121,7 @@ function App() {
                 <Route path="signalements" element={<AdminSignalements />} />
                 <Route path="retours" element={<AdminRetours />} />
                 <Route path="pilote" element={<AdminPilote />} />
+                <Route path="erreurs" element={<AdminErreurs />} />
               </Route>
               <Route path="*" element={<PageIntrouvable />} />
             </Route>
