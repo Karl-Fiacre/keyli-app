@@ -11,6 +11,7 @@ const ONGLETS = [
   { vers: '/admin/verifications', libelle: 'Vérifications', fin: false },
   { vers: '/admin/signalements', libelle: 'Signalements', fin: false },
   { vers: '/admin/retours', libelle: 'Retours', fin: false },
+  { vers: '/admin/support', libelle: 'Support', fin: false },
   { vers: '/admin/pilote', libelle: 'Pilote', fin: false },
   { vers: '/admin/erreurs', libelle: 'Erreurs', fin: false },
 ]

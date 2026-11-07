@@ -30,6 +30,7 @@ const AdminIndicateurs = lazy(() => import('@/pages/admin/AdminIndicateurs'))
 const AdminVerifications = lazy(() => import('@/pages/admin/AdminVerifications'))
 const AdminSignalements = lazy(() => import('@/pages/admin/AdminSignalements'))
 const AdminRetours = lazy(() => import('@/pages/admin/AdminRetours'))
+const AdminSupport = lazy(() => import('@/pages/admin/AdminSupport'))
 const Retours = lazy(() => import('@/pages/Retours'))
 const TableauDeBord = lazy(() => import('@/pages/dashboard/TableauDeBord'))
 const Conditions = lazy(() => import('@/pages/juridique/Conditions'))
@@ -126,6 +127,7 @@ function App() {
                   <Route path="verifications" element={<AdminVerifications />} />
                   <Route path="signalements" element={<AdminSignalements />} />
                   <Route path="retours" element={<AdminRetours />} />
+                  <Route path="support" element={<AdminSupport />} />
                   <Route path="pilote" element={<AdminPilote />} />
                   <Route path="erreurs" element={<AdminErreurs />} />
                 </Route>
