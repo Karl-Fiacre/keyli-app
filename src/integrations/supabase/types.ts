@@ -57,6 +57,19 @@ export type Database = {
                   Relationships: [
                     
                   ]
+                },"demandes_support_keyli": {
+                  Row: {
+                    "created_at": string,"email": string,"id": string,"message": string,"nom": string,"note_admin": string | null,"statut": string,"sujet": string,"updated_at": string,"user_id": string | null
+                  }
+                  Insert: {
+                    "created_at"?: string,"email": string,"id"?: string,"message": string,"nom": string,"note_admin"?: string | null,"statut"?: string,"sujet": string,"updated_at"?: string,"user_id"?: string | null
+                  }
+                  Update: {
+                    "created_at"?: string,"email"?: string,"id"?: string,"message"?: string,"nom"?: string,"note_admin"?: string | null,"statut"?: string,"sujet"?: string,"updated_at"?: string,"user_id"?: string | null
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"depassements_cycle_keyli": {
                   Row: {
                     "created_at": string,"cycle_debut": string,"cycle_fin": string,"en_depassement": boolean,"id": string,"montant": number,"nb_depassement": number,"nb_publications": number,"prix_unitaire": number | null,"seuil": number | null,"statut": string,"subscription_id": string,"tentative_id": string | null,"transaction_id": string | null,"user_id": string
@@ -841,6 +854,9 @@ isOneToOne: false
                            },
 "email_de_service_keyli":
 { Args: { "p_type": string }; Returns: boolean
+                           },
+"envoyer_demande_support_keyli":
+{ Args: { "p_email": string,"p_message": string,"p_nom": string,"p_sujet": string }; Returns: undefined
                            },
 "erreurs_recentes_keyli":
 { Args: { "p_jours"?: number }; Returns: {
