@@ -14,6 +14,7 @@ import { messageErreur } from '@/lib/erreurs'
 import { ecrireFiltres, LIBELLES_TRI, lireFiltres, nombreFiltresActifs } from '@/lib/recherche'
 import { cn } from '@/lib/utils'
 import { delaiCascade } from '@/lib/animation'
+import { TexteCinema } from '@/components/animation/TexteCinema'
 
 // Recherche d'annonces par filtres (Sprint 2). Les filtres vivent dans l'URL ;
 // la base filtre et trie (vérifiées d'abord par défaut).
@@ -59,9 +60,11 @@ export default function Recherche() {
         <div className="min-w-0 flex-1 space-y-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h1 className="text-2xl font-bold tracking-tight">
-                {filtres.sejour ? 'Séjours à Abidjan' : 'Logements à Abidjan'}
-              </h1>
+              <TexteCinema
+                key={filtres.sejour ? 'sejour' : 'logement'}
+                className="text-2xl font-bold tracking-tight"
+                segments={[{ texte: filtres.sejour ? 'Séjours à Abidjan' : 'Logements à Abidjan' }]}
+              />
               <p className="text-sm text-muted-foreground" aria-live="polite">
                 {recherche.isPending ? 'Recherche…' : `${total} annonce${total > 1 ? 's' : ''}`}
               </p>

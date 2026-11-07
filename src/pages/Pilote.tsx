@@ -6,12 +6,13 @@ import { Alert } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ChampFormulaire } from '@/components/ChampFormulaire'
-import { MotifToits } from '@/components/accueil/MotifToits'
 import { LIBELLES_PROFIL_PILOTE, useCandidaturePilote } from '@/hooks/usePilote'
 import { useCommunes } from '@/hooks/useRecherche'
 import { messageErreur } from '@/lib/erreurs'
 import { PROFILS_PILOTE, schemaCandidature, type DonneesCandidature } from '@/lib/validation'
 import { cn } from '@/lib/utils'
+import { FondScene } from '@/components/animation/FondScene'
+import { TexteCinema } from '@/components/animation/TexteCinema'
 
 const champ =
   'flex w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
@@ -57,12 +58,17 @@ export default function Pilote() {
         className="relative isolate overflow-hidden bg-primary py-14 text-primary-foreground md:py-20"
         aria-labelledby="titre-pilote"
       >
-        <MotifToits className="absolute inset-0 -z-10 h-full w-full opacity-[0.12]" />
-        <div className="container kf-page max-w-3xl">
+        <FondScene />
+        <div className="container max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-wider text-turquoise">Pilote · Abidjan</p>
-          <h1 id="titre-pilote" className="mt-2 font-titre text-4xl font-bold md:text-5xl">
-            Rejoignez les premiers membres de Keyli
-          </h1>
+          <TexteCinema
+            id="titre-pilote"
+            className="mt-2 font-titre text-4xl font-bold md:text-5xl"
+            segments={[
+              { texte: 'Rejoignez les premiers membres de ' },
+              { texte: 'Keyli', className: 'text-turquoise' },
+            ]}
+          />
           <p className="mt-4 text-lg text-primary-foreground/85">
             Propriétaires, agences et chercheurs de logement : participez au lancement de Keyli à Abidjan, avec un
             accompagnement direct de l’équipe.

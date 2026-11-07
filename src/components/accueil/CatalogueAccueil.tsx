@@ -10,7 +10,9 @@ import { ZoneRevele } from '@/components/animation/ZoneRevele'
 import { TAILLE_PAGE, useRecherche } from '@/hooks/useRecherche'
 import { useVueCatalogue } from '@/hooks/useVueCatalogue'
 import { messageErreur } from '@/lib/erreurs'
-import { delaiCascade } from '@/lib/animation'
+import { Revele } from '@/components/animation/Revele'
+import { TexteCinema } from '@/components/animation/TexteCinema'
+import { delaiCinema } from '@/lib/cinema'
 import { cn } from '@/lib/utils'
 
 // Catalogue des biens disponibles (décision du porteur, 2026-11-04) :
@@ -33,9 +35,14 @@ export function CatalogueAccueil() {
         <div className="kf-revele mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wider text-primary-glow">Catalogue</p>
-            <h2 id="titre-catalogue" className="mt-1 font-titre text-3xl font-bold md:text-4xl">
-              Biens disponibles
-            </h2>
+            <TexteCinema
+              id="titre-catalogue"
+              as="h2"
+              quandVisible
+              delai={0.2}
+              segments={[{ texte: 'Biens disponibles' }]}
+              className="mt-1 font-titre text-3xl font-bold md:text-4xl"
+            />
             <p className="mt-2 text-muted-foreground" aria-live="polite">
               {recherche.isPending
                 ? 'Chargement des annonces…'
@@ -76,9 +83,9 @@ export function CatalogueAccueil() {
           )}
         >
           {annonces.map((a, i) => (
-            <li key={a.id} className="kf-cascade" style={delaiCascade(i, 40, 300)}>
+            <Revele key={a.id} as="li" delai={delaiCinema(i % 4, 0.1)}>
               <CarteAnnonce annonce={a} />
-            </li>
+            </Revele>
           ))}
         </ul>
       )}

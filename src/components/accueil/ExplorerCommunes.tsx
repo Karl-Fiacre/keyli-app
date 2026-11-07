@@ -3,6 +3,7 @@ import { ArrowUpRight, MapPin } from 'lucide-react'
 import { useCommunes } from '@/hooks/useRecherche'
 import { ZoneRevele } from '@/components/animation/ZoneRevele'
 import { delaiCascade } from '@/lib/animation'
+import { TexteCinema } from '@/components/animation/TexteCinema'
 
 // Toutes les communes couvertes (liste fermée en base), chacune menant à la
 // recherche filtrée. Tuiles typographiques : pas de photo d'illustration.
@@ -15,9 +16,14 @@ export function ExplorerCommunes() {
       <ZoneRevele>
         <div className="kf-revele max-w-2xl">
           <p className="text-sm font-semibold uppercase tracking-wider text-primary-glow">Explorer</p>
-          <h2 id="titre-communes" className="mt-1 font-titre text-3xl font-bold md:text-4xl">
-            Abidjan, commune par commune
-          </h2>
+          <TexteCinema
+            id="titre-communes"
+            as="h2"
+            quandVisible
+            delai={0.2}
+            segments={[{ texte: 'Abidjan, ' }, { texte: 'commune par commune', className: 'text-primary-glow' }]}
+            className="mt-1 font-titre text-3xl font-bold md:text-4xl"
+          />
           <p className="mt-2 text-muted-foreground">
             {communes.length} communes couvertes par le pilote. Choisissez la vôtre.
           </p>

@@ -6,6 +6,7 @@ import { CarteAnnonce } from '@/components/annonce/CarteAnnonce'
 import { useBasculerFavori, useMesFavoris } from '@/hooks/useFavoris'
 import { messageErreur } from '@/lib/erreurs'
 import { formatDate } from '@/lib/format'
+import { TexteCinema } from '@/components/animation/TexteCinema'
 
 // Annonces mises en favori, de la plus récente à la plus ancienne. Une annonce
 // retirée depuis (archivée, masquée) reste listée pour pouvoir l'enlever.
@@ -19,7 +20,7 @@ export default function MesFavoris() {
     <section>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Mes favoris</h1>
+          <TexteCinema className="text-2xl font-bold tracking-tight" segments={[{ texte: 'Mes favoris' }]} />
           {favoris.data && (
             <p className="text-sm text-muted-foreground">
               {disponibles.length} annonce{disponibles.length > 1 ? 's' : ''} enregistrée

@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { MotionConfig } from 'motion/react'
 import { journaliserErreur } from '@/lib/journal'
 import { FournisseurSession } from '@/hooks/useSession'
 import { MiseEnPage } from '@/components/layout/MiseEnPage'
@@ -59,74 +60,78 @@ function App() {
   return (
     <QueryClientProvider client={clientRequetes}>
       <FournisseurSession>
-        <BrowserRouter>
-          <Routes>
-            {Composants && (
+        {/* Animations cinématiques (docs/ANIMATIONS.md) : déplacements coupés si
+            l'appareil demande de limiter les animations */}
+        <MotionConfig reducedMotion="user">
+          <BrowserRouter>
+            <Routes>
+              {Composants && (
+                <Route
+                  path="dev/composants/:section?"
+                  element={
+                    <Suspense fallback={null}>
+                      <Composants />
+                    </Suspense>
+                  }
+                />
+              )}
+              {/* Espace connecté : cadre du tableau de bord (barre latérale selon le rôle).
+                  Décision du porteur, 2026-10-31. L'admin garde son propre écran. */}
               <Route
-                path="dev/composants/:section?"
-                element={
-                  <Suspense fallback={null}>
-                    <Composants />
-                  </Suspense>
-                }
-              />
-            )}
-            {/* Espace connecté : cadre du tableau de bord (barre latérale selon le rôle).
-                Décision du porteur, 2026-10-31. L'admin garde son propre écran. */}
-            <Route
-              element={
-                <RouteProtegee>
-                  <CadreConnecte />
-                </RouteProtegee>
-              }
-            >
-              <Route path="tableau-de-bord" element={<TableauDeBord />} />
-              <Route path="profil" element={<Profil />} />
-              <Route path="abonnement" element={<Abonnement />} />
-              <Route path="abonnement/retour" element={<RetourPaiement />} />
-              <Route path="annonces" element={<MesAnnonces />} />
-              <Route path="annonces/nouvelle" element={<PublierAnnonce />} />
-              <Route path="messages" element={<Messages />} />
-              <Route path="messages/:bien/:interlocuteur" element={<Messages />} />
-              <Route path="favoris" element={<MesFavoris />} />
-              <Route path="reservations" element={<Reservations />} />
-              <Route path="retours" element={<Retours />} />
-            </Route>
-            <Route element={<MiseEnPage />}>
-              <Route index element={<Accueil />} />
-              <Route path="recherche" element={<Recherche />} />
-              <Route path="annonce/:id" element={<FicheAnnonce />} />
-              <Route path="inscription" element={<Inscription />} />
-              <Route path="connexion" element={<Connexion />} />
-              <Route path="desinscription" element={<Desinscription />} />
-              <Route path="conditions" element={<Conditions />} />
-              <Route path="confidentialite" element={<Confidentialite />} />
-              <Route path="mentions-legales" element={<MentionsLegales />} />
-              <Route path="aide" element={<Aide />} />
-              <Route path="a-propos" element={<APropos />} />
-              <Route path="pilote" element={<Pilote />} />
-              <Route path="verifier-email" element={<VerifierEmail />} />
-              <Route path="mot-de-passe-oublie" element={<MotDePasseOublie />} />
-              <Route path="nouveau-mot-de-passe" element={<NouveauMotDePasse />} />
-              <Route
-                path="admin"
                 element={
                   <RouteProtegee>
-                    <Admin />
+                    <CadreConnecte />
                   </RouteProtegee>
                 }
               >
-                <Route index element={<AdminIndicateurs />} />
-                <Route path="verifications" element={<AdminVerifications />} />
-                <Route path="signalements" element={<AdminSignalements />} />
-                <Route path="retours" element={<AdminRetours />} />
-                <Route path="pilote" element={<AdminPilote />} />
-                <Route path="erreurs" element={<AdminErreurs />} />
+                <Route path="tableau-de-bord" element={<TableauDeBord />} />
+                <Route path="profil" element={<Profil />} />
+                <Route path="abonnement" element={<Abonnement />} />
+                <Route path="abonnement/retour" element={<RetourPaiement />} />
+                <Route path="annonces" element={<MesAnnonces />} />
+                <Route path="annonces/nouvelle" element={<PublierAnnonce />} />
+                <Route path="messages" element={<Messages />} />
+                <Route path="messages/:bien/:interlocuteur" element={<Messages />} />
+                <Route path="favoris" element={<MesFavoris />} />
+                <Route path="reservations" element={<Reservations />} />
+                <Route path="retours" element={<Retours />} />
               </Route>
-              <Route path="*" element={<PageIntrouvable />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+              <Route element={<MiseEnPage />}>
+                <Route index element={<Accueil />} />
+                <Route path="recherche" element={<Recherche />} />
+                <Route path="annonce/:id" element={<FicheAnnonce />} />
+                <Route path="inscription" element={<Inscription />} />
+                <Route path="connexion" element={<Connexion />} />
+                <Route path="desinscription" element={<Desinscription />} />
+                <Route path="conditions" element={<Conditions />} />
+                <Route path="confidentialite" element={<Confidentialite />} />
+                <Route path="mentions-legales" element={<MentionsLegales />} />
+                <Route path="aide" element={<Aide />} />
+                <Route path="a-propos" element={<APropos />} />
+                <Route path="pilote" element={<Pilote />} />
+                <Route path="verifier-email" element={<VerifierEmail />} />
+                <Route path="mot-de-passe-oublie" element={<MotDePasseOublie />} />
+                <Route path="nouveau-mot-de-passe" element={<NouveauMotDePasse />} />
+                <Route
+                  path="admin"
+                  element={
+                    <RouteProtegee>
+                      <Admin />
+                    </RouteProtegee>
+                  }
+                >
+                  <Route index element={<AdminIndicateurs />} />
+                  <Route path="verifications" element={<AdminVerifications />} />
+                  <Route path="signalements" element={<AdminSignalements />} />
+                  <Route path="retours" element={<AdminRetours />} />
+                  <Route path="pilote" element={<AdminPilote />} />
+                  <Route path="erreurs" element={<AdminErreurs />} />
+                </Route>
+                <Route path="*" element={<PageIntrouvable />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </MotionConfig>
       </FournisseurSession>
     </QueryClientProvider>
   )

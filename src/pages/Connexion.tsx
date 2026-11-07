@@ -9,6 +9,7 @@ import { ChampFormulaire } from '@/components/ChampFormulaire'
 import { useConnexion } from '@/hooks/useCompte'
 import { messageErreur } from '@/lib/erreurs'
 import { schemaConnexion, type DonneesConnexion } from '@/lib/validation'
+import { Revele } from '@/components/animation/Revele'
 
 export default function Connexion() {
   const connexion = useConnexion()
@@ -29,39 +30,41 @@ export default function Connexion() {
 
   return (
     <section className="container flex justify-center py-12">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Se connecter</CardTitle>
-          <CardDescription>Accédez à votre compte Keyli.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={envoyer} noValidate className="space-y-5">
-            <ChampFormulaire libelle="Adresse email" erreur={errors.email?.message}>
-              {(a) => <Input {...a} type="email" autoComplete="email" {...register('email')} />}
-            </ChampFormulaire>
-            <ChampFormulaire libelle="Mot de passe" erreur={errors.motDePasse?.message}>
-              {(a) => <Input {...a} type="password" autoComplete="current-password" {...register('motDePasse')} />}
-            </ChampFormulaire>
-            <div className="text-right">
-              <Link to="/mot-de-passe-oublie" className="text-sm font-semibold text-primary-glow hover:underline">
-                Mot de passe oublié ?
-              </Link>
-            </div>
+      <Revele effet="profondeur" className="w-full max-w-md">
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle>Se connecter</CardTitle>
+            <CardDescription>Accédez à votre compte Keyli.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={envoyer} noValidate className="space-y-5">
+              <ChampFormulaire libelle="Adresse email" erreur={errors.email?.message}>
+                {(a) => <Input {...a} type="email" autoComplete="email" {...register('email')} />}
+              </ChampFormulaire>
+              <ChampFormulaire libelle="Mot de passe" erreur={errors.motDePasse?.message}>
+                {(a) => <Input {...a} type="password" autoComplete="current-password" {...register('motDePasse')} />}
+              </ChampFormulaire>
+              <div className="text-right">
+                <Link to="/mot-de-passe-oublie" className="text-sm font-semibold text-primary-glow hover:underline">
+                  Mot de passe oublié ?
+                </Link>
+              </div>
 
-            {connexion.isError && <Alert variant="erreur">{messageErreur(connexion.error)}</Alert>}
+              {connexion.isError && <Alert variant="erreur">{messageErreur(connexion.error)}</Alert>}
 
-            <Button type="submit" className="w-full" disabled={connexion.isPending}>
-              {connexion.isPending ? 'Connexion…' : 'Se connecter'}
-            </Button>
-            <p className="text-center text-sm text-muted-foreground">
-              Pas encore de compte ?{' '}
-              <Link to="/inscription" className="font-semibold text-primary-glow hover:underline">
-                Créer un compte
-              </Link>
-            </p>
-          </form>
-        </CardContent>
-      </Card>
+              <Button type="submit" className="w-full" disabled={connexion.isPending}>
+                {connexion.isPending ? 'Connexion…' : 'Se connecter'}
+              </Button>
+              <p className="text-center text-sm text-muted-foreground">
+                Pas encore de compte ?{' '}
+                <Link to="/inscription" className="font-semibold text-primary-glow hover:underline">
+                  Créer un compte
+                </Link>
+              </p>
+            </form>
+          </CardContent>
+        </Card>
+      </Revele>
     </section>
   )
 }

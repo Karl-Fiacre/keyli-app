@@ -17,6 +17,7 @@ import { urlPhoto } from '@/lib/cloudinary'
 import { messageErreur } from '@/lib/erreurs'
 import { LIBELLES_TYPE } from '@/lib/validation'
 import { formatXof } from '@/lib/format'
+import { TexteCinema } from '@/components/animation/TexteCinema'
 
 // Annonces du compte (publiées, masquées, archivées)
 export default function MesAnnonces() {
@@ -42,7 +43,7 @@ export default function MesAnnonces() {
     <section>
       <div className="mx-auto max-w-3xl space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h1 className="text-2xl font-bold tracking-tight">Mes annonces</h1>
+          <TexteCinema className="text-2xl font-bold tracking-tight" segments={[{ texte: 'Mes annonces' }]} />
           <Button asChild>
             <Link to="/annonces/nouvelle">
               <Plus className="mr-2 h-4 w-4" aria-hidden />
