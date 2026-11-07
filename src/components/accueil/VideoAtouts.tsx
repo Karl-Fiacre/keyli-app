@@ -62,7 +62,13 @@ export function VideoAtouts() {
             Recherche précise, carte et position GPS, annonces vérifiées, messagerie et avis après visite.
           </p>
         </div>
-        <div ref={ecran} className="mt-8" style={{ perspective: 1400 }}>
+        {/* Taille bornée : la vidéo (16:9) tient entière dans la fenêtre, au
+            plus 70 % de la hauteur visible, sans défilement pour la voir */}
+        <div
+          ref={ecran}
+          className="mx-auto mt-8 w-full"
+          style={{ perspective: 1400, maxWidth: 'min(56rem, calc(70svh * 16 / 9))' }}
+        >
           <motion.div
             className="overflow-hidden border bg-primary shadow-card"
             style={{ scale: echelle, rotateX: inclinaison, borderRadius: arrondi }}
