@@ -1,0 +1,22 @@
+{
+  "name": "keyli-video",
+  "private": true,
+  "description": "Vidéos Keyli (publicités et vidéo de l'accueil) en Remotion",
+  "scripts": {
+    "studio": "remotion studio --no-open",
+    "voix": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/voix.ps1",
+    "render:all": "node scripts/rendre.mjs"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.2",
+    "typescript": "5.9.3"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.505",
+    "@remotion/media": "4.0.505",
+    "@remotion/transitions": "4.0.505",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "remotion": "4.0.505"
+  }
+}

@@ -245,7 +245,14 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine, Content-Security-
   Policy avant l'ouverture publique. Détail :
   `docs/MODULES/hebergement-securite.md`.
-- **Sprint 5 — lancement et suivi terrain** (2026-11-06, branche
+- **Vidéos Keyli** (2026-11-06, branche `feature/videos-keyli`) — demande
+  du porteur : deux publicités de 30 s (voix off femme et homme, voix
+  Windows), en 16:9 et 9:16, et une vidéo de 45 s sur l'accueil (atouts :
+  recherche, carte et GPS, vérification, contact). Motion design Remotion
+  dans `video/`, musique générée par calcul. Détail :
+  `docs/MODULES/videos.md`. Reste : adresse du site sur l'écran final
+  quand keyli.com sera branché.
+- **Sprint 5 — lancement et suivi terrain, terminé** (2026-11-06, branche
   `feature/sprint5-lancement-pilote`) — périmètre choisi par le porteur :
   candidature au pilote (page publique `/pilote`, fonction
   `candidater_pilote_keyli`, plus d'insertion directe pour ne pas révéler
