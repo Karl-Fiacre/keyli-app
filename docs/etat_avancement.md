@@ -227,8 +227,10 @@ concernés :
   sécurité, textes juridiques (voir ROLES.md).
 - **Documents cités mais absents** : `Keyli_Repertoire_Fichiers_Sources_Definitif.docx`,
   `Keyli_Calendrier_Definitif.docx`, `keyli_dashboards_preview.html`.
-- **Modèles d'email Auth en anglais** (confirmation, réinitialisation) : à
-  traduire dans le Dashboard et `supabase/config.toml`.
+- **Modèles d'email Auth** : traduits en français dans le dépôt
+  (`supabase/config.toml`, `supabase/templates/`) ; reste à les recopier
+  dans le tableau de bord du projet distant (porteur,
+  `docs/MISE_EN_PRODUCTION.md`, étape 4).
 - **Redirect URLs du projet distant** : y ajouter l'adresse de l'application
   (http://127.0.0.1:5173 en développement, puis le domaine de production).
 - **Emails de notification** : fournisseur d'email à choisir (l'ancien
@@ -245,6 +247,24 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine, Content-Security-
   Policy avant l'ouverture publique. Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Sprint 7 — ouverture grand public, terminé** (2026-11-07, branche
+  `feature/sprint7-ouverture`) — périmètre choisi par le porteur : passage
+  grand public (`/pilote` devient `/partenaires`, pour propriétaires et
+  agences, ancienne adresse redirigée ; textes de l'accueil, du pied de
+  page et d'À propos), référencement (titre et description par page ;
+  fonctions Cloudflare `sitemap.xml`, `robots.txt` et aperçu propre à
+  chaque annonce partagée — titre, prix, lieu, photo), aide et support
+  (formulaire « Nous contacter » ouvert à tous sur la page Aide, onglet
+  admin « Support », FAQ enrichie ; table `demandes_support_keyli`,
+  migration `20261114120000_support_visiteurs_keyli.sql`, 14 tests, 743 au
+  total en local), services en mode réel (guide `docs/MISE_EN_PRODUCTION.md`).
+  Détail : `docs/MODULES/ouverture-grand-public.md`. Fonctions testées en
+  local avec wrangler (aperçu vérifié sur une annonce simulée : la base
+  distante ne renvoie aucune annonce à un visiteur au 2026-11-07). Pas de
+  bouton WhatsApp : aucun numéro d'assistance fourni.
+  Mise en ligne par le porteur : `npx supabase db push --linked` puis
+  `npm run deploy` (le script écrit désormais la configuration publique des
+  fonctions avant l'envoi).
 - **Animations cinématiques** (2026-11-07, branche
   `feature/animations-cinematiques`) — demande du porteur : site
   « très impressionnant », aligné sur le style innovant. Choix : registre
@@ -522,6 +542,13 @@ concernés :
    Ensuite : dashboards enrichis (Sprints 3bis, Sem. 11-19) ; photos dès les
    clés Cloudinary ; emails (fournisseur à choisir) ; écran de gestion des
    rôles (nommer des admins) ; délai de relance des documents en attente.
+7. **Après le Sprint 7 (2026-11-07)** : le porteur applique la migration et
+   déploie, puis suit `docs/MISE_EN_PRODUCTION.md` (keyli.com, Resend,
+   adresses Supabase Auth, emails Auth en français, Paystack live, Search
+   Console). Points ouverts : tarif, numéro d'assistance WhatsApp, adresse
+   keyli.com sur l'écran final des vidéos, 10 fichiers de tests distants à
+   relancer (`npx supabase test db --linked`). Ensuite : application mobile
+   (React Native, `docs/MODULES/mobile.md`).
 
 ---
 

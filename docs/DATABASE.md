@@ -597,6 +597,25 @@ Colonnes du schéma de référence, plus :
   toujours à trancher (MODULES/annonces.md).
 Tests : `supabase/tests/favoris_alertes_keyli.test.sql`.
 
+## ⚠️ DÉCISIONS ACTÉES (2026-11-07) — aide et support (Sprint 7)
+Migration `20261114120000_support_visiteurs_keyli.sql`, détail :
+`docs/MODULES/ouverture-grand-public.md`. Les comptes connectés gardent
+`feedback_keyli` ; cette table sert aux visiteurs sans compte.
+- `demandes_support_keyli` : `id`, `user_id` (→ auth.users, set null ;
+  rempli si l'expéditeur était connecté), `email` (format, ≤ 254,
+  minuscules), `nom` 1-80, `sujet` CHECK in (`compte`, `annonce`,
+  `verification`, `paiement`, `partenariat`, `autre`), `message` 10-2 000,
+  `statut` CHECK in (`nouvelle`, `en_cours`, `traitee`, `classee`) défaut
+  `nouvelle`, `note_admin` ≤ 2 000, `created_at`, `updated_at`
+  (`set_updated_at_keyli`). Index `idx_demandes_support_statut (statut,
+  created_at)`, `idx_demandes_support_email (email, created_at desc)`.
+- RLS : lecture et mise à jour (`statut`, `note_admin` seulement) réservées
+  aux admins ; aucune insertion directe. Écriture uniquement par
+  `envoyer_demande_support_keyli(email, nom, sujet, message)` (anon et
+  authenticated, security definer) : 3 demandes par heure et par adresse,
+  200 par heure au total.
+Tests : `supabase/tests/support_visiteurs_keyli.test.sql` (14 tests).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-11-07) — stabilisation du pilote (Sprint 6)
 Migration `20261113120000_stabilisation_pilote_keyli.sql`, détail :
 `docs/MODULES/stabilisation.md`.

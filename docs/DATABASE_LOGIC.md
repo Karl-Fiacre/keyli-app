@@ -70,6 +70,14 @@ notification), `repondre_reservation_keyli` (verrou annonce, acceptation,
 refus d'office des demandes concurrentes, notifications),
 `annuler_reservation_keyli`.
 
+### Aide et support (2026-11-07)
+| Écran | Requête | Index |
+|---|---|---|
+| Aide, « Nous contacter » | `envoyer_demande_support_keyli(...)` — comptages par adresse et global sur 1 h | `idx_demandes_support_email`, `idx_demandes_support_statut` |
+| Admin, support | `demandes_support_keyli` filtré `statut`, tri date (200 au plus) | `idx_demandes_support_statut` |
+| Plan du site (fonction Cloudflare) | `properties_keyli` non archivées, tri `created_at desc` (5 000 au plus) | index existants des annonces |
+| Aperçu d'annonce (fonction Cloudflare) | `properties_keyli` par `id` + quartier et commune | clé primaire |
+
 ### Parcours de démarrage et retours (2026-11-06)
 | Écran | Requête | Index |
 |---|---|---|
