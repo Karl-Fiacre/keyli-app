@@ -264,8 +264,13 @@ concernés :
   données nettoyées, 90 jours), Content-Security-Policy dans
   `public/_headers` (testée sur le build, aucune violation). 15 tests
   pgTAP verts en local. Détail : `docs/MODULES/stabilisation.md`.
-  **À faire par le porteur** : `npx supabase db push --linked`,
-  `npx supabase functions deploy envoyer-emails`, `npm run deploy`.
+  **En ligne le 2026-11-07** (migrations 20261112 et 20261113 appliquées
+  sur le distant, `envoyer-emails` redéployée, site déployé avec la vidéo et
+  les animations) : en-têtes et CSP actifs, aucune violation sur l'accueil,
+  la recherche, À propos, Pilote, connexion, inscription et CGU ; vidéo lue.
+  Tests pgTAP sur le distant non relancés (action refusée par le contrôle
+  de sécurité de Claude Code) : à lancer par le porteur
+  (`npx supabase test db --linked`).
   Vidéo de l'accueil intégrée (section « Keyli en 45 secondes »,
   `public/videos/`).
 - **Vidéos Keyli** (2026-11-06, branche `feature/videos-keyli`) — demande
