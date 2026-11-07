@@ -25,7 +25,7 @@ export function ExplorerCommunes() {
             className="mt-1 font-titre text-3xl font-bold md:text-4xl"
           />
           <p className="mt-2 text-muted-foreground">
-            {communes.length} communes couvertes par le pilote. Choisissez la vôtre.
+            {communes.length} communes couvertes. Choisissez la vôtre.
           </p>
         </div>
         <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">

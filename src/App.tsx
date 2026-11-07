@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MotionConfig } from 'motion/react'
 import { journaliserErreur } from '@/lib/journal'
@@ -37,7 +37,7 @@ const Confidentialite = lazy(() => import('@/pages/juridique/Confidentialite'))
 const MentionsLegales = lazy(() => import('@/pages/juridique/MentionsLegales'))
 const Aide = lazy(() => import('@/pages/juridique/Aide'))
 const APropos = lazy(() => import('@/pages/APropos'))
-const Pilote = lazy(() => import('@/pages/Pilote'))
+const Partenaires = lazy(() => import('@/pages/Partenaires'))
 const AdminPilote = lazy(() => import('@/pages/admin/AdminPilote'))
 const AdminErreurs = lazy(() => import('@/pages/admin/AdminErreurs'))
 
@@ -108,7 +108,9 @@ function App() {
                 <Route path="mentions-legales" element={<MentionsLegales />} />
                 <Route path="aide" element={<Aide />} />
                 <Route path="a-propos" element={<APropos />} />
-                <Route path="pilote" element={<Pilote />} />
+                <Route path="partenaires" element={<Partenaires />} />
+                {/* Ancienne adresse du pilote (liens déjà partagés) */}
+                <Route path="pilote" element={<Navigate to="/partenaires" replace />} />
                 <Route path="verifier-email" element={<VerifierEmail />} />
                 <Route path="mot-de-passe-oublie" element={<MotDePasseOublie />} />
                 <Route path="nouveau-mot-de-passe" element={<NouveauMotDePasse />} />

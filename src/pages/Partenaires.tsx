@@ -13,6 +13,7 @@ import { PROFILS_PILOTE, schemaCandidature, type DonneesCandidature } from '@/li
 import { cn } from '@/lib/utils'
 import { FondScene } from '@/components/animation/FondScene'
 import { TexteCinema } from '@/components/animation/TexteCinema'
+import { useTitrePage } from '@/hooks/useTitrePage'
 
 const champ =
   'flex w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
@@ -31,14 +32,19 @@ const AVANTAGES = [
   {
     icone: MessageSquareHeart,
     titre: 'Votre avis compte',
-    texte: 'Les membres du pilote orientent les prochaines fonctionnalités de Keyli.',
+    texte: 'Nos partenaires orientent les prochaines fonctionnalités de Keyli.',
   },
 ]
 
-// Candidature au pilote d'Abidjan (Sprint 5) : formulaire public, la base
+// Devenir partenaire (Sprint 7, ouverture grand public — ex-page « Pilote » du
+// Sprint 5) : propriétaires et agences demandent un accompagnement. La base
 // (candidater_pilote_keyli) valide et ne dit jamais si un email est déjà
-// connu. L'équipe trie les candidatures dans l'onglet « Pilote » du back-office.
-export default function Pilote() {
+// connu. L'équipe trie les demandes dans l'onglet « Pilote » du back-office.
+// Les chercheurs n'ont pas besoin d'accompagnement : ils créent leur compte.
+const PROFILS_PARTENAIRE = PROFILS_PILOTE.filter((p) => p !== 'chercheur')
+
+export default function Partenaires() {
+  useTitrePage('Devenir partenaire', 'Propriétaires et agences à Abidjan : publiez des biens vérifiés sur Keyli, avec l’accompagnement de l’équipe.')
   const communes = useCommunes()
   const envoi = useCandidaturePilote()
   const {
@@ -56,22 +62,22 @@ export default function Pilote() {
     <>
       <section
         className="relative isolate overflow-hidden bg-primary py-14 text-primary-foreground md:py-20"
-        aria-labelledby="titre-pilote"
+        aria-labelledby="titre-partenaires"
       >
         <FondScene />
         <div className="container max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-wider text-turquoise">Pilote · Abidjan</p>
+          <p className="text-sm font-semibold uppercase tracking-wider text-turquoise">Partenaires · Abidjan</p>
           <TexteCinema
-            id="titre-pilote"
+            id="titre-partenaires"
             className="mt-2 font-titre text-4xl font-bold md:text-5xl"
             segments={[
-              { texte: 'Rejoignez les premiers membres de ' },
+              { texte: 'Publiez vos biens avec ' },
               { texte: 'Keyli', className: 'text-turquoise' },
             ]}
           />
           <p className="mt-4 text-lg text-primary-foreground/85">
-            Propriétaires, agences et chercheurs de logement : participez au lancement de Keyli à Abidjan, avec un
-            accompagnement direct de l’équipe.
+            Propriétaires et agences : faites vérifier vos biens et touchez des locataires et acheteurs sérieux, avec
+            l’accompagnement de l’équipe Keyli.
           </p>
         </div>
       </section>
@@ -90,7 +96,7 @@ export default function Pilote() {
             </li>
           ))}
           <li className="text-sm text-muted-foreground">
-            Vous préférez commencer seul ?{' '}
+            Vous cherchez un logement, ou préférez commencer seul ?{' '}
             <Link to="/inscription" className="font-medium text-primary-glow underline-offset-4 hover:underline">
               Créez directement votre compte
             </Link>
@@ -101,7 +107,7 @@ export default function Pilote() {
         {envoi.isSuccess ? (
           <div className="kf-zoom rounded-lg border bg-card p-8 text-center shadow-sm" role="status">
             <CheckCircle2 className="mx-auto h-12 w-12 text-success" aria-hidden />
-            <h2 className="mt-4 text-xl font-semibold">Candidature reçue, merci !</h2>
+            <h2 className="mt-4 text-xl font-semibold">Demande reçue, merci !</h2>
             <p className="mt-2 text-sm text-muted-foreground">
               L’équipe Keyli vous contacte par téléphone ou par email dans les prochains jours.
             </p>
@@ -114,15 +120,15 @@ export default function Pilote() {
             onSubmit={handleSubmit((d) => envoi.mutate(d))}
             noValidate
             className="space-y-4 rounded-lg border bg-card p-5 shadow-sm md:p-6"
-            aria-labelledby="titre-formulaire-pilote"
+            aria-labelledby="titre-formulaire-partenaire"
           >
-            <h2 id="titre-formulaire-pilote" className="text-lg font-semibold">
-              Ma candidature
+            <h2 id="titre-formulaire-partenaire" className="text-lg font-semibold">
+              Demande d’accompagnement
             </h2>
             <fieldset>
               <legend className="mb-2 text-sm font-medium">Vous êtes</legend>
-              <div className="grid gap-2 sm:grid-cols-3">
-                {PROFILS_PILOTE.map((p) => (
+              <div className="grid gap-2 sm:grid-cols-2">
+                {PROFILS_PARTENAIRE.map((p) => (
                   <label
                     key={p}
                     className={cn(
@@ -182,7 +188,7 @@ export default function Pilote() {
             </ChampFormulaire>
 
             <p className="text-xs text-muted-foreground">
-              Vos coordonnées servent uniquement à vous contacter pour le pilote (voir la{' '}
+              Vos coordonnées servent uniquement à vous recontacter au sujet de cette demande (voir la{' '}
               <Link to="/confidentialite" className="underline underline-offset-2">
                 politique de confidentialité
               </Link>
@@ -190,7 +196,7 @@ export default function Pilote() {
             </p>
             {envoi.isError && <Alert variant="erreur">{messageErreur(envoi.error)}</Alert>}
             <Button type="submit" className="w-full sm:w-auto" disabled={envoi.isPending}>
-              {envoi.isPending ? 'Envoi…' : 'Envoyer ma candidature'}
+              {envoi.isPending ? 'Envoi…' : 'Envoyer ma demande'}
             </Button>
           </form>
         )}
