@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import type { LucideIcon } from 'lucide-react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import { motion } from 'motion/react'
 import { cn } from '@/lib/utils'
 
 export interface EntreeNav {
@@ -19,7 +20,8 @@ export interface SectionNav {
 // Navigation latérale des dashboards (KEYLI_DASHBOARD_DESIGN_SPEC.md §2-3) :
 // fond bleu nuit pour l'Agence, blanc bordé pour Propriétaire et Chercheur
 // (DESIGN_SYSTEM.md — choix visuel acté). L'indicateur de l'élément actif
-// glisse verticalement vers le nouvel élément (spec 5.3). Sous 1024 px, la
+// glisse vers le nouvel élément avec un ressort (spec 5.3, registre
+// cinématique du 2026-11-07). Sous 1024 px, la
 // navigation devient une barre horizontale défilante.
 export function DashboardSidebar({
   sections,
@@ -122,14 +124,20 @@ export function DashboardSidebar({
         <nav aria-label="Navigation du tableau de bord">
           <div ref={liste} className="relative space-y-6">
             {indicateur && (
-              <span
+              <motion.span
                 aria-hidden
                 className={cn(
-                  'absolute inset-x-0 top-0 rounded-lg transition-[transform,height] duration-[250ms] ease-out motion-reduce:transition-none',
+                  'absolute inset-x-0 top-0 overflow-hidden rounded-lg',
                   sombre ? 'bg-primary-foreground/15' : 'bg-secondary',
                 )}
-                style={{ transform: `translateY(${indicateur.haut}px)`, height: indicateur.hauteur }}
-              />
+                initial={false}
+                animate={{ y: indicateur.haut, height: indicateur.hauteur }}
+                // Ressort : l'indicateur file vers le nouvel élément et s'y pose
+                transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+              >
+                {/* Liseré turquoise lumineux (registre cinématique) */}
+                <span className="absolute inset-y-1.5 left-0 w-1 rounded-full bg-turquoise shadow-[0_0_12px_2px] shadow-turquoise/50" />
+              </motion.span>
             )}
             {sections.map((s, i) => (
               <div key={s.titre ?? i} className="space-y-1">

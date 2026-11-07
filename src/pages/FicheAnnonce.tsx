@@ -17,6 +17,7 @@ import { messageErreur } from '@/lib/erreurs'
 import { formatDate, formatXof } from '@/lib/format'
 import { LIBELLES_TYPE } from '@/lib/validation'
 import { pluriel } from '@/lib/sejour'
+import { TexteCinema } from '@/components/animation/TexteCinema'
 
 // Sources acceptées par la base (property_interactions_keyli) ; « favoris »
 // est enregistré comme un lien direct
@@ -101,7 +102,7 @@ export default function FicheAnnonce() {
                 {!estProprietaire && <BoutonFavori propertyId={a.id} className="border" />}
               </div>
             </div>
-            <h1 className="text-2xl font-bold tracking-tight md:text-3xl">{a.title}</h1>
+            <TexteCinema className="text-2xl font-bold tracking-tight md:text-3xl" segments={[{ texte: a.title }]} />
             <p className="flex items-center gap-1 text-muted-foreground">
               <MapPin className="h-4 w-4 shrink-0" aria-hidden />
               {lieu}

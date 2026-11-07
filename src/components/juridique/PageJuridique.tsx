@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { DATE_VERSION_CGU } from '@/lib/juridique'
+import { TexteCinema } from '@/components/animation/TexteCinema'
 
 export interface SectionJuridique {
   id: string
@@ -22,7 +23,7 @@ export function PageJuridique({
   return (
     <article className="container max-w-3xl py-10">
       <header className="kf-revele">
-        <h1 className="text-3xl font-bold">{titre}</h1>
+        <TexteCinema className="text-3xl font-bold" segments={[{ texte: titre }]} />
         <p className="mt-2 text-sm text-muted-foreground">Version en vigueur au {DATE_VERSION_CGU}</p>
         {introduction && <div className="mt-4 text-muted-foreground">{introduction}</div>}
       </header>

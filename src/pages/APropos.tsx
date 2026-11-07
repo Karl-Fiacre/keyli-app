@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom'
 import { FileCheck2, Flag, Mail, MapPinned, MessageSquareQuote, ShieldCheck } from 'lucide-react'
-import { MotifToits } from '@/components/accueil/MotifToits'
 import { ParcoursConfiance } from '@/components/accueil/ParcoursConfiance'
 import { EspaceAnnonceurs } from '@/components/accueil/EspaceAnnonceurs'
 import { BandeauVision } from '@/components/accueil/BandeauVision'
 import { ZoneRevele } from '@/components/animation/ZoneRevele'
 import { delaiCascade } from '@/lib/animation'
 import { EMAIL_CONTACT } from '@/lib/juridique'
+import { FondScene } from '@/components/animation/FondScene'
+import { TexteCinema } from '@/components/animation/TexteCinema'
 
 // Page « À propos » (décision du porteur, 2026-11-04) : qui sommes-nous,
 // garanties, fonctionnement, espace annonceurs et vision — les blocs de
@@ -48,13 +49,18 @@ export default function APropos() {
         className="relative isolate overflow-hidden bg-primary py-16 text-primary-foreground md:py-24"
         aria-labelledby="titre-apropos"
       >
-        <MotifToits className="absolute inset-0 -z-10 h-full w-full opacity-[0.12]" />
+        <FondScene />
         <ZoneRevele className="container">
           <div className="kf-revele max-w-3xl">
             <p className="text-sm font-semibold uppercase tracking-wider text-turquoise">À propos de Keyli</p>
-            <h1 id="titre-apropos" className="mt-2 font-titre text-4xl font-bold md:text-5xl">
-              L’immobilier de confiance, à Abidjan d’abord.
-            </h1>
+            <TexteCinema
+              id="titre-apropos"
+              className="mt-2 font-titre text-4xl font-bold md:text-5xl"
+              segments={[
+                { texte: 'L’immobilier de confiance, ' },
+                { texte: 'à Abidjan d’abord.', className: 'text-turquoise' },
+              ]}
+            />
             <p className="mt-5 text-lg text-primary-foreground/85">
               Fausses annonces, frais de visite exigés d’avance, biens qui n’existent pas : chercher un logement est
               souvent une épreuve. Keyli met en relation chercheurs, propriétaires et agences sur une plateforme où

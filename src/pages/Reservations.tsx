@@ -9,6 +9,7 @@ import { useNomsVoyageurs, useReservations, type Reservation } from '@/hooks/use
 import { messageErreur } from '@/lib/erreurs'
 import { aujourdhuiIso } from '@/lib/sejour'
 import { cn } from '@/lib/utils'
+import { TexteCinema } from '@/components/animation/TexteCinema'
 
 // Réservations : « Mes séjours » (tout compte) et « Demandes reçues »
 // (propriétaires et agences). À venir d'abord, puis l'historique.
@@ -22,7 +23,7 @@ export default function Reservations() {
 
   return (
     <section className="container max-w-4xl py-8 md:py-12">
-      <h1 className="font-titre text-3xl font-bold">Réservations</h1>
+      <TexteCinema className="font-titre text-3xl font-bold" segments={[{ texte: 'Réservations' }]} />
       <p className="mt-1 text-muted-foreground">Séjours courts : demandes, réponses des hôtes et nuits confirmées.</p>
 
       {hote && (
