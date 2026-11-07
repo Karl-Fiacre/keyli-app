@@ -245,6 +245,15 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine, Content-Security-
   Policy avant l'ouverture publique. Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Animations cinématiques** (2026-11-07, branche
+  `feature/animations-cinematiques`) — demande du porteur : site
+  « très impressionnant », aligné sur le style innovant. Choix : registre
+  cinématique complet sur tout le site (accueil, transitions de page, pages
+  publiques, tableaux de bord), bibliothèque Motion 14.6.0 (+44 Ko
+  compressés). Remplace le registre discret du 2026-11-02. Détail :
+  `docs/ANIMATIONS.md` (section « Registre cinématique »). Testé dans le
+  navigateur : accueil (bannière, défilement, vidéo), rideau vers À propos ;
+  tableaux de bord vérifiés par compilation seulement (pas de compte local).
 - **Sprint 6 — stabilisation du pilote, terminé** (2026-11-07, branche
   `feature/sprint6-stabilisation`) — périmètre choisi par le porteur :
   relances automatiques des annonceurs bloqués (pièces non envoyées,

@@ -27,8 +27,9 @@ Node ≥ 20.19 requis ; build environ 10 fois plus rapide. Reste signalé par
 `postcss-selector-parser` via Tailwind 3.4.
 ⚠️ npm 10.8 échoue sur certaines montées de version (« Cannot read
 properties of null (reading 'edgesOut') ») : utiliser `npx npm@11 install`.
-⚠️ Pas de Framer Motion installé — voir ANIMATIONS.md avant d'utiliser des
-animations de layout, stagger avancé ou drag-and-drop.
+Animations : Motion 14.6.0 (ex-Framer Motion), installé le 2026-11-07 pour
+le registre cinématique (décision du porteur) — voir ANIMATIONS.md.
+Pas de drag-and-drop (`@dnd-kit` non installé).
 
 ## Backend
 Supabase : PostgreSQL + Auth + Row-Level Security + Edge Functions (Deno).

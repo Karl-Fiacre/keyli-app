@@ -144,8 +144,8 @@ garantit le badge Vérifié ? »), `AnnoncesVedette` (6 annonces réelles, tri
 la base), `EspaceAnnonceurs` (masqué pour les comptes chercheur/admin),
 `BandeauVision` (Abidjan → Côte d'Ivoire → Afrique de l'Ouest).
 Règles : aucun chiffre ni annonce inventés (les statistiques viendront de
-la base quand le volume sera significatif) ; animations limitées à
-`kf-cascade` ; motif décoratif ≠ logo ; aucun badge « Vérifié » décoratif
+la base quand le volume sera significatif) ; animations : registre
+cinématique depuis le 2026-11-07 (ANIMATIONS.md) ; motif décoratif ≠ logo ; aucun badge « Vérifié » décoratif
 (seule l'icône de la carte d'explication, sans le badge officiel).
 
 ## Composants dashboard — patterns visuels obligatoires
