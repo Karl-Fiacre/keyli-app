@@ -247,6 +247,25 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine, Content-Security-
   Policy avant l'ouverture publique. Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Sprint 9 — fiabilisation des paiements, terminé** (2026-11-08, branche
+  `feature/sprint9-paiements`) — périmètre choisi par le porteur :
+  rattrapage automatique des paiements en attente (Edge Function
+  `rapprocher-paiements`, toutes les 15 min), paiements refusés (motif,
+  notification et email `paiement_echoue`, bandeau « Réessayer »), onglet
+  admin « Paiements » (synthèse, contrôles, liste, vérification immédiate)
+  et surveillance horaire des échéances (oubli corrigé aussitôt, anomalies
+  dans le journal des erreurs). Migration
+  `20261116120000_fiabilisation_paiements_keyli.sql` (25 tests, 781 au
+  total en local). Détail : `docs/MODULES/paiements.md`. Constat : une
+  échéance oubliée ne laissait déjà aucune annonce visible ; le risque
+  portait sur les paiements jamais confirmés et les rappels.
+  Mise en ligne dans l'ordre : `npx supabase db push --linked` (porteur),
+  déploiement des 4 fonctions, puis `npm run deploy` (porteur).
+  **Sprint 8 en ligne le 2026-11-08** (migration et site vérifiés).
+  Note locale : les 4 annonces de démonstration du Sprint 8 faussent 5
+  fichiers de tests en local (la CI, sur base vide, n'est pas concernée) ;
+  compte de test local `paiements.demo@keyli.test` (admin, sans mot de
+  passe).
 - **Sprint 8 — optimisation de la conversion, terminé** (2026-11-08,
   branche `feature/sprint8-conversion`) — périmètre choisi par le porteur :
   mesure de la conversion (onglet admin « Conversion » : taux vue → contact
@@ -572,6 +591,10 @@ concernés :
    calendrier : Sprint 9 — fiabilisation des paiements (relances
    d'expiration, échecs, réconciliation), puis Sprint 10 — extraction de la
    logique partageable (préalable au mobile).
+9. **Après le Sprint 9 (2026-11-08)** : mise en ligne dans l'ordre (base,
+   fonctions, site), puis paiement de test refusé et réussi en mode test
+   Paystack, et suivi de l'onglet Paiements pendant 2 semaines. Suite du
+   calendrier : Sprint 10 — extraction de la logique partageable.
 
 ---
 
