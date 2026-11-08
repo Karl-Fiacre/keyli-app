@@ -6,9 +6,13 @@ Noms de variables/fonctions/composants en camelCase ou PascalCase anglais.
 
 ## Architecture Frontend
 ```
-Page (src/pages) → Hook métier (src/hooks) → Client Supabase
-                                             (src/integrations/supabase)
+Page (src/pages) → Hook métier (src/partage/hooks) → Client Supabase
+                                                     (src/integrations/supabase)
 ```
+Depuis le Sprint 10, les hooks de données et les règles métier vivent dans
+`src/partage/` (commun avec le futur mobile, sans accès au navigateur,
+contrôlé par le lint) ; `src/hooks/` et `src/lib/` ne gardent que ce qui est
+propre au web. Détail : `docs/LOGIQUE_PARTAGEE.md`.
 Un composant de page ne doit pas appeler `supabase.from(...)` directement —
 passer par un hook dédié, même simple. Voir STRUCTURE_FRONTEND.md.
 

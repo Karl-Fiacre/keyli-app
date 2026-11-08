@@ -70,13 +70,12 @@ Modules natifs, distribution bêta et soumission stores : voir
 apps/mobile/src/
 ├── screens/         équivalent des pages web, UI native
 ├── navigation/       stack + tabs
-├── hooks/            PARTAGÉS avec le web (même logique, à extraire)
-├── services/
-│   ├── api/          appels Supabase — logique partagée avec le web
-│   └── native/        caméra, biométrie, push, géolocalisation continue
-├── lib/              utilitaires partagés avec le web
-└── integrations/supabase/   client + types, réutilisables tels quels
+├── plateforme/       services de l'appareil (contrat src/partage/plateforme.ts)
+├── services/native/  caméra, biométrie, push, géolocalisation continue
+└── integrations/supabase/   client mobile (creerClientKeyli) ; types communs
 ```
+Hooks de données, règles et validation : importés de `src/partage/` du web
+(Sprint 10), jamais recopiés — voir `docs/LOGIQUE_PARTAGEE.md`.
 Table de correspondance Web ↔ Mobile complète : voir répertoire de fichiers
 sources, section 13.
 
