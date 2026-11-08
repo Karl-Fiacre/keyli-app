@@ -1,0 +1,112 @@
+// Navigation de l'application : onglets (Accueil, Recherche, Messages,
+// Profil), fiche annonce, et parcours de compte ouvert en fenêtre. Comme sur
+// le web, la consultation des annonces est libre ; un compte connecté qui
+// doit accepter les CGU voit d'abord l'écran d'acceptation.
+import { useEffect } from 'react'
+import { NavigationContainer, DefaultTheme, useNavigation } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import Ionicons from '@expo/vector-icons/Ionicons'
+import { useSession } from '@/partage/hooks/useSession'
+import { useProfil } from '@/partage/hooks/useProfil'
+import { VERSION_CGU } from '@/partage/lib/juridique'
+import Accueil from '@mobile/screens/Accueil'
+import Recherche from '@mobile/screens/Recherche'
+import Messages from '@mobile/screens/Messages'
+import Profil from '@mobile/screens/Profil'
+import FicheAnnonce from '@mobile/screens/FicheAnnonce'
+import Connexion from '@mobile/screens/Connexion'
+import Inscription from '@mobile/screens/Inscription'
+import MotDePasseOublie from '@mobile/screens/MotDePasseOublie'
+import AcceptationCgu from '@mobile/screens/AcceptationCgu'
+import { Chargement } from '@mobile/composants/base'
+import { couleurs } from '@mobile/theme/tokens'
+import type { ParamsCompte, ParamsOnglets, ParamsRacine } from '@mobile/navigation/types'
+
+const Pile = createNativeStackNavigator<ParamsRacine>()
+const PileCompte = createNativeStackNavigator<ParamsCompte>()
+const Onglets = createBottomTabNavigator<ParamsOnglets>()
+
+const THEME = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: couleurs.primaire,
+    background: couleurs.fond,
+    card: couleurs.fond,
+    text: couleurs.texte,
+    border: couleurs.bordure,
+  },
+}
+
+const ICONES: Record<keyof ParamsOnglets, [keyof typeof Ionicons.glyphMap, keyof typeof Ionicons.glyphMap]> = {
+  Accueil: ['home', 'home-outline'],
+  Recherche: ['search', 'search-outline'],
+  Messages: ['chatbubbles', 'chatbubbles-outline'],
+  Profil: ['person', 'person-outline'],
+}
+
+function NavigationOnglets() {
+  return (
+    <Onglets.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarActiveTintColor: couleurs.primaire,
+        tabBarInactiveTintColor: couleurs.attenue,
+        tabBarIcon: ({ focused, color, size }) => (
+          <Ionicons name={ICONES[route.name][focused ? 0 : 1]} color={color} size={size} />
+        ),
+      })}
+    >
+      <Onglets.Screen name="Accueil" component={Accueil} />
+      <Onglets.Screen name="Recherche" component={Recherche} />
+      <Onglets.Screen name="Messages" component={Messages} />
+      <Onglets.Screen name="Profil" component={Profil} />
+    </Onglets.Navigator>
+  )
+}
+
+// Parcours de compte : se referme dès que la connexion réussit
+function NavigationCompte() {
+  const { session } = useSession()
+  const navigation = useNavigation()
+  useEffect(() => {
+    if (session && navigation.canGoBack()) navigation.goBack()
+  }, [session, navigation])
+
+  return (
+    <PileCompte.Navigator screenOptions={{ headerTintColor: couleurs.primaire, headerBackTitle: 'Retour' }}>
+      <PileCompte.Screen name="Connexion" component={Connexion} options={{ title: 'Connexion' }} />
+      <PileCompte.Screen name="Inscription" component={Inscription} options={{ title: 'Inscription' }} />
+      <PileCompte.Screen
+        name="MotDePasseOublie"
+        component={MotDePasseOublie}
+        options={{ title: 'Mot de passe oublié' }}
+      />
+    </PileCompte.Navigator>
+  )
+}
+
+export function Racine() {
+  const { session, chargement } = useSession()
+  const profil = useProfil()
+
+  if (chargement || (session && profil.isPending)) return <Chargement />
+  if (session && profil.data && profil.data.cgu_version !== VERSION_CGU) {
+    return <AcceptationCgu dejaAcceptees={!!profil.data.cgu_version} />
+  }
+
+  return (
+    <NavigationContainer theme={THEME}>
+      <Pile.Navigator screenOptions={{ headerTintColor: couleurs.primaire, headerBackTitle: 'Retour' }}>
+        <Pile.Screen name="Onglets" component={NavigationOnglets} options={{ headerShown: false }} />
+        <Pile.Screen name="FicheAnnonce" component={FicheAnnonce} options={{ title: 'Annonce' }} />
+        <Pile.Screen
+          name="Compte"
+          component={NavigationCompte}
+          options={{ headerShown: false, presentation: 'modal' }}
+        />
+      </Pile.Navigator>
+    </NavigationContainer>
+  )
+}
