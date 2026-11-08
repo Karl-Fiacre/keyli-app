@@ -1,6 +1,6 @@
 import { CarteAnnonce } from '@/components/annonce/CarteAnnonce'
 import { Revele } from '@/components/animation/Revele'
-import { useAnnoncesSimilaires } from '@/hooks/useConversion'
+import { useAnnoncesSimilaires } from '@/partage/hooks/useConversion'
 
 // Bas de fiche (Sprint 8, docs/MODULES/conversion.md) : jusqu'à 4 annonces
 // proches (même quartier, même commune, même type, prix voisin), pour ne

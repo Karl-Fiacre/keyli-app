@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import { useSession } from '@/hooks/useSession'
+import { useSession } from '@/partage/hooks/useSession'
 
 // Filet de sécurité si la connexion temps réel tombe
 const ACTUALISATION = 60_000

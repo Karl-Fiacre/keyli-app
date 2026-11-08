@@ -13,10 +13,10 @@ import {
   useSuiviPilote,
   type PrioriteCandidature,
   type StatutCandidature,
-} from '@/hooks/usePilote'
-import { messageErreur } from '@/lib/erreurs'
-import { formatDate } from '@/lib/format'
-import type { ProfilPilote } from '@/lib/validation'
+} from '@/partage/hooks/usePilote'
+import { messageErreur } from '@/partage/lib/erreurs'
+import { formatDate } from '@/partage/lib/format'
+import type { ProfilPilote } from '@/partage/lib/validation'
 import { cn } from '@/lib/utils'
 
 const STATUTS: StatutCandidature[] = ['en_attente', 'contacte', 'converti', 'rejete']

@@ -12,10 +12,10 @@ import {
   useMesRetours,
   type StatutRetour,
   type TypeRetour,
-} from '@/hooks/useRetours'
-import { messageErreur } from '@/lib/erreurs'
-import { formatDate } from '@/lib/format'
-import { schemaRetour, type DonneesRetour } from '@/lib/validation'
+} from '@/partage/hooks/useRetours'
+import { messageErreur } from '@/partage/lib/erreurs'
+import { formatDate } from '@/partage/lib/format'
+import { schemaRetour, type DonneesRetour } from '@/partage/lib/validation'
 import { cn } from '@/lib/utils'
 
 const champ =

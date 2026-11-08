@@ -2,7 +2,7 @@ import { useEffect, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { MessageCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { signalerIntentionContact } from '@/hooks/useConversion'
+import { signalerIntentionContact } from '@/partage/hooks/useConversion'
 
 // Bandeau de contact toujours visible sur mobile et tablette (Sprint 8,
 // docs/MODULES/conversion.md) : sur petit écran, le formulaire de contact

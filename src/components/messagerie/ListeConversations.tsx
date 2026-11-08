@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { Home } from 'lucide-react'
 import { VerifiedBadge } from '@/components/VerifiedBadge'
 import { cn } from '@/lib/utils'
-import { cheminConversation } from '@/lib/messagerie'
+import { cheminConversation } from '@/partage/lib/messagerie'
 
 export interface Conversation {
   property_id: string | null

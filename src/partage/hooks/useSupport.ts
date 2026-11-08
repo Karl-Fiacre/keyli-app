@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import type { DonneesSupport, SujetSupport } from '@/lib/validation'
+import type { DonneesSupport, SujetSupport } from '@/partage/lib/validation'
 
 // Aide et support (Sprint 7, docs/MODULES/ouverture-grand-public.md) :
 // demandes envoyées depuis la page Aide, visiteurs compris. Les comptes

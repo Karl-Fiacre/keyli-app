@@ -34,7 +34,7 @@ export function echapper(texte: string): string {
     .replace(/'/g, '&#39;')
 }
 
-// Copie de LIBELLES_TYPE (src/lib/validation.ts) : les fonctions sont
+// Copie de LIBELLES_TYPE (src/partage/lib/validation.ts) : les fonctions sont
 // compilées à part et n'importent pas le code du site
 export const LIBELLES_TYPE: Record<string, string> = {
   appartement: 'Appartement',

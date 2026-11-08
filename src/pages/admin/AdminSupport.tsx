@@ -8,10 +8,10 @@ import {
   useDemandesSupport,
   useSuiviSupport,
   type StatutSupport,
-} from '@/hooks/useSupport'
-import { messageErreur } from '@/lib/erreurs'
-import { formatDate } from '@/lib/format'
-import type { SujetSupport } from '@/lib/validation'
+} from '@/partage/hooks/useSupport'
+import { messageErreur } from '@/partage/lib/erreurs'
+import { formatDate } from '@/partage/lib/format'
+import type { SujetSupport } from '@/partage/lib/validation'
 
 const FILTRES: StatutSupport[] = ['nouvelle', 'en_cours', 'traitee', 'classee']
 

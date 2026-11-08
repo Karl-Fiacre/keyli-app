@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { Info, MapPinOff, X } from 'lucide-react'
 import { CarteAnnonce, type ResumeAnnonce } from '@/components/annonce/CarteAnnonce'
-import { useConfigCarte } from '@/hooks/useAnnonces'
-import { usePositionsAnnonces } from '@/hooks/useRecherche'
+import { useConfigCarte } from '@/hooks/useConfigCarte'
+import { usePositionsAnnonces } from '@/partage/hooks/useRecherche'
 import { chargerGoogleMaps } from '@/lib/googleMaps'
-import { formatPrixCourt } from '@/lib/format'
+import { formatPrixCourt } from '@/partage/lib/format'
 
 const ABIDJAN = { lat: 5.36, lng: -4.0083 }
 

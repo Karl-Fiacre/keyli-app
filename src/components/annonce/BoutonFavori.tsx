@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Heart } from 'lucide-react'
-import { useSession } from '@/hooks/useSession'
-import { useBasculerFavori, useIdsFavoris } from '@/hooks/useFavoris'
+import { useSession } from '@/partage/hooks/useSession'
+import { useBasculerFavori, useIdsFavoris } from '@/partage/hooks/useFavoris'
 import { cn } from '@/lib/utils'
 
 // Cœur « favori » : bascule ajout / retrait. Sans compte, mène à la

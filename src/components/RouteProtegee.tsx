@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
-import { useSession } from '@/hooks/useSession'
+import { useSession } from '@/partage/hooks/useSession'
 
 // Réserve une page aux comptes connectés. Confort d'interface uniquement :
 // la vraie protection des données reste la RLS en base.

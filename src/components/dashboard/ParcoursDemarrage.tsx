@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Check, ChevronRight, Rocket, X } from 'lucide-react'
-import { useEtapesDemarrage, type EtapeDemarrage } from '@/hooks/useDemarrage'
-import { useSession } from '@/hooks/useSession'
+import { useEtapesDemarrage, type EtapeDemarrage } from '@/partage/hooks/useDemarrage'
+import { useSession } from '@/partage/hooks/useSession'
 import { cn } from '@/lib/utils'
 
 interface InfoEtape {

@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { Alert } from '@/components/ui/alert'
 import { Input } from '@/components/ui/input'
 import { KpiCard } from '@/components/dashboard/KpiCard'
-import { useConversion } from '@/hooks/useConversion'
-import { messageErreur } from '@/lib/erreurs'
-import { formatTaux, tauxConversion } from '@/lib/qualite'
-import { LIBELLES_TYPE } from '@/lib/validation'
+import { useConversion } from '@/partage/hooks/useConversion'
+import { messageErreur } from '@/partage/lib/erreurs'
+import { formatTaux, tauxConversion } from '@/partage/lib/qualite'
+import { LIBELLES_TYPE } from '@/partage/lib/validation'
 
 // Objectif du Sprint 8 (docs/calendrier.md) : +20 % de conversion
 // « vue d'annonce → prise de contact » par rapport au pilote.

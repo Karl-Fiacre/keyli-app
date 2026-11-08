@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
 import type { Database } from '@/integrations/supabase/types'
-import type { DonneesCandidature, ProfilPilote } from '@/lib/validation'
+import type { DonneesCandidature, ProfilPilote } from '@/partage/lib/validation'
 
 export type StatutCandidature = Database['public']['Enums']['inscription_status_keyli']
 export type PrioriteCandidature = Database['public']['Enums']['priority_level_keyli']

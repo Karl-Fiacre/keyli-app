@@ -3,19 +3,10 @@
 // clé secrète (service_role, Paystack, Cloudinary) ne doit jamais apparaître
 // côté client (docs/STACK.md).
 //
-// Les pages n'importent jamais ce client directement : elles passent par un
-// hook métier de src/hooks/ (docs/CONVENTIONS.md).
-import { createClient } from '@supabase/supabase-js'
-import type { Database } from './types'
+// La logique partagée (src/partage) importe ce module : l'application mobile
+// fournira le sien, au même chemin, avec sa propre configuration
+// (docs/LOGIQUE_PARTAGEE.md). Les pages n'importent jamais ce client
+// directement : elles passent par un hook métier (docs/CONVENTIONS.md).
+import { creerClientKeyli } from '@/partage/supabase'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  // Échec explicite au démarrage plutôt qu'une erreur réseau obscure plus tard
-  throw new Error(
-    'VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY doivent être définies dans .env (voir docs/SETUP.md, étape 4)',
-  )
-}
-
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey)
+export const supabase = creerClientKeyli(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)

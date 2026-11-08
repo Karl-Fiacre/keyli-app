@@ -2,27 +2,14 @@ import { Link } from 'react-router-dom'
 import { BedDouble, Home, MapPin } from 'lucide-react'
 import { VerifiedBadge } from '@/components/VerifiedBadge'
 import { BoutonFavori } from '@/components/annonce/BoutonFavori'
-import type { StatutBien, TypeBien } from '@/hooks/useAnnonces'
-import { formatXof } from '@/lib/format'
-import { LIBELLES_TYPE } from '@/lib/validation'
+import type { ResumeAnnonce } from '@/partage/lib/annonce'
+import { formatXof } from '@/partage/lib/format'
+import { LIBELLES_TYPE } from '@/partage/lib/validation'
 import { urlPhoto } from '@/lib/cloudinary'
 import { ImageFondu } from '@/components/animation/ImageFondu'
 import { CarteInclinee } from '@/components/animation/CarteInclinee'
 
-export interface ResumeAnnonce {
-  id: string
-  titre: string
-  type: TypeBien
-  statut: StatutBien
-  prix: number
-  ville: string
-  quartier: string | null
-  commune: string | null
-  pieces: number | null
-  image: string | null
-  verifiee: boolean
-  sejour_court?: boolean
-}
+export type { ResumeAnnonce }
 
 // Carte d'un résultat de recherche : photo (ou visuel neutre en attendant
 // les photos), prix, lieu, badge « Vérifié » si l'annonce l'est. Le cœur

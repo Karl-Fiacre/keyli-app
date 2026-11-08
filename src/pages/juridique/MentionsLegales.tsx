@@ -1,6 +1,6 @@
 import { PageJuridique, type SectionJuridique } from '@/components/juridique/PageJuridique'
 import { ACompleter } from '@/components/juridique/ACompleter'
-import { EMAIL_CONTACT } from '@/lib/juridique'
+import { EMAIL_CONTACT } from '@/partage/lib/juridique'
 
 // Mentions légales — les informations encore inconnues sont signalées
 // « À COMPLÉTER » et doivent être remplies avant l'ouverture au public.

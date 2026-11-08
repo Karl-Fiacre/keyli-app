@@ -1,4 +1,4 @@
-import { formatXof } from '@/lib/format'
+import { formatXof } from '@/partage/lib/format'
 import { cn } from '@/lib/utils'
 
 export interface Paiement {

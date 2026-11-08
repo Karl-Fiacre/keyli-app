@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react'
-import { formatXof } from '@/lib/format'
+import { formatXof } from '@/partage/lib/format'
 import { cn } from '@/lib/utils'
 
 // Consommation du forfait sur le cycle mensuel en cours : mises en ligne du

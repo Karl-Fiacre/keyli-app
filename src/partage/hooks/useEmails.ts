@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import { useSession } from '@/hooks/useSession'
+import { useSession } from '@/partage/hooks/useSession'
 
 // Préférence « recevoir les notifications par email » (colonne
 // emails_notifications, seule modifiable par l'utilisateur ; les emails de

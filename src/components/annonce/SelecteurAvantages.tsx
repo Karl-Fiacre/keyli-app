@@ -1,4 +1,4 @@
-import type { Avantage } from '@/hooks/useAnnonces'
+import type { Avantage } from '@/partage/hooks/useAnnonces'
 import { cn } from '@/lib/utils'
 
 const CATEGORIES: Array<{ code: Avantage['categorie']; titre: string }> = [

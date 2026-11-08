@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { robustesseMotDePasse } from '@/lib/validation'
+import { robustesseMotDePasse } from '@/partage/lib/validation'
 
 // Indicateur de robustesse affiché en temps réel à l'inscription (PRD,
 // docs/MODULES/auth.md). Rouge = erreur/faible, orange = moyen, vert = bon.

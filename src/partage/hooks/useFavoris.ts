@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import { useSession } from '@/hooks/useSession'
-import { enregistrerInteraction } from '@/hooks/useRecherche'
-import type { ResumeAnnonce } from '@/components/annonce/CarteAnnonce'
+import { useSession } from '@/partage/hooks/useSession'
+import { enregistrerInteraction } from '@/partage/hooks/useRecherche'
+import type { ResumeAnnonce } from '@/partage/lib/annonce'
 
 // Identifiants des annonces en favori (cœur plein sur les cartes et la fiche)
 export function useIdsFavoris() {

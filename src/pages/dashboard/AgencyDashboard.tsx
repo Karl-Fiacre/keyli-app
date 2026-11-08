@@ -11,7 +11,7 @@ import { PeriodeSelecteur } from '@/components/dashboard/PeriodeSelecteur'
 import { AgendaList } from '@/components/dashboard/AgendaList'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useVisitesAVenir } from '@/hooks/useTableauDeBord'
+import { useVisitesAVenir } from '@/partage/hooks/useTableauDeBord'
 import {
   useActiverAgent,
   useAjouterAgent,
@@ -21,11 +21,11 @@ import {
   useIndicateursAgence,
   usePerformanceEquipe,
   usePipelineLeads,
-} from '@/hooks/useAgence'
-import type { Profil } from '@/hooks/useProfil'
-import { messageErreur } from '@/lib/erreurs'
-import { variationPct } from '@/lib/dashboard'
-import { cheminConversation } from '@/lib/messagerie'
+} from '@/partage/hooks/useAgence'
+import type { Profil } from '@/partage/hooks/useProfil'
+import { messageErreur } from '@/partage/lib/erreurs'
+import { variationPct } from '@/partage/lib/dashboard'
+import { cheminConversation } from '@/partage/lib/messagerie'
 
 const PERIODES = [7, 30, 90]
 

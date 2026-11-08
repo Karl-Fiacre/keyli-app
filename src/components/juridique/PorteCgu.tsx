@@ -4,11 +4,11 @@ import { ScrollText } from 'lucide-react'
 import { Alert } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { useSession } from '@/hooks/useSession'
-import { useProfil } from '@/hooks/useProfil'
-import { useAcceptationCgu } from '@/hooks/useCgu'
-import { messageErreur } from '@/lib/erreurs'
-import { PAGES_JURIDIQUES, VERSION_CGU } from '@/lib/juridique'
+import { useSession } from '@/partage/hooks/useSession'
+import { useProfil } from '@/partage/hooks/useProfil'
+import { useAcceptationCgu } from '@/partage/hooks/useCgu'
+import { messageErreur } from '@/partage/lib/erreurs'
+import { PAGES_JURIDIQUES, VERSION_CGU } from '@/partage/lib/juridique'
 
 // Acceptation à la prochaine connexion (décision du porteur, 2026-11-04) :
 // un compte connecté qui n'a pas accepté la version en vigueur voit cet

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Lightbulb } from 'lucide-react'
-import { usePerformanceAnnonces } from '@/hooks/useConversion'
-import { formatTaux, qualiteAnnonce, tauxConversion } from '@/lib/qualite'
+import { usePerformanceAnnonces } from '@/partage/hooks/useConversion'
+import { formatTaux, qualiteAnnonce, tauxConversion } from '@/partage/lib/qualite'
 import { cn } from '@/lib/utils'
 
 // Performance et qualité de chaque annonce (Sprint 8, docs/MODULES/conversion.md) :

@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
 import { BadgeCheck, BarChart3, Building2, CalendarClock, Check, Home } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useSession } from '@/hooks/useSession'
-import { useProfil } from '@/hooks/useProfil'
+import { useSession } from '@/partage/hooks/useSession'
+import { useProfil } from '@/partage/hooks/useProfil'
 import { ZoneRevele } from '@/components/animation/ZoneRevele'
 import { delaiCascade } from '@/lib/animation'
 

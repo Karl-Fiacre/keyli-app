@@ -8,10 +8,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { ChampFormulaire } from '@/components/ChampFormulaire'
 import { VerifiedBadge } from '@/components/VerifiedBadge'
 import { SectionVerification } from '@/components/verification/SectionVerification'
-import { useModificationProfil, useProfil } from '@/hooks/useProfil'
+import { useModificationProfil, useProfil } from '@/partage/hooks/useProfil'
 import { PreferenceEmails } from '@/components/profil/PreferenceEmails'
-import { messageErreur } from '@/lib/erreurs'
-import { schemaProfil, type DonneesProfil } from '@/lib/validation'
+import { messageErreur } from '@/partage/lib/erreurs'
+import { schemaProfil, type DonneesProfil } from '@/partage/lib/validation'
 
 const LIBELLES_ROLE: Record<string, string> = {
   user: 'Chercheur de logement',

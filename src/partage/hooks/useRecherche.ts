@@ -1,9 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import { useSession } from '@/hooks/useSession'
-import type { StatutBien, TypeBien } from '@/hooks/useAnnonces'
+import { useSession } from '@/partage/hooks/useSession'
+import type { StatutBien, TypeBien } from '@/partage/hooks/useAnnonces'
 import type { Database } from '@/integrations/supabase/types'
+import { plateforme } from '@/plateforme'
 
 export type TriRecherche = 'pertinence' | 'recent' | 'prix_croissant' | 'prix_decroissant'
 export type TypeInteraction = Database['public']['Enums']['interaction_type_keyli']
@@ -102,18 +103,14 @@ export function useFicheAnnonce(id: string | undefined) {
 }
 
 // Identifiant de session anonyme (statistiques de consultation,
-// docs/MODULES/analytics-tracking.md) — conservé dans le navigateur
+// docs/MODULES/analytics-tracking.md) — conservé sur l'appareil
 function identifiantSession(): string {
   const cle = 'keyli_session'
-  try {
-    const existant = localStorage.getItem(cle)
-    if (existant) return existant
-    const nouveau = crypto.randomUUID()
-    localStorage.setItem(cle, nouveau)
-    return nouveau
-  } catch {
-    return crypto.randomUUID()
-  }
+  const existant = plateforme.stockage.lire(cle)
+  if (existant) return existant
+  const nouveau = plateforme.nouvelId()
+  plateforme.stockage.ecrire(cle, nouveau)
+  return nouveau
 }
 
 // Événement de consultation ou de clic ; l'auteur, le quartier et les

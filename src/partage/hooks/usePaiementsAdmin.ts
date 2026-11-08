@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import type { StatutTentative } from '@/lib/paiements'
+import type { StatutTentative } from '@/partage/lib/paiements'
 
 // Back-office des paiements (Sprint 9, docs/MODULES/paiements.md). Toutes les
 // lectures sont réservées aux admins par la base (est_admin_keyli).

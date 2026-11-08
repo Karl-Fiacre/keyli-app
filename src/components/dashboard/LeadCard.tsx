@@ -1,7 +1,7 @@
 import { useId } from 'react'
 import { Link } from 'react-router-dom'
-import { ilYA } from '@/lib/notifications'
-import { ETAPES_LEAD, type EtapeLead } from '@/lib/dashboard'
+import { ilYA } from '@/partage/lib/notifications'
+import { ETAPES_LEAD, type EtapeLead } from '@/partage/lib/dashboard'
 
 export type { EtapeLead }
 

@@ -8,14 +8,14 @@ import { Alert } from '@/components/ui/alert'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChampFormulaire } from '@/components/ChampFormulaire'
 import { AccordDepassement, EtatForfait } from '@/components/annonce/EtatForfait'
-import { publicationPossible } from '@/lib/publication'
+import { publicationPossible } from '@/partage/lib/publication'
 import { SelecteurAvantages } from '@/components/annonce/SelecteurAvantages'
 import { SelecteurPointGps } from '@/components/annonce/SelecteurPointGps'
 import { GrillePhotos } from '@/components/annonce/GrillePhotos'
 import { envoyerPhotos, MAX_PHOTOS } from '@/lib/cloudinary'
-import { useAvantages, useEtatPublication, usePublierAnnonce, useQuartiers } from '@/hooks/useAnnonces'
-import { useProfil } from '@/hooks/useProfil'
-import { messageErreur } from '@/lib/erreurs'
+import { useAvantages, useEtatPublication, usePublierAnnonce, useQuartiers } from '@/partage/hooks/useAnnonces'
+import { useProfil } from '@/partage/hooks/useProfil'
+import { messageErreur } from '@/partage/lib/erreurs'
 import {
   estHotelier,
   LIBELLES_TYPE,
@@ -23,7 +23,7 @@ import {
   TYPES_BIEN,
   type DonneesAnnonce,
   type SaisieAnnonce,
-} from '@/lib/validation'
+} from '@/partage/lib/validation'
 import { cn } from '@/lib/utils'
 
 // Mêmes styles que Input pour les listes et la zone de texte natives

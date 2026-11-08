@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Alert } from '@/components/ui/alert'
 import { SaisieEtoiles } from '@/components/avis/Etoiles'
-import { useEnregistrerAvis, useMonAvis } from '@/hooks/useVisites'
-import { messageErreur } from '@/lib/erreurs'
+import { useEnregistrerAvis, useMonAvis } from '@/partage/hooks/useVisites'
+import { messageErreur } from '@/partage/lib/erreurs'
 
 const LONGUEUR_MAX = 500
 

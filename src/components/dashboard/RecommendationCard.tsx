@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Home, MapPin } from 'lucide-react'
 import { VerifiedBadge } from '@/components/VerifiedBadge'
-import { formatXof } from '@/lib/format'
+import { formatXof } from '@/partage/lib/format'
 
 export interface Recommandation {
   id: string

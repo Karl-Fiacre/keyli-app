@@ -8,9 +8,9 @@ import {
   useEnvoyerDocument,
   type StatutDocument,
   type TypeDocument,
-} from '@/hooks/useVerification'
-import { messageErreur } from '@/lib/erreurs'
-import { formatDate } from '@/lib/format'
+} from '@/partage/hooks/useVerification'
+import { messageErreur } from '@/partage/lib/erreurs'
+import { formatDate } from '@/partage/lib/format'
 import { cn } from '@/lib/utils'
 
 const STATUTS: Record<StatutDocument, { libelle: string; style: string }> = {

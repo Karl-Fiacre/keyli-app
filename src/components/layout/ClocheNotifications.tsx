@@ -7,8 +7,8 @@ import {
   useNotifications,
   useNotificationsNonLues,
   useNotificationsTempsReel,
-} from '@/hooks/useNotifications'
-import { ilYA, lienNotification } from '@/lib/notifications'
+} from '@/partage/hooks/useNotifications'
+import { ilYA, lienNotification } from '@/partage/lib/notifications'
 import { cn } from '@/lib/utils'
 
 // Cloche de l'en-tête (docs/KEYLI_DASHBOARD_DESIGN_SPEC.md) : pastille rouge

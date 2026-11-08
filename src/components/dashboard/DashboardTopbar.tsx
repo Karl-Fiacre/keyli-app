@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ChevronDown, Search } from 'lucide-react'
 import { ClocheNotifications } from '@/components/layout/ClocheNotifications'
-import { useDeconnexion } from '@/hooks/useCompte'
+import { useDeconnexion } from '@/partage/hooks/useCompte'
 import { cn } from '@/lib/utils'
-import { initiales } from '@/lib/format'
+import { initiales } from '@/partage/lib/format'
 
 // Barre du haut des dashboards (KEYLI_DASHBOARD_DESIGN_SPEC.md §2) : recherche
 // facultative, cloche de notifications (composant existant), avatar avec nom

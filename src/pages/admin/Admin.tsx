@@ -1,8 +1,8 @@
 import { Suspense } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { Alert } from '@/components/ui/alert'
-import { useEstAdmin } from '@/hooks/useAdmin'
-import { useProfil } from '@/hooks/useProfil'
+import { useEstAdmin } from '@/partage/hooks/useAdmin'
+import { useProfil } from '@/partage/hooks/useProfil'
 import { cn } from '@/lib/utils'
 import { ChargementPage } from '@/components/ChargementPage'
 

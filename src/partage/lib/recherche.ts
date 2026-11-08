@@ -1,7 +1,7 @@
-import type { FiltresRecherche, TriRecherche } from '@/hooks/useRecherche'
-import type { StatutBien, TypeBien } from '@/hooks/useAnnonces'
-import { TYPES_BIEN } from '@/lib/validation'
-import { aujourdhuiIso, isoValide } from '@/lib/sejour'
+import type { FiltresRecherche, TriRecherche } from '@/partage/hooks/useRecherche'
+import type { StatutBien, TypeBien } from '@/partage/hooks/useAnnonces'
+import { TYPES_BIEN } from '@/partage/lib/validation'
+import { aujourdhuiIso, isoValide } from '@/partage/lib/sejour'
 
 // Filtres de recherche ↔ paramètres d'URL : une recherche se partage et se
 // retrouve avec le bouton « retour » du navigateur.

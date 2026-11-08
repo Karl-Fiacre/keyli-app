@@ -6,9 +6,9 @@ import { Input } from '@/components/ui/input'
 import { Alert } from '@/components/ui/alert'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChampFormulaire } from '@/components/ChampFormulaire'
-import { useDemandeReinitialisation } from '@/hooks/useCompte'
-import { messageErreur } from '@/lib/erreurs'
-import { schemaEmail, type DonneesEmail } from '@/lib/validation'
+import { useDemandeReinitialisation } from '@/partage/hooks/useCompte'
+import { messageErreur } from '@/partage/lib/erreurs'
+import { schemaEmail, type DonneesEmail } from '@/partage/lib/validation'
 import { useTitrePage } from '@/hooks/useTitrePage'
 
 export default function MotDePasseOublie() {

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { DATE_VERSION_CGU } from '@/lib/juridique'
+import { DATE_VERSION_CGU } from '@/partage/lib/juridique'
 import { TexteCinema } from '@/components/animation/TexteCinema'
 import { useTitrePage } from '@/hooks/useTitrePage'
 

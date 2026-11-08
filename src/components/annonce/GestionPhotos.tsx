@@ -3,7 +3,7 @@ import { Alert } from '@/components/ui/alert'
 import { GrillePhotos } from '@/components/annonce/GrillePhotos'
 import { useAjouterPhotos, usePhotosAnnonce, useReordonnerPhotos, useRetirerPhoto } from '@/hooks/usePhotos'
 import { MAX_PHOTOS, MIN_PHOTOS, urlPhoto } from '@/lib/cloudinary'
-import { messageErreur } from '@/lib/erreurs'
+import { messageErreur } from '@/partage/lib/erreurs'
 
 // Photos d'une annonce en ligne, depuis « Mes annonces » : chaque action est
 // enregistrée aussitôt (la base garde entre 1 et 10 photos).
