@@ -118,6 +118,27 @@ export function useHistoriquePaiements(limite = 12) {
   })
 }
 
+// Dernière tentative de paiement (la sienne, RLS) : la page Abonnement
+// signale un paiement refusé tant qu'aucun autre n'a été tenté depuis
+export function useDerniereTentativePaiement() {
+  const { session } = useSession()
+  const userId = session?.user.id
+  return useQuery({
+    queryKey: ['abonnement', userId, 'derniere-tentative'],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('payment_attempts_keyli')
+        .select('id, status, motif_refus, amount, plan_id, created_at, plans_keyli(nom)')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle()
+      if (error) throw error
+      return data
+    },
+  })
+}
+
 // Dernière recommandation de forfait (règle des 2 mois de dépassement,
 // envoyée par la base) reçue depuis moins de 60 jours
 export function useRecommandationForfait() {
@@ -158,22 +179,21 @@ export function usePaiementForfait() {
   })
 }
 
-export type StatutPaiement = 'success' | 'failed' | 'pending'
+export type StatutPaiement = 'success' | 'failed' | 'pending' | 'abandoned'
 
 // Vérifie un paiement au retour de Paystack (Edge Function verify-paystack-payment)
 export function useVerificationPaiement() {
   const client = useQueryClient()
   return useMutation({
     mutationFn: async (reference: string) => {
-      const { data, error } = await supabase.functions.invoke<{ statut: StatutPaiement }>('verify-paystack-payment', {
-        body: { reference },
-      })
+      const { data, error } = await supabase.functions.invoke<{ statut: StatutPaiement; motif?: string | null }>(
+        'verify-paystack-payment',
+        { body: { reference } },
+      )
       if (error) throw await detailErreurFonction(error)
-      return data?.statut ?? 'pending'
+      return { statut: data?.statut ?? 'pending', motif: data?.motif ?? null }
     },
-    onSuccess: (statut) => {
-      if (statut === 'success') client.invalidateQueries({ queryKey: ['abonnement'] })
-    },
+    onSuccess: () => client.invalidateQueries({ queryKey: ['abonnement'] }),
   })
 }
 

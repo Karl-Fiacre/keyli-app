@@ -18,6 +18,7 @@ export function lienNotification(type: string, propertyId: string | null): strin
     case 'abonnement_expire':
     case 'depassement_cycle':
     case 'recommandation_forfait':
+    case 'paiement_echoue':
       return '/abonnement'
     case 'document_approuve':
     case 'document_rejete':

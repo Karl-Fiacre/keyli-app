@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Alert } from '@/components/ui/alert'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useVerificationPaiement } from '@/hooks/useAbonnement'
+import { motifRefus } from '@/lib/paiements'
 
 // Retour de Paystack (callback_url) : Paystack ajoute ?reference=… à l'URL.
 // On fait vérifier le paiement par le serveur ; l'abonnement n'est actif que
@@ -21,7 +22,7 @@ export default function RetourPaiement() {
     }
   }, [reference, verification])
 
-  const statut = verification.data
+  const statut = verification.data?.statut
 
   return (
     <section className="flex justify-center py-6">
@@ -38,9 +39,16 @@ export default function RetourPaiement() {
           {statut === 'success' && <Alert variant="succes">Paiement confirmé : votre abonnement est actif.</Alert>}
           {statut === 'failed' && (
             <Alert variant="erreur">
-              Le paiement n'a pas pu être validé. Si un montant a été débité, contactez le support Keyli avec la
-              référence {reference}.
+              <p className="font-semibold">{motifRefus(verification.data?.motif)}</p>
+              <p className="mt-1 text-sm">
+                Votre abonnement n'a pas été modifié. Vous pouvez réessayer depuis votre page Abonnement, avec un autre
+                moyen de paiement si besoin. Si un montant a été débité, contactez le support Keyli avec la référence{' '}
+                {reference}.
+              </p>
             </Alert>
+          )}
+          {statut === 'abandoned' && (
+            <Alert>Le paiement n'a pas été finalisé : aucun montant n'a été encaissé par Keyli.</Alert>
           )}
           {statut === 'pending' && (
             <Alert>
