@@ -1,5 +1,5 @@
 # Pipeline CI de base (Phase 0, docs/calendrier.md) — à chaque push et PR :
-#  - web : lint + build (le build inclut la vérification TypeScript)
+#  - web : lint + tests unitaires + build (le build inclut la vérification TypeScript)
 #  - base : migrations rejouées sur un Postgres Supabase vierge, tests RLS
 #    pgTAP, et contrôle que types.ts a bien été régénéré après la dernière
 #    migration.
@@ -25,6 +25,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
+      # Tests unitaires de la logique partagée web / mobile (docs/LOGIQUE_PARTAGEE.md)
+      - run: npm test
       - run: npm run build
 
   database:

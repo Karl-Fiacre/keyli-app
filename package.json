@@ -8,6 +8,7 @@
     "dev:distant": "vite --mode distant",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "test": "vitest run",
     "preview": "vite preview",
     "deploy": "npm run build && node scripts/config-fonctions.mjs && npx wrangler@4 pages deploy dist --project-name keyli --branch main",
     "db:start": "supabase db start",
@@ -50,6 +51,7 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.11.0",
-    "vite": "~8.3.5"
+    "vite": "~8.3.5",
+    "vitest": "~4.1.12"
   }
 }
