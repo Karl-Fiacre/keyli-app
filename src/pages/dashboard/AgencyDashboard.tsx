@@ -6,6 +6,7 @@ import { LeadPipeline } from '@/components/dashboard/LeadPipeline'
 import { DonutChart } from '@/components/dashboard/DonutChart'
 import { InsightCard } from '@/components/dashboard/InsightCard'
 import { PerformanceEquipe } from '@/components/dashboard/PerformanceEquipe'
+import { PerformanceAnnonces } from '@/components/dashboard/PerformanceAnnonces'
 import { PeriodeSelecteur } from '@/components/dashboard/PeriodeSelecteur'
 import { AgendaList } from '@/components/dashboard/AgendaList'
 import { Button } from '@/components/ui/button'
@@ -119,6 +120,9 @@ export default function AgencyDashboard({ profil }: { profil: Profil }) {
           rang={3}
         />
       </div>
+
+      {/* Statistiques et qualité par annonce (Sprint 8), même période que les indicateurs */}
+      <PerformanceAnnonces jours={jours} />
 
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
         <section id="pipeline" className="scroll-mt-32 rounded-lg border bg-card p-5 xl:col-span-2">

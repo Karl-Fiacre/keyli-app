@@ -40,6 +40,7 @@ const Aide = lazy(() => import('@/pages/juridique/Aide'))
 const APropos = lazy(() => import('@/pages/APropos'))
 const Partenaires = lazy(() => import('@/pages/Partenaires'))
 const AdminPilote = lazy(() => import('@/pages/admin/AdminPilote'))
+const AdminConversion = lazy(() => import('@/pages/admin/AdminConversion'))
 const AdminErreurs = lazy(() => import('@/pages/admin/AdminErreurs'))
 
 // Pages chargées à la demande (Sprint 5, connexions mobiles lentes) : seul
@@ -129,6 +130,7 @@ function App() {
                   <Route path="retours" element={<AdminRetours />} />
                   <Route path="support" element={<AdminSupport />} />
                   <Route path="pilote" element={<AdminPilote />} />
+                  <Route path="conversion" element={<AdminConversion />} />
                   <Route path="erreurs" element={<AdminErreurs />} />
                 </Route>
                 <Route path="*" element={<PageIntrouvable />} />
