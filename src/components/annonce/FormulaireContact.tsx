@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Alert } from '@/components/ui/alert'
-import { useSession } from '@/hooks/useSession'
-import { useContacterAnnonceur } from '@/hooks/useRecherche'
-import { signalerIntentionContact } from '@/hooks/useConversion'
-import { messageErreur } from '@/lib/erreurs'
+import { useSession } from '@/partage/hooks/useSession'
+import { useContacterAnnonceur } from '@/partage/hooks/useRecherche'
+import { signalerIntentionContact } from '@/partage/hooks/useConversion'
+import { messageErreur } from '@/partage/lib/erreurs'
 
 // Premier message à l'annonceur, par la messagerie Keyli (gratuite, sans
 // paywall — docs/MODULES/messagerie.md). Le téléphone reste privé.

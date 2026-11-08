@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { X } from 'lucide-react'
 import { VerifiedBadge } from '@/components/VerifiedBadge'
-import { CRITERES_COMPARAISON, type CritereCompare } from '@/lib/dashboard'
+import { CRITERES_COMPARAISON, type CritereCompare } from '@/partage/lib/dashboard'
 
 export interface BienCompare {
   id: string

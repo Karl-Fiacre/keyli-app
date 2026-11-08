@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import { useSession } from '@/hooks/useSession'
+import { useSession } from '@/partage/hooks/useSession'
 import type { Database } from '@/integrations/supabase/types'
 
 export type Profil = Database['public']['Tables']['profiles_keyli']['Row']

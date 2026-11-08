@@ -2,9 +2,9 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Alert } from '@/components/ui/alert'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { useSession } from '@/hooks/useSession'
-import { useRenvoiConfirmation } from '@/hooks/useCompte'
-import { messageErreur } from '@/lib/erreurs'
+import { useSession } from '@/partage/hooks/useSession'
+import { useRenvoiConfirmation } from '@/partage/hooks/useCompte'
+import { messageErreur } from '@/partage/lib/erreurs'
 
 // Deux usages : juste après l'inscription (« consultez votre boîte ») et au
 // retour du lien de confirmation (Supabase ouvre la session depuis l'URL).

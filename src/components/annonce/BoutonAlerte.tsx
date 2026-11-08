@@ -1,12 +1,12 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Bell, BellRing, Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useSession } from '@/hooks/useSession'
-import { useMesAlertes } from '@/hooks/useTableauDeBord'
-import { useBasculerAlerte, useCreerAlerte } from '@/hooks/useAlertes'
-import type { FiltresRecherche } from '@/hooks/useRecherche'
-import { criteresAlerte, memesCriteres } from '@/lib/recherche'
-import { messageErreur } from '@/lib/erreurs'
+import { useSession } from '@/partage/hooks/useSession'
+import { useMesAlertes } from '@/partage/hooks/useTableauDeBord'
+import { useBasculerAlerte, useCreerAlerte } from '@/partage/hooks/useAlertes'
+import type { FiltresRecherche } from '@/partage/hooks/useRecherche'
+import { criteresAlerte, memesCriteres } from '@/partage/lib/recherche'
+import { messageErreur } from '@/partage/lib/erreurs'
 
 // « Créer une alerte » depuis la page Recherche : enregistre les filtres en
 // cours (hors équipements et tri). La base notifie ensuite le compte à

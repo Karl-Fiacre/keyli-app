@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, MapPin } from 'lucide-react'
-import { useCommunes } from '@/hooks/useRecherche'
+import { useCommunes } from '@/partage/hooks/useRecherche'
 import { ZoneRevele } from '@/components/animation/ZoneRevele'
 import { delaiCascade } from '@/lib/animation'
 import { TexteCinema } from '@/components/animation/TexteCinema'

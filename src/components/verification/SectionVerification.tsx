@@ -1,6 +1,6 @@
 import { VerifiedBadge } from '@/components/VerifiedBadge'
 import { EmplacementDocument } from '@/components/verification/EmplacementDocument'
-import { dernierDocument, useMesDocuments, type TypeDocument } from '@/hooks/useVerification'
+import { dernierDocument, useMesDocuments, type TypeDocument } from '@/partage/hooks/useVerification'
 
 // Pièces à fournir selon le rôle (docs/MODULES/verification.md) :
 // propriétaire = extrait de naissance + certificat de résidence ;

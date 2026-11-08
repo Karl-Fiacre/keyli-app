@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import { enregistrerInteraction } from '@/hooks/useRecherche'
-import type { ResumeAnnonce } from '@/components/annonce/CarteAnnonce'
+import { enregistrerInteraction } from '@/partage/hooks/useRecherche'
+import type { ResumeAnnonce } from '@/partage/lib/annonce'
 
 // Conversion « vue d'annonce → prise de contact » (Sprint 8,
 // docs/MODULES/conversion.md). Définitions communes, calculées par la base :

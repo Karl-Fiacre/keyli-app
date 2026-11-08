@@ -3,8 +3,8 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Alert } from '@/components/ui/alert'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { useVerificationPaiement } from '@/hooks/useAbonnement'
-import { motifRefus } from '@/lib/paiements'
+import { useVerificationPaiement } from '@/partage/hooks/useAbonnement'
+import { motifRefus } from '@/partage/lib/paiements'
 
 // Retour de Paystack (callback_url) : Paystack ajoute ?reference=… à l'URL.
 // On fait vérifier le paiement par le serveur ; l'abonnement n'est actif que

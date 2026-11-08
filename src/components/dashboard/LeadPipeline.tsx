@@ -1,5 +1,5 @@
 import { LeadCard, type Lead } from '@/components/dashboard/LeadCard'
-import { ETAPES_LEAD, type EtapeLead } from '@/lib/dashboard'
+import { ETAPES_LEAD, type EtapeLead } from '@/partage/lib/dashboard'
 import { cn } from '@/lib/utils'
 
 // Pipeline en colonnes Nouveau → Visite planifiée → Négociation → Conclu

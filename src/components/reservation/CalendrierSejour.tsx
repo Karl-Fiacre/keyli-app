@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { aujourdhuiIso, isoJour, jourDepuisIso } from '@/lib/sejour'
+import { aujourdhuiIso, isoJour, jourDepuisIso } from '@/partage/lib/sejour'
 import { cn } from '@/lib/utils'
 
 const JOURS = ['lu', 'ma', 'me', 'je', 've', 'sa', 'di']

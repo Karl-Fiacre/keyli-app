@@ -3,9 +3,9 @@ import { Alert } from '@/components/ui/alert'
 import { KpiCard } from '@/components/dashboard/KpiCard'
 import { DonutChart } from '@/components/dashboard/DonutChart'
 import { TrendBar } from '@/components/dashboard/TrendBar'
-import { useActiviteQuotidienne, useIndicateurs } from '@/hooks/useAdmin'
-import { messageErreur } from '@/lib/erreurs'
-import { formatXof } from '@/lib/format'
+import { useActiviteQuotidienne, useIndicateurs } from '@/partage/hooks/useAdmin'
+import { messageErreur } from '@/partage/lib/erreurs'
+import { formatXof } from '@/partage/lib/format'
 
 // Cibles du pilote (PRD §4.2, docs/MODULES/admin.md) — aucun autre seuil
 const CIBLE_VERIFICATION = 70

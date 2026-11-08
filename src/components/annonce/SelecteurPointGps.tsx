@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Hand, LocateFixed, MapPin } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useConfigCarte } from '@/hooks/useAnnonces'
+import { useConfigCarte } from '@/hooks/useConfigCarte'
 import { chargerGoogleMaps } from '@/lib/googleMaps'
 import { animerRepere, creerRepereKeyli } from '@/lib/repereCarte'
 

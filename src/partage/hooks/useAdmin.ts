@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import { useProfil } from '@/hooks/useProfil'
+import { useProfil } from '@/partage/hooks/useProfil'
 import type { Database } from '@/integrations/supabase/types'
 
 type Enums = Database['public']['Enums']
@@ -51,11 +51,12 @@ export function useFileVerification(statut: StatutDocument) {
 }
 
 // Lien temporaire (5 min) vers un fichier du bucket privé — lecture admin
-// autorisée par la policy du bucket
-export async function ouvrirDocument(chemin: string) {
+// autorisée par la policy du bucket. L'ouverture du lien revient à chaque
+// application (web : src/lib/documents.ts).
+export async function lienDocumentTemporaire(chemin: string): Promise<string> {
   const { data, error } = await supabase.storage.from('documents_keyli').createSignedUrl(chemin, 300)
   if (error || !data) throw error ?? new Error('Document introuvable')
-  window.open(data.signedUrl, '_blank', 'noopener,noreferrer')
+  return data.signedUrl
 }
 
 function useInvaliderAdmin() {

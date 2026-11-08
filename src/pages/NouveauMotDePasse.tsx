@@ -7,10 +7,10 @@ import { Alert } from '@/components/ui/alert'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChampFormulaire } from '@/components/ChampFormulaire'
 import { IndicateurRobustesse } from '@/components/IndicateurRobustesse'
-import { useSession } from '@/hooks/useSession'
-import { useNouveauMotDePasse } from '@/hooks/useCompte'
-import { messageErreur } from '@/lib/erreurs'
-import { schemaNouveauMotDePasse, type DonneesNouveauMotDePasse } from '@/lib/validation'
+import { useSession } from '@/partage/hooks/useSession'
+import { useNouveauMotDePasse } from '@/partage/hooks/useCompte'
+import { messageErreur } from '@/partage/lib/erreurs'
+import { schemaNouveauMotDePasse, type DonneesNouveauMotDePasse } from '@/partage/lib/validation'
 
 // Page ouverte par le lien de réinitialisation : Supabase y ouvre une session
 // temporaire (événement PASSWORD_RECOVERY) qui permet de changer le mot de passe.

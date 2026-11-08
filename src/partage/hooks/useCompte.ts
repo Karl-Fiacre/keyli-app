@@ -1,12 +1,13 @@
 import { useMutation } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import type { DonneesInscription } from '@/lib/validation'
-import { VERSION_CGU } from '@/lib/juridique'
+import type { DonneesInscription } from '@/partage/lib/validation'
+import { VERSION_CGU } from '@/partage/lib/juridique'
+import { plateforme } from '@/plateforme'
 
 // Actions de compte (Supabase Auth). Les pages utilisent ces hooks, jamais
 // le client Supabase directement (docs/CONVENTIONS.md).
 
-const urlApp = (chemin: string) => `${window.location.origin}${chemin}`
+const urlApp = plateforme.urlApp
 
 // Inscription : le rôle et l'identité partent dans les métadonnées ; le
 // trigger handle_new_user_keyli crée le profil (admin refusé, nom d'agence

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { PageJuridique, type SectionJuridique } from '@/components/juridique/PageJuridique'
 import { ACompleter } from '@/components/juridique/ACompleter'
-import { EMAIL_CONTACT } from '@/lib/juridique'
+import { EMAIL_CONTACT } from '@/partage/lib/juridique'
 
 // Politique de confidentialité — cadre : loi ivoirienne n° 2013-450 du
 // 19 juin 2013 relative à la protection des données à caractère personnel,

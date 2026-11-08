@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import { useSession } from '@/hooks/useSession'
+import { useSession } from '@/partage/hooks/useSession'
 
 export type EtapeDemarrage = 'profil' | 'documents' | 'verification' | 'forfait' | 'annonce' | 'equipe'
 

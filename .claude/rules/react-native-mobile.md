@@ -8,10 +8,11 @@ paths:
 
 - Structure cible : voir `docs/STRUCTURE_FRONTEND.md` section Mobile, et la
   table de correspondance Web ↔ Mobile du répertoire de fichiers sources.
-- `apps/mobile/src/hooks/`, `services/api/`, `lib/`,
-  `integrations/supabase/` DOIVENT rester du code partagé avec le web
-  (même logique, portée depuis `src/`) — jamais une réécriture indépendante
-  de la même règle métier. Si une règle diverge entre web et mobile, le
+- La logique métier est dans `src/partage/` (Sprint 10,
+  `docs/LOGIQUE_PARTAGEE.md`) : le mobile l'importe telle quelle et fournit
+  seulement ses deux points d'entrée (`@/integrations/supabase/client` et
+  `@/plateforme`) — jamais une réécriture indépendante de la même règle
+  métier. Si une règle diverge entre web et mobile, le
   signaler avant de coder plutôt que de laisser diverger silencieusement.
 - `apps/mobile/src/services/native/` (caméra, biométrie, push, géolocalisation
   continue) est la seule zone de code réellement spécifique au mobile.

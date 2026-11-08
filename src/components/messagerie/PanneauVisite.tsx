@@ -3,7 +3,7 @@ import { CalendarCheck, CalendarClock, CalendarX, Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Alert } from '@/components/ui/alert'
 import { FormulaireAvis } from '@/components/avis/FormulaireAvis'
-import { useSession } from '@/hooks/useSession'
+import { useSession } from '@/partage/hooks/useSession'
 import {
   useMettreAJourVisite,
   useMonAvis,
@@ -12,8 +12,8 @@ import {
   useProprietaireAnnonce,
   useVisitesConversation,
   type StatutVisite,
-} from '@/hooks/useVisites'
-import { messageErreur } from '@/lib/erreurs'
+} from '@/partage/hooks/useVisites'
+import { messageErreur } from '@/partage/lib/erreurs'
 import { cn } from '@/lib/utils'
 
 const LIBELLES: Record<StatutVisite, string> = { planifiee: 'Planifiée', effectuee: 'Effectuée', annulee: 'Annulée' }

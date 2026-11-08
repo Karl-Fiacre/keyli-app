@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Alert } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
-import { useErreursRecentes } from '@/hooks/useAdmin'
-import { messageErreur } from '@/lib/erreurs'
-import { formatDate } from '@/lib/format'
+import { useErreursRecentes } from '@/partage/hooks/useAdmin'
+import { messageErreur } from '@/partage/lib/erreurs'
+import { formatDate } from '@/partage/lib/format'
 
 const PERIODES = [1, 7, 30] as const
 

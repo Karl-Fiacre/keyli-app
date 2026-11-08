@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { PageJuridique, type SectionJuridique } from '@/components/juridique/PageJuridique'
-import { EMAIL_CONTACT } from '@/lib/juridique'
+import { EMAIL_CONTACT } from '@/partage/lib/juridique'
 
 // Conditions générales d'utilisation, version VERSION_CGU (src/lib/juridique.ts).
 // Toute modification de fond = nouvelle version (docs/MODULES/juridique.md).

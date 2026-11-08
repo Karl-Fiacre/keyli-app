@@ -16,12 +16,12 @@ import {
   usePaiementForfait,
   useRecommandationForfait,
   type Forfait,
-} from '@/hooks/useAbonnement'
-import { useEtatPublication } from '@/hooks/useAnnonces'
-import { useProfil } from '@/hooks/useProfil'
+} from '@/partage/hooks/useAbonnement'
+import { useEtatPublication } from '@/partage/hooks/useAnnonces'
+import { useProfil } from '@/partage/hooks/useProfil'
 import { cn } from '@/lib/utils'
-import { formatXof } from '@/lib/format'
-import { motifRefus } from '@/lib/paiements'
+import { formatXof } from '@/partage/lib/format'
+import { motifRefus } from '@/partage/lib/paiements'
 
 // Choix, paiement et suivi d'un forfait (docs/MODULES/pricing.md) pour les
 // 3 paliers. Montants et compteurs viennent de la base ; le paiement est

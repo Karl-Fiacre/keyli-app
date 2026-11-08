@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import { useSession } from '@/hooks/useSession'
-import type { CriteresAlerte } from '@/lib/recherche'
+import { useSession } from '@/partage/hooks/useSession'
+import type { CriteresAlerte } from '@/partage/lib/recherche'
 
 // Alertes de recherche : création et pause / réactivation (jamais de
 // suppression, règle en base). La lecture passe par useMesAlertes

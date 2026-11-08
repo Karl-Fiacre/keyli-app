@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import { useSession } from '@/hooks/useSession'
-import { estUuid } from '@/hooks/useMessagerie'
+import { useSession } from '@/partage/hooks/useSession'
+import { estUuid } from '@/partage/hooks/useMessagerie'
 import type { Database } from '@/integrations/supabase/types'
 
 export type StatutVisite = Database['public']['Enums']['visit_status_keyli']

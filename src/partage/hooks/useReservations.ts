@@ -1,6 +1,6 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import { useSession } from '@/hooks/useSession'
+import { useSession } from '@/partage/hooks/useSession'
 import type { Database } from '@/integrations/supabase/types'
 
 // Séjours courts et demandes de réservation (docs/MODULES/reservations.md).

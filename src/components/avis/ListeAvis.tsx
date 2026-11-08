@@ -1,6 +1,6 @@
 import { Etoiles } from '@/components/avis/Etoiles'
-import { useAvisRecus } from '@/hooks/useVisites'
-import { formatDate } from '@/lib/format'
+import { useAvisRecus } from '@/partage/hooks/useVisites'
+import { formatDate } from '@/partage/lib/format'
 
 // Avis publics reçus par un annonceur (fiche d'annonce)
 export function ListeAvis({ userId }: { userId: string }) {

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Mail } from 'lucide-react'
 import { FormulaireSupport } from '@/components/aide/FormulaireSupport'
 import { PageJuridique, type SectionJuridique } from '@/components/juridique/PageJuridique'
-import { EMAIL_CONTACT } from '@/lib/juridique'
+import { EMAIL_CONTACT } from '@/partage/lib/juridique'
 
 // Aide : questions fréquentes, regroupées par thème, et contact (formulaire
 // ouvert à tous depuis le Sprint 7 — docs/MODULES/ouverture-grand-public.md).

@@ -1,5 +1,5 @@
 import { supabase } from '@/integrations/supabase/client'
-import { erreurKeyli } from '@/lib/erreurs'
+import { erreurKeyli } from '@/partage/lib/erreurs'
 
 // Photos des annonces (docs/MODULES/photos.md). Le navigateur envoie chaque
 // photo directement à Cloudinary avec une signature délivrée par l'Edge

@@ -1,6 +1,6 @@
 import { Alert } from '@/components/ui/alert'
-import { usePreferenceEmails } from '@/hooks/useEmails'
-import { messageErreur } from '@/lib/erreurs'
+import { usePreferenceEmails } from '@/partage/hooks/useEmails'
+import { messageErreur } from '@/partage/lib/erreurs'
 import { cn } from '@/lib/utils'
 
 // Interrupteur « Recevoir les notifications par email » du profil

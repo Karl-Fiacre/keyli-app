@@ -3,9 +3,9 @@ import { Heart } from 'lucide-react'
 import { Alert } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { CarteAnnonce } from '@/components/annonce/CarteAnnonce'
-import { useBasculerFavori, useMesFavoris } from '@/hooks/useFavoris'
-import { messageErreur } from '@/lib/erreurs'
-import { formatDate } from '@/lib/format'
+import { useBasculerFavori, useMesFavoris } from '@/partage/hooks/useFavoris'
+import { messageErreur } from '@/partage/lib/erreurs'
+import { formatDate } from '@/partage/lib/format'
 import { TexteCinema } from '@/components/animation/TexteCinema'
 
 // Annonces mises en favori, de la plus récente à la plus ancienne. Une annonce

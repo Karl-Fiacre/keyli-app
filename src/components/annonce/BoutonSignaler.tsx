@@ -3,9 +3,9 @@ import { Link, useLocation } from 'react-router-dom'
 import { Flag } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Alert } from '@/components/ui/alert'
-import { useSession } from '@/hooks/useSession'
-import { MOTIFS_SIGNALEMENT, useSignaler, type MotifSignalement } from '@/hooks/useVerification'
-import { messageErreur } from '@/lib/erreurs'
+import { useSession } from '@/partage/hooks/useSession'
+import { MOTIFS_SIGNALEMENT, useSignaler, type MotifSignalement } from '@/partage/hooks/useVerification'
+import { messageErreur } from '@/partage/lib/erreurs'
 
 // « Signaler cette annonce » : motif dans une liste + précision facultative
 // (obligatoire pour « Autre ») ; traité par l'équipe Keyli

@@ -3,8 +3,8 @@ import { MailX } from 'lucide-react'
 import { Alert } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { useDesinscription } from '@/hooks/useEmails'
-import { messageErreur } from '@/lib/erreurs'
+import { useDesinscription } from '@/partage/hooks/useEmails'
+import { messageErreur } from '@/partage/lib/erreurs'
 
 const FORMAT_JETON = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 

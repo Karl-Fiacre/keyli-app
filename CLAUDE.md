@@ -59,6 +59,7 @@ ces questions ont déjà été posées et tranchées avec justification écrite.
 | `docs/SETUP.md` | Checklist de démarrage du projet Supabase |
 | `docs/MODULES/*.md` | Détail par fonctionnalité |
 | `docs/STRUCTURE_BACKEND.md` / `STRUCTURE_FRONTEND.md` | Arborescence web/mobile |
+| `docs/LOGIQUE_PARTAGEE.md` | Couche partagée web ↔ mobile (`src/partage`), cartographie, garde-fou |
 | `docs/etat_avancement.md` | État réel d'avancement, mis à jour à chaque session |
 | `docs/reference/schema_cible_reference.sql` | Schéma SQL cible complet — référence, pas à exécuter en bloc |
 | `docs/calendrier.md` / `INSTRUCTIONS_PAR_SEMAINE.md` | Planning et blocs copiables-collables par semaine |

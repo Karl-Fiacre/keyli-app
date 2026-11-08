@@ -8,9 +8,9 @@ import {
   useReponseRetour,
   type StatutRetour,
   type TypeRetour,
-} from '@/hooks/useRetours'
-import { messageErreur } from '@/lib/erreurs'
-import { formatDate } from '@/lib/format'
+} from '@/partage/hooks/useRetours'
+import { messageErreur } from '@/partage/lib/erreurs'
+import { formatDate } from '@/partage/lib/format'
 
 const FILTRES: StatutRetour[] = ['pending', 'reviewed', 'resolved', 'dismissed']
 const LIBELLES_ROLE: Record<string, string> = {

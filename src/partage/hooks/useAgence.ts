@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import { useSession } from '@/hooks/useSession'
-import type { IndicateursProprietaire } from '@/hooks/useTableauDeBord'
-import type { EtapeLead } from '@/lib/dashboard'
+import { useSession } from '@/partage/hooks/useSession'
+import type { IndicateursProprietaire } from '@/partage/hooks/useTableauDeBord'
+import type { EtapeLead } from '@/partage/lib/dashboard'
 
 // Données et actions du dashboard Agence. Calculs en base (migration
 // 20261104120000_dashboard_agence_keyli.sql) ; la RLS limite chaque compte

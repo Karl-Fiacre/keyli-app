@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Users } from 'lucide-react'
 import { CalendrierSejour } from '@/components/reservation/CalendrierSejour'
-import { formatJourCourt, nuitsEntre, pluriel } from '@/lib/sejour'
+import { formatJourCourt, nuitsEntre, pluriel } from '@/partage/lib/sejour'
 
 // Bloc « dates + voyageurs » des filtres de recherche (séjours courts)
 export function DatesSejour({

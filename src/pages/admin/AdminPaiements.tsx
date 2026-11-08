@@ -9,10 +9,10 @@ import {
   usePaiementsAdmin,
   useSynthesePaiements,
   useVerifierPaiement,
-} from '@/hooks/usePaiementsAdmin'
-import { messageErreur } from '@/lib/erreurs'
-import { formatXof } from '@/lib/format'
-import { LIBELLES_TENTATIVE, motifRefus, type StatutTentative } from '@/lib/paiements'
+} from '@/partage/hooks/usePaiementsAdmin'
+import { messageErreur } from '@/partage/lib/erreurs'
+import { formatXof } from '@/partage/lib/format'
+import { LIBELLES_TENTATIVE, motifRefus, type StatutTentative } from '@/partage/lib/paiements'
 import { cn } from '@/lib/utils'
 
 const jourIso = (d: Date) => d.toISOString().slice(0, 10)

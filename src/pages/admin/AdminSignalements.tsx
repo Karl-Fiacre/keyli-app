@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Alert } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
-import { useFileSignalements, useModeration, type StatutSignalement } from '@/hooks/useAdmin'
-import { MOTIFS_SIGNALEMENT } from '@/hooks/useVerification'
-import { messageErreur } from '@/lib/erreurs'
-import { formatDate } from '@/lib/format'
+import { useFileSignalements, useModeration, type StatutSignalement } from '@/partage/hooks/useAdmin'
+import { MOTIFS_SIGNALEMENT } from '@/partage/hooks/useVerification'
+import { messageErreur } from '@/partage/lib/erreurs'
+import { formatDate } from '@/partage/lib/format'
 
 const FILTRES: Array<[StatutSignalement, string]> = [
   ['pending', 'En attente'],

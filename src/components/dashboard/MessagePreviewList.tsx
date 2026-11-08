@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { initiales } from '@/lib/format'
-import { ilYA } from '@/lib/notifications'
+import { initiales } from '@/partage/lib/format'
+import { ilYA } from '@/partage/lib/notifications'
 import { cn } from '@/lib/utils'
 
 export interface ApercuMessage {

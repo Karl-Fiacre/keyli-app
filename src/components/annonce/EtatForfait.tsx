@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Alert } from '@/components/ui/alert'
-import { formatXof } from '@/lib/format'
+import { formatXof } from '@/partage/lib/format'
 
 export interface EtatPublication {
   statut: string

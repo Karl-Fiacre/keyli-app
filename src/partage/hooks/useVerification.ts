@@ -1,7 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import { useSession } from '@/hooks/useSession'
+import { useSession } from '@/partage/hooks/useSession'
 import type { Database } from '@/integrations/supabase/types'
+import { plateforme } from '@/plateforme'
 
 export type TypeDocument = Database['public']['Enums']['document_type_keyli']
 export type StatutDocument = Database['public']['Enums']['document_status_keyli']
@@ -57,9 +58,11 @@ export function useEnvoyerDocument() {
       if (!FORMATS.includes(fichier.type)) throw new Error('Format accepté : PDF, JPEG ou PNG.')
       if (fichier.size > TAILLE_MAX) throw new Error('Fichier trop lourd : 5 Mo au maximum.')
       const extension = fichier.type === 'application/pdf' ? 'pdf' : fichier.type === 'image/png' ? 'png' : 'jpg'
-      const chemin = `${userId}/${type}-${crypto.randomUUID()}.${extension}`
-      const envoi = await supabase.storage.from('documents_keyli').upload(chemin, fichier, { contentType: fichier.type })
-      if (envoi.error) throw new Error('L\'envoi du fichier a échoué. Vérifiez votre connexion et réessayez.')
+      const chemin = `${userId}/${type}-${plateforme.nouvelId()}.${extension}`
+      const envoi = await supabase.storage
+        .from('documents_keyli')
+        .upload(chemin, fichier, { contentType: fichier.type })
+      if (envoi.error) throw new Error("L'envoi du fichier a échoué. Vérifiez votre connexion et réessayez.")
       const { error } = await supabase.from('documents_keyli').insert({
         user_id: userId,
         doc_type: type,
@@ -77,7 +80,7 @@ export const MOTIFS_SIGNALEMENT = [
   ['indisponible', 'Bien déjà loué ou vendu'],
   ['informations_trompeuses', 'Prix ou informations trompeurs'],
   ['photos_non_conformes', 'Photos non conformes'],
-  ['comportement', 'Comportement de l\'annonceur'],
+  ['comportement', "Comportement de l'annonceur"],
   ['autre', 'Autre'],
 ] as const
 export type MotifSignalement = (typeof MOTIFS_SIGNALEMENT)[number][0]
@@ -87,7 +90,15 @@ export type MotifSignalement = (typeof MOTIFS_SIGNALEMENT)[number][0]
 export function useSignaler() {
   const { session } = useSession()
   return useMutation({
-    mutationFn: async ({ propertyId, motif, precision }: { propertyId: string; motif: MotifSignalement; precision: string }) => {
+    mutationFn: async ({
+      propertyId,
+      motif,
+      precision,
+    }: {
+      propertyId: string
+      motif: MotifSignalement
+      precision: string
+    }) => {
       const { error } = await supabase.from('reports_keyli').insert({
         reporter_id: session?.user.id as string,
         property_id: propertyId,
@@ -95,7 +106,7 @@ export function useSignaler() {
         reason: precision.trim() || null,
       })
       if (error) {
-        if (error.code === '23505') throw new Error('Vous avez déjà signalé cette annonce : l\'équipe Keyli l\'examine.')
+        if (error.code === '23505') throw new Error("Vous avez déjà signalé cette annonce : l'équipe Keyli l'examine.")
         throw error
       }
     },

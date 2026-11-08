@@ -8,8 +8,13 @@ paths:
 
 - Mode strict TypeScript — jamais de `any` sans commentaire justifiant pourquoi.
 - Un composant de page (`src/pages/`) ne doit jamais appeler `supabase.from(...)`
-  directement — toujours via un hook dédié (`src/hooks/`), même simple. Voir
-  `docs/STRUCTURE_FRONTEND.md`.
+  directement — toujours via un hook dédié (`src/partage/hooks/`), même simple.
+  Voir `docs/STRUCTURE_FRONTEND.md`.
+- Règles métier, requêtes et validation : dans `src/partage/` (commun avec le
+  mobile) — jamais d'accès au navigateur ni d'import du code web dans ce
+  dossier (lint bloquant) ; services de l'appareil via `@/plateforme`. Toute
+  fonction pure ajoutée là reçoit un test Vitest. Voir
+  `docs/LOGIQUE_PARTAGEE.md`.
 - Composants dashboard (`KpiCard`, `VerificationStepper`, etc.) : toujours
   composer depuis `src/components/dashboard/` — ne jamais recréer une
   variante locale dans une page. Voir `docs/KEYLI_DASHBOARD_DESIGN_SPEC.md`.

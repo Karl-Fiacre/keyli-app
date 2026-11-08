@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import { useSession } from '@/hooks/useSession'
-import { VERSION_CGU } from '@/lib/juridique'
+import { useSession } from '@/partage/hooks/useSession'
+import { VERSION_CGU } from '@/partage/lib/juridique'
 
 // Acceptation des conditions générales par un compte déjà inscrit (compte
 // antérieur aux CGU, ou nouvelle version publiée). La base enregistre la

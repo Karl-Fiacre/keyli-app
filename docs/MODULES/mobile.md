@@ -9,9 +9,9 @@ commencer la Phase 3 sans ce fichier.
 ## Prérequis avant toute ligne de code mobile
 - [ ] Phase 2 réellement terminée — aucun bug bloquant connu côté web (voir
       `etat_avancement.md`)
-- [ ] Logique métier déjà extraite en hooks/services partageables pendant
-      la Phase 2 (Sprint 10-11) — si ce n'est pas fait, le faire avant de
-      commencer le mobile, pas en parallèle
+- [x] Logique métier déjà extraite en hooks/services partageables pendant
+      la Phase 2 — fait au Sprint 10 (2026-11-08) : `src/partage/`, voir
+      `docs/LOGIQUE_PARTAGEE.md`
 - [ ] IDs d'applications (`com.keyli.app` ou équivalent) confirmés avec le
       fondateur — voir STACK.md, jamais choisis unilatéralement (irréversible
       une fois publié)
@@ -26,8 +26,10 @@ commencer la Phase 3 sans ce fichier.
 | Mode hors-ligne | Cache local des annonces consultées | Pas de mécanisme de synchronisation différée prévu en v1 — lecture seule hors-ligne, pas d'écriture en attente de reconnexion |
 
 ## Ce qui est partagé avec le web — ne jamais réécrire
-`src/hooks/`, `src/services/api/`, `src/lib/`, `src/integrations/supabase/`
-(voir STRUCTURE_FRONTEND.md et .claude/rules/react-native-mobile.md). Si une
+`src/partage/` (hooks de données, règles, validation, formats) et
+`src/integrations/supabase/types.ts` ; le mobile fournit seulement
+`@/integrations/supabase/client` et `@/plateforme` (voir
+docs/LOGIQUE_PARTAGEE.md et .claude/rules/react-native-mobile.md). Si une
 règle métier semble devoir différer entre web et mobile, le signaler avant
 de coder une version mobile-only — la divergence silencieuse entre les deux
 plateformes est le risque principal identifié pour cette phase.

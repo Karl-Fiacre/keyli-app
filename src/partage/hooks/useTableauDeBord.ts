@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
-import { useSession } from '@/hooks/useSession'
+import { useSession } from '@/partage/hooks/useSession'
 
 // Données des tableaux de bord Propriétaire et Chercheur. Tous les calculs
 // (vues, contacts, écart au prix du quartier, score de pertinence) sont faits

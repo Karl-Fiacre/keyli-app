@@ -2,9 +2,9 @@ import { useParams } from 'react-router-dom'
 import { Alert } from '@/components/ui/alert'
 import { FilConversation } from '@/components/messagerie/FilConversation'
 import { ListeConversations } from '@/components/messagerie/ListeConversations'
-import { estUuid, useConversations } from '@/hooks/useMessagerie'
-import { messageErreur } from '@/lib/erreurs'
-import { cheminConversation } from '@/lib/messagerie'
+import { estUuid, useConversations } from '@/partage/hooks/useMessagerie'
+import { messageErreur } from '@/partage/lib/erreurs'
+import { cheminConversation } from '@/partage/lib/messagerie'
 import { cn } from '@/lib/utils'
 
 // Messagerie Keyli (gratuite, docs/MODULES/messagerie.md) : liste des

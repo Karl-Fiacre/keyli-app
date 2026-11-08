@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom'
-import { useProfil } from '@/hooks/useProfil'
+import { useProfil } from '@/partage/hooks/useProfil'
 import AgencyDashboard from '@/pages/dashboard/AgencyDashboard'
 import OwnerDashboard from '@/pages/dashboard/OwnerDashboard'
 import UserDashboard from '@/pages/dashboard/UserDashboard'

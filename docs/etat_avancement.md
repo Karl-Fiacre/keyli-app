@@ -247,6 +247,21 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine, Content-Security-
   Policy avant l'ouverture publique. Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Sprint 10 — extraction de la logique partageable, terminé**
+  (2026-11-08, branche `feature/sprint10-logique-partageable`) — périmètre
+  choisi par le porteur : cartographie (`docs/LOGIQUE_PARTAGEE.md`), dossier
+  `src/partage/` (24 hooks de données et 13 fichiers de règles déplacés avec
+  leur historique, sans changement visible), garde-fou de lint bloquant en
+  CI (aucun accès au navigateur ni import du code web dans `src/partage`),
+  tests unitaires Vitest (`npm test`, 31 tests, en CI). Deux points d'entrée
+  fournis par chaque application : `@/integrations/supabase/client` (fabrique
+  partagée `creerClientKeyli`) et `@/plateforme` (stockage, adresse du site,
+  identifiants). Adaptations : lien de document admin, configuration Google
+  Maps (web), identifiant de session et identifiants de fichiers via
+  `@/plateforme`. Aucune migration, rien à mettre en ligne côté base.
+  Points à vérifier au démarrage du mobile : `URLSearchParams` (polyfill) et
+  formats `Intl` sous Hermes. **Sprint 9 en ligne le 2026-11-08** (base,
+  4 fonctions et site vérifiés).
 - **Sprint 9 — fiabilisation des paiements, terminé** (2026-11-08, branche
   `feature/sprint9-paiements`) — périmètre choisi par le porteur :
   rattrapage automatique des paiements en attente (Edge Function
@@ -595,6 +610,10 @@ concernés :
    fonctions, site), puis paiement de test refusé et réussi en mode test
    Paystack, et suivi de l'onglet Paiements pendant 2 semaines. Suite du
    calendrier : Sprint 10 — extraction de la logique partageable.
+10. **Après le Sprint 10 (2026-11-08)** : `npm run deploy` (aucun changement
+    visible attendu). Suite du calendrier : Sprint 11-12 — stabilisation
+    pré-mobile (revue de sécurité, dette technique), puis Phase 3 mobile
+    (IDs d'applications à confirmer par le porteur avant tout code).
 
 ---
 
