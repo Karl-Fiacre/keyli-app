@@ -25,12 +25,13 @@ Deno.serve(async (req) => {
   // appartenant à quelqu'un d'autre est simplement introuvable.
   const { data: tentative } = await clientUtilisateur(autorisation)
     .from('payment_attempts_keyli')
-    .select('status')
+    .select('status, motif_refus')
     .eq('paystack_reference', reference)
     .maybeSingle()
   if (!tentative) return json({ erreur: 'Paiement introuvable' }, 404)
   if (tentative.status === 'success') return json({ statut: 'success' })
-  if (tentative.status === 'failed') return json({ statut: 'failed' })
+  if (tentative.status === 'failed') return json({ statut: 'failed', motif: tentative.motif_refus })
+  if (tentative.status === 'abandoned') return json({ statut: 'abandoned' })
 
   const { ok, corps } = await appelPaystack(`/transaction/verify/${encodeURIComponent(reference)}`)
   if (!ok) return json({ statut: 'pending' })
@@ -45,17 +46,25 @@ Deno.serve(async (req) => {
       p_paystack_id: String(d.id),
     })
     if (error) {
-      await serveur.rpc('echec_paiement_keyli', { p_reference: reference, p_message: error.message })
-      return json({ statut: 'failed' })
+      await serveur.rpc('echec_paiement_keyli', { p_reference: reference, p_message: error.message, p_notifier: true })
+      return json({ statut: 'failed', motif: null })
     }
     return json({ statut: 'success' })
   }
-  if (d.status === 'failed' || d.status === 'abandoned' || d.status === 'reversed') {
+  if (d.status === 'failed' || d.status === 'reversed') {
     await serveur.rpc('echec_paiement_keyli', {
       p_reference: reference,
       p_message: `Paiement ${d.status}${d.gateway_response ? ` : ${d.gateway_response}` : ''}`,
+      p_motif_refus: d.gateway_response ?? null,
+      p_notifier: true,
     })
-    return json({ statut: 'failed' })
+    return json({ statut: 'failed', motif: d.gateway_response ?? null })
+  }
+  // Revenu sur Keyli sans avoir payé (page Paystack fermée, annulation) :
+  // abandon immédiat, sans notification (la personne le sait déjà)
+  if (d.status === 'abandoned') {
+    await serveur.rpc('abandonner_paiement_keyli', { p_reference: reference, p_immediat: true })
+    return json({ statut: 'abandoned' })
   }
   return json({ statut: 'pending' })
 })

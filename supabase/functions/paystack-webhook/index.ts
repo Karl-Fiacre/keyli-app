@@ -38,12 +38,24 @@ Deno.serve(async (req) => {
 
   const evenement = JSON.parse(corps) as {
     event: string
-    data: { reference: string; amount: number; currency: string; id: number; status: string }
+    data: { reference: string; amount: number; currency: string; id: number; status: string; gateway_response?: string }
   }
-  if (evenement.event !== 'charge.success') return json({ recu: true })
-
   const serveur = clientServeur()
   const d = evenement.data
+
+  // Paiement refusé (événement envoyé pour certains moyens de paiement) :
+  // échec notifié avec le motif. Les autres cas de refus sont rattrapés par
+  // verify-paystack-payment et rapprocher-paiements.
+  if (evenement.event === 'charge.failed') {
+    await serveur.rpc('echec_paiement_keyli', {
+      p_reference: d.reference,
+      p_message: `Paiement refusé (webhook)${d.gateway_response ? ` : ${d.gateway_response}` : ''}`,
+      p_motif_refus: d.gateway_response ?? null,
+      p_notifier: true,
+    })
+    return json({ recu: true })
+  }
+  if (evenement.event !== 'charge.success') return json({ recu: true })
   const { error } = await serveur.rpc('confirmer_paiement_keyli', {
     p_reference: d.reference,
     p_montant_subunit: d.amount,
@@ -55,7 +67,11 @@ Deno.serve(async (req) => {
     // Incohérence métier (montant, devise, référence inconnue) : enregistrée,
     // pas de nouvel essai. Erreur technique : 500 pour que Paystack réessaie.
     if (error.code === '23514' || error.code === 'P0002') {
-      await serveur.rpc('echec_paiement_keyli', { p_reference: d.reference, p_message: error.message })
+      await serveur.rpc('echec_paiement_keyli', {
+        p_reference: d.reference,
+        p_message: error.message,
+        p_notifier: true,
+      })
       return json({ recu: true, traite: false })
     }
     return json({ erreur: 'Traitement momentanément impossible' }, 500)
