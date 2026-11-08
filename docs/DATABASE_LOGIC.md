@@ -70,6 +70,14 @@ notification), `repondre_reservation_keyli` (verrou annonce, acceptation,
 refus d'office des demandes concurrentes, notifications),
 `annuler_reservation_keyli`.
 
+### Conversion (2026-11-08)
+| Écran | Requête | Index |
+|---|---|---|
+| Admin, conversion | `conversion_annonces_keyli(début, fin)` — vues et clics par type et date ; premiers messages par (annonce, expéditeur) | `idx_interactions_type_date`, `idx_messages_fil` |
+| Tableaux de bord annonceur, performance | `performance_mes_annonces_keyli(jours)` — par annonce de l'appelant | `idx_properties_owner`, `idx_interactions_property`, `idx_messages_fil`, `idx_property_media_property` |
+| Fiche annonce, similaires | `annonces_similaires_keyli(id, 4)` — même statut et nature, même type ou commune | index existants des annonces |
+| Fiche annonce, intention de contact | insertion `property_interactions_keyli` (`click_contact`) | — |
+
 ### Aide et support (2026-11-07)
 | Écran | Requête | Index |
 |---|---|---|

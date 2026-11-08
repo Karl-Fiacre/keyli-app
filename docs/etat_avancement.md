@@ -247,6 +247,24 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine, Content-Security-
   Policy avant l'ouverture publique. Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Sprint 8 — optimisation de la conversion, terminé** (2026-11-08,
+  branche `feature/sprint8-conversion`) — périmètre choisi par le porteur :
+  mesure de la conversion (onglet admin « Conversion » : taux vue → contact
+  d'une période de référence, le pilote, et d'une période étudiée, écart à
+  l'objectif de +20 %, par commune et type), fiche plus efficace (bandeau
+  de contact mobile, intentions de contact enregistrées, annonces
+  similaires), qualité des annonces (score et conseils, repère d'affichage)
+  et statistiques annonceur (bloc « Performance de mes annonces »).
+  Migration `20261115120000_conversion_annonces_keyli.sql` (fonctions
+  seulement, 13 tests, 756 au total en local). Détail :
+  `docs/MODULES/conversion.md`. Constat : avant ce sprint, aucun clic
+  « Contacter » n'était enregistré (seules les vues). Le volet « appel et
+  WhatsApp » proposé a été écarté : le téléphone de l'annonceur reste privé.
+  Mise en ligne par le porteur : `npx supabase db push --linked` puis
+  `npm run deploy`.
+  **Sprint 7 en ligne le 2026-11-08** : migration du support appliquée,
+  formulaire et droits vérifiés sur le distant, correction de la taille de
+  la vidéo déployée.
 - **Sprint 7 — ouverture grand public, terminé** (2026-11-07, branche
   `feature/sprint7-ouverture`) — périmètre choisi par le porteur : passage
   grand public (`/pilote` devient `/partenaires`, pour propriétaires et
@@ -549,6 +567,11 @@ concernés :
    keyli.com sur l'écran final des vidéos, 10 fichiers de tests distants à
    relancer (`npx supabase test db --linked`). Ensuite : application mobile
    (React Native, `docs/MODULES/mobile.md`).
+8. **Après le Sprint 8 (2026-11-08)** : migration et déploiement par le
+   porteur ; relever le taux de conversion dans 2 à 4 semaines. Suite du
+   calendrier : Sprint 9 — fiabilisation des paiements (relances
+   d'expiration, échecs, réconciliation), puis Sprint 10 — extraction de la
+   logique partageable (préalable au mobile).
 
 ---
 

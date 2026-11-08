@@ -19,6 +19,7 @@ sont maintenant livrés.**
 - [x] lancement-pilote.md — Sprint 5 : candidature, suivi du pilote, partage, vitesse (2026-11-06)
 - [x] videos.md — publicités (voix femme, voix homme) et vidéo de l'accueil, Remotion (2026-11-06)
 - [x] stabilisation.md — Sprint 6 : relances, délais de vérification, journal des erreurs, CSP (2026-11-07)
+- [x] conversion.md — Sprint 8 : mesure vue → contact, fiche plus efficace, qualité et statistiques des annonces (2026-11-08)
 - [x] ouverture-grand-public.md — Sprint 7 : page Partenaires, référencement, aide et support, guide de mise en production (2026-11-07)
 - [x] juridique.md — pages légales, acceptation des CGU (2026-11-04)
 - [x] quartiers-tendance.md — le moins mûr, surtout des questions ouvertes
