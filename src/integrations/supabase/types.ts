@@ -306,13 +306,13 @@ isOneToOne: false
                   ]
                 },"payment_attempts_keyli": {
                   Row: {
-                    "amount": number | null,"created_at": string | null,"email": string | null,"error_message": string | null,"id": string,"montant_depassements": number,"paystack_reference": string | null,"plan_id": string | null,"status": string | null,"user_id": string | null
+                    "amount": number | null,"created_at": string | null,"derniere_verification": string | null,"email": string | null,"error_message": string | null,"id": string,"montant_depassements": number,"motif_refus": string | null,"paystack_reference": string | null,"plan_id": string | null,"status": string | null,"user_id": string | null,"verifications": number
                   }
                   Insert: {
-                    "amount"?: number | null,"created_at"?: string | null,"email"?: string | null,"error_message"?: string | null,"id"?: string,"montant_depassements"?: number,"paystack_reference"?: string | null,"plan_id"?: string | null,"status"?: string | null,"user_id"?: string | null
+                    "amount"?: number | null,"created_at"?: string | null,"derniere_verification"?: string | null,"email"?: string | null,"error_message"?: string | null,"id"?: string,"montant_depassements"?: number,"motif_refus"?: string | null,"paystack_reference"?: string | null,"plan_id"?: string | null,"status"?: string | null,"user_id"?: string | null,"verifications"?: number
                   }
                   Update: {
-                    "amount"?: number | null,"created_at"?: string | null,"email"?: string | null,"error_message"?: string | null,"id"?: string,"montant_depassements"?: number,"paystack_reference"?: string | null,"plan_id"?: string | null,"status"?: string | null,"user_id"?: string | null
+                    "amount"?: number | null,"created_at"?: string | null,"derniere_verification"?: string | null,"email"?: string | null,"error_message"?: string | null,"id"?: string,"montant_depassements"?: number,"motif_refus"?: string | null,"paystack_reference"?: string | null,"plan_id"?: string | null,"status"?: string | null,"user_id"?: string | null,"verifications"?: number
                   }
                   Relationships: [
                     {
@@ -738,6 +738,9 @@ isOneToOne: false
             "a_recu_message_de_keyli":
 { Args: { "p_auteur": string,"p_property": string }; Returns: boolean
                            },
+"abandonner_paiement_keyli":
+{ Args: { "p_immediat"?: boolean,"p_reference": string }; Returns: boolean
+                           },
 "abonnement_en_cours_keyli":
 { Args: { "p_user": string }; Returns: boolean
                            },
@@ -796,6 +799,11 @@ isOneToOne: false
 "annuler_reservation_keyli":
 { Args: { "p_motif"?: string,"p_reservation": string }; Returns: undefined
                            },
+"anomalies_paiements_keyli":
+{ Args: { "p_fenetre"?: string }; Returns: {
+              "controle": string,"libelle": string,"nombre": number
+            }[]
+                           },
 "avis_recus_keyli":
 { Args: { "p_limite"?: number,"p_user": string }; Returns: {
               "auteur": string,"commentaire": string,"date_avis": string,"id": string,"note": number,"titre_bien": string
@@ -829,6 +837,11 @@ isOneToOne: false
               "action_libelle": string,"action_vers": string,"regle": string,"texte": string,"titre": string,"type": string
             }[]
                            },
+"controles_paiements_keyli":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "controle": string,"libelle": string,"nombre": number
+            }[]
+                           },
 "conversion_annonces_keyli":
 { Args: { "p_debut": string,"p_fin": string }; Returns: {
               "cle": string,"contacts": number,"dimension": string,"intentions": number,"visiteurs": number
@@ -848,6 +861,9 @@ isOneToOne: false
 "declencher_envoi_emails_keyli":
 { Args: Record<PropertyKey, never>; Returns: undefined
                            },
+"declencher_rapprochement_paiements_keyli":
+{ Args: Record<PropertyKey, never>; Returns: undefined
+                           },
 "demander_reservation_keyli":
 { Args: { "p_arrivee": string,"p_chambre": string,"p_chambres"?: number,"p_depart": string,"p_message"?: string,"p_property": string,"p_voyageurs": number }; Returns: string
                            },
@@ -860,7 +876,7 @@ isOneToOne: false
             }[]
                            },
 "echec_paiement_keyli":
-{ Args: { "p_message": string,"p_reference": string }; Returns: undefined
+{ Args: { "p_message": string,"p_motif_refus"?: string,"p_notifier"?: boolean,"p_reference": string }; Returns: undefined
                            },
 "email_de_service_keyli":
 { Args: { "p_type": string }; Returns: boolean
@@ -942,6 +958,11 @@ isOneToOne: false
 "ordonner_photos_keyli":
 { Args: { "p_ids": (string)[],"p_property": string }; Returns: undefined
                            },
+"paiements_admin_keyli":
+{ Args: { "p_limite"?: number,"p_statut"?: string }; Returns: {
+              "cree_le": string,"derniere_verification": string,"email": string,"forfait": string,"id": string,"message": string,"montant": number,"motif_refus": string,"reference": string,"statut": string,"verifications": number
+            }[]
+                           },
 "performance_equipe_keyli":
 { Args: { "p_jours"?: number }; Returns: {
               "actif": boolean,"agent_id": string,"annonces": number,"conclus": number,"conversion": number,"leads": number,"nb_avis": number,"nom": string,"note": number
@@ -973,6 +994,11 @@ isOneToOne: false
 "prendre_emails_keyli":
 { Args: { "p_limite"?: number }; Returns: {
               "categorie": string,"contenu": string,"destinataire": string,"expediteur": string,"expediteur_id": string,"extrait": string,"id": string,"jeton": string,"non_lus": number,"prenom": string,"property_id": string,"titre": string,"titre_annonce": string,"type": string
+            }[]
+                           },
+"prendre_paiements_a_verifier_keyli":
+{ Args: { "p_limite"?: number,"p_reference"?: string }; Returns: {
+              "cree_le": string,"reference": string,"statut": string
             }[]
                            },
 "publications_periode_keyli":
@@ -1016,6 +1042,14 @@ isOneToOne: false
                            },
 "super_admin_modifier_forfait_keyli":
 { Args: { "p_actif": boolean,"p_plan": string,"p_prix_depassement_unitaire": number,"p_prix_mensuel": number,"p_seuil_max": number,"p_seuil_min": number }; Returns: undefined
+                           },
+"surveiller_paiements_keyli":
+{ Args: Record<PropertyKey, never>; Returns: number
+                           },
+"synthese_paiements_keyli":
+{ Args: { "p_debut": string,"p_fin": string }; Returns: {
+              "abandonnes": number,"echoues": number,"en_cours": number,"encaisse": number,"reussis": number
+            }[]
                            },
 "tableau_bord_agence_keyli":
 { Args: { "p_jours"?: number }; Returns: Json
