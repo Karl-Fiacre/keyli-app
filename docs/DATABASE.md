@@ -597,6 +597,34 @@ Colonnes du schéma de référence, plus :
   toujours à trancher (MODULES/annonces.md).
 Tests : `supabase/tests/favoris_alertes_keyli.test.sql`.
 
+## ⚠️ DÉCISIONS ACTÉES (2026-11-08) — stabilisation pré-mobile (Sprint 11-12)
+Migrations `20261117120000_securite_droits_keyli.sql`,
+`20261117130000_email_profil_synchronise_keyli.sql` et
+`20261117140000_disponibilite_recherche_keyli.sql`, détail :
+`docs/MODULES/stabilisation-pre-mobile.md`. Aucune table ni colonne nouvelle.
+- **Droits par défaut supprimés** : Supabase accordait tous les droits à
+  `anon` et `authenticated` sur chaque nouvel objet de `public`. Désormais
+  aucun (tables, séquences, fonctions créées par `postgres`) : chaque
+  migration accorde explicitement le strict nécessaire, comme c'était déjà
+  la pratique.
+- Droits exacts rétablis sur 3 tables où le retrait avait été oublié :
+  `emails_sortants_keyli` (lecture des comptes, filtrée admin par la
+  policy), `reservations_keyli` (lecture des comptes seulement : aucun droit
+  visiteur), `types_chambres_keyli` (lecture pour tous ; insertion et mise à
+  jour **par colonne** pour les comptes, `property_id` non modifiable). Plus
+  aucun TRUNCATE, REFERENCES ni TRIGGER pour les comptes.
+- `synchroniser_email_profil_keyli()` (security definer, serveur
+  uniquement) + déclencheur `on_auth_user_email_keyli` sur `auth.users` :
+  `profiles_keyli.email` suit l'adresse confirmée dans Auth.
+- `rechercher_annonces_keyli` : la disponibilité d'un logement (hors hôtel)
+  passe par `occupation_sejour_keyli` au lieu de lire `reservations_keyli`
+  (masquée par la RLS aux visiteurs et aux autres comptes). Signature
+  inchangée.
+Tests : `supabase/tests/audit_securite_keyli.test.sql` (13 contrôles
+permanents : RLS, suffixe, droits, fonctions ouvertes aux visiteurs, vues,
+stockage, droits par défaut), `email_profil_keyli.test.sql` (4 tests),
+2 tests ajoutés à `reservations_sejours_keyli.test.sql`.
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-11-08) — fiabilisation des paiements (Sprint 9)
 Migration `20261116120000_fiabilisation_paiements_keyli.sql`, détail :
 `docs/MODULES/paiements.md`.

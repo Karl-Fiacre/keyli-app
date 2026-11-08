@@ -9,17 +9,20 @@ conversation précédente, elle ne persiste pas.
 
 ## Statut actuel
 
-- **Phase du calendrier en cours** : Phase 0 — Fondations (semaines 1-3),
-  en cours — branche `feature/phase-0-fondations`
-- **Dernière session de travail** : 2026-09-28 (voir historique plus bas)
-- **Dépôt Git** : nouveau projet, dépôt privé
+- **Phase en cours** : web terminé jusqu'au Sprint 11-12 (stabilisation
+  pré-mobile, 2026-11-08) ; prochaine phase : application mobile (Phase 3).
+  Le détail par sprint est dans « Blocages / questions en attente » (entrées
+  « Sprint N ») et dans `docs/MODULES/`.
+- **Dernière session de travail** : 2026-11-08
+- **Dépôt Git** : dépôt privé
   https://github.com/Karl-Fiacre/keyli-app (`Karl-Fiacre/keyli` = ancien
   pilote, conservé comme référence, ne rien y pousser)
 - **Projet Supabase distant** : « Keyli App », ref `zcqirdowjussoaevqlbd`
-  (région eu-west-3, Paris), relié au dépôt le 2026-10-01 — 2 migrations
-  appliquées, 17/17 tests RLS verts sur le distant
-- **Base locale** : `npm run db:start` (conteneur Postgres Supabase seul,
-  ports par défaut 543xx) — les 2 migrations y passent, 17/17 tests RLS verts
+  (région eu-west-3, Paris)
+- **Site en ligne** : https://keyli-2gc.pages.dev (Cloudflare Pages,
+  `npm run deploy` par le porteur)
+- **Base locale** : `npx supabase start` ; tests `npx supabase test db`
+  (44 fichiers, 800 tests au 2026-11-08)
 
 ## Fichiers/tables terminés
 
@@ -214,8 +217,6 @@ concernés :
   `postcss-selector-parser` (lenteur possible à la compilation, aucun impact
   sur le site publié), sans correctif publié pour Tailwind 3 — à revoir avec
   une future montée vers Tailwind 4.
-- **Synchronisation de `profiles_keyli.email`** si l'utilisateur change son
-  email dans Supabase Auth — aucun mécanisme pour l'instant.
 - **Paystack en production** (plus tard) : remplacer `PAYSTACK_SECRET_KEY`
   par la clé `sk_live_…` et `KEYLI_APP_URL` par le domaine de production
   (Dashboard → Edge Functions → Secrets, jamais dans `.env` ni le chat),
@@ -233,8 +234,6 @@ concernés :
   `docs/MISE_EN_PRODUCTION.md`, étape 4).
 - **Redirect URLs du projet distant** : y ajouter l'adresse de l'application
   (http://127.0.0.1:5173 en développement, puis le domaine de production).
-- **Emails de notification** : fournisseur d'email à choisir (l'ancien
-  pilote utilisait Resend) avant l'Edge Function d'envoi.
 - **Mémoire de la machine (Docker)** : 7,9 Go de RAM ; fichier d'échange
   Windows agrandi par le porteur le 2026-10-06 (≈ 7,4 Go), ce qui a rendu
   Docker stable. Le 2026-10-05, avec
@@ -244,9 +243,26 @@ concernés :
 - **Site en ligne, à finaliser** — Cloudflare Pages acté et déployé le
   2026-11-01 : https://keyli-2gc.pages.dev (`npm run deploy`). Reste :
   secret `KEYLI_APP_URL=https://keyli-2gc.pages.dev` à poser par le porteur
-  (retour après paiement Paystack), achat d'un domaine, Content-Security-
-  Policy avant l'ouverture publique. Détail :
+  (retour après paiement Paystack), achat d'un domaine (la
+  Content-Security-Policy est en place depuis le Sprint 6). Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Sprint 11-12 — stabilisation pré-mobile, terminé** (2026-11-08, branche
+  `feature/sprint11-stabilisation`) — périmètre choisi par le porteur :
+  sécurité de la base, sécurité des fonctions et du site, email du profil
+  synchronisé, dette technique. Migrations `20261117120000_securite_droits_keyli`
+  (droits exacts sur 3 tables, plus aucun droit par défaut pour les objets
+  futurs), `20261117130000_email_profil_synchronise_keyli` (l'email du
+  profil suit le changement d'adresse dans Auth) et
+  `20261117140000_disponibilite_recherche_keyli` (**bug corrigé** : la
+  recherche par dates affichait comme libre un logement réservé par
+  quelqu'un d'autre). Audit permanent `audit_securite_keyli.test.sql`
+  (13 contrôles, bloquant en CI). **Bug corrigé côté site** : la CSP
+  bloquait l'envoi des photos vers Cloudinary depuis le Sprint 6. Erreurs
+  internes masquées dans `handle-paystack-payment` et `envoyer-emails`.
+  800 tests en local. Détail : `docs/MODULES/stabilisation-pre-mobile.md`.
+  Mise en ligne : `npx supabase db push --linked` (porteur), déploiement
+  des 2 fonctions, puis `npm run deploy` (porteur).
+  **Sprint 10 en ligne le 2026-11-08** (site vérifié).
 - **Sprint 10 — extraction de la logique partageable, terminé**
   (2026-11-08, branche `feature/sprint10-logique-partageable`) — périmètre
   choisi par le porteur : cartographie (`docs/LOGIQUE_PARTAGEE.md`), dossier
@@ -277,10 +293,9 @@ concernés :
   Mise en ligne dans l'ordre : `npx supabase db push --linked` (porteur),
   déploiement des 4 fonctions, puis `npm run deploy` (porteur).
   **Sprint 8 en ligne le 2026-11-08** (migration et site vérifiés).
-  Note locale : les 4 annonces de démonstration du Sprint 8 faussent 5
-  fichiers de tests en local (la CI, sur base vide, n'est pas concernée) ;
-  compte de test local `paiements.demo@keyli.test` (admin, sans mot de
-  passe).
+  Note locale : compte de test local `paiements.demo@keyli.test` (admin,
+  sans mot de passe). Les annonces de démonstration du Sprint 8, qui
+  faussaient 5 fichiers de tests, ont été supprimées le 2026-11-08.
 - **Sprint 8 — optimisation de la conversion, terminé** (2026-11-08,
   branche `feature/sprint8-conversion`) — périmètre choisi par le porteur :
   mesure de la conversion (onglet admin « Conversion » : taux vue → contact

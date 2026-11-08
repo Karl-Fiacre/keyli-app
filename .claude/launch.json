@@ -44,6 +44,21 @@
         "--strictPort"
       ],
       "port": 4173
+    },
+    {
+      "name": "keyli-pages",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "wrangler",
+        "pages",
+        "dev",
+        "dist",
+        "--ip",
+        "127.0.0.1",
+        "--port",
+        "8788"
+      ],
+      "port": 8788
     }
   ]
 }
