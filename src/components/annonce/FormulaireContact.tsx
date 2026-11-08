@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Alert } from '@/components/ui/alert'
 import { useSession } from '@/hooks/useSession'
 import { useContacterAnnonceur } from '@/hooks/useRecherche'
+import { signalerIntentionContact } from '@/hooks/useConversion'
 import { messageErreur } from '@/lib/erreurs'
 
 // Premier message à l'annonceur, par la messagerie Keyli (gratuite, sans
@@ -29,7 +30,11 @@ export function FormulaireContact({
       <div className="space-y-3 text-sm">
         <p className="text-muted-foreground">Créez un compte gratuit ou connectez-vous pour écrire à l'annonceur.</p>
         <Button asChild className="w-full">
-          <Link to="/connexion" state={{ depuis: emplacement.pathname }}>
+          <Link
+            to="/connexion"
+            state={{ depuis: emplacement.pathname }}
+            onClick={() => signalerIntentionContact(propertyId)}
+          >
             Se connecter pour contacter
           </Link>
         </Button>
@@ -54,7 +59,10 @@ export function FormulaireContact({
       className="space-y-3"
       onSubmit={(e) => {
         e.preventDefault()
-        if (message.trim()) contact.mutate({ propertyId, destinataire, message: message.trim() })
+        if (!message.trim()) return
+        // Intention de contact (Sprint 8) : comptée une fois par session et par annonce
+        signalerIntentionContact(propertyId)
+        contact.mutate({ propertyId, destinataire, message: message.trim() })
       }}
     >
       <label htmlFor="message-contact" className="text-sm font-medium">

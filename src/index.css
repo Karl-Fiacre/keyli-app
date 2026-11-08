@@ -11,36 +11,36 @@
     --card: 0 0% 100%;
     --card-foreground: 218 47% 12%;
 
-    --primary: 218 47% 12%;          /* navy #1a1f2e — couleur dominante */
+    --primary: 218 47% 12%; /* navy #1a1f2e — couleur dominante */
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 218 100% 36%;    /* bleu du logo (#0046b8) — liens, accents secondaires (charte du 2026-11-02) */
-    --secondary: 210 40% 96.1%;      /* fond de carte / zone secondaire */
+    --primary-glow: 218 100% 36%; /* bleu du logo (#0046b8) — liens, accents secondaires (charte du 2026-11-02) */
+    --secondary: 210 40% 96.1%; /* fond de carte / zone secondaire */
     --secondary-foreground: 218 47% 12%;
     --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 43%;  /* #5c6a80 — foncé le 2026-10-31 (contraste ≥ 4,5 sur --secondary) */
+    --muted-foreground: 215.4 16.3% 43%; /* #5c6a80 — foncé le 2026-10-31 (contraste ≥ 4,5 sur --secondary) */
     --accent: 210 40% 96.1%;
     --accent-foreground: 218 47% 12%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 142 71% 45%;          /* vérifié, hausse, positif — #21c45d */
-    --pending: 25 95% 53%;           /* en attente / en revue — jamais rouge */
+    --success: 142 71% 45%; /* vérifié, hausse, positif — #21c45d */
+    --pending: 25 95% 53%; /* en attente / en revue — jamais rouge */
     /* Teintes foncées pour le TEXTE vert/orange/rouge sur fond clair (contraste
        WCAG AA ≥ 4,5, audit axe du 2026-10-31). Pastilles, bordures et icônes
        gardent --success / --pending / --destructive. */
-    --success-texte: 142 76% 26%;    /* #107535 */
-    --pending-texte: 22 90% 36%;     /* #ae4609 */
-    --destructive-texte: 0 74% 42%;  /* #ba1c1c */
-    --purple: 262 83% 58%;           /* dashboard Agence : leads, insight */
-    --gold: 38 51% 45%;              /* étoiles des avis uniquement — #b8862f */
-    --turquoise: 174 100% 33%;       /* turquoise du logo (#00a898) — accent public (Accueil) */
+    --success-texte: 142 76% 26%; /* #107535 */
+    --pending-texte: 22 90% 36%; /* #ae4609 */
+    --destructive-texte: 0 74% 42%; /* #ba1c1c */
+    --purple: 262 83% 58%; /* dashboard Agence : leads, insight */
+    --gold: 38 51% 45%; /* étoiles des avis uniquement — #b8862f */
+    --turquoise: 174 100% 33%; /* turquoise du logo (#00a898) — accent public (Accueil) */
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 218 47% 25%;
 
-    --radius: 0.75rem;               /* dashboards, formulaires */
-    --radius-accueil: 0.9rem;        /* Accueil uniquement */
+    --radius: 0.75rem; /* dashboards, formulaires */
+    --radius-accueil: 0.9rem; /* Accueil uniquement */
     --radius-pill: 999px;
     --shadow-card: 0 4px 20px -4px hsl(218 47% 12% / 0.1);
     --shadow-lift: 0 24px 48px -12px hsl(218 47% 12% / 0.28);
@@ -52,5 +52,13 @@
 
   body {
     @apply bg-background font-sans text-foreground antialiased;
+  }
+
+  /* Fiche annonce : place réservée sous le bandeau de contact mobile
+     (BandeauContactMobile, masqué à partir de lg) */
+  @media (max-width: 1023.98px) {
+    body.avec-bandeau-contact {
+      padding-bottom: 4.5rem;
+    }
   }
 }
