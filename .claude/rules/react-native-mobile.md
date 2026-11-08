@@ -4,7 +4,7 @@ paths:
   - "apps/mobile/**/*.ts"
 ---
 
-# Conventions React Native / Mobile (Keyli — cible, rien construit au démarrage)
+# Conventions React Native / Mobile (Keyli — socle Expo SDK 58 depuis le Sprint 13)
 
 - Structure cible : voir `docs/STRUCTURE_FRONTEND.md` section Mobile, et la
   table de correspondance Web ↔ Mobile du répertoire de fichiers sources.
@@ -20,6 +20,12 @@ paths:
   ne s'applique pas ici) — les animations mobiles utilisent l'API Animated
   ou Reanimated de React Native, à spécifier au moment de la Phase 3.
 - Aucune clé secrète en dur — mêmes règles que le web (`docs/STACK.md`).
-- Ne pas commencer de code mobile avant la Phase 3 du calendrier
-  (`docs/etat_avancement.md` indique la phase en cours) — le web n'est pas
-  encore stabilisé avant cette phase.
+- Couleurs, rayons, espaces : uniquement `src/theme/tokens.ts` ; composer
+  les écrans avec `src/composants/base.tsx` plutôt que redéfinir des styles.
+- Code propre au mobile importé par `@mobile/…` ; code partagé par
+  `@/partage/…`. Toute fonction pure utile aux deux va dans `src/partage/`
+  avec un test Vitest, jamais recopiée dans `apps/mobile`.
+- Module natif : uniquement ceux inclus dans Expo Go tant que le porteur
+  essaie avec Expo Go (sinon il faut une version de développement compilée).
+- Contrôles avant commit : `npm run typecheck` et
+  `npx expo export --platform android` dans `apps/mobile` (Node 22.13+).

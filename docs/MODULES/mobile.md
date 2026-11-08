@@ -12,9 +12,63 @@ commencer la Phase 3 sans ce fichier.
 - [x] Logique métier déjà extraite en hooks/services partageables pendant
       la Phase 2 — fait au Sprint 10 (2026-11-08) : `src/partage/`, voir
       `docs/LOGIQUE_PARTAGEE.md`
-- [ ] IDs d'applications (`com.keyli.app` ou équivalent) confirmés avec le
-      fondateur — voir STACK.md, jamais choisis unilatéralement (irréversible
-      une fois publié)
+- [x] IDs d'applications confirmés par le porteur le 2026-11-08 :
+      `com.keyli.app` (Android et iOS) — voir STACK.md, irréversible une fois
+      publié
+
+## Sprint 13 — socle du projet mobile (2026-11-08)
+Périmètre choisi par le porteur : projet Expo et logique partagée,
+navigation de base, connexion et inscription, charte visuelle mobile.
+- **Projet** : `apps/mobile/`, Expo SDK 58 (React Native 0.88, React 19,
+  TypeScript 6), dépendances propres au mobile (`apps/mobile/node_modules`).
+  **Node 22.13 ou plus** exigé par React Native 0.88 (Node 20 ne donne qu'un
+  avertissement, mais n'est plus pris en charge).
+- **Logique partagée** : `metro.config.js` surveille `src/partage` et
+  `src/integrations/supabase` du web et résout les alias `@/…` ; le mobile
+  fournit `@/integrations/supabase/client` et `@/plateforme`
+  (`apps/mobile/src/`). Bibliothèques toujours prises dans
+  `apps/mobile/node_modules` (une seule copie de React). Alias de
+  `tsconfig.json` ignorés par Metro (`experiments.tsconfigPaths: false`) :
+  ils ne servent qu'au contrôle des types.
+- **Session** : coffre de l'appareil (`expo-secure-store` : Keychain iOS,
+  Keystore Android), valeur découpée en morceaux de 1 800 caractères (limite
+  d'environ 2 Ko par entrée) — `src/services/native/stockageSecurise.ts`.
+  Renouvellement du jeton au premier plan seulement.
+- **Plateforme** : stockage synchrone `expo-sqlite/kv-store` (inclus dans
+  Expo Go, à la place de MMKV qui ne l'est pas), identifiants `expo-crypto`,
+  liens des emails vers le site (`EXPO_PUBLIC_KEYLI_SITE_URL`).
+- **Navigation** (React Navigation 7) : onglets Accueil, Recherche, Messages,
+  Profil ; fiche annonce ; parcours de compte en fenêtre (connexion,
+  inscription, mot de passe oublié) qui se referme à la connexion ; écran
+  d'acceptation des CGU avant le reste si la version acceptée n'est pas
+  celle en vigueur (même règle que `PorteCgu` du web). Consultation des
+  annonces libre, comme sur le web.
+- **Écrans** : mêmes hooks et mêmes schémas que le web (aucune règle
+  recopiée). Messages et gestion du profil renvoient vers le site en
+  attendant leurs sprints ; la fiche propose « Contacter l'annonceur sur le
+  site » (le téléphone de l'annonceur reste privé).
+- **Charte** : `src/theme/tokens.ts` (tokens du web convertis), composants de
+  base `src/composants/base.tsx`, icône et écran de démarrage navy
+  `#1a1f2e` (LOGO.md).
+- **Déplacés dans `src/partage`** pour ne rien recopier : `lib/photos.ts`
+  (`urlPhoto`, testé) et `lib/roles.ts` (libellés des rôles).
+- **CI** : job « Application mobile » (Node 22) — `npm run typecheck` (types
+  du mobile et de `src/partage` vus du mobile) et
+  `npx expo export --platform android` (assemblage Metro complet).
+- **Vérifié** : types, assemblage Android (3,6 Mo), et dans le navigateur
+  (`expo start --web`, base en ligne en lecture) : accueil interrogeant
+  `rechercher_annonces_keyli`, onglets, recherche, invitation à se connecter,
+  validations de connexion et d'inscription. **Non vérifié par Claude** :
+  connexion réelle et persistance de la session sur téléphone (pas de compte
+  créé sur la base en ligne, base locale arrêtée) — à faire par le porteur
+  avec Expo Go.
+
+### Lancer l'application sur le téléphone (porteur)
+1. Node 22 LTS installé ; `cd apps/mobile`, `npm install` ;
+2. `apps/mobile/.env` à partir de `.env.example` (adresse et clé publique
+   anon seulement) ;
+3. `npx expo start`, puis scanner le QR code avec Expo Go (Android) ou
+   l'appareil photo (iPhone), téléphone et PC sur le même Wi-Fi.
 
 ## Modules natifs requis
 | Besoin | Module / API | Notes |
