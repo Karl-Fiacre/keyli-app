@@ -37,7 +37,7 @@ function chemin(type: string, bien: string | null): { libelle: string; chemin: s
   if (type.startsWith('visite_')) return { libelle: 'Voir la visite', chemin: '/messages' }
   if (type === 'reservation_demandee') return { libelle: 'Répondre à la demande', chemin: '/reservations' }
   if (type.startsWith('reservation_')) return { libelle: 'Voir ma réservation', chemin: '/reservations' }
-  if (type.startsWith('abonnement_') || type === 'depassement_cycle')
+  if (type.startsWith('abonnement_') || type === 'depassement_cycle' || type === 'paiement_echoue')
     return { libelle: 'Voir mon abonnement', chemin: '/abonnement' }
   if (type === 'retour_repondu') return { libelle: 'Lire la réponse', chemin: '/retours' }
   if (type === 'relance_demarrage') return { libelle: 'Reprendre mon démarrage', chemin: '/tableau-de-bord' }

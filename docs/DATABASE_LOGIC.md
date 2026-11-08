@@ -70,6 +70,14 @@ notification), `repondre_reservation_keyli` (verrou annonce, acceptation,
 refus d'office des demandes concurrentes, notifications),
 `annuler_reservation_keyli`.
 
+### Paiements, fiabilisation (2026-11-08)
+| Écran / tâche | Requête | Index |
+|---|---|---|
+| Tâche de rattrapage (15 min) | `prendre_paiements_a_verifier_keyli(20)` — statut initiated/failed, âge, dernière vérification | `idx_payment_attempts_a_verifier` |
+| Surveillance (horaire) | `anomalies_paiements_keyli` — abonnements actifs par échéance, tentatives, transactions, historique pg_cron | `idx_subscriptions_keyli_actifs_echeance` (index partiel existant), `idx_payment_attempts_a_verifier`, `uq_payment_attempts_keyli_reference` |
+| Abonnement, bandeau de refus | `payment_attempts_keyli` de l'utilisateur, la plus récente | `idx_payment_attempts_user` |
+| Admin, Paiements | `synthese_paiements_keyli`, `paiements_admin_keyli`, `controles_paiements_keyli` | `idx_payment_attempts_user` (volumes faibles) |
+
 ### Conversion (2026-11-08)
 | Écran | Requête | Index |
 |---|---|---|

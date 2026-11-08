@@ -597,6 +597,28 @@ Colonnes du schéma de référence, plus :
   toujours à trancher (MODULES/annonces.md).
 Tests : `supabase/tests/favoris_alertes_keyli.test.sql`.
 
+## ⚠️ DÉCISIONS ACTÉES (2026-11-08) — fiabilisation des paiements (Sprint 9)
+Migration `20261116120000_fiabilisation_paiements_keyli.sql`, détail :
+`docs/MODULES/paiements.md`.
+- `payment_attempts_keyli` : nouvelles colonnes `motif_refus` (réponse de
+  la banque ou de l'opérateur, 300 caractères), `verifications` (entier,
+  0) et `derniere_verification` (horodatage) ; index partiel
+  `idx_payment_attempts_a_verifier` (statuts initiated et failed). Le
+  statut `abandoned` (déjà prévu) est désormais utilisé.
+- `notifications_keyli` : nouveau type `paiement_echoue` (envoyé aussi par
+  email).
+- `echec_paiement_keyli(référence, message, motif_refus, notifier)`
+  remplace la version à deux paramètres ; `abandonner_paiement_keyli` ;
+  `prendre_paiements_a_verifier_keyli` ;
+  `declencher_rapprochement_paiements_keyli` (tâche
+  `keyli-rapprochement-paiements`, toutes les 15 min) — serveur uniquement.
+- Surveillance : `anomalies_paiements_keyli` (serveur),
+  `surveiller_paiements_keyli` (tâche `keyli-surveillance-paiements`,
+  chaque heure à :40, écrit dans `erreurs_client_keyli`).
+- Admin : `controles_paiements_keyli`, `synthese_paiements_keyli(début,
+  fin)`, `paiements_admin_keyli(statut, limite)`.
+Tests : `supabase/tests/fiabilisation_paiements_keyli.test.sql` (25 tests).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-11-08) — optimisation de la conversion (Sprint 8)
 Migration `20261115120000_conversion_annonces_keyli.sql`, détail :
 `docs/MODULES/conversion.md`. Aucune table ni colonne nouvelle.

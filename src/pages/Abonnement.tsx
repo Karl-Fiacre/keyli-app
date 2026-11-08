@@ -9,6 +9,7 @@ import {
   useAbonnementActif,
   useCycleEnCours,
   useDepassementsAPayer,
+  useDerniereTentativePaiement,
   useDernierAbonnementExpire,
   useForfaits,
   useHistoriquePaiements,
@@ -20,6 +21,7 @@ import { useEtatPublication } from '@/hooks/useAnnonces'
 import { useProfil } from '@/hooks/useProfil'
 import { cn } from '@/lib/utils'
 import { formatXof } from '@/lib/format'
+import { motifRefus } from '@/lib/paiements'
 
 // Choix, paiement et suivi d'un forfait (docs/MODULES/pricing.md) pour les
 // 3 paliers. Montants et compteurs viennent de la base ; le paiement est
@@ -53,6 +55,7 @@ export default function Abonnement() {
   const cycle = useCycleEnCours(actuel).data
   const historique = useHistoriquePaiements().data ?? []
   const recommandation = useRecommandationForfait().data
+  const derniere = useDerniereTentativePaiement().data
   const [aConfirmer, setAConfirmer] = useState<string | null>(null)
   const totalDepassements = depassements.reduce((s, d) => s + Number(d.montant), 0)
 
@@ -83,6 +86,13 @@ export default function Abonnement() {
     recommandation && (!actuel || new Date(recommandation.created_at) > new Date(actuel.start_date))
       ? recommandation
       : null
+
+  // Paiement refusé récemment (moins de 7 jours) et pas encore retenté
+  const refus =
+    derniere?.status === 'failed' && Date.now() - new Date(derniere.created_at ?? 0).getTime() < 7 * JOUR
+      ? derniere
+      : null
+  const refusRetentable = refus && proposes.some((f) => f.id === refus.plan_id) ? refus.plan_id : null
 
   const payer = (planId: string) =>
     paiement.mutate(planId, { onSuccess: ({ authorization_url }) => window.location.assign(authorization_url) })
@@ -151,6 +161,31 @@ export default function Abonnement() {
         )}
 
         {paiement.isError && <Alert variant="erreur">{paiement.error.message}</Alert>}
+
+        {refus && (
+          <Alert variant="erreur">
+            <p className="font-semibold">
+              Votre dernier paiement ({formatXof(Number(refus.amount))}, forfait {refus.plans_keyli?.nom ?? 'choisi'})
+              n'a pas abouti.
+            </p>
+            <p className="mt-1 text-sm">
+              {motifRefus(refus.motif_refus)} Votre abonnement n'a pas été modifié ; vous pouvez réessayer, avec un
+              autre moyen de paiement si besoin.
+            </p>
+            {refusRetentable && (
+              <Button
+                size="sm"
+                className="mt-3"
+                disabled={paiement.isPending}
+                onClick={() =>
+                  actuel && actuel.plan_id !== refusRetentable ? setAConfirmer(refusRetentable) : payer(refusRetentable)
+                }
+              >
+                {paiement.isPending ? 'Redirection vers le paiement…' : 'Réessayer le paiement'}
+              </Button>
+            )}
+          </Alert>
+        )}
 
         <div className={cn('grid grid-cols-1 gap-4', proposes.length === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2')}>
           {proposes.map((f) => {
