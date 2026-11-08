@@ -788,6 +788,11 @@ isOneToOne: false
 "annonce_correspond_alerte_keyli":
 { Args: { "c": Json,"p": Database["public"]['Tables']["properties_keyli"]['Row'] }; Returns: boolean
                            },
+"annonces_similaires_keyli":
+{ Args: { "p_id": string,"p_limite"?: number }; Returns: {
+              "commune": string,"id": string,"image": string,"pieces": number,"prix": number,"quartier": string,"sejour_court": boolean,"statut": Database["public"]['Enums']["property_status_keyli"],"titre": string,"type": Database["public"]['Enums']["property_type_keyli"],"verifiee": boolean,"ville": string
+            }[]
+                           },
 "annuler_reservation_keyli":
 { Args: { "p_motif"?: string,"p_reservation": string }; Returns: undefined
                            },
@@ -822,6 +827,11 @@ isOneToOne: false
 "conseils_agence_keyli":
 { Args: Record<PropertyKey, never>; Returns: {
               "action_libelle": string,"action_vers": string,"regle": string,"texte": string,"titre": string,"type": string
+            }[]
+                           },
+"conversion_annonces_keyli":
+{ Args: { "p_debut": string,"p_fin": string }; Returns: {
+              "cle": string,"contacts": number,"dimension": string,"intentions": number,"visiteurs": number
             }[]
                            },
 "criteres_alerte_valides_keyli":
@@ -935,6 +945,11 @@ isOneToOne: false
 "performance_equipe_keyli":
 { Args: { "p_jours"?: number }; Returns: {
               "actif": boolean,"agent_id": string,"annonces": number,"conclus": number,"conversion": number,"leads": number,"nb_avis": number,"nom": string,"note": number
+            }[]
+                           },
+"performance_mes_annonces_keyli":
+{ Args: { "p_jours"?: number }; Returns: {
+              "a_description": boolean,"a_pieces": boolean,"a_position": boolean,"a_quartier": boolean,"a_surface": boolean,"annonceur_verifie": boolean,"contacts": number,"id": string,"intentions": number,"nb_photos": number,"publiee_le": string,"titre": string,"visiteurs": number
             }[]
                            },
 "pipeline_leads_keyli":

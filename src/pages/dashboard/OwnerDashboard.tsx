@@ -5,6 +5,7 @@ import { VerificationStepper } from '@/components/dashboard/VerificationStepper'
 import { MessagePreviewList } from '@/components/dashboard/MessagePreviewList'
 import { AgendaList } from '@/components/dashboard/AgendaList'
 import { TrendBar } from '@/components/dashboard/TrendBar'
+import { PerformanceAnnonces } from '@/components/dashboard/PerformanceAnnonces'
 import { VerifiedBadge } from '@/components/VerifiedBadge'
 import { Button } from '@/components/ui/button'
 import { useConversations } from '@/hooks/useMessagerie'
@@ -96,6 +97,9 @@ export default function OwnerDashboard({ profil }: { profil: Profil }) {
           Comparaison avec le prix moyen des annonces du même quartier (au moins 5 annonces), recalculé chaque nuit.
         </p>
       </section>
+
+      {/* Statistiques et qualité par annonce (Sprint 8) */}
+      <PerformanceAnnonces jours={30} />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <section className="rounded-lg border bg-card p-5">

@@ -597,6 +597,29 @@ Colonnes du schéma de référence, plus :
   toujours à trancher (MODULES/annonces.md).
 Tests : `supabase/tests/favoris_alertes_keyli.test.sql`.
 
+## ⚠️ DÉCISIONS ACTÉES (2026-11-08) — optimisation de la conversion (Sprint 8)
+Migration `20261115120000_conversion_annonces_keyli.sql`, détail :
+`docs/MODULES/conversion.md`. Aucune table ni colonne nouvelle.
+- `property_interactions_keyli` : le site enregistre désormais
+  `click_contact` (bouton « Contacter » du bandeau mobile, « Se connecter
+  pour contacter », envoi du premier message). `contacts_count` de
+  `properties_keyli` compte donc ces intentions (déclencheur existant).
+- `conversion_annonces_keyli(début date, fin date)` (admin, security
+  definer, un an au plus) : lignes (`dimension` total / commune / type,
+  `cle`, `visiteurs`, `intentions`, `contacts`).
+- `performance_mes_annonces_keyli(jours)` (authenticated, annonces non
+  archivées de l'appelant, 7 à 90 jours) : statistiques et critères de
+  qualité (`nb_photos`, `a_description`, `a_quartier`, `a_surface`,
+  `a_pieces`, `a_position` — booléen seulement, la position reste illisible
+  par le client —, `annonceur_verifie`).
+- `annonces_similaires_keyli(annonce, limite)` (anon et authenticated,
+  security invoker : règle de lecture publique des annonces appliquée,
+  8 au plus).
+Définitions : visiteurs et intentions = couples distincts (session,
+annonce) ; contacts = premier message d'un utilisateur à l'annonceur pour
+une annonce, daté sur la période.
+Tests : `supabase/tests/conversion_annonces_keyli.test.sql` (13 tests).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-11-07) — aide et support (Sprint 7)
 Migration `20261114120000_support_visiteurs_keyli.sql`, détail :
 `docs/MODULES/ouverture-grand-public.md`. Les comptes connectés gardent
