@@ -27,7 +27,11 @@ Deno.serve(async (req) => {
   const client = clientUtilisateur(autorisation)
   const { data: tentative, error } = await client.rpc('initier_paiement_keyli', { p_plan: planId }).single()
   if (error || !tentative) {
-    return json({ erreur: error?.message ?? 'Paiement impossible' }, statutErreurSql(error?.code))
+    const statut = statutErreurSql(error?.code)
+    // Règle métier (forfait, compte) : message prévu pour l'utilisateur.
+    // Erreur inattendue : détail dans les journaux seulement.
+    if (statut === 500) console.error('initier_paiement_keyli :', error?.message)
+    return json({ erreur: statut === 500 ? 'Paiement impossible pour le moment' : (error?.message ?? 'Paiement impossible') }, statut)
   }
   const t = tentative as { reference: string; montant: number; devise: string; email: string; plan_code: string }
 
