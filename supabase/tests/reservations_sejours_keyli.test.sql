@@ -7,7 +7,7 @@ create extension if not exists pgtap with schema extensions;
 set local role postgres;
 set local search_path = "$user", public, extensions;
 
-select plan(35);
+select plan(37);
 
 -- H hôte abonné ; V1, V2, V3 voyageurs
 insert into auth.users (id, email, raw_user_meta_data) values
@@ -35,7 +35,7 @@ grant execute on function pg_temp.photo() to authenticated;
 -- Jour J + n (dates relatives : le test reste valable dans le temps)
 create function pg_temp.j(n integer) returns date
 language sql stable as $$ select (now() at time zone 'Africa/Abidjan')::date + n $$;
-grant execute on function pg_temp.j(integer) to authenticated;
+grant execute on function pg_temp.j(integer) to anon, authenticated;
 
 set local role authenticated;
 select pg_temp.connecter('e5e00000-0000-0000-0000-000000000001');
@@ -160,6 +160,18 @@ select is((select motif from public.devis_sejour_keyli(
 select is((select count(*)::int from public.rechercher_annonces_keyli(
   p_arrivee => pg_temp.j(11), p_depart => pg_temp.j(13)) where id = current_setting('test.appart')::uuid),
   0, 'Recherche par dates : logement réservé exclu');
+-- Même recherche par un autre voyageur, puis par un visiteur : la RLS leur
+-- cache la réservation, la disponibilité doit pourtant en tenir compte
+select pg_temp.connecter('e5e00000-0000-0000-0000-000000000004');
+select is((select count(*)::int from public.rechercher_annonces_keyli(
+  p_arrivee => pg_temp.j(11), p_depart => pg_temp.j(13)) where id = current_setting('test.appart')::uuid),
+  0, 'Recherche par dates d''un autre compte : logement réservé exclu');
+set local role anon;
+select is((select count(*)::int from public.rechercher_annonces_keyli(
+  p_arrivee => pg_temp.j(11), p_depart => pg_temp.j(13)) where id = current_setting('test.appart')::uuid),
+  0, 'Recherche par dates d''un visiteur : logement réservé exclu');
+set local role authenticated;
+select pg_temp.connecter('e5e00000-0000-0000-0000-000000000001');
 select is((select count(*)::int from public.rechercher_annonces_keyli(
   p_arrivee => pg_temp.j(13), p_depart => pg_temp.j(15)) where id = current_setting('test.appart')::uuid),
   1, 'Recherche par dates : libre dès le jour du départ précédent');

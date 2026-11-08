@@ -7,8 +7,10 @@
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   # Politique de sécurité du contenu (Sprint 6, docs/MODULES/stabilisation.md) :
   # Supabase du projet, Google Maps (liste officielle de Google), images
-  # Cloudinary ; styles en ligne nécessaires aux animations React.
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://*.googleapis.com https://*.gstatic.com https://*.google.com https://*.ggpht.com https://*.googleusercontent.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://zcqirdowjussoaevqlbd.supabase.co https://res.cloudinary.com https://*.googleapis.com https://*.gstatic.com https://*.google.com https://*.googleusercontent.com https://*.ggpht.com; media-src 'self'; connect-src 'self' https://zcqirdowjussoaevqlbd.supabase.co wss://zcqirdowjussoaevqlbd.supabase.co https://*.googleapis.com https://*.google.com https://*.gstatic.com data: blob:; frame-src https://*.google.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  # Cloudinary (affichage res.cloudinary.com, envoi direct des photos vers
+  # api.cloudinary.com, ajouté au Sprint 11-12) ; styles en ligne
+  # nécessaires aux animations React.
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://*.googleapis.com https://*.gstatic.com https://*.google.com https://*.ggpht.com https://*.googleusercontent.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://zcqirdowjussoaevqlbd.supabase.co https://res.cloudinary.com https://*.googleapis.com https://*.gstatic.com https://*.google.com https://*.googleusercontent.com https://*.ggpht.com; media-src 'self'; connect-src 'self' https://zcqirdowjussoaevqlbd.supabase.co wss://zcqirdowjussoaevqlbd.supabase.co https://api.cloudinary.com https://*.googleapis.com https://*.google.com https://*.gstatic.com data: blob:; frame-src https://*.google.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
 
 # Fichiers du build versionnés par empreinte : cache long
 /assets/*

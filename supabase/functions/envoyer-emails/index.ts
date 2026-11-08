@@ -129,7 +129,11 @@ Deno.serve(async (req) => {
   const urlApp = (Deno.env.get('KEYLI_APP_URL') ?? 'http://127.0.0.1:5173').trim().replace(/\/+$/, '')
   const serveur = clientServeur()
   const { data, error } = await serveur.rpc('prendre_emails_keyli', { p_limite: LOT })
-  if (error) return json({ erreur: error.message }, 500)
+  if (error) {
+    // Détail dans les journaux seulement, jamais dans la réponse
+    console.error('prendre_emails_keyli :', error.message)
+    return json({ erreur: 'Traitement momentanément impossible' }, 500)
+  }
 
   const lot = (data ?? []) as EmailDu[]
   let envoyes = 0

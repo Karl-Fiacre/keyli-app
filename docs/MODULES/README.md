@@ -20,6 +20,7 @@ sont maintenant livrés.**
 - [x] videos.md — publicités (voix femme, voix homme) et vidéo de l'accueil, Remotion (2026-11-06)
 - [x] stabilisation.md — Sprint 6 : relances, délais de vérification, journal des erreurs, CSP (2026-11-07)
 - [x] paiements.md — Sprint 9 : rattrapage des paiements, refus notifiés, onglet admin Paiements, surveillance des échéances (2026-11-08)
+- [x] stabilisation-pre-mobile.md — Sprint 11-12 : audit de sécurité de la base, fonctions et site, email du profil, dette technique (2026-11-08)
 - [x] conversion.md — Sprint 8 : mesure vue → contact, fiche plus efficace, qualité et statistiques des annonces (2026-11-08)
 - [x] ouverture-grand-public.md — Sprint 7 : page Partenaires, référencement, aide et support, guide de mise en production (2026-11-07)
 - [x] juridique.md — pages légales, acceptation des CGU (2026-11-04)
