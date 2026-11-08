@@ -16,6 +16,7 @@ import { cheminConversation } from '@/partage/lib/messagerie'
 import { motifRefus, LIBELLES_TENTATIVE } from '@/partage/lib/paiements'
 import { erreurKeyli, messageErreur } from '@/partage/lib/erreurs'
 import { lienNotification } from '@/partage/lib/notifications'
+import { urlPhoto } from '@/partage/lib/photos'
 
 // Intl (fr-FR) sépare les milliers par une espace insécable fine
 const sansEspaces = (s: string) => s.replace(/\s/g, ' ')
@@ -129,5 +130,19 @@ describe('messages d’erreur', () => {
   it('affiche tel quel un message Keyli et masque l’inconnu', () => {
     expect(messageErreur(erreurKeyli('Photo trop lourde.'))).toBe('Photo trop lourde.')
     expect(messageErreur(new Error('TypeError: x is undefined'))).toMatch(/erreur inattendue/)
+  })
+})
+
+describe('photos', () => {
+  const source = 'https://res.cloudinary.com/djizi4dod/image/upload/keyli/annonces/u/p.jpg'
+  it('réduit une photo Cloudinary, avec ou sans recadrage', () => {
+    expect(urlPhoto(source, 640)).toBe(
+      'https://res.cloudinary.com/djizi4dod/image/upload/f_auto,q_auto,c_limit,w_640/keyli/annonces/u/p.jpg',
+    )
+    expect(urlPhoto(source, 640, 480)).toContain('/image/upload/f_auto,q_auto,c_fill,g_auto,w_640,h_480/')
+  })
+  it('rend toute autre adresse telle quelle, et rien sans adresse', () => {
+    expect(urlPhoto('https://exemple.ci/p.jpg', 640)).toBe('https://exemple.ci/p.jpg')
+    expect(urlPhoto(null, 640)).toBeUndefined()
   })
 })
