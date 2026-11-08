@@ -9,8 +9,9 @@ conversation précédente, elle ne persiste pas.
 
 ## Statut actuel
 
-- **Phase en cours** : web terminé jusqu'au Sprint 11-12 (stabilisation
-  pré-mobile, 2026-11-08) ; prochaine phase : application mobile (Phase 3).
+- **Phase en cours** : Phase 3 — application mobile (`apps/mobile`, Expo
+  SDK 58, identifiant `com.keyli.app`). Sprint 13 (socle) terminé le
+  2026-11-08 ; web terminé jusqu'au Sprint 11-12.
   Le détail par sprint est dans « Blocages / questions en attente » (entrées
   « Sprint N ») et dans `docs/MODULES/`.
 - **Dernière session de travail** : 2026-11-08
@@ -22,7 +23,9 @@ conversation précédente, elle ne persiste pas.
 - **Site en ligne** : https://keyli-2gc.pages.dev (Cloudflare Pages,
   `npm run deploy` par le porteur)
 - **Base locale** : `npx supabase start` ; tests `npx supabase test db`
-  (44 fichiers, 800 tests au 2026-11-08)
+  (44 fichiers, 800 tests au 2026-11-08) ; tests unitaires `npm test` (33)
+- **Mobile** : `cd apps/mobile`, `npx expo start` (Node 22.13+, Expo Go sur
+  le téléphone du porteur) — `docs/MODULES/mobile.md`
 
 ## Fichiers/tables terminés
 
@@ -246,6 +249,26 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine (la
   Content-Security-Policy est en place depuis le Sprint 6). Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Sprint 13 — socle du projet mobile, terminé** (2026-11-08, branche
+  `feature/sprint13-socle-mobile`) — périmètre choisi par le porteur : projet
+  Expo et logique partagée, navigation de base, connexion et inscription,
+  charte visuelle mobile. Identifiant d'application `com.keyli.app` (décision
+  du porteur, irréversible une fois publié) ; essais sur le téléphone du
+  porteur avec Expo Go. `apps/mobile/` réutilise `src/partage` sans rien
+  recopier (Metro + alias) ; session dans le coffre de l'appareil ; onglets
+  Accueil, Recherche, Messages, Profil, fiche annonce, parcours de compte,
+  acceptation des CGU. `urlPhoto` et les libellés de rôle déplacés dans
+  `src/partage`. Job CI « Application mobile » (types + assemblage Android).
+  Vérifié : types, assemblage, écrans dans le navigateur (base en ligne en
+  lecture). **Reste à vérifier par le porteur** : connexion réelle et session
+  gardée après fermeture, sur téléphone. **Bloquants rencontrés** : disque C
+  plein (libéré par le porteur), Node 20 trop ancien pour React Native 0.88
+  (Node 22 LTS à installer par le porteur), création automatique du projet
+  Expo refusée par le contrôle de sécurité (fichiers écrits à la main),
+  Docker arrêté (base locale indisponible). Détail : `docs/MODULES/mobile.md`.
+  Rien à mettre en ligne (aucune migration, site inchangé à l'écran).
+  **Sprint 11-12 en ligne le 2026-11-08** (3 migrations, 2 fonctions, CSP
+  vérifiées).
 - **Sprint 11-12 — stabilisation pré-mobile, terminé** (2026-11-08, branche
   `feature/sprint11-stabilisation`) — périmètre choisi par le porteur :
   sécurité de la base, sécurité des fonctions et du site, email du profil

@@ -63,13 +63,15 @@ src/
 └── integrations/supabase/   client.ts, types.ts
 ```
 
-## Mobile (React Native + Expo) — cible, rien construit
+## Mobile (React Native + Expo) — socle construit au Sprint 13 (2026-11-08)
 Modules natifs, distribution bêta et soumission stores : voir
 `MODULES/mobile.md`. Ce qui suit est la structure de fichiers seulement.
 ```
 apps/mobile/src/
 ├── screens/         équivalent des pages web, UI native
-├── navigation/       stack + tabs
+├── navigation/       stack + tabs (Racine.tsx, types.ts)
+├── composants/       composants de base (base.tsx), cartes d'annonce
+├── theme/            tokens de la charte (couleurs du web converties)
 ├── plateforme/       services de l'appareil (contrat src/partage/plateforme.ts)
 ├── services/native/  caméra, biométrie, push, géolocalisation continue
 └── integrations/supabase/   client mobile (creerClientKeyli) ; types communs

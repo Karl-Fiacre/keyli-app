@@ -12,14 +12,7 @@ import { useModificationProfil, useProfil } from '@/partage/hooks/useProfil'
 import { PreferenceEmails } from '@/components/profil/PreferenceEmails'
 import { messageErreur } from '@/partage/lib/erreurs'
 import { schemaProfil, type DonneesProfil } from '@/partage/lib/validation'
-
-const LIBELLES_ROLE: Record<string, string> = {
-  user: 'Chercheur de logement',
-  owner: 'Propriétaire',
-  agency: 'Agence',
-  admin: 'Administrateur',
-  super_admin: 'Super administrateur',
-}
+import { LIBELLES_ROLE } from '@/partage/lib/roles'
 
 export default function Profil() {
   const profil = useProfil()

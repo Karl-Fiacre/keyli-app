@@ -81,10 +81,11 @@ npm install
 npm run dev          # Vite dev server
 ```
 
-## Package IDs applications mobiles (à renseigner une fois le projet Expo créé)
+## Package IDs applications mobiles (décision du porteur, 2026-11-08)
 ```
-Android (Play Store) : à définir — ex. com.keyli.app
-iOS (App Store)       : à définir — cohérent avec l'Android
+Android (Play Store) : com.keyli.app
+iOS (App Store)       : com.keyli.app
 ```
-Ne pas inventer d'ID définitif sans confirmation — c'est un identifiant
-irréversible une fois publié sur les stores.
+Identifiant irréversible une fois publié sur les stores : ne plus le
+modifier. Essais pendant le développement : téléphone du porteur avec
+Expo Go (pas de simulateur iOS sous Windows). Expo SDK 58.

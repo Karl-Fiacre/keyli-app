@@ -33,7 +33,7 @@ sont maintenant livrés.**
       avec le fondateur (hébergement pas encore décidé)
 - [x] leads-visites.md — pipeline de leads et visites, 2 tables trouvées
       manquantes lors d'un rescan (leads_keyli, visits_keyli), ajoutées
-- [x] mobile.md — Phase 3, modules natifs, distribution bêta, soumission
+- [x] mobile.md — Phase 3 (socle Expo construit au Sprint 13, 2026-11-08), modules natifs, distribution bêta, soumission
       stores. Trouvé manquant lors d'un rescan : STRUCTURE_FRONTEND.md et
       .claude/rules/react-native-mobile.md couvraient l'arborescence et les
       conventions de code, mais rien ne détaillait les modules natifs ni le

@@ -92,6 +92,8 @@ au site, équivalent mobile à écrire.
 | `format.ts`, `qualite.ts`, `sejour.ts` | montants, dates, qualité d'annonce | Partagé, à vérifier : formats `Intl` fr-FR sous Hermes (testés sur Node) |
 | `erreurs.ts`, `paiements.ts`, `publication.ts`, `messagerie.ts`, `juridique.ts`, `dashboard.ts`, `annonce.ts` | messages, libellés, constantes | Partagé (testé pour la plupart) |
 | `notifications.ts` | destination d'une notification, « il y a 5 min » | Partagé : la destination est un chemin du site, que le mobile traduit en écran |
+| `photos.ts` | adresse d'affichage réduite d'une photo Cloudinary (`urlPhoto`) | Partagé (testé) — sorti de `lib/cloudinary.ts` au Sprint 13 |
+| `roles.ts` | libellés des rôles | Partagé — sorti de `pages/Profil.tsx` au Sprint 13 |
 
 ### Propre au web (reste dans `src/hooks/`, `src/lib/`)
 | Fichier | Pourquoi | Équivalent mobile |

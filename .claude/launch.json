@@ -61,6 +61,19 @@
         "2026-05-01"
       ],
       "port": 8788
+    },
+    {
+      "name": "keyli-mobile-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "expo",
+        "start",
+        "--web",
+        "--port",
+        "8081"
+      ],
+      "cwd": "apps/mobile",
+      "port": 8081
     }
   ]
 }
