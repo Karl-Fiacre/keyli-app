@@ -43,3 +43,8 @@ functions/_config.generated.ts
 
 # Cache local de wrangler (test des fonctions Cloudflare)
 .wrangler/
+
+# Application mobile (Expo)
+.expo/
+apps/mobile/dist/
+apps/mobile/web-build/

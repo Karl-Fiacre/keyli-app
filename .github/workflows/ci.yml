@@ -1,5 +1,6 @@
 # Pipeline CI de base (Phase 0, docs/calendrier.md) — à chaque push et PR :
 #  - web : lint + tests unitaires + build (le build inclut la vérification TypeScript)
+#  - mobile : types et assemblage de l'application Expo (apps/mobile)
 #  - base : migrations rejouées sur un Postgres Supabase vierge, tests RLS
 #    pgTAP, et contrôle que types.ts a bien été régénéré après la dernière
 #    migration.
@@ -28,6 +29,26 @@ jobs:
       # Tests unitaires de la logique partagée web / mobile (docs/LOGIQUE_PARTAGEE.md)
       - run: npm test
       - run: npm run build
+
+  mobile:
+    name: Application mobile
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          # React Native 0.88 (Expo SDK 58) exige Node 22.13 ou plus
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/mobile/package-lock.json
+      - run: npm ci
+      # Types du mobile ET de la logique partagée (src/partage) vue du mobile
+      - run: npm run typecheck
+      # Assemblage complet par Metro (alias vers src/partage, une seule copie de React)
+      - run: npx expo export --platform android --output-dir dist
 
   database:
     name: Migrations et tests RLS
