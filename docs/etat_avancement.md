@@ -250,6 +250,13 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine (la
   Content-Security-Policy est en place depuis le Sprint 6). Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Écran de bienvenue : photos réelles en défilement** (2026-11-09, branche
+  `feature/bienvenue-photos`, demande du porteur) — l'illustration
+  vectorielle est remplacée par trois photos Unsplash (villa tropicale,
+  duplex, maison à toit-jardin) en fondu enchaîné avec zoom lent. Crédits et
+  licence : `docs/MODULES/mobile.md`. Vérifié : types, assemblage Android,
+  chargement des trois photos et console propre dans le navigateur ; à
+  essayer sur le téléphone.
 - **Écran de bienvenue mobile, fait** (2026-11-09, branche
   `feature/sprint14-accueil-mobile`, demande du porteur) — l'application
   s'ouvre, pour un visiteur non connecté, sur une illustration futuriste

@@ -113,11 +113,10 @@ porteur dans le projet Google Cloud « Nguessan-IT ». iOS utilise Apple Plans
 
 ### Écran de bienvenue (2026-11-09, demande du porteur)
 Premier écran d'un visiteur non connecté (`screens/Bienvenue.tsx`) :
-illustration futuriste animée en fond (`composants/IllustrationFuturiste.tsx`
-— résidence à terrasses au toit en pignon au bord de la lagune, la nuit,
-dessin vectoriel original aux couleurs de Keyli : les tours s'élèvent, le
-halo respire, les fenêtres scintillent ; mouvement coupé si le téléphone
-demande de réduire les animations), logo blanc, promesse du site (« Le
+trois photos de logements en défilement (`composants/DefilementPhotos.tsx` :
+fondu enchaîné toutes les 6 s, zoom lent, voile navy pour la lisibilité,
+repères turquoise au-dessus du texte ; zoom coupé si le téléphone demande de
+réduire les animations), logo blanc, promesse du site (« Le
 logement de confiance, vérifié avant vous. »), badge officiel avec la
 garantie, boutons « Créer un compte » et « Se connecter ». La consultation
 restant libre comme sur le web, « Découvrir les annonces sans compte » ouvre
@@ -125,8 +124,19 @@ l'application. Navigation : l'écran disparaît dès la connexion (écrans
 conditionnels de la pile) et revient après une déconnexion ; le parcours de
 compte se referme quand la session change (`navigationKey`). Nouveaux
 jetons : `texteClair`, `bordureClaire` (blanc à 80 % et 20 % sur le navy) ;
-variantes de bouton `clair` et `contour`. L'illustration peut être remplacée
-par une photo fournie par le porteur (droits d'usage à vérifier).
+variantes de bouton `clair` et `contour`.
+
+Photos (choisies par le porteur le 2026-11-09, remplaçant l'illustration
+vectorielle d'origine) : `assets/bienvenue-1.jpg` à `-3.jpg`, 1080×1620,
+environ 280 Ko chacune, sous **licence Unsplash** (usage commercial gratuit,
+sans attribution obligatoire — crédits conservés ici par correction) :
+1. villa tropicale à l'heure bleue — Jusuf Bachtiar,
+   unsplash.com/photos/nyceoSzBZxk ;
+2. duplex éclairé de nuit — Naksha Banwao, unsplash.com/photos/3ddHcjHmiGw ;
+3. maison à toit-jardin — Hardik Panchal, unsplash.com/photos/gto28gGSTcY.
+Les clichés sont remontés à l'écran (`top: '-14%'`) car la maison occupe leur
+moitié basse. À remplacer par des photos de biens réels d'Abidjan dès que
+Keyli en dispose (droits d'usage écrits du propriétaire ou du photographe).
 
 ## Modules natifs requis
 | Besoin | Module / API | Notes |

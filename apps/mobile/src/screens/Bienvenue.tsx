@@ -1,15 +1,15 @@
 // Écran de bienvenue : premier écran de l'application pour un visiteur non
-// connecté (demande du porteur, 2026-11-09). Illustration futuriste en fond,
+// connecté (demande du porteur, 2026-11-09). Trois photos réelles en fond,
 // promesse de Keyli, inscription et connexion. La consultation des annonces
 // reste libre comme sur le web : « Découvrir les annonces » ouvre
 // l'application sans compte.
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Animated, Easing, Pressable, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
 import { useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { IllustrationFuturiste } from '@mobile/composants/IllustrationFuturiste'
+import { DefilementPhotos, NOMBRE_PHOTOS } from '@mobile/composants/DefilementPhotos'
 import { BadgeVerifie } from '@mobile/composants/BadgeVerifie'
 import { Bouton, Logo } from '@mobile/composants/base'
 import { couleurs, espaces, polices, rayons } from '@mobile/theme/tokens'
@@ -18,8 +18,9 @@ import type { ParamsRacine } from '@mobile/navigation/types'
 export default function Bienvenue({ onExplorer }: { onExplorer: () => void }) {
   const navigation = useNavigation<NativeStackNavigationProp<ParamsRacine>>()
   const entree = useRef(new Animated.Value(0)).current
+  const [photo, setPhoto] = useState(0)
 
-  // Le texte et les boutons arrivent après l'élévation des tours
+  // Le texte et les boutons arrivent après la première photo
   useEffect(() => {
     Animated.timing(entree, {
       toValue: 1,
@@ -38,7 +39,7 @@ export default function Bienvenue({ onExplorer }: { onExplorer: () => void }) {
   return (
     <View style={styles.ecran}>
       <StatusBar style="light" />
-      <IllustrationFuturiste />
+      <DefilementPhotos onPhoto={setPhoto} />
 
       <SafeAreaView style={styles.contenu} edges={['top', 'bottom']}>
         <View style={styles.haut}>
@@ -46,6 +47,11 @@ export default function Bienvenue({ onExplorer }: { onExplorer: () => void }) {
         </View>
 
         <Animated.View style={[styles.bas, glisse(24)]}>
+          <View style={styles.reperes} accessible={false}>
+            {Array.from({ length: NOMBRE_PHOTOS }, (_, i) => (
+              <View key={i} style={[styles.repere, i === photo && styles.repereActif]} />
+            ))}
+          </View>
           <View style={styles.lieu}>
             <View style={styles.point} />
             <Text style={styles.texteLieu}>Abidjan · Côte d'Ivoire</Text>
@@ -97,6 +103,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: couleurs.bordureClaire,
   },
+  reperes: { flexDirection: 'row', gap: espaces.s },
+  repere: { width: 6, height: 6, borderRadius: 3, backgroundColor: couleurs.bordureClaire },
+  repereActif: { width: 18, backgroundColor: couleurs.turquoise },
   point: { width: 6, height: 6, borderRadius: 3, backgroundColor: couleurs.turquoise },
   texteLieu: {
     color: couleurs.surPrimaire,
