@@ -58,17 +58,20 @@ navigation de base, connexion et inscription, charte visuelle mobile.
 - **Vérifié** : types, assemblage Android (3,6 Mo), et dans le navigateur
   (`expo start --web`, base en ligne en lecture) : accueil interrogeant
   `rechercher_annonces_keyli`, onglets, recherche, invitation à se connecter,
-  validations de connexion et d'inscription. **Non vérifié par Claude** :
-  connexion réelle et persistance de la session sur téléphone (pas de compte
-  créé sur la base en ligne, base locale arrêtée) — à faire par le porteur
-  avec Expo Go.
+  validations de connexion et d'inscription. **Validé par le porteur sur son
+  téléphone (Expo Go, 2026-11-09)** : connexion réelle, session retrouvée
+  après fermeture complète de l'application.
 
 ### Lancer l'application sur le téléphone (porteur)
 1. Node 22 LTS installé ; `cd apps/mobile`, `npm install` ;
 2. `apps/mobile/.env` à partir de `.env.example` (adresse et clé publique
    anon seulement) ;
-3. `npx expo start`, puis scanner le QR code avec Expo Go (Android) ou
-   l'appareil photo (iPhone), téléphone et PC sur le même Wi-Fi.
+3. `npx expo start --port 8082`, puis scanner le QR code avec Expo Go
+   (Android) ou l'appareil photo (iPhone), téléphone et PC sur le même
+   Wi-Fi. Port 8082 : le 8081 par défaut est souvent pris par un autre
+   projet (serveur Vite), ce qui bloquait le chargement à 22 %. Premier
+   assemblage long (≈ 3 min 30 sous Node 20), puis rapide grâce au cache.
+   Si le téléphone ne joint pas le PC : `npx expo start --tunnel`.
 
 ## Modules natifs requis
 | Besoin | Module / API | Notes |

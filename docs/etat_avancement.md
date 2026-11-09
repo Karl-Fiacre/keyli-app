@@ -260,8 +260,8 @@ concernés :
   acceptation des CGU. `urlPhoto` et les libellés de rôle déplacés dans
   `src/partage`. Job CI « Application mobile » (types + assemblage Android).
   Vérifié : types, assemblage, écrans dans le navigateur (base en ligne en
-  lecture). **Reste à vérifier par le porteur** : connexion réelle et session
-  gardée après fermeture, sur téléphone. **Bloquants rencontrés** : disque C
+  lecture). **Validé par le porteur sur téléphone le 2026-11-09** : connexion
+  réelle et session retrouvée après fermeture (Expo Go, port 8082). **Bloquants rencontrés** : disque C
   plein (libéré par le porteur), Node 20 trop ancien pour React Native 0.88
   (Node 22 LTS à installer par le porteur), création automatique du projet
   Expo refusée par le contrôle de sécurité (fichiers écrits à la main),
