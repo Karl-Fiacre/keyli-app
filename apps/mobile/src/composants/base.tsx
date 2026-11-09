@@ -184,6 +184,43 @@ export function Choix<T extends string>({
   )
 }
 
+// Choix multiple sous forme de pastilles (ex. équipements)
+export function ChoixMultiple({
+  libelle,
+  options,
+  selection,
+  onChange,
+}: {
+  libelle: string
+  options: readonly { valeur: string; libelle: string }[]
+  selection: readonly string[]
+  onChange: (v: string[]) => void
+}) {
+  return (
+    <View style={styles.groupe}>
+      <Text style={styles.libelle}>{libelle}</Text>
+      <View style={styles.pastilles}>
+        {options.map((o) => {
+          const actif = selection.includes(o.valeur)
+          return (
+            <Pressable
+              key={o.valeur}
+              onPress={() =>
+                onChange(actif ? selection.filter((s) => s !== o.valeur) : [...selection, o.valeur])
+              }
+              accessibilityRole="checkbox"
+              accessibilityState={{ checked: actif }}
+              style={[styles.pastille, styles.pastillePetite, actif && styles.pastilleActive]}
+            >
+              <Text style={[styles.libellePastille, actif && { color: couleurs.surPrimaire }]}>{o.libelle}</Text>
+            </Pressable>
+          )
+        })}
+      </View>
+    </View>
+  )
+}
+
 export function Carte({ children, style }: { children: ReactNode; style?: ViewStyle }) {
   return <View style={[styles.carte, style]}>{children}</View>
 }
@@ -262,6 +299,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: couleurs.bordure,
   },
+  pastillePetite: { paddingHorizontal: espaces.m, paddingVertical: espaces.s },
   pastilleActive: { backgroundColor: couleurs.primaire, borderColor: couleurs.primaire },
   libellePastille: { fontSize: 14, fontWeight: '600', color: couleurs.texte },
   carte: { backgroundColor: couleurs.fond, borderRadius: rayons.carte, padding: espaces.l, ...ombreCarte },
