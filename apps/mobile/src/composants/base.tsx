@@ -35,10 +35,11 @@ export function Ecran({ children, centre = false }: { children: ReactNode; centr
   )
 }
 
-export function Logo({ largeur = 160 }: { largeur?: number }) {
+// Logo officiel ; version blanche sur fond sombre (docs/LOGO.md)
+export function Logo({ largeur = 160, blanc = false }: { largeur?: number; blanc?: boolean }) {
   return (
     <Image
-      source={require('../../assets/logo.png')}
+      source={blanc ? require('../../assets/logo-blanc.png') : require('../../assets/logo.png')}
       style={{ width: largeur, height: largeur / 3.2 }}
       resizeMode="contain"
       accessibilityLabel="Keyli"
@@ -58,7 +59,8 @@ export function Texte({ children, attenue = false }: { children: ReactNode; atte
   return <Text style={[styles.texte, attenue && styles.attenue]}>{children}</Text>
 }
 
-type VarianteBouton = 'primaire' | 'secondaire' | 'lien'
+// clair et contour : sur fond sombre (écran de bienvenue)
+type VarianteBouton = 'primaire' | 'secondaire' | 'lien' | 'clair' | 'contour'
 
 export function Bouton({
   libelle,
@@ -85,17 +87,22 @@ export function Bouton({
         variante === 'primaire' && styles.boutonPrimaire,
         variante === 'secondaire' && styles.boutonSecondaire,
         variante === 'lien' && styles.boutonLien,
+        variante === 'clair' && styles.boutonClair,
+        variante === 'contour' && styles.boutonContour,
         (pressed || inactif) && styles.boutonPresse,
       ]}
     >
       {chargement ? (
-        <ActivityIndicator color={variante === 'primaire' ? couleurs.surPrimaire : couleurs.primaire} />
+        <ActivityIndicator
+          color={variante === 'primaire' || variante === 'contour' ? couleurs.surPrimaire : couleurs.primaire}
+        />
       ) : (
         <Text
           style={[
             styles.libelleBouton,
             variante === 'primaire' && { color: couleurs.surPrimaire },
             variante === 'lien' && { color: couleurs.bleuLogo },
+            variante === 'contour' && { color: couleurs.surPrimaire },
           ]}
         >
           {libelle}
@@ -262,6 +269,8 @@ const styles = StyleSheet.create({
   boutonPrimaire: { backgroundColor: couleurs.primaire },
   boutonSecondaire: { backgroundColor: couleurs.fond, borderWidth: 1, borderColor: couleurs.bordure },
   boutonLien: { minHeight: 40 },
+  boutonClair: { backgroundColor: couleurs.surPrimaire },
+  boutonContour: { borderWidth: 1.5, borderColor: couleurs.surPrimaire },
   boutonPresse: { opacity: 0.7 },
   libelleBouton: { fontSize: 16, fontWeight: '600', color: couleurs.primaire },
   groupe: { gap: espaces.xs },

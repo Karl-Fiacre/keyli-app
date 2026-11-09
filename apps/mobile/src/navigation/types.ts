@@ -12,6 +12,8 @@ export type ParamsOnglets = {
 }
 
 export type ParamsRacine = {
+  // Premier écran d'un visiteur non connecté
+  Bienvenue: undefined
   Onglets: NavigatorScreenParams<ParamsOnglets>
   // source : provenance de la visite (statistiques de conversion)
   FicheAnnonce: { id: string; source?: string }

@@ -27,6 +27,10 @@ export const couleurs = {
   succesFond: '#e9f9ef',
   // Nuits sélectionnées du calendrier : turquoise à 15 % sur blanc (bg-turquoise/15)
   turquoiseFond: '#d9f2f0',
+  // Sur fond navy (écran de bienvenue) : blanc à 80 % et à 20 % sur #1a1f2e
+  // (text-primary-foreground/80 et border-primary-foreground/20 du web)
+  texteClair: '#d1d2d5',
+  bordureClaire: '#484c58',
 } as const
 
 export const rayons = { carte: 12, champ: 12, pilule: 999 } as const

@@ -250,6 +250,17 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine (la
   Content-Security-Policy est en place depuis le Sprint 6). Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Écran de bienvenue mobile, fait** (2026-11-09, branche
+  `feature/sprint14-accueil-mobile`, demande du porteur) — l'application
+  s'ouvre, pour un visiteur non connecté, sur une illustration futuriste
+  animée aux couleurs de Keyli avec « Créer un compte », « Se connecter » et
+  « Découvrir les annonces sans compte » (consultation libre conservée).
+  Vérifié dans le navigateur (rendu, trois boutons, aucune erreur) et
+  assemblage Android ; à essayer sur le téléphone. Détail :
+  `docs/MODULES/mobile.md`. **Vérification de la mise en ligne du
+  2026-11-09** : le site sert encore l'ancien tableau de bord
+  (`source=recommendation`) — le correctif des recommandations n'est pas en
+  ligne, `npm run deploy` à relancer depuis `main` à jour.
 - **Sprint 14 — catalogue mobile, terminé** (2026-11-09, branche
   `feature/sprint14-catalogue-mobile`) — périmètre choisi par le porteur :
   filtres complets, carte native, favoris et alertes, fiche enrichie.

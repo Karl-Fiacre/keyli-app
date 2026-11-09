@@ -1,8 +1,9 @@
 // Navigation de l'application : onglets (Accueil, Recherche, Messages,
-// Profil), fiche annonce, favoris, alertes, et parcours de compte ouvert en fenêtre. Comme sur
+// Profil), écran de bienvenue (visiteur non connecté), fiche annonce,
+// favoris, alertes, et parcours de compte ouvert en fenêtre. Comme sur
 // le web, la consultation des annonces est libre ; un compte connecté qui
 // doit accepter les CGU voit d'abord l'écran d'acceptation.
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { NavigationContainer, DefaultTheme, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -15,6 +16,7 @@ import Recherche from '@mobile/screens/Recherche'
 import Messages from '@mobile/screens/Messages'
 import Profil from '@mobile/screens/Profil'
 import FicheAnnonce from '@mobile/screens/FicheAnnonce'
+import Bienvenue from '@mobile/screens/Bienvenue'
 import Favoris from '@mobile/screens/Favoris'
 import Alertes from '@mobile/screens/Alertes'
 import Connexion from '@mobile/screens/Connexion'
@@ -92,6 +94,10 @@ function NavigationCompte() {
 export function Racine() {
   const { session, chargement } = useSession()
   const profil = useProfil()
+  // Visiteur non connecté : l'application s'ouvre sur l'écran de bienvenue,
+  // jusqu'à ce qu'il se connecte ou choisisse de découvrir sans compte
+  const [explorer, setExplorer] = useState(false)
+  const bienvenue = !session && !explorer
 
   if (chargement || (session && profil.isPending)) return <Chargement />
   if (session && profil.data && profil.data.cgu_version !== VERSION_CGU) {
@@ -101,15 +107,27 @@ export function Racine() {
   return (
     <NavigationContainer theme={THEME}>
       <Pile.Navigator screenOptions={{ headerTintColor: couleurs.primaire, headerBackTitle: 'Retour' }}>
-        <Pile.Screen name="Onglets" component={NavigationOnglets} options={{ headerShown: false }} />
-        <Pile.Screen name="FicheAnnonce" component={FicheAnnonce} options={{ title: 'Annonce' }} />
-        <Pile.Screen name="Favoris" component={Favoris} options={{ title: 'Mes favoris' }} />
-        <Pile.Screen name="Alertes" component={Alertes} options={{ title: 'Mes alertes' }} />
-        <Pile.Screen
-          name="Compte"
-          component={NavigationCompte}
-          options={{ headerShown: false, presentation: 'modal' }}
-        />
+        {bienvenue ? (
+          <Pile.Screen name="Bienvenue" options={{ headerShown: false }}>
+            {() => <Bienvenue onExplorer={() => setExplorer(true)} />}
+          </Pile.Screen>
+        ) : (
+          <>
+            <Pile.Screen name="Onglets" component={NavigationOnglets} options={{ headerShown: false }} />
+            <Pile.Screen name="FicheAnnonce" component={FicheAnnonce} options={{ title: 'Annonce' }} />
+            <Pile.Screen name="Favoris" component={Favoris} options={{ title: 'Mes favoris' }} />
+            <Pile.Screen name="Alertes" component={Alertes} options={{ title: 'Mes alertes' }} />
+          </>
+        )}
+        {/* Le parcours de compte se referme de lui-même quand la session change
+            (connexion depuis la bienvenue ou depuis un onglet) */}
+        <Pile.Group navigationKey={session ? 'connecte' : 'visiteur'}>
+          <Pile.Screen
+            name="Compte"
+            component={NavigationCompte}
+            options={{ headerShown: false, presentation: 'modal' }}
+          />
+        </Pile.Group>
       </Pile.Navigator>
     </NavigationContainer>
   )
