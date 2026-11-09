@@ -1,6 +1,6 @@
 // Liste d'annonces issue de la recherche partagée (useRecherche, même
 // fonction de base que le web : rechercher_annonces_keyli). Utilisée par
-// l'accueil et la recherche.
+// l'accueil et la recherche (pied : pagination de la recherche).
 import type { ReactElement } from 'react'
 import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
@@ -12,7 +12,15 @@ import { Message, Texte } from '@mobile/composants/base'
 import { couleurs, espaces } from '@mobile/theme/tokens'
 import type { ParamsRacine } from '@mobile/navigation/types'
 
-export function ListeAnnonces({ filtres, entete }: { filtres: FiltresRecherche; entete?: ReactElement }) {
+export function ListeAnnonces({
+  filtres,
+  entete,
+  pied,
+}: {
+  filtres: FiltresRecherche
+  entete?: ReactElement
+  pied?: ReactElement | null
+}) {
   const navigation = useNavigation<NativeStackNavigationProp<ParamsRacine>>()
   const recherche = useRecherche(filtres)
   const annonces = recherche.data?.annonces ?? []
@@ -23,6 +31,7 @@ export function ListeAnnonces({ filtres, entete }: { filtres: FiltresRecherche; 
       keyExtractor={(a) => a.id}
       contentContainerStyle={styles.contenu}
       ListHeaderComponent={entete}
+      ListFooterComponent={annonces.length > 0 ? (pied ?? undefined) : undefined}
       ItemSeparatorComponent={() => <View style={{ height: espaces.l }} />}
       refreshControl={
         <RefreshControl
