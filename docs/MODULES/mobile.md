@@ -111,6 +111,23 @@ porteur dans le projet Google Cloud « Nguessan-IT ». iOS utilise Apple Plans
 **Formats de date** : `formatJourCourt` et les noms de mois passent par
 `toLocaleDateString('fr-FR')` ; à contrôler sur le téléphone (Hermes).
 
+### Écran de bienvenue (2026-11-09, demande du porteur)
+Premier écran d'un visiteur non connecté (`screens/Bienvenue.tsx`) :
+illustration futuriste animée en fond (`composants/IllustrationFuturiste.tsx`
+— résidence à terrasses au toit en pignon au bord de la lagune, la nuit,
+dessin vectoriel original aux couleurs de Keyli : les tours s'élèvent, le
+halo respire, les fenêtres scintillent ; mouvement coupé si le téléphone
+demande de réduire les animations), logo blanc, promesse du site (« Le
+logement de confiance, vérifié avant vous. »), badge officiel avec la
+garantie, boutons « Créer un compte » et « Se connecter ». La consultation
+restant libre comme sur le web, « Découvrir les annonces sans compte » ouvre
+l'application. Navigation : l'écran disparaît dès la connexion (écrans
+conditionnels de la pile) et revient après une déconnexion ; le parcours de
+compte se referme quand la session change (`navigationKey`). Nouveaux
+jetons : `texteClair`, `bordureClaire` (blanc à 80 % et 20 % sur le navy) ;
+variantes de bouton `clair` et `contour`. L'illustration peut être remplacée
+par une photo fournie par le porteur (droits d'usage à vérifier).
+
 ## Modules natifs requis
 | Besoin | Module / API | Notes |
 |---|---|---|
