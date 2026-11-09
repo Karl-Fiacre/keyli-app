@@ -129,6 +129,31 @@ export function memesCriteres(a: Record<string, unknown>, b: Record<string, unkn
   return ka.length === kb.length && ka.every((k) => String(a[k]) === String(b[k]))
 }
 
+// État du bouton « Créer une alerte » (web et mobile) : critères retenus,
+// alerte identique déjà enregistrée, et conseil à afficher. Les équipements
+// ne font pas partie des critères d'alerte.
+export interface AlerteExistante {
+  id: string
+  actif: boolean
+  criteres: unknown
+}
+
+export function etatBoutonAlerte<A extends AlerteExistante>(f: FiltresRecherche, alertes: readonly A[]) {
+  const criteres = criteresAlerte(f)
+  const vide = Object.keys(criteres).length === 0
+  const existante = alertes.find((a) =>
+    memesCriteres(a.criteres as Record<string, unknown>, criteres as Record<string, unknown>),
+  )
+  const conseil = vide
+    ? f.avantages.length > 0
+      ? 'Les équipements ne suffisent pas : ajoutez un lieu, un type ou un prix.'
+      : 'Choisissez au moins un filtre pour créer une alerte.'
+    : !existante && f.avantages.length > 0
+      ? "Les équipements choisis ne sont pas pris en compte par l'alerte."
+      : null
+  return { criteres, vide, existante, conseil }
+}
+
 // Filtres de recherche correspondant à une alerte (web : lien « Voir » ;
 // mobile : ouverture de l'onglet Recherche)
 export function filtresDepuisAlerte(c: Record<string, unknown>): FiltresRecherche {

@@ -21,7 +21,7 @@ import {
   pluriel,
   premierDuMois,
 } from '@/partage/lib/sejour'
-import { filtresDepuisAlerte, rechercheDepuisAlerte } from '@/partage/lib/recherche'
+import { etatBoutonAlerte, filtresDepuisAlerte, rechercheDepuisAlerte } from '@/partage/lib/recherche'
 import { publicationPossible } from '@/partage/lib/publication'
 import { cheminConversation } from '@/partage/lib/messagerie'
 import { motifRefus, LIBELLES_TENTATIVE } from '@/partage/lib/paiements'
@@ -126,6 +126,16 @@ describe('alertes de recherche', () => {
     expect(f.type).toBeUndefined()
     expect(f.statut).toBeUndefined()
     expect(f.prixMin).toBeUndefined()
+  })
+  it('décide de l’état du bouton « Créer une alerte »', () => {
+    const base = { avantages: [], tri: 'pertinence' as const, page: 1 }
+    expect(etatBoutonAlerte(base, []).vide).toBe(true)
+    expect(etatBoutonAlerte({ ...base, avantages: ['a1'] }, []).conseil).toMatch(/équipements ne suffisent pas/)
+    const alerte = { id: 'x', actif: false, criteres: { rooms_min: 2, status: 'a_louer' } }
+    const e = etatBoutonAlerte({ ...base, statut: 'a_louer', piecesMin: 2 }, [alerte])
+    expect(e.existante?.id).toBe('x')
+    expect(e.conseil).toBeNull()
+    expect(etatBoutonAlerte({ ...base, statut: 'a_louer', avantages: ['a1'] }, []).conseil).toMatch(/pas pris en compte/)
   })
   it('garde le même lien de recherche sur le web', () => {
     expect(rechercheDepuisAlerte({ status: 'a_vendre', rooms_min: 3 })).toBe('/recherche?statut=a_vendre&pieces=3')
