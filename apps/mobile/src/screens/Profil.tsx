@@ -1,6 +1,9 @@
-// Profil — identité du compte et déconnexion. La modification du profil et
+// Profil — identité du compte, favoris, alertes et déconnexion. La modification du profil et
 // la vérification arrivent aux sprints suivants (docs/calendrier.md).
 import { Linking } from 'react-native'
+import type { CompositeScreenProps } from '@react-navigation/native'
+import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { useSession } from '@/partage/hooks/useSession'
 import { useProfil } from '@/partage/hooks/useProfil'
 import { useDeconnexion } from '@/partage/hooks/useCompte'
@@ -10,8 +13,11 @@ import { plateforme } from '@/plateforme'
 import { Bouton, Carte, Chargement, Ecran, Message, Texte, Titre } from '@mobile/composants/base'
 import { InvitationConnexion } from '@mobile/composants/InvitationConnexion'
 import { espaces } from '@mobile/theme/tokens'
+import type { ParamsOnglets, ParamsRacine } from '@mobile/navigation/types'
 
-export default function Profil() {
+type Props = CompositeScreenProps<BottomTabScreenProps<ParamsOnglets, 'Profil'>, NativeStackScreenProps<ParamsRacine>>
+
+export default function Profil({ navigation }: Props) {
   const { session } = useSession()
   const profil = useProfil()
   const deconnexion = useDeconnexion()
@@ -40,6 +46,8 @@ export default function Profil() {
           <Texte attenue>{LIBELLES_ROLE[p.role_keyli] ?? p.role_keyli}</Texte>
         </Carte>
       ) : null}
+      <Bouton libelle="Mes favoris" variante="secondaire" onPress={() => navigation.navigate('Favoris')} />
+      <Bouton libelle="Mes alertes" variante="secondaire" onPress={() => navigation.navigate('Alertes')} />
       <Bouton
         libelle="Gérer mon compte sur le site"
         variante="secondaire"
