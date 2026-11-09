@@ -88,8 +88,8 @@ au site, équivalent mobile à écrire.
 | Fichier | Rôle | Statut |
 |---|---|---|
 | `validation.ts` | schémas zod des formulaires, libellés des types | Partagé (testé) |
-| `recherche.ts` | filtres ↔ paramètres, alertes | Partagé, à vérifier : `URLSearchParams` est incomplet sur React Native (ajouter `react-native-url-polyfill`) |
-| `format.ts`, `qualite.ts`, `sejour.ts` | montants, dates, qualité d'annonce | Partagé, à vérifier : formats `Intl` fr-FR sous Hermes (testés sur Node) |
+| `recherche.ts` | filtres ↔ paramètres, alertes ; `filtresDepuisAlerte` et `etatBoutonAlerte` (Sprint 14, testés) | Partagé. Le mobile n'utilise pas `lireFiltres` / `ecrireFiltres` (`URLSearchParams` incomplet sur React Native) : les filtres passent par la navigation |
+| `format.ts`, `qualite.ts`, `sejour.ts` | montants, dates, qualité d'annonce ; grille et choix du calendrier de séjour (Sprint 14, testés, utilisés par les deux calendriers) | Partagé, à vérifier : formats `Intl` fr-FR sous Hermes (testés sur Node) |
 | `erreurs.ts`, `paiements.ts`, `publication.ts`, `messagerie.ts`, `juridique.ts`, `dashboard.ts`, `annonce.ts` | messages, libellés, constantes | Partagé (testé pour la plupart) |
 | `notifications.ts` | destination d'une notification, « il y a 5 min » | Partagé : la destination est un chemin du site, que le mobile traduit en écran |
 | `photos.ts` | adresse d'affichage réduite d'une photo Cloudinary (`urlPhoto`) | Partagé (testé) — sorti de `lib/cloudinary.ts` au Sprint 13 |
