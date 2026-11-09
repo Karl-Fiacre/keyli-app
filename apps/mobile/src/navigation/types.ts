@@ -1,17 +1,22 @@
 // Paramètres des écrans (React Navigation). Les noms reprennent les routes
 // principales du web (docs/STRUCTURE_FRONTEND.md).
 import type { NavigatorScreenParams } from '@react-navigation/native'
+import type { FiltresRecherche } from '@/partage/hooks/useRecherche'
 
 export type ParamsOnglets = {
   Accueil: undefined
-  Recherche: undefined
+  // Filtres imposés à l'ouverture (ex. « Voir » depuis une alerte)
+  Recherche: { filtres?: FiltresRecherche } | undefined
   Messages: undefined
   Profil: undefined
 }
 
 export type ParamsRacine = {
   Onglets: NavigatorScreenParams<ParamsOnglets>
-  FicheAnnonce: { id: string }
+  // source : provenance de la visite (statistiques de conversion)
+  FicheAnnonce: { id: string; source?: string }
+  Favoris: undefined
+  Alertes: undefined
   Compte: NavigatorScreenParams<ParamsCompte>
 }
 

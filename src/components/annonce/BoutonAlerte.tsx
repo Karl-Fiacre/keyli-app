@@ -5,7 +5,7 @@ import { useSession } from '@/partage/hooks/useSession'
 import { useMesAlertes } from '@/partage/hooks/useTableauDeBord'
 import { useBasculerAlerte, useCreerAlerte } from '@/partage/hooks/useAlertes'
 import type { FiltresRecherche } from '@/partage/hooks/useRecherche'
-import { criteresAlerte, memesCriteres } from '@/partage/lib/recherche'
+import { etatBoutonAlerte } from '@/partage/lib/recherche'
 import { messageErreur } from '@/partage/lib/erreurs'
 
 // « Créer une alerte » depuis la page Recherche : enregistre les filtres en
@@ -18,11 +18,7 @@ export function BoutonAlerte({ filtres }: { filtres: FiltresRecherche }) {
   const creer = useCreerAlerte()
   const basculer = useBasculerAlerte()
 
-  const criteres = criteresAlerte(filtres)
-  const vide = Object.keys(criteres).length === 0
-  const existante = (alertes.data ?? []).find((a) =>
-    memesCriteres(a.criteres as Record<string, unknown>, criteres as Record<string, unknown>),
-  )
+  const { criteres, vide, existante, conseil } = etatBoutonAlerte(filtres, alertes.data ?? [])
 
   if (!session) {
     return (
@@ -68,13 +64,7 @@ export function BoutonAlerte({ filtres }: { filtres: FiltresRecherche }) {
           ? null
           : creer.isSuccess && existante?.actif
             ? 'Vous serez prévenu à chaque nouvelle annonce correspondante.'
-            : vide
-              ? filtres.avantages.length > 0
-                ? 'Les équipements ne suffisent pas : ajoutez un lieu, un type ou un prix.'
-                : 'Choisissez au moins un filtre pour créer une alerte.'
-              : !existante && filtres.avantages.length > 0
-                ? "Les équipements choisis ne sont pas pris en compte par l'alerte."
-                : null}
+            : conseil}
       </p>
       {erreur && <p className="text-xs text-destructive-texte">{messageErreur(erreur)}</p>}
     </div>

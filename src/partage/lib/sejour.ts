@@ -35,3 +35,41 @@ export const formatJourLong = (iso: string) =>
   jourDepuisIso(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
 
 export const pluriel = (n: number, mot: string) => `${n} ${mot}${n > 1 ? 's' : ''}`
+
+// ------------------------------------------------------------
+// Calendrier de séjour (web : CalendrierSejour, mobile : CalendrierSejour)
+// ------------------------------------------------------------
+
+// Premier jour du mois décalé de n mois (« AAAA-MM-01 »)
+export function ajouterMois(mois: string, n: number): string {
+  const d = jourDepuisIso(mois)
+  return isoJour(new Date(d.getFullYear(), d.getMonth() + n, 1))
+}
+
+// Premier jour du mois contenant ce jour
+export const premierDuMois = (iso: string) => {
+  const d = jourDepuisIso(iso)
+  return isoJour(new Date(d.getFullYear(), d.getMonth(), 1))
+}
+
+// Grille d'un mois, lundi en premier : nombre de cases vides avant le 1er,
+// puis les jours du mois
+export function grilleMois(mois: string): { decalage: number; jours: string[] } {
+  const d = jourDepuisIso(mois)
+  const nbJours = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate()
+  return {
+    decalage: (d.getDay() + 6) % 7,
+    jours: Array.from({ length: nbJours }, (_, i) => isoJour(new Date(d.getFullYear(), d.getMonth(), i + 1))),
+  }
+}
+
+// Choix d'un jour : 1er choix = arrivée, 2e choix (plus tard) = départ ; un
+// nouveau choix après un séjour complet, ou avant l'arrivée, recommence
+export function choisirJourSejour(
+  arrivee: string | null,
+  depart: string | null,
+  jour: string,
+): { arrivee: string; depart: string | null } {
+  if (!arrivee || depart || jour <= arrivee) return { arrivee: jour, depart: null }
+  return { arrivee, depart: jour }
+}

@@ -73,6 +73,44 @@ navigation de base, connexion et inscription, charte visuelle mobile.
    assemblage long (≈ 3 min 30 sous Node 20), puis rapide grâce au cache.
    Si le téléphone ne joint pas le PC : `npx expo start --tunnel`.
 
+## Sprint 14 — catalogue mobile (2026-11-09)
+
+Périmètre choisi par le porteur : filtres complets, carte native, favoris et
+alertes, fiche enrichie. Tout passe par les hooks partagés (aucune requête
+propre au mobile).
+
+| Écran / composant | Contenu | Logique partagée utilisée |
+|---|---|---|
+| `screens/Recherche.tsx` | bouton Filtres (nombre actif), bascule liste / carte, tri, nombre de résultats, pages, alerte | `useRecherche`, `nombreFiltresActifs`, `LIBELLES_TRI`, `TAILLE_PAGE` |
+| `composants/PanneauFiltres.tsx` | mêmes filtres que le web, dans un brouillon appliqué par « Afficher » (une seule recherche) ; une arrivée sans départ ne filtre pas | `useCommunes`, `useQuartiers`, `useAvantages` |
+| `composants/CalendrierSejour.tsx` | arrivée puis départ, jours passés grisés | `grilleMois`, `choisirJourSejour`, `ajouterMois` (`sejour.ts`) |
+| `composants/CarteAnnonces.tsx` | `react-native-maps`, pastille de prix (navy si vérifiée), aperçu de l'annonce touchée, zoom limité à 16 | `usePositionsAnnonces` (positions approximatives) |
+| `composants/CarteAnnonces.web.tsx` | message à la place de la carte dans l'aperçu navigateur | — |
+| `composants/BoutonAlerte.tsx` | créer, réactiver, « alerte active » ; sans compte → connexion | `etatBoutonAlerte`, `useCreerAlerte`, `useBasculerAlerte`, `useMesAlertes` |
+| `screens/FicheAnnonce.tsx` | galerie plein écran (`GaleriePleinEcran`), badge officiel, favori, partage, annonces similaires | `useAnnoncesSimilaires`, `useVueAnnonce` |
+| `screens/Favoris.tsx`, `screens/Alertes.tsx` | depuis le profil ; « Voir les annonces » ouvre la recherche filtrée | `useMesFavoris`, `libelleAlerte`, `filtresDepuisAlerte` |
+| `composants/BadgeVerifie.tsx` | badge officiel (`react-native-svg`) — jamais décoratif | — |
+
+Provenance des visites (`interactions_keyli.source`) : liste et favoris →
+`search`, carte → `map`, annonces similaires → `recommandation`, lien
+partagé → `lien_direct`.
+
+**Vérifié** : types, assemblage Android (3,9 Mo), panneau de filtres,
+calendrier, commune → quartiers, bascule carte (aperçu navigateur, sans
+erreur). La base en ligne n'a encore aucune annonce publiée : cartes
+d'annonces, fiche enrichie et carte native sont à essayer sur le téléphone
+dès qu'il y a des annonces.
+
+**Carte hors Expo Go** : Expo Go fournit sa propre clé Google Maps sur
+Android. Une version installable (Sprint 18) demandera une clé « Keyli –
+Android » restreinte au paquet `com.keyli.app` et au SDK Maps Android, posée
+dans `app.json` (`android.config.googleMaps.apiKey`) — à créer par le
+porteur dans le projet Google Cloud « Nguessan-IT ». iOS utilise Apple Plans
+(aucune clé).
+
+**Formats de date** : `formatJourCourt` et les noms de mois passent par
+`toLocaleDateString('fr-FR')` ; à contrôler sur le téléphone (Hermes).
+
 ## Modules natifs requis
 | Besoin | Module / API | Notes |
 |---|---|---|

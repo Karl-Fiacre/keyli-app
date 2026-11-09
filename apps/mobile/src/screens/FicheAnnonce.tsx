@@ -1,10 +1,25 @@
 // Fiche publique d'une annonce — mêmes données que le web (useFicheAnnonce)
 // et même enregistrement de la consultation (statistiques de conversion).
-// Le contact par la messagerie Keyli arrive sur mobile au sprint suivant :
-// d'ici là, le bouton ouvre la fiche sur le site.
-import { Dimensions, FlatList, Image, Linking, StyleSheet, Text, View } from 'react-native'
+// Sprint 14 : galerie plein écran, badge officiel, favori, partage et
+// annonces similaires. Le contact par la messagerie Keyli arrive sur mobile
+// au sprint suivant : d'ici là, le bouton ouvre la fiche sur le site.
+import { useState } from 'react'
+import {
+  FlatList,
+  Image,
+  Linking,
+  Platform,
+  Pressable,
+  Share,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+} from 'react-native'
+import Ionicons from '@expo/vector-icons/Ionicons'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { useFicheAnnonce, useVueAnnonce } from '@/partage/hooks/useRecherche'
+import { useAnnoncesSimilaires } from '@/partage/hooks/useConversion'
 import { LIBELLES_TYPE } from '@/partage/lib/validation'
 import { formatXof } from '@/partage/lib/format'
 import { pluriel } from '@/partage/lib/sejour'
@@ -12,15 +27,32 @@ import { urlPhoto } from '@/partage/lib/photos'
 import { messageErreur } from '@/partage/lib/erreurs'
 import { plateforme } from '@/plateforme'
 import { Bouton, Carte, Chargement, Ecran, Message, Texte, Titre } from '@mobile/composants/base'
-import { couleurs, espaces, rayons } from '@mobile/theme/tokens'
+import { BadgeVerifie } from '@mobile/composants/BadgeVerifie'
+import { BoutonFavori } from '@mobile/composants/BoutonFavori'
+import { CarteAnnonce } from '@mobile/composants/CarteAnnonce'
+import { GaleriePleinEcran } from '@mobile/composants/GaleriePleinEcran'
+import { couleurs, espaces, ombreCarte, rayons } from '@mobile/theme/tokens'
 import type { ParamsRacine } from '@mobile/navigation/types'
 
-const LARGEUR = Dimensions.get('window').width
+// Partage : feuille de partage du téléphone. Le lien porte la source
+// « lien_direct », comme sur le web, pour mesurer les visites venues d'un partage.
+function partager(id: string, titre: string) {
+  const lien = plateforme.urlApp(`/annonce/${id}?source=lien_direct`)
+  const texte = `${titre} — sur Keyli`
+  // Android n'utilise que « message » ; iOS affiche le lien à part
+  Share.share(Platform.OS === 'ios' ? { message: texte, url: lien } : { message: `${texte} ${lien}` }).catch(
+    () => undefined, // partage annulé ou impossible : rien à faire
+  )
+}
 
-export default function FicheAnnonce({ route }: NativeStackScreenProps<ParamsRacine, 'FicheAnnonce'>) {
-  const { id } = route.params
+export default function FicheAnnonce({ route, navigation }: NativeStackScreenProps<ParamsRacine, 'FicheAnnonce'>) {
+  const { id, source } = route.params
+  const { width } = useWindowDimensions()
   const fiche = useFicheAnnonce(id)
-  useVueAnnonce(fiche.data?.annonce.id, 'search')
+  const similaires = useAnnoncesSimilaires(id)
+  const [galerie, setGalerie] = useState<number | null>(null)
+  const [photoVisible, setPhotoVisible] = useState(0)
+  useVueAnnonce(fiche.data?.annonce.id, source ?? 'search')
 
   if (fiche.isPending) return <Chargement />
   if (fiche.isError || !fiche.data) {
@@ -51,25 +83,58 @@ export default function FicheAnnonce({ route }: NativeStackScreenProps<ParamsRac
   return (
     <Ecran>
       {photos.length > 0 ? (
-        <FlatList
-          data={photos}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(p) => p.id}
-          style={styles.galerie}
-          renderItem={({ item, index }) => (
-            <Image
-              source={{ uri: urlPhoto(item.url, 1280, 800) }}
-              style={styles.photo}
-              accessibilityLabel={`Photo ${index + 1} sur ${photos.length} : ${a.title}`}
-            />
-          )}
-        />
+        <View style={styles.galerie}>
+          <FlatList
+            data={photos}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(p) => p.id}
+            onMomentumScrollEnd={(e) => setPhotoVisible(Math.round(e.nativeEvent.contentOffset.x / width))}
+            renderItem={({ item, index }) => (
+              <Pressable
+                onPress={() => setGalerie(index)}
+                accessibilityRole="imagebutton"
+                accessibilityLabel={`Photo ${index + 1} sur ${photos.length} : ${a.title}. Ouvrir en plein écran`}
+              >
+                <Image
+                  source={{ uri: urlPhoto(item.url, 1280, 800) }}
+                  style={{ width, height: width * 0.66, backgroundColor: couleurs.secondaire }}
+                />
+              </Pressable>
+            )}
+          />
+          {photos.length > 1 ? (
+            <Text style={styles.compteur}>
+              {photoVisible + 1} / {photos.length}
+            </Text>
+          ) : null}
+        </View>
       ) : null}
 
       <View style={{ gap: espaces.s }}>
-        {a.is_verified ? <Text style={styles.verifiee}>Annonce vérifiée par Keyli</Text> : null}
+        <View style={styles.ligneHaut}>
+          {a.is_verified ? (
+            <View style={styles.verifiee}>
+              <BadgeVerifie taille={20} />
+              <Text style={styles.texteVerifiee}>Annonce vérifiée par Keyli</Text>
+            </View>
+          ) : (
+            <View />
+          )}
+          <View style={styles.actions}>
+            <Pressable
+              onPress={() => partager(a.id, a.title)}
+              accessibilityRole="button"
+              accessibilityLabel="Partager l'annonce"
+              hitSlop={8}
+              style={({ pressed }) => [styles.action, pressed && { opacity: 0.7 }]}
+            >
+              <Ionicons name="share-social-outline" size={21} color={couleurs.texte} />
+            </Pressable>
+            <BoutonFavori propertyId={a.id} titre={a.title} />
+          </View>
+        </View>
         <Titre>{a.title}</Titre>
         <Texte attenue>{lieu}</Texte>
         <Text style={styles.prix}>
@@ -107,10 +172,15 @@ export default function FicheAnnonce({ route }: NativeStackScreenProps<ParamsRac
       {annonceur ? (
         <Carte style={{ gap: espaces.xs }}>
           <Text style={styles.sousTitre}>Annonceur</Text>
-          <Texte>
-            {annonceur.nom_affiche}
-            {annonceur.verified ? ' · identité vérifiée' : ''}
-          </Texte>
+          <View style={styles.annonceur}>
+            <Texte>{annonceur.nom_affiche}</Texte>
+            {annonceur.verified ? (
+              <>
+                <BadgeVerifie taille={18} libelle="Identité vérifiée par Keyli" />
+                <Texte attenue>identité vérifiée</Texte>
+              </>
+            ) : null}
+          </View>
         </Carte>
       ) : null}
 
@@ -119,6 +189,30 @@ export default function FicheAnnonce({ route }: NativeStackScreenProps<ParamsRac
         onPress={() => void Linking.openURL(plateforme.urlApp(`/annonce/${a.id}`))}
       />
       <Texte attenue>Le contact passe toujours par la messagerie Keyli : le numéro de l'annonceur reste privé.</Texte>
+
+      {similaires.data?.length ? (
+        <View style={{ gap: espaces.m }}>
+          <Text style={styles.sousTitre}>Ces biens peuvent aussi vous intéresser</Text>
+          <FlatList
+            data={similaires.data}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(s) => s.id}
+            style={styles.similaires}
+            contentContainerStyle={styles.similairesContenu}
+            renderItem={({ item }) => (
+              <View style={{ width: Math.min(300, width * 0.78) }}>
+                <CarteAnnonce
+                  annonce={item}
+                  onPress={() => navigation.push('FicheAnnonce', { id: item.id, source: 'recommandation' })}
+                />
+              </View>
+            )}
+          />
+        </View>
+      ) : null}
+
+      <GaleriePleinEcran photos={photos} titre={a.title} depart={galerie} onFermer={() => setGalerie(null)} />
     </Ecran>
   )
 }
@@ -126,18 +220,45 @@ export default function FicheAnnonce({ route }: NativeStackScreenProps<ParamsRac
 const styles = StyleSheet.create({
   // La galerie occupe toute la largeur, au-delà des marges de l'écran
   galerie: { marginHorizontal: -espaces.xl, marginTop: -espaces.xl },
-  photo: { width: LARGEUR, height: LARGEUR * 0.66, backgroundColor: couleurs.secondaire },
-  verifiee: {
-    alignSelf: 'flex-start',
+  compteur: {
+    position: 'absolute',
+    right: espaces.m,
+    bottom: espaces.m,
+    color: couleurs.surPrimaire,
+    backgroundColor: couleurs.navyLogo,
     fontSize: 13,
-    fontWeight: '700',
-    color: couleurs.succesTexte,
-    backgroundColor: couleurs.succesFond,
-    paddingHorizontal: espaces.m,
-    paddingVertical: espaces.xs,
+    fontWeight: '600',
+    paddingHorizontal: espaces.s,
+    paddingVertical: 2,
     borderRadius: rayons.pilule,
     overflow: 'hidden',
   },
+  ligneHaut: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: espaces.s },
+  verifiee: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: espaces.xs,
+    backgroundColor: couleurs.succesFond,
+    paddingLeft: espaces.xs,
+    paddingRight: espaces.m,
+    paddingVertical: espaces.xs,
+    borderRadius: rayons.pilule,
+  },
+  texteVerifiee: { fontSize: 13, fontWeight: '700', color: couleurs.succesTexte },
+  actions: { flexDirection: 'row', gap: espaces.s },
+  action: {
+    width: 40,
+    height: 40,
+    borderRadius: rayons.pilule,
+    backgroundColor: couleurs.fond,
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...ombreCarte,
+  },
+  annonceur: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: espaces.xs },
+  // Les annonces similaires défilent jusqu'au bord de l'écran
+  similaires: { marginHorizontal: -espaces.xl },
+  similairesContenu: { paddingHorizontal: espaces.xl, paddingBottom: espaces.m, gap: espaces.l },
   prix: { fontSize: 22, fontWeight: '700', color: couleurs.primaire },
   unite: { fontSize: 16, fontWeight: '400', color: couleurs.attenue },
   pastilles: { flexDirection: 'row', flexWrap: 'wrap', gap: espaces.s },

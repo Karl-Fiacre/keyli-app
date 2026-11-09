@@ -89,3 +89,8 @@ iOS (App Store)       : com.keyli.app
 Identifiant irréversible une fois publié sur les stores : ne plus le
 modifier. Essais pendant le développement : téléphone du porteur avec
 Expo Go (pas de simulateur iOS sous Windows). Expo SDK 58.
+
+Modules natifs ajoutés au Sprint 14 (inclus dans Expo Go, versions figées
+sur celles attendues par le SDK) : `react-native-maps` 1.29.11 (carte),
+`react-native-svg` 15.16.0 (badge officiel). Pas de sélecteur de dates
+natif : le calendrier de séjour est écrit en React Native.

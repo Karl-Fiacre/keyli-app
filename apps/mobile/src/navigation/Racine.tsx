@@ -1,5 +1,5 @@
 // Navigation de l'application : onglets (Accueil, Recherche, Messages,
-// Profil), fiche annonce, et parcours de compte ouvert en fenêtre. Comme sur
+// Profil), fiche annonce, favoris, alertes, et parcours de compte ouvert en fenêtre. Comme sur
 // le web, la consultation des annonces est libre ; un compte connecté qui
 // doit accepter les CGU voit d'abord l'écran d'acceptation.
 import { useEffect } from 'react'
@@ -15,6 +15,8 @@ import Recherche from '@mobile/screens/Recherche'
 import Messages from '@mobile/screens/Messages'
 import Profil from '@mobile/screens/Profil'
 import FicheAnnonce from '@mobile/screens/FicheAnnonce'
+import Favoris from '@mobile/screens/Favoris'
+import Alertes from '@mobile/screens/Alertes'
 import Connexion from '@mobile/screens/Connexion'
 import Inscription from '@mobile/screens/Inscription'
 import MotDePasseOublie from '@mobile/screens/MotDePasseOublie'
@@ -101,6 +103,8 @@ export function Racine() {
       <Pile.Navigator screenOptions={{ headerTintColor: couleurs.primaire, headerBackTitle: 'Retour' }}>
         <Pile.Screen name="Onglets" component={NavigationOnglets} options={{ headerShown: false }} />
         <Pile.Screen name="FicheAnnonce" component={FicheAnnonce} options={{ title: 'Annonce' }} />
+        <Pile.Screen name="Favoris" component={Favoris} options={{ title: 'Mes favoris' }} />
+        <Pile.Screen name="Alertes" component={Alertes} options={{ title: 'Mes alertes' }} />
         <Pile.Screen
           name="Compte"
           component={NavigationCompte}

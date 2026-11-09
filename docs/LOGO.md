@@ -59,7 +59,11 @@ toit centré en x = 512 sur 1024). Aucune réinterprétation du dessin.
 ```
 assets/keyli-logo-full.svg              → logotype complet (clé + KEYLI), fond clair
 assets/keyli-logo-full-blanc.svg        → logotype complet, fond sombre
-assets/keyli_verified_badge.svg         → badge vérifié (marque distincte)
+assets/keyli_verified_badge.svg         → badge vérifié (marque distincte) ;
+                                          repris tel quel dans
+                                          apps/mobile/src/composants/BadgeVerifie.tsx
+                                          (react-native-svg) — à reporter
+                                          si le dessin change
 keyli_brand_assets/keyli-mark.svg       → clé seule, navy (fond clair)
 keyli_brand_assets/keyli-mark-blanc.svg → clé seule, blanche (fond sombre)
 keyli_brand_assets/keyli_app_icon.svg / keyli_app_icon_1024.png

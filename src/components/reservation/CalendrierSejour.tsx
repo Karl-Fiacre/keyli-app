@@ -1,7 +1,14 @@
 import { useMemo, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { aujourdhuiIso, isoJour, jourDepuisIso } from '@/partage/lib/sejour'
+import {
+  ajouterMois,
+  aujourdhuiIso,
+  choisirJourSejour,
+  grilleMois,
+  jourDepuisIso,
+  premierDuMois,
+} from '@/partage/lib/sejour'
 import { cn } from '@/lib/utils'
 
 const JOURS = ['lu', 'ma', 'me', 'je', 've', 'sa', 'di']
@@ -23,19 +30,15 @@ interface Props {
 // enjamber une nuit complète. Navigation au clavier par les boutons natifs.
 export function CalendrierSejour({ arrivee, depart, onChange, completes, onMoisChange, deuxMois = true }: Props) {
   const aujourdhui = aujourdhuiIso()
-  const [mois, setMois] = useState(() => {
-    const base = jourDepuisIso(arrivee ?? aujourdhui)
-    return isoJour(new Date(base.getFullYear(), base.getMonth(), 1))
-  })
+  const [mois, setMois] = useState(() => premierDuMois(arrivee ?? aujourdhui))
   const [survol, setSurvol] = useState<string | null>(null)
 
   const changerMois = (n: number) => {
-    const d = jourDepuisIso(mois)
-    const suivant = isoJour(new Date(d.getFullYear(), d.getMonth() + n, 1))
+    const suivant = ajouterMois(mois, n)
     setMois(suivant)
     onMoisChange?.(suivant)
   }
-  const premierMoisPossible = mois <= isoJour(new Date(new Date().getFullYear(), new Date().getMonth(), 1))
+  const premierMoisPossible = mois <= premierDuMois(aujourdhui)
 
   // Première nuit complète après l'arrivée : le départ ne peut pas la dépasser
   const limiteDepart = useMemo(() => {
@@ -45,11 +48,8 @@ export function CalendrierSejour({ arrivee, depart, onChange, completes, onMoisC
   }, [arrivee, depart, completes])
 
   const choisir = (jour: string) => {
-    if (!arrivee || depart || jour <= arrivee) {
-      onChange(jour, null)
-    } else {
-      onChange(arrivee, jour)
-    }
+    const choix = choisirJourSejour(arrivee, depart, jour)
+    onChange(choix.arrivee, choix.depart)
   }
 
   const moisAffiches = deuxMois ? [mois, ajouterMois(mois, 1)] : [mois]
@@ -129,11 +129,6 @@ export function CalendrierSejour({ arrivee, depart, onChange, completes, onMoisC
   )
 }
 
-function ajouterMois(mois: string, n: number) {
-  const d = jourDepuisIso(mois)
-  return isoJour(new Date(d.getFullYear(), d.getMonth() + n, 1))
-}
-
 function GrilleMois({
   mois,
   rendreJour,
@@ -144,9 +139,7 @@ function GrilleMois({
   masquerSurMobile: boolean
 }) {
   const d = jourDepuisIso(mois)
-  const nbJours = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate()
-  // Lundi en premier (0 = lundi)
-  const decalage = (d.getDay() + 6) % 7
+  const { decalage, jours } = grilleMois(mois)
   const titre = d.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
   return (
     <div className={cn(masquerSurMobile && 'hidden sm:block')}>
@@ -162,10 +155,9 @@ function GrilleMois({
         {Array.from({ length: decalage }, (_, i) => (
           <span key={`v${i}`} />
         ))}
-        {Array.from({ length: nbJours }, (_, i) => {
-          const jour = isoJour(new Date(d.getFullYear(), d.getMonth(), i + 1))
-          return <div key={jour}>{rendreJour(jour)}</div>
-        })}
+        {jours.map((jour) => (
+          <div key={jour}>{rendreJour(jour)}</div>
+        ))}
       </div>
     </div>
   )

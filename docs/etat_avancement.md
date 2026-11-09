@@ -11,10 +11,11 @@ conversation précédente, elle ne persiste pas.
 
 - **Phase en cours** : Phase 3 — application mobile (`apps/mobile`, Expo
   SDK 58, identifiant `com.keyli.app`). Sprint 13 (socle) terminé le
-  2026-11-08 ; web terminé jusqu'au Sprint 11-12.
+  2026-11-08, Sprint 14 (catalogue mobile) terminé le 2026-11-09, à
+  essayer sur le téléphone ; web terminé jusqu'au Sprint 11-12.
   Le détail par sprint est dans « Blocages / questions en attente » (entrées
   « Sprint N ») et dans `docs/MODULES/`.
-- **Dernière session de travail** : 2026-11-08
+- **Dernière session de travail** : 2026-11-09
 - **Dépôt Git** : dépôt privé
   https://github.com/Karl-Fiacre/keyli-app (`Karl-Fiacre/keyli` = ancien
   pilote, conservé comme référence, ne rien y pousser)
@@ -23,9 +24,9 @@ conversation précédente, elle ne persiste pas.
 - **Site en ligne** : https://keyli-2gc.pages.dev (Cloudflare Pages,
   `npm run deploy` par le porteur)
 - **Base locale** : `npx supabase start` ; tests `npx supabase test db`
-  (44 fichiers, 800 tests au 2026-11-08) ; tests unitaires `npm test` (33)
-- **Mobile** : `cd apps/mobile`, `npx expo start` (Node 22.13+, Expo Go sur
-  le téléphone du porteur) — `docs/MODULES/mobile.md`
+  (44 fichiers, 800 tests au 2026-11-08) ; tests unitaires `npm test` (40)
+- **Mobile** : `cd apps/mobile`, `npx expo start --port 8082` (Node 22.13+,
+  Expo Go sur le téléphone du porteur) — `docs/MODULES/mobile.md`
 
 ## Fichiers/tables terminés
 
@@ -249,6 +250,30 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine (la
   Content-Security-Policy est en place depuis le Sprint 6). Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Sprint 14 — catalogue mobile, terminé** (2026-11-09, branche
+  `feature/sprint14-catalogue-mobile`) — périmètre choisi par le porteur :
+  filtres complets, carte native, favoris et alertes, fiche enrichie.
+  Recherche : panneau de filtres identique au web (transaction, séjour court
+  avec calendrier et voyageurs, type, commune, quartier, prix, pièces,
+  meublé, équipements), tri, nombre de résultats, pages, bouton « Créer une
+  alerte ». Vue carte `react-native-maps` aux positions approximatives
+  (comptée `map` dans les statistiques). Fiche : galerie plein écran, badge
+  officiel (`react-native-svg`, dessin de `public/keyli_verified_badge.svg`),
+  favori, partage par la feuille du téléphone, annonces similaires. Écrans
+  « Mes favoris » et « Mes alertes » depuis le profil. Règles déplacées
+  dans `src/partage` avec tests (40) : grille et choix du calendrier
+  (`sejour.ts`, le calendrier web les utilise), `filtresDepuisAlerte` et
+  `etatBoutonAlerte` (`recherche.ts`, le bouton web les utilise). **Bug
+  corrigé côté site** : les recommandations du tableau de bord envoyaient
+  `source=recommendation` (refusé par la base) et étaient comptées en
+  « lien direct ». Vérifié : types, assemblage Android, filtres et
+  calendrier dans le navigateur (la base en ligne n'a encore aucune annonce
+  publiée : cartes, fiche et carte native restent à essayer sur le
+  téléphone avec des annonces). **À faire par le porteur** : essai sur
+  téléphone ; pour une version installable (hors Expo Go), une clé Google
+  Maps Android sera nécessaire (voir `docs/MODULES/mobile.md`). Aucune
+  migration ; site : seulement le correctif des recommandations
+  (`npm run deploy` quand le porteur le souhaite).
 - **Sprint 13 — socle du projet mobile, terminé** (2026-11-08, branche
   `feature/sprint13-socle-mobile`) — périmètre choisi par le porteur : projet
   Expo et logique partagée, navigation de base, connexion et inscription,
@@ -783,6 +808,11 @@ concernés :
   correctif du comptage du seuil par cycle mensuel.
 - 2026-10-27 : écran de publication d'annonce (avantages en liste fermée,
   photos reportées, point GPS Mapbox + ma position).
+- 2026-11-09 (Sprint 14) : catalogue mobile (filtres, carte, favoris,
+  alertes, fiche enrichie). Création de fichiers longs par le shell
+  instable (accents graves) : fichiers écrits par l'outil d'écriture.
+  Sélecteur de dates natif abandonné au profit d'un calendrier React Native
+  (fonctionne aussi dans l'aperçu navigateur).
 - 2026-11-02 : logo officiel du porteur (sources dans
   `docs/keyli_brand_assets/sources/`, déclinaisons générées) ; charte : navy
   conservé, bleu du logo en accent, turquoise à la place de l'or sur

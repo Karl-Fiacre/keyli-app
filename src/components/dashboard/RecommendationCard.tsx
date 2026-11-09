@@ -22,7 +22,7 @@ export interface Recommandation {
 export function RecommendationCard({ reco: r }: { reco: Recommandation }) {
   return (
     <Link
-      to={`/annonce/${r.id}?source=recommendation`}
+      to={`/annonce/${r.id}?source=recommandation`}
       className="group block w-64 shrink-0 snap-start overflow-hidden rounded-lg border bg-card shadow-sm transition-[transform,box-shadow] duration-150 hover:scale-[1.02] hover:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:hover:scale-100"
     >
       <div className="relative aspect-[16/10] bg-secondary">

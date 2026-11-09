@@ -25,6 +25,8 @@ export const couleurs = {
   // Fonds des messages : la couleur à 10 % sur blanc (bg-…/10 du web)
   erreurFond: '#fdecec',
   succesFond: '#e9f9ef',
+  // Nuits sélectionnées du calendrier : turquoise à 15 % sur blanc (bg-turquoise/15)
+  turquoiseFond: '#d9f2f0',
 } as const
 
 export const rayons = { carte: 12, champ: 12, pilule: 999 } as const
