@@ -10,7 +10,18 @@ import {
   tauxConversion,
   type FaitsAnnonce,
 } from '@/partage/lib/qualite'
-import { ajouterJours, isoJour, isoValide, nuitsEntre, pluriel } from '@/partage/lib/sejour'
+import {
+  ajouterJours,
+  ajouterMois,
+  choisirJourSejour,
+  grilleMois,
+  isoJour,
+  isoValide,
+  nuitsEntre,
+  pluriel,
+  premierDuMois,
+} from '@/partage/lib/sejour'
+import { filtresDepuisAlerte, rechercheDepuisAlerte } from '@/partage/lib/recherche'
 import { publicationPossible } from '@/partage/lib/publication'
 import { cheminConversation } from '@/partage/lib/messagerie'
 import { motifRefus, LIBELLES_TENTATIVE } from '@/partage/lib/paiements'
@@ -81,6 +92,43 @@ describe('dates de séjour', () => {
   it('accorde au pluriel', () => {
     expect(pluriel(1, 'nuit')).toBe('1 nuit')
     expect(pluriel(2, 'nuit')).toBe('2 nuits')
+  })
+  it('construit la grille d’un mois, lundi en premier', () => {
+    // 1er novembre 2026 : un dimanche → 6 cases vides
+    const g = grilleMois('2026-11-01')
+    expect(g.decalage).toBe(6)
+    expect(g.jours).toHaveLength(30)
+    expect(g.jours[29]).toBe('2026-11-30')
+    expect(grilleMois('2026-02-01').jours).toHaveLength(28)
+  })
+  it('change de mois', () => {
+    expect(ajouterMois('2026-12-01', 1)).toBe('2027-01-01')
+    expect(ajouterMois('2026-01-01', -1)).toBe('2025-12-01')
+    expect(premierDuMois('2026-11-18')).toBe('2026-11-01')
+  })
+  it('choisit l’arrivée puis le départ', () => {
+    expect(choisirJourSejour(null, null, '2026-11-10')).toEqual({ arrivee: '2026-11-10', depart: null })
+    expect(choisirJourSejour('2026-11-10', null, '2026-11-13')).toEqual({ arrivee: '2026-11-10', depart: '2026-11-13' })
+    // Jour avant l'arrivée, ou séjour déjà complet : on recommence
+    expect(choisirJourSejour('2026-11-10', null, '2026-11-08')).toEqual({ arrivee: '2026-11-08', depart: null })
+    expect(choisirJourSejour('2026-11-10', '2026-11-13', '2026-11-20')).toEqual({ arrivee: '2026-11-20', depart: null })
+  })
+})
+
+describe('alertes de recherche', () => {
+  it('retrouve les filtres d’une alerte', () => {
+    const f = filtresDepuisAlerte({ commune_id: 'c1', type: 'appartement', status: 'a_louer', prix_max: 300000, furnished: true, rooms_min: 2 })
+    expect(f).toMatchObject({ commune: 'c1', type: 'appartement', statut: 'a_louer', prixMax: 300000, meuble: true, piecesMin: 2 })
+    expect(f.avantages).toEqual([])
+  })
+  it('ignore les valeurs inconnues', () => {
+    const f = filtresDepuisAlerte({ type: 'chateau', status: 'autre', prix_min: '12' })
+    expect(f.type).toBeUndefined()
+    expect(f.statut).toBeUndefined()
+    expect(f.prixMin).toBeUndefined()
+  })
+  it('garde le même lien de recherche sur le web', () => {
+    expect(rechercheDepuisAlerte({ status: 'a_vendre', rooms_min: 3 })).toBe('/recherche?statut=a_vendre&pieces=3')
   })
 })
 

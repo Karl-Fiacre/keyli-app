@@ -129,13 +129,14 @@ export function memesCriteres(a: Record<string, unknown>, b: Record<string, unkn
   return ka.length === kb.length && ka.every((k) => String(a[k]) === String(b[k]))
 }
 
-// Ouvrir la recherche correspondant à une alerte
-export function rechercheDepuisAlerte(c: Record<string, unknown>): string {
+// Filtres de recherche correspondant à une alerte (web : lien « Voir » ;
+// mobile : ouverture de l'onglet Recherche)
+export function filtresDepuisAlerte(c: Record<string, unknown>): FiltresRecherche {
   const texte = (v: unknown) => (typeof v === 'string' ? v : undefined)
   const nombre = (v: unknown) => (typeof v === 'number' ? v : undefined)
   const statut = texte(c.status)
   const type = texte(c.type)
-  const p = ecrireFiltres({
+  return {
     commune: texte(c.commune_id),
     quartier: texte(c.quartier_id),
     type: type && (TYPES_BIEN as readonly string[]).includes(type) ? (type as TypeBien) : undefined,
@@ -147,6 +148,10 @@ export function rechercheDepuisAlerte(c: Record<string, unknown>): string {
     avantages: [],
     tri: 'pertinence',
     page: 1,
-  })
-  return `/recherche?${p.toString()}`
+  }
+}
+
+// Ouvrir la recherche correspondant à une alerte
+export function rechercheDepuisAlerte(c: Record<string, unknown>): string {
+  return `/recherche?${ecrireFiltres(filtresDepuisAlerte(c)).toString()}`
 }
