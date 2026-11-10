@@ -47,4 +47,7 @@ functions/_config.generated.ts
 # Application mobile (Expo)
 .expo/
 apps/mobile/dist/
+# Projets natifs générés par `expo prebuild` (Codemagic les régénère)
+apps/mobile/ios/
+apps/mobile/android/
 apps/mobile/web-build/
