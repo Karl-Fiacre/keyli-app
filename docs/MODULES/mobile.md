@@ -129,11 +129,14 @@ signature, IPA, envoi. Aucune clé dans le dépôt.
    ajoutées le moment venu, ce qui oblige à régénérer le profil) ;
 2. App Store Connect : app « Keyli », iOS, français, UGS `keyli-ios`,
    accès complet — **faite le 2026-11-10** (identifiant Apple 6832900979) ;
-3. Clé API App Store Connect : clé du compte Apple du porteur (valable
-   pour toutes ses apps), ajoutée par lui dans Codemagic sous le nom
-   général **`apple-app-store-connect`** (Codemagic ne permet pas de
-   renommer une clé ; l'ancienne `naellys-app-store-connect` reste pour
-   Naëllys Express et Ivoire Market) ;
+3. Clé API App Store Connect : clé d'équipe « Keyli Codemagic » (accès
+   Gestionnaire d'apps, créée le 2026-11-10), ajoutée dans Codemagic sous
+   le nom général **`apple-app-store-connect`** ; le fichier `.p8` est
+   gardé par le porteur (téléchargeable une seule fois). Codemagic ne
+   permet pas de renommer une clé ni d'enregistrer deux fois la même ;
+   `naellys-app-store-connect` reste pour Naëllys Express et Ivoire Market.
+   Attention : un `.p8` de notifications ou de « Connexion avec Apple »
+   (Apple Developer → Keys) a le même format mais est refusé (erreur 401) ;
 4. Certificat de distribution : **déjà présent** dans Codemagic
    (« NAELLYS Distribution », valable jusqu'au 23/10/2027) ;
 5. Apple Developer → Profiles : profil « Keyli App Store » (type App Store,
