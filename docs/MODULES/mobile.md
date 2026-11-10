@@ -124,19 +124,19 @@ fois, jamais versionné : `apps/mobile/ios/` est ignoré par Git), pods,
 signature, IPA, envoi. Aucune clé dans le dépôt.
 
 **Réglages à faire une fois par le porteur** (lui seul saisit les clés) :
-1. Apple Developer → Identifiers : créer l'identifiant `com.keyli.app`
-   (irréversible, voir plus haut) ;
-2. App Store Connect → Mes apps → « + » : nouvelle app « Keyli », iOS,
-   identifiant `com.keyli.app`, langue principale français ;
-3. App Store Connect → Utilisateurs et accès → Intégrations → clés de l'API
-   App Store Connect : créer une clé « Codemagic » (accès App Manager),
-   télécharger le fichier `.p8` (une seule fois possible) ;
-4. Codemagic → Team settings → Integrations → Developer Portal : ajouter la
-   clé sous le nom **`keyli_app_store`** (nom attendu par
-   `codemagic.yaml` ; autre nom = modifier la ligne `app_store_connect`) ;
-5. Codemagic → Team settings → Code signing identities : générer un
-   certificat « Apple Distribution » puis récupérer le profil App Store de
-   `com.keyli.app` (boutons Generate / Fetch profiles) ;
+1. Apple Developer → Identifiers : identifiant `com.keyli.app` — **fait le
+   2026-11-10** (aucune capacité activée ; les notifications push seront
+   ajoutées le moment venu, ce qui oblige à régénérer le profil) ;
+2. App Store Connect : app « Keyli », iOS, français, UGS `keyli-ios`,
+   accès complet — **faite le 2026-11-10** (identifiant Apple 6832900979) ;
+3. Clé API App Store Connect : **rien à créer** — Codemagic a déjà la clé
+   `naellys-app-store-connect` (compte Apple du porteur, valable pour
+   toutes ses apps), utilisée par `codemagic.yaml` ;
+4. Certificat de distribution : **déjà présent** dans Codemagic
+   (« NAELLYS Distribution », valable jusqu'au 23/10/2027) ;
+5. Apple Developer → Profiles : profil « Keyli App Store » (type App Store,
+   ce certificat, expire le 23/10/2027) — **fait le 2026-11-10** ; puis Codemagic → Code signing identities → iOS
+   provisioning profiles → Fetch profiles ;
 6. Codemagic → application keyli-app → Environment variables : groupe
    **`keyli_mobile`**, variable `EXPO_PUBLIC_SUPABASE_ANON_KEY` (clé
    publique anon, cochée « Secret ») ;
