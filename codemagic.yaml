@@ -4,9 +4,9 @@
 #
 # Lancement MANUEL depuis Codemagic (pas de déclencheur automatique : les
 # minutes de Mac sont comptées). Aucune clé dans ce fichier :
-#  - intégration App Store Connect « naellys-app-store-connect » : clé API
-#    déjà présente dans Codemagic, valable pour tout le compte Apple du
-#    porteur (Keyli compris) ;
+#  - intégration App Store Connect « apple-app-store-connect » : clé API du
+#    compte Apple du porteur, valable pour toutes ses apps (Keyli compris),
+#    ajoutée dans Codemagic par le porteur ;
 #  - groupe de variables « keyli_mobile » : EXPO_PUBLIC_SUPABASE_ANON_KEY
 #    (clé publique anon, saisie par le porteur dans Codemagic).
 workflows:
@@ -16,7 +16,7 @@ workflows:
     instance_type: mac_mini_m2
     working_directory: apps/mobile
     integrations:
-      app_store_connect: naellys-app-store-connect
+      app_store_connect: apple-app-store-connect
     environment:
       groups:
         - keyli_mobile

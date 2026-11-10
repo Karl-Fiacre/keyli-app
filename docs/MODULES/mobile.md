@@ -129,17 +129,21 @@ signature, IPA, envoi. Aucune clé dans le dépôt.
    ajoutées le moment venu, ce qui oblige à régénérer le profil) ;
 2. App Store Connect : app « Keyli », iOS, français, UGS `keyli-ios`,
    accès complet — **faite le 2026-11-10** (identifiant Apple 6832900979) ;
-3. Clé API App Store Connect : **rien à créer** — Codemagic a déjà la clé
-   `naellys-app-store-connect` (compte Apple du porteur, valable pour
-   toutes ses apps), utilisée par `codemagic.yaml` ;
+3. Clé API App Store Connect : clé du compte Apple du porteur (valable
+   pour toutes ses apps), ajoutée par lui dans Codemagic sous le nom
+   général **`apple-app-store-connect`** (Codemagic ne permet pas de
+   renommer une clé ; l'ancienne `naellys-app-store-connect` reste pour
+   Naëllys Express et Ivoire Market) ;
 4. Certificat de distribution : **déjà présent** dans Codemagic
    (« NAELLYS Distribution », valable jusqu'au 23/10/2027) ;
 5. Apple Developer → Profiles : profil « Keyli App Store » (type App Store,
    ce certificat, expire le 23/10/2027) — **fait le 2026-11-10** ; puis Codemagic → Code signing identities → iOS
    provisioning profiles → Fetch profiles ;
-6. Codemagic → application keyli-app → Environment variables : groupe
-   **`keyli_mobile`**, variable `EXPO_PUBLIC_SUPABASE_ANON_KEY` (clé
-   publique anon, cochée « Secret ») ;
+6. Codemagic : application keyli-app ajoutée le 2026-11-10 (dépôt
+   autorisé dans l'application GitHub de Codemagic) ; Environment
+   variables : groupe **`keyli_mobile`**, variable
+   `EXPO_PUBLIC_SUPABASE_ANON_KEY` (clé publique anon, cochée « Secret »,
+   valeur saisie par le porteur) ;
 7. Lancer le flux « Keyli iOS → TestFlight » (branche `main`). Après le
    traitement par Apple (10 à 30 min), la version apparaît dans TestFlight :
    s'ajouter au groupe de test interne, installer l'app TestFlight sur
