@@ -73,6 +73,54 @@ navigation de base, connexion et inscription, charte visuelle mobile.
    assemblage long (≈ 3 min 30 sous Node 20), puis rapide grâce au cache.
    Si le téléphone ne joint pas le PC : `npx expo start --tunnel`.
 
+## iOS — essais sur iPhone (démarré le 2026-11-10)
+
+Choix du porteur : avancer la partie iOS, qu'il essaie lui-même sur son
+iPhone. Le code est commun aux deux plateformes ; ce qui diffère est déjà
+traité : clavier (`KeyboardAvoidingView` en `padding`), partage (message et
+lien séparés), police des titres (Georgia), carte (Apple Plans, aucune clé),
+session dans le Keychain, fenêtres de filtres en feuille (`pageSheet`),
+retour par balayage depuis le bord gauche (pile native). Ajouté ce jour :
+bord bas protégé dans `Ecran` (barre d'accueil de l'iPhone sur la fiche
+annonce et la connexion) ; `app.json` : `buildNumber` et
+`usesNonExemptEncryption: false` (l'application n'utilise que le HTTPS
+standard — évite la question de conformité à l'export à chaque envoi).
+
+**Essai avec Expo Go (aucun compte Apple payant nécessaire)** : installer
+Expo Go depuis l'App Store, lancer `npx expo start --port 8082` dans
+`apps/mobile`, scanner le QR code avec l'appareil photo de l'iPhone. iPhone
+et PC sur le même Wi-Fi ; au premier lancement, autoriser Node.js dans le
+pare-feu Windows (réseaux privés). Si l'iPhone ne joint pas le PC :
+`npx expo start --tunnel`. Si Expo Go annonce un SDK incompatible, la
+version de l'App Store attend un autre SDK qu'Expo 58 : le signaler avant
+toute mise à niveau.
+
+**Liste d'essai sur iPhone** (à cocher par le porteur, retours à noter
+ici) :
+- [ ] Bienvenue : photos en défilement, texte lisible, encoche / Dynamic
+  Island et barre d'accueil non masquées, trois boutons ;
+- [ ] Connexion et inscription : clavier qui ne cache pas le champ actif,
+  « Se connecter » joignable clavier ouvert ; session retrouvée après
+  fermeture complète ;
+- [ ] Recherche : panneau Filtres (feuille qui se ferme en glissant vers le
+  bas), calendrier du séjour, choix commune puis quartier, tri ;
+- [ ] Carte : Apple Plans, pastilles de prix, ouverture d'une annonce
+  (nécessite des annonces publiées dans la base) ;
+- [ ] Fiche annonce : galerie plein écran, partage (feuille iOS), annonces
+  similaires, retour par balayage depuis le bord gauche, bas de page
+  au-dessus de la barre d'accueil ;
+- [ ] Favoris et alertes : ajout, retrait, ouverture d'une alerte ;
+- [ ] Liens vers le site (conditions, messages, profil) : ouverture dans
+  Safari.
+
+**Vers TestFlight (Sprint 18, sans Mac)** : compte Apple Developer Program
+(99 USD par an, au nom de Nguessan-IT ou du porteur — à décider par le
+porteur), puis compilation dans le nuage avec EAS Build (`eas build -p ios`,
+fonctionne depuis Windows) et envoi avec `eas submit -p ios`. Le compte
+Expo et le compte Apple sont créés et connectés par le porteur lui-même ;
+Face ID et les notifications push (APNs) ne se testent qu'avec cette
+version compilée, pas dans Expo Go.
+
 ## Sprint 14 — catalogue mobile (2026-11-09)
 
 Périmètre choisi par le porteur : filtres complets, carte native, favoris et

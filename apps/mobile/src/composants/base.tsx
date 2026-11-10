@@ -19,10 +19,12 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { couleurs, espaces, ombreCarte, polices, rayons } from '@mobile/theme/tokens'
 
-// Écran défilant, clavier pris en compte (formulaires)
+// Écran défilant, clavier pris en compte (formulaires). Le bord bas est
+// protégé pour la barre d'accueil de l'iPhone sur les écrans sans onglets
+// (fiche annonce, connexion) ; sous une barre d'onglets l'encart vaut 0.
 export function Ecran({ children, centre = false }: { children: ReactNode; centre?: boolean }) {
   return (
-    <SafeAreaView style={styles.zoneSure} edges={['top', 'left', 'right']}>
+    <SafeAreaView style={styles.zoneSure} edges={['top', 'left', 'right', 'bottom']}>
       <KeyboardAvoidingView style={styles.plein} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView
           contentContainerStyle={[styles.contenu, centre && styles.centre]}
