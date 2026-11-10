@@ -250,6 +250,13 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine (la
   Content-Security-Policy est en place depuis le Sprint 6). Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **iOS : préparation des essais sur iPhone** (2026-11-10, branche
+  `feature/ios-preparation`, demande du porteur qui teste lui-même) — revue
+  des différences iOS (déjà traitées), bord bas protégé pour la barre
+  d'accueil, `app.json` complété (`buildNumber`,
+  `usesNonExemptEncryption`), liste d'essai et chemin vers TestFlight dans
+  `docs/MODULES/mobile.md`. **Prochaine étape : retours du porteur sur
+  iPhone (Expo Go)**, puis corrections.
 - **Écran de bienvenue : ajustements** (2026-11-10, branche
   `feature/bienvenue-ajustements`, demande du porteur) — mention
   « Abidjan · Côte d'Ivoire » retirée ; photos jugées trop zoomées :
