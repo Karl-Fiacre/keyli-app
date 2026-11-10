@@ -250,6 +250,13 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine (la
   Content-Security-Policy est en place depuis le Sprint 6). Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **iOS : compilation Codemagic vers TestFlight** (2026-11-10, branche
+  `feature/ios-codemagic`) — le porteur a un compte Apple Developer et un
+  compte Codemagic : `codemagic.yaml` (flux `ios-testflight`, manuel)
+  compile l'app sur Mac et l'envoie sur TestFlight. **Prochaine étape :
+  le porteur fait les 7 réglages de `docs/MODULES/mobile.md` (section
+  « iOS — TestFlight avec Codemagic ») et lance la première compilation** ;
+  me transmettre le journal en cas d'échec.
 - **iOS : préparation des essais sur iPhone** (2026-11-10, branche
   `feature/ios-preparation`, demande du porteur qui teste lui-même) — revue
   des différences iOS (déjà traitées), bord bas protégé pour la barre

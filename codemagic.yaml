@@ -1,0 +1,83 @@
+# Codemagic — compilation iOS de l'application mobile Keyli (apps/mobile)
+# et envoi sur TestFlight, sans Mac (docs/MODULES/mobile.md, section
+# « iOS — TestFlight avec Codemagic »).
+#
+# Lancement MANUEL depuis Codemagic (pas de déclencheur automatique : les
+# minutes de Mac sont comptées). Aucune clé dans ce fichier :
+#  - intégration App Store Connect « keyli_app_store » (clé API créée par le
+#    porteur dans App Store Connect, ajoutée dans Codemagic) ;
+#  - groupe de variables « keyli_mobile » : EXPO_PUBLIC_SUPABASE_ANON_KEY
+#    (clé publique anon, saisie par le porteur dans Codemagic).
+workflows:
+  ios-testflight:
+    name: Keyli iOS → TestFlight
+    max_build_duration: 90
+    instance_type: mac_mini_m2
+    working_directory: apps/mobile
+    integrations:
+      app_store_connect: keyli_app_store
+    environment:
+      groups:
+        - keyli_mobile
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.keyli.app
+      vars:
+        # Valeurs publiques (déjà dans apps/mobile/.env.example)
+        EXPO_PUBLIC_SUPABASE_URL: https://zcqirdowjussoaevqlbd.supabase.co
+        EXPO_PUBLIC_KEYLI_SITE_URL: https://keyli-2gc.pages.dev
+        XCODE_WORKSPACE: Keyli.xcworkspace
+        XCODE_SCHEME: Keyli
+      # React Native 0.88 (Expo SDK 58) exige Node 22.13 ou plus
+      node: 22.14.0
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Vérifier la configuration publique
+        script: |
+          if [ -z "$EXPO_PUBLIC_SUPABASE_ANON_KEY" ]; then
+            echo "EXPO_PUBLIC_SUPABASE_ANON_KEY manquante : l'ajouter au groupe keyli_mobile dans Codemagic."
+            exit 1
+          fi
+          # Expo lit ce fichier au moment de l'assemblage du code JavaScript
+          {
+            echo "EXPO_PUBLIC_SUPABASE_URL=$EXPO_PUBLIC_SUPABASE_URL"
+            echo "EXPO_PUBLIC_SUPABASE_ANON_KEY=$EXPO_PUBLIC_SUPABASE_ANON_KEY"
+            echo "EXPO_PUBLIC_KEYLI_SITE_URL=$EXPO_PUBLIC_KEYLI_SITE_URL"
+          } > .env
+      - name: Installer les dépendances
+        script: npm ci
+      - name: Contrôler les types
+        script: npm run typecheck
+      - name: Numéro de compilation
+        script: |
+          # Chaque envoi à Apple doit porter un numéro plus grand que le
+          # précédent : on reprend le compteur de compilations de Codemagic.
+          node -e "
+            const fs = require('fs')
+            const app = JSON.parse(fs.readFileSync('app.json', 'utf8'))
+            app.expo.ios.buildNumber = String(process.env.BUILD_NUMBER)
+            fs.writeFileSync('app.json', JSON.stringify(app, null, 2))
+          "
+          echo "Numéro de compilation iOS : $BUILD_NUMBER"
+      - name: Générer le projet iOS natif
+        script: npx expo prebuild --platform ios --no-install
+      - name: Installer les pods
+        script: cd ios && pod install
+      - name: Appliquer les profils de signature
+        script: xcode-project use-profiles
+      - name: Compiler l'IPA
+        script: |
+          xcode-project build-ipa \
+            --workspace "ios/$XCODE_WORKSPACE" \
+            --scheme "$XCODE_SCHEME"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        # Test interne (le porteur et son équipe) : disponible dans TestFlight
+        # dès qu'Apple a traité la compilation, sans relecture d'Apple.
+        # Passer à true seulement pour des testeurs externes (relecture Apple).
+        submit_to_testflight: false

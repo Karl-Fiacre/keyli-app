@@ -113,13 +113,42 @@ ici) :
 - [ ] Liens vers le site (conditions, messages, profil) : ouverture dans
   Safari.
 
-**Vers TestFlight (Sprint 18, sans Mac)** : compte Apple Developer Program
-(99 USD par an, au nom de Nguessan-IT ou du porteur — à décider par le
-porteur), puis compilation dans le nuage avec EAS Build (`eas build -p ios`,
-fonctionne depuis Windows) et envoi avec `eas submit -p ios`. Le compte
-Expo et le compte Apple sont créés et connectés par le porteur lui-même ;
+### iOS — TestFlight avec Codemagic (2026-11-10)
+Le porteur a déjà un compte Apple Developer et un compte Codemagic : la
+version iOS est compilée sur un Mac de Codemagic (`codemagic.yaml` à la
+racine, flux `ios-testflight`, lancement manuel) puis envoyée sur
+TestFlight. Étapes : contrôle de la clé publique, `npm ci`, types, numéro de
+compilation = compteur Codemagic (`BUILD_NUMBER`, écrit dans `app.json` le
+temps de la compilation), `expo prebuild` (projet natif régénéré à chaque
+fois, jamais versionné : `apps/mobile/ios/` est ignoré par Git), pods,
+signature, IPA, envoi. Aucune clé dans le dépôt.
+
+**Réglages à faire une fois par le porteur** (lui seul saisit les clés) :
+1. Apple Developer → Identifiers : créer l'identifiant `com.keyli.app`
+   (irréversible, voir plus haut) ;
+2. App Store Connect → Mes apps → « + » : nouvelle app « Keyli », iOS,
+   identifiant `com.keyli.app`, langue principale français ;
+3. App Store Connect → Utilisateurs et accès → Intégrations → clés de l'API
+   App Store Connect : créer une clé « Codemagic » (accès App Manager),
+   télécharger le fichier `.p8` (une seule fois possible) ;
+4. Codemagic → Team settings → Integrations → Developer Portal : ajouter la
+   clé sous le nom **`keyli_app_store`** (nom attendu par
+   `codemagic.yaml` ; autre nom = modifier la ligne `app_store_connect`) ;
+5. Codemagic → Team settings → Code signing identities : générer un
+   certificat « Apple Distribution » puis récupérer le profil App Store de
+   `com.keyli.app` (boutons Generate / Fetch profiles) ;
+6. Codemagic → application keyli-app → Environment variables : groupe
+   **`keyli_mobile`**, variable `EXPO_PUBLIC_SUPABASE_ANON_KEY` (clé
+   publique anon, cochée « Secret ») ;
+7. Lancer le flux « Keyli iOS → TestFlight » (branche `main`). Après le
+   traitement par Apple (10 à 30 min), la version apparaît dans TestFlight :
+   s'ajouter au groupe de test interne, installer l'app TestFlight sur
+   l'iPhone.
+
 Face ID et les notifications push (APNs) ne se testent qu'avec cette
-version compilée, pas dans Expo Go.
+version compilée, pas dans Expo Go. Le test externe (au-delà de l'équipe)
+demande une relecture d'Apple : `submit_to_testflight: true` dans
+`codemagic.yaml` le moment venu (Sprint 18).
 
 ## Sprint 14 — catalogue mobile (2026-11-09)
 
