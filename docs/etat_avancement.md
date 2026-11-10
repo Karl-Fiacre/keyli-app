@@ -250,6 +250,17 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine (la
   Content-Security-Policy est en place depuis le Sprint 6). Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **iOS : réglages Apple et Codemagic faits, première compilation**
+  (2026-11-10) — identifiant `com.keyli.app`, profil « Keyli App Store »,
+  app « Keyli » dans App Store Connect, application keyli-app dans
+  Codemagic (dépôt autorisé côté GitHub), clé API « Keyli Codemagic »
+  (`apple-app-store-connect`), variable `keyli_mobile`. 1re compilation :
+  IPA compilé et signé en ≈ 11 min, envoi refusé (mauvais type de clé,
+  erreur 401) ; clé remplacée. **2e compilation : réussie et envoyée à
+  Apple** (Keyli 0.1.0, compilation 3, « UPLOAD SUCCEEDED », ≈ 6 min).
+  **Prochaine étape : le porteur installe Keyli via TestFlight sur son
+  iPhone** et fait la liste d'essai de `docs/MODULES/mobile.md` ; me
+  transmettre les retours.
 - **iOS : compilation Codemagic vers TestFlight** (2026-11-10, branche
   `feature/ios-codemagic`) — le porteur a un compte Apple Developer et un
   compte Codemagic : `codemagic.yaml` (flux `ios-testflight`, manuel)
