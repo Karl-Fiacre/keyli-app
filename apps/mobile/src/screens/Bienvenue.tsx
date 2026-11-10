@@ -12,7 +12,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { DefilementPhotos, NOMBRE_PHOTOS } from '@mobile/composants/DefilementPhotos'
 import { BadgeVerifie } from '@mobile/composants/BadgeVerifie'
 import { Bouton, Logo } from '@mobile/composants/base'
-import { couleurs, espaces, polices, rayons } from '@mobile/theme/tokens'
+import { couleurs, espaces, polices } from '@mobile/theme/tokens'
 import type { ParamsRacine } from '@mobile/navigation/types'
 
 export default function Bienvenue({ onExplorer }: { onExplorer: () => void }) {
@@ -52,10 +52,6 @@ export default function Bienvenue({ onExplorer }: { onExplorer: () => void }) {
               <View key={i} style={[styles.repere, i === photo && styles.repereActif]} />
             ))}
           </View>
-          <View style={styles.lieu}>
-            <View style={styles.point} />
-            <Text style={styles.texteLieu}>Abidjan · Côte d'Ivoire</Text>
-          </View>
           <Text style={styles.titre} accessibilityRole="header">
             Le logement de confiance, <Text style={{ color: couleurs.turquoise }}>vérifié avant vous.</Text>
           </Text>
@@ -92,28 +88,9 @@ const styles = StyleSheet.create({
   contenu: { flex: 1, justifyContent: 'space-between', paddingHorizontal: espaces.xl },
   haut: { alignItems: 'center', paddingTop: espaces.m },
   bas: { gap: espaces.l, paddingBottom: espaces.l },
-  lieu: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    gap: espaces.s,
-    paddingHorizontal: espaces.m,
-    paddingVertical: espaces.xs,
-    borderRadius: rayons.pilule,
-    borderWidth: 1,
-    borderColor: couleurs.bordureClaire,
-  },
   reperes: { flexDirection: 'row', gap: espaces.s },
   repere: { width: 6, height: 6, borderRadius: 3, backgroundColor: couleurs.bordureClaire },
   repereActif: { width: 18, backgroundColor: couleurs.turquoise },
-  point: { width: 6, height: 6, borderRadius: 3, backgroundColor: couleurs.turquoise },
-  texteLieu: {
-    color: couleurs.surPrimaire,
-    fontSize: 12,
-    fontWeight: '700',
-    letterSpacing: 1,
-    textTransform: 'uppercase',
-  },
   titre: { fontFamily: polices.titre, fontSize: 34, lineHeight: 40, fontWeight: '700', color: couleurs.surPrimaire },
   garantie: { flexDirection: 'row', alignItems: 'center', gap: espaces.s },
   texteGarantie: { flex: 1, fontSize: 15, lineHeight: 21, color: couleurs.texteClair },

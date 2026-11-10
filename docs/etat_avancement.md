@@ -250,6 +250,12 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine (la
   Content-Security-Policy est en place depuis le Sprint 6). Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Écran de bienvenue : ajustements** (2026-11-10, branche
+  `feature/bienvenue-ajustements`, demande du porteur) — mention
+  « Abidjan · Côte d'Ivoire » retirée ; photos jugées trop zoomées :
+  retéléchargées au format carré (les originaux sont carrés ou 16:9, le
+  recadrage portrait en coupait un tiers), affichées dans un cadre carré sur
+  toute la largeur, zoom animé réduit à 4 %.
 - **Écran de bienvenue : photos réelles en défilement** (2026-11-09, branche
   `feature/bienvenue-photos`, demande du porteur) — l'illustration
   vectorielle est remplacée par trois photos Unsplash (villa tropicale,

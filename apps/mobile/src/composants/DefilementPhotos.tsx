@@ -16,7 +16,7 @@ const PHOTOS = [
 ]
 const DUREE = 6000 // temps d'affichage d'une photo (ms)
 const FONDU = 1400 // durée du fondu enchaîné (ms)
-const ZOOM = 1.1
+const ZOOM = 1.04 // zoom très léger : la photo reste presque entière
 
 export const NOMBRE_PHOTOS = PHOTOS.length
 
@@ -64,37 +64,48 @@ export function DefilementPhotos({ onPhoto }: { onPhoto?: (indice: number) => vo
 
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="none">
-      {PHOTOS.map((source, i) => (
-        <Animated.Image
-          key={i}
-          source={source}
-          resizeMode="cover"
-          accessible={false}
-          style={[styles.photo, { opacity: opacites[i], transform: [{ scale: echelles[i] }] }]}
-        />
-      ))}
+      <View style={styles.cadre}>
+        {PHOTOS.map((source, k) => (
+          <Animated.Image
+            key={k}
+            source={source}
+            resizeMode="cover"
+            accessible={false}
+            style={[StyleSheet.absoluteFill, { opacity: opacites[k], transform: [{ scale: echelles[k] }] }]}
+          />
+        ))}
 
-      {/* Voile navy : léger en haut (logo), dense en bas (texte et boutons) */}
-      <Svg style={StyleSheet.absoluteFill} width="100%" height="100%" preserveAspectRatio="none">
-        <Defs>
-          <LinearGradient id="voile" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0" stopColor={couleurs.navyLogo} stopOpacity={0.55} />
-            <Stop offset="0.16" stopColor={couleurs.navyLogo} stopOpacity={0.05} />
-            <Stop offset="0.32" stopColor={couleurs.navyLogo} stopOpacity={0.08} />
-            <Stop offset="0.46" stopColor={couleurs.navyLogo} stopOpacity={0.55} />
-            <Stop offset="0.56" stopColor={couleurs.navyLogo} stopOpacity={0.96} />
-            <Stop offset="0.6" stopColor={couleurs.navyLogo} stopOpacity={1} />
-          </LinearGradient>
-        </Defs>
-        <Rect x="0" y="0" width="100%" height="100%" fill="url(#voile)" />
-      </Svg>
+        {/* Voile navy : fond la photo dans l'écran en haut (logo) et en bas
+            (texte et boutons) ; le centre reste net. */}
+        <Svg style={StyleSheet.absoluteFill} width="100%" height="100%" preserveAspectRatio="none">
+          <Defs>
+            <LinearGradient id="voile" x1="0" y1="0" x2="0" y2="1">
+              <Stop offset="0" stopColor={couleurs.navyLogo} stopOpacity={1} />
+              <Stop offset="0.2" stopColor={couleurs.navyLogo} stopOpacity={0.15} />
+              <Stop offset="0.5" stopColor={couleurs.navyLogo} stopOpacity={0.05} />
+              <Stop offset="0.72" stopColor={couleurs.navyLogo} stopOpacity={0.55} />
+              <Stop offset="0.9" stopColor={couleurs.navyLogo} stopOpacity={0.95} />
+              <Stop offset="1" stopColor={couleurs.navyLogo} stopOpacity={1} />
+            </LinearGradient>
+          </Defs>
+          <Rect x="0" y="0" width="100%" height="100%" fill="url(#voile)" />
+        </Svg>
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  // Les photos sont remontées (le ciel du haut est rogné) pour que la maison,
-  // dans la moitié basse de chaque cliché, reste visible au-dessus du texte ;
-  // le bas de l'écran est le navy plein du voile.
-  photo: { position: 'absolute', top: '-14%', left: 0, right: 0, height: '72%' },
+  // Cadre carré sur toute la largeur, comme les photos (1200×1200) : aucune
+  // photo n'est agrandie ni rognée sur les côtés. Son bas est calé à 58 % de
+  // la hauteur pour que la maison reste au-dessus du texte ; le reste de
+  // l'écran est le navy du fond.
+  cadre: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: '42%',
+    aspectRatio: 1,
+    overflow: 'hidden',
+  },
 })

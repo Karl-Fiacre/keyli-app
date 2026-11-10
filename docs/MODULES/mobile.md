@@ -114,7 +114,7 @@ porteur dans le projet Google Cloud « Nguessan-IT ». iOS utilise Apple Plans
 ### Écran de bienvenue (2026-11-09, demande du porteur)
 Premier écran d'un visiteur non connecté (`screens/Bienvenue.tsx`) :
 trois photos de logements en défilement (`composants/DefilementPhotos.tsx` :
-fondu enchaîné toutes les 6 s, zoom lent, voile navy pour la lisibilité,
+fondu enchaîné toutes les 6 s, zoom très léger (4 %), voile navy pour la lisibilité,
 repères turquoise au-dessus du texte ; zoom coupé si le téléphone demande de
 réduire les animations), logo blanc, promesse du site (« Le
 logement de confiance, vérifié avant vous. »), badge officiel avec la
@@ -127,16 +127,20 @@ jetons : `texteClair`, `bordureClaire` (blanc à 80 % et 20 % sur le navy) ;
 variantes de bouton `clair` et `contour`.
 
 Photos (choisies par le porteur le 2026-11-09, remplaçant l'illustration
-vectorielle d'origine) : `assets/bienvenue-1.jpg` à `-3.jpg`, 1080×1620,
-environ 280 Ko chacune, sous **licence Unsplash** (usage commercial gratuit,
-sans attribution obligatoire — crédits conservés ici par correction) :
+vectorielle d'origine) : `assets/bienvenue-1.jpg` à `-3.jpg`, 1200×1200
+(format carré, sans agrandissement), environ 240 Ko chacune, sous
+**licence Unsplash** (usage commercial gratuit, sans attribution
+obligatoire — crédits conservés ici par correction) :
 1. villa tropicale à l'heure bleue — Jusuf Bachtiar,
    unsplash.com/photos/nyceoSzBZxk ;
 2. duplex éclairé de nuit — Naksha Banwao, unsplash.com/photos/3ddHcjHmiGw ;
 3. maison à toit-jardin — Hardik Panchal, unsplash.com/photos/gto28gGSTcY.
-Les clichés sont remontés à l'écran (`top: '-14%'`) car la maison occupe leur
-moitié basse. À remplacer par des photos de biens réels d'Abidjan dès que
-Keyli en dispose (droits d'usage écrits du propriétaire ou du photographe).
+Les photos sont affichées dans un cadre carré sur toute la largeur, son bas
+calé à 58 % de la hauteur, fondu dans le navy en haut et en bas : les deux
+premières sont entières, la troisième (16:9 d'origine) est recadrée au
+centre. La mention « Abidjan · Côte d'Ivoire » a été retirée à la demande
+du porteur (2026-11-10). À remplacer par des photos de biens réels d'Abidjan
+dès que Keyli en dispose (droits d'usage écrits du propriétaire ou du photographe).
 
 ## Modules natifs requis
 | Besoin | Module / API | Notes |
