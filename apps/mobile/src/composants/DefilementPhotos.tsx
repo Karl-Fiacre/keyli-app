@@ -76,7 +76,7 @@ export function DefilementPhotos({
           source={source}
           resizeMode="contain"
           accessible={false}
-          style={[StyleSheet.absoluteFill, { opacity: opacites[k], transform: [{ scale: echelles[k] }] }]}
+          style={[styles.photo, { opacity: opacites[k], transform: [{ scale: echelles[k] }] }]}
         />
       ))}
     </View>
@@ -85,4 +85,7 @@ export function DefilementPhotos({
 
 const styles = StyleSheet.create({
   cadre: { overflow: 'hidden' },
+  // Taille explicite : sans elle, l'image peut garder ses 1200 px d'origine
+  // au lieu de s'ajuster au cadre (constaté dans l'aperçu web)
+  photo: { position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' },
 })
