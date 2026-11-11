@@ -3,14 +3,21 @@ import { supabase } from '@/integrations/supabase/client'
 import { useSession } from '@/partage/hooks/useSession'
 import type { Database } from '@/integrations/supabase/types'
 import { plateforme } from '@/plateforme'
+import { cheminDocument, controleDocument } from '@/partage/lib/documents'
 
 export type TypeDocument = Database['public']['Enums']['document_type_keyli']
 export type StatutDocument = Database['public']['Enums']['document_status_keyli']
 
-// Limites appliquées par le bucket privé (refus côté serveur) ; vérifiées
-// aussi ici pour un message clair avant l'envoi
-export const TAILLE_MAX = 5 * 1024 * 1024
-export const FORMATS = ['application/pdf', 'image/jpeg', 'image/png']
+// Limites du bucket privé, contrôles et chemin : src/partage/lib/documents.ts
+export { FORMATS, TAILLE_MAX } from '@/partage/lib/documents'
+
+// Fichier à envoyer, quelle que soit sa provenance (web : File ; téléphone :
+// photo de la caméra ou PDF lus en mémoire)
+export interface FichierDocument {
+  format: string
+  taille: number
+  donnees: Blob | ArrayBuffer
+}
 
 export const LIBELLES_DOCUMENT: Record<TypeDocument, string> = {
   extrait_naissance: 'Extrait de naissance',
@@ -52,16 +59,23 @@ export function useEnvoyerDocument() {
   const { session } = useSession()
   const client = useQueryClient()
   return useMutation({
-    mutationFn: async ({ type, fichier, propertyId }: { type: TypeDocument; fichier: File; propertyId?: string }) => {
+    mutationFn: async ({
+      type,
+      fichier,
+      propertyId,
+    }: {
+      type: TypeDocument
+      fichier: FichierDocument
+      propertyId?: string
+    }) => {
       const userId = session?.user.id
       if (!userId) throw new Error('Connexion requise.')
-      if (!FORMATS.includes(fichier.type)) throw new Error('Format accepté : PDF, JPEG ou PNG.')
-      if (fichier.size > TAILLE_MAX) throw new Error('Fichier trop lourd : 5 Mo au maximum.')
-      const extension = fichier.type === 'application/pdf' ? 'pdf' : fichier.type === 'image/png' ? 'png' : 'jpg'
-      const chemin = `${userId}/${type}-${plateforme.nouvelId()}.${extension}`
+      const refus = controleDocument(fichier.format, fichier.taille)
+      if (refus) throw new Error(refus)
+      const chemin = cheminDocument(userId, type, plateforme.nouvelId(), fichier.format)
       const envoi = await supabase.storage
         .from('documents_keyli')
-        .upload(chemin, fichier, { contentType: fichier.type })
+        .upload(chemin, fichier.donnees, { contentType: fichier.format })
       if (envoi.error) throw new Error("L'envoi du fichier a échoué. Vérifiez votre connexion et réessayez.")
       const { error } = await supabase.from('documents_keyli').insert({
         user_id: userId,
