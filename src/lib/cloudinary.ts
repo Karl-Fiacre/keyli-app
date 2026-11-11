@@ -1,31 +1,22 @@
-import { supabase } from '@/integrations/supabase/client'
 import { erreurKeyli } from '@/partage/lib/erreurs'
+import { demanderSignaturesPhotos } from '@/partage/hooks/useAnnonces'
+import {
+  champsEnvoi,
+  COTE_MAX,
+  dimensionsReduites,
+  lireReponseEnvoi,
+  QUALITE_JPEG,
+  TAILLE_MAX_OCTETS,
+  type EnvoiSigne,
+  type SignaturesPhotos,
+} from '@/partage/lib/photos'
 
 // Photos des annonces (docs/MODULES/photos.md). Le navigateur envoie chaque
 // photo directement à Cloudinary avec une signature délivrée par l'Edge
 // Function cloudinary-signature ; aucun secret ne passe par le client.
-
-export const MAX_PHOTOS = 10
-export const MIN_PHOTOS = 1
-// Limite d'un fichier image sur l'offre gratuite de Cloudinary
-const TAILLE_MAX_OCTETS = 10 * 1024 * 1024
-// Côté le plus long après compression : suffisant pour un écran large,
-// léger sur les réseaux mobiles
-const COTE_MAX = 2000
-
-interface Envoi {
-  public_id: string
-  allowed_formats: string
-  transformation: string
-  timestamp: string
-  signature: string
-}
-
-interface Signatures {
-  url: string
-  api_key: string
-  envois: Envoi[]
-}
+// Limites, signature et lecture des réponses : communes avec le mobile
+// (src/partage/lib/photos.ts).
+export { MAX_PHOTOS, MIN_PHOTOS } from '@/partage/lib/photos'
 
 // Réduit et recompresse la photo en JPEG avant l'envoi (un cliché de
 // téléphone passe souvent de 4-8 Mo à moins de 1 Mo). En cas d'échec
@@ -33,9 +24,7 @@ interface Signatures {
 export async function compresserPhoto(fichier: File): Promise<Blob> {
   try {
     const image = await createImageBitmap(fichier)
-    const echelle = Math.min(1, COTE_MAX / Math.max(image.width, image.height))
-    const largeur = Math.round(image.width * echelle)
-    const hauteur = Math.round(image.height * echelle)
+    const { largeur, hauteur } = dimensionsReduites(image.width, image.height, COTE_MAX)
     const toile = document.createElement('canvas')
     toile.width = largeur
     toile.height = hauteur
@@ -43,7 +32,7 @@ export async function compresserPhoto(fichier: File): Promise<Blob> {
     if (!contexte) return fichier
     contexte.drawImage(image, 0, 0, largeur, hauteur)
     image.close()
-    const blob = await new Promise<Blob | null>((ok) => toile.toBlob(ok, 'image/jpeg', 0.85))
+    const blob = await new Promise<Blob | null>((ok) => toile.toBlob(ok, 'image/jpeg', QUALITE_JPEG))
     return blob && blob.size < fichier.size ? blob : fichier
   } catch {
     return fichier
@@ -51,16 +40,15 @@ export async function compresserPhoto(fichier: File): Promise<Blob> {
 }
 
 function envoyerUne(
-  signatures: Signatures,
-  envoi: Envoi,
+  signatures: SignaturesPhotos,
+  envoi: EnvoiSigne,
   contenu: Blob,
   surProgression: (part: number) => void,
 ): Promise<string> {
   return new Promise((ok, echec) => {
     const formulaire = new FormData()
     formulaire.append('file', contenu)
-    formulaire.append('api_key', signatures.api_key)
-    for (const [cle, valeur] of Object.entries(envoi)) formulaire.append(cle, valeur)
+    for (const [cle, valeur] of champsEnvoi(signatures, envoi)) formulaire.append(cle, valeur)
 
     const requete = new XMLHttpRequest()
     requete.open('POST', signatures.url)
@@ -68,20 +56,12 @@ function envoyerUne(
       if (e.lengthComputable) surProgression(e.loaded / e.total)
     }
     requete.onload = () => {
-      try {
-        const reponse = JSON.parse(requete.responseText)
-        if (requete.status === 200 && typeof reponse.secure_url === 'string') {
-          surProgression(1)
-          ok(reponse.secure_url)
-        } else {
-          echec(
-            erreurKeyli(
-              reponse?.error?.message ? `Photo refusée : ${reponse.error.message}` : 'Envoi de la photo impossible',
-            ),
-          )
-        }
-      } catch {
-        echec(erreurKeyli('Envoi de la photo impossible'))
+      const resultat = lireReponseEnvoi(requete.status, requete.responseText)
+      if ('url' in resultat) {
+        surProgression(1)
+        ok(resultat.url)
+      } else {
+        echec(erreurKeyli(resultat.erreur))
       }
     }
     requete.onerror = () => echec(erreurKeyli('Connexion perdue pendant l’envoi des photos'))
@@ -100,12 +80,7 @@ export async function envoyerPhotos(
     if (!f.type.startsWith('image/')) throw erreurKeyli(`« ${f.name} » n’est pas une image`)
   }
 
-  const { data, error } = await supabase.functions.invoke<Signatures>('cloudinary-signature', {
-    body: { nombre: fichiers.length },
-  })
-  if (error || !data?.envois || data.envois.length !== fichiers.length) {
-    throw erreurKeyli('Envoi de photos indisponible pour le moment. Réessayez dans quelques minutes.')
-  }
+  const data = await demanderSignaturesPhotos(fichiers.length)
 
   const parts = fichiers.map(() => 0)
   const signaler = () => surProgression?.(parts.reduce((s, p) => s + p, 0) / parts.length)
