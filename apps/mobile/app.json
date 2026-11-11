@@ -42,6 +42,12 @@
         }
       ],
       [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Keyli utilise Face ID pour déverrouiller l'application, si vous l'activez dans votre profil."
+        }
+      ],
+      [
         "expo-location",
         {
           "locationWhenInUsePermission": "Keyli utilise votre position pour placer votre bien sur la carte quand vous publiez une annonce."

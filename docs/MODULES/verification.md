@@ -38,6 +38,14 @@ Table : `documents_keyli`.
   `document_rejete` avec le motif).
 - Délai de relance admin (`notify-admin-critical`) : toujours non défini.
 
+## Mobile (Sprint 16, 2026-11-11)
+Envoi depuis le téléphone (caméra, galerie ou PDF), écran `Verification` de
+l'application : même hook `useEnvoyerDocument`, même bucket, même file
+d'examen admin. Pièces par rôle et contrôles partagés :
+`src/partage/lib/documents.ts`. La biométrie du téléphone ne sert qu'à
+déverrouiller l'application, jamais à vérifier une identité. Détail :
+`docs/MODULES/mobile.md`, section Sprint 16.
+
 ## Règles
 - [x] Retrait de vérification après coup (fraude) : fonctions admin
       `admin_retirer_verification_compte_keyli` / `_bien_keyli` (2026-10-21)

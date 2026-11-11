@@ -270,6 +270,49 @@ Publier une annonce → photo prise avec la caméra + une de la galerie →
 « Utiliser ma position » → Publier → « Voir mon annonce ». Vérifier aussi le
 refus d'accès à la caméra (message clair) et l'annonce sur le site.
 
+## Sprint 16 — vérification documentaire et verrou biométrique (2026-11-11)
+**Documents** — Profil → « Faire vérifier mon compte » (propriétaire,
+agence), écran `Verification` : mêmes pièces que le web
+(`PIECES_COMPTE` partagé : extrait de naissance + certificat de résidence
+pour un propriétaire, registre pour une agence), puis l'ACD de chaque bien
+non archivé (propriétaire). Pour chaque pièce : statut du dernier envoi,
+motif d'un refus, et envoi par **Photographier** (caméra), **Galerie** ou
+**PDF** (`expo-document-picker`), avec aperçu à confirmer. Photo réduite à
+2 400 px, JPEG 88 % (lisible, loin des 5 Mo). Envoi par le hook partagé
+`useEnvoyerDocument` (même bucket privé, même ligne `pending`), qui accepte
+désormais un `FichierDocument` (format, taille, données) au lieu d'un
+`File` ; contrôles et chemin partagés et testés
+(`src/partage/lib/documents.ts`). **Le contrôle humain reste
+systématique** : rien n'est approuvé automatiquement.
+
+Pas de recadrage forcé : sur iPhone, l'éditeur du sélecteur n'offre qu'un
+cadre carré, qui couperait la pièce. Un vrai scanner de document (détection
+des bords) demanderait un module natif hors Expo Go — à reconsidérer si
+l'équipe reçoit trop de photos illisibles.
+
+**Verrou biométrique** (choix du porteur, 2026-11-11 : verrou à
+l'ouverture) — Profil → « Verrouiller Keyli avec Face ID » (ou Touch ID /
+empreinte, selon le téléphone ; case absente si rien n'est enregistré).
+Activer demande une identification réussie. Ensuite l'application demande
+la biométrie à l'ouverture et après 2 minutes en arrière-plan
+(`VerrouBiometrique.tsx`) ; le code du téléphone est accepté en secours ;
+« Se connecter avec le mot de passe » ferme la session. **Aucun mot de passe
+n'est conservé** : la session reste dans le coffre du téléphone comme avant.
+Le réglage est propre au téléphone et retiré à la déconnexion.
+`expo-local-authentication` ; texte Face ID en français dans `app.json`.
+Face ID ne fonctionne pas dans Expo Go sur iPhone : essai dans la version
+TestFlight.
+
+### Essai sur iPhone (porteur, version TestFlight)
+1. Profil → Faire vérifier mon compte → Photographier une pièce → Envoyer :
+   statut « En cours d'examen » ; le document apparaît dans
+   `/admin/verifications` sur le site.
+2. Refuser ce document depuis le site avec un motif : le motif s'affiche sur
+   le téléphone et l'envoi est de nouveau proposé.
+3. Profil → cocher « Verrouiller Keyli avec Face ID » → fermer complètement
+   l'app puis la rouvrir : Face ID est demandé. Tester aussi l'échec puis
+   « Se connecter avec le mot de passe ».
+
 ## Modules natifs requis
 | Besoin | Module / API | Notes |
 |---|---|---|

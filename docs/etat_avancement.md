@@ -250,6 +250,17 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine (la
   Content-Security-Policy est en place depuis le Sprint 6). Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Sprint 16 — vérification documentaire mobile et verrou biométrique**
+  (2026-11-11, branche `feature/verification-mobile`) — écran
+  `Verification` (Profil, propriétaire et agence) : pièces du compte et ACD
+  par bien, envoi par caméra, galerie ou PDF avec aperçu, statut et motif de
+  refus ; hook partagé `useEnvoyerDocument` généralisé (`FichierDocument`),
+  règles dans `src/partage/lib/documents.ts` (4 tests), web rebranché.
+  Verrou Face ID / empreinte à l'ouverture et après 2 min en arrière-plan
+  (choix du porteur ; aucun mot de passe stocké), activé dans le profil.
+  Modules `expo-local-authentication`, `expo-document-picker`. Aucune table
+  ni migration. **Prochaine étape : nouvelle compilation TestFlight et essai
+  du porteur** (liste dans `docs/MODULES/mobile.md`), puis Sprint 17.
 - **Sprint 15 — publication d'annonce mobile** (2026-11-11, branche
   `feature/publication-mobile`) — écran `PublierAnnonce` (Profil →
   « Publier une annonce », propriétaire et agence) : mêmes schéma, forfait,

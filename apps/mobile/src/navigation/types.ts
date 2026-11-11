@@ -21,6 +21,8 @@ export type ParamsRacine = {
   Alertes: undefined
   // Réservé aux propriétaires et aux agences (Sprint 15)
   PublierAnnonce: undefined
+  // Documents de vérification du compte et ACD des biens (Sprint 16)
+  Verification: undefined
   Compte: NavigatorScreenParams<ParamsCompte>
 }
 
