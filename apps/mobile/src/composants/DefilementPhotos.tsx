@@ -1,24 +1,50 @@
 // Photos de l'écran de bienvenue : trois logements réels en défilement
-// (fondu enchaîné + zoom lent). Choix du porteur (2026-11-09) ; chaque photo
-// est montrée EN ENTIER (2026-11-11) : le cadre occupe l'espace libre entre
-// le logo et le texte, l'image y est contenue sans recadrage, et le zoom va
-// de 96 % vers l'image complète (jamais au-delà). Photos sous licence
-// Unsplash (usage commercial libre) — crédits dans docs/MODULES/mobile.md.
+// (fondu enchaîné + zoom lent). Choix du porteur (2026-11-09).
+// Depuis le 2026-11-11, les photos sont en IMAGE DE FOND plein écran, avec un
+// zoom à mi-chemin (ZOOM = 0,5) entre « photo entière » (trop petite) et
+// « écran rempli » (trop recadrée) : demande du porteur. Un dégradé sombre en
+// bas garde le texte lisible. Photos sous licence Unsplash (usage commercial
+// libre) — crédits dans docs/MODULES/mobile.md.
 // Si le téléphone demande de réduire les animations, le zoom est coupé et
 // seul le fondu reste.
-import { useEffect, useRef } from 'react'
-import { AccessibilityInfo, Animated, Easing, StyleSheet, View, type ViewStyle } from 'react-native'
+import { useEffect, useRef, useState } from 'react'
+import {
+  AccessibilityInfo,
+  Animated,
+  Easing,
+  StyleSheet,
+  View,
+  type LayoutChangeEvent,
+  type ViewStyle,
+} from 'react-native'
+import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg'
+import { couleurs } from '@mobile/theme/tokens'
 
+// Dimensions réelles des fichiers (à mettre à jour si une photo change)
 const PHOTOS = [
-  require('../../assets/bienvenue-1.jpg'), // villa tropicale à l'heure bleue (carrée)
-  require('../../assets/bienvenue-2.jpg'), // duplex éclairé de nuit (carrée)
-  require('../../assets/bienvenue-3.jpg'), // maison à toit-jardin (16:9)
+  { source: require('../../assets/bienvenue-1.jpg'), width: 1200, height: 1200 }, // villa tropicale à l'heure bleue
+  { source: require('../../assets/bienvenue-2.jpg'), width: 1200, height: 1200 }, // duplex éclairé de nuit
+  { source: require('../../assets/bienvenue-3.jpg'), width: 1200, height: 675 }, // maison à toit-jardin (16:9)
 ]
 const DUREE = 6000 // temps d'affichage d'une photo (ms)
 const FONDU = 1400 // durée du fondu enchaîné (ms)
-const DEPART = 0.96 // le zoom part d'un peu plus petit et finit sur l'image entière
+const DEPART = 0.96 // le zoom lent part d'un peu plus petit
+// 0 = photo entière dans l'écran, 1 = écran entièrement rempli (recadré)
+const ZOOM = 0.5
 
 export const NOMBRE_PHOTOS = PHOTOS.length
+
+// Taille d'affichage d'une photo dans un écran largeur × hauteur
+function tailleAffichee(
+  { width, height }: { width: number; height: number },
+  largeur: number,
+  hauteur: number,
+) {
+  const entiere = Math.min(largeur / width, hauteur / height)
+  const remplie = Math.max(largeur / width, hauteur / height)
+  const echelle = entiere + (remplie - entiere) * ZOOM
+  return { width: width * echelle, height: height * echelle }
+}
 
 export function DefilementPhotos({
   onPhoto,
@@ -31,6 +57,7 @@ export function DefilementPhotos({
   const echelles = useRef(PHOTOS.map(() => new Animated.Value(1))).current
   const rappel = useRef(onPhoto)
   rappel.current = onPhoto
+  const [ecran, setEcran] = useState<{ largeur: number; hauteur: number } | null>(null)
 
   useEffect(() => {
     let annule = false
@@ -68,24 +95,57 @@ export function DefilementPhotos({
     }
   }, [opacites, echelles])
 
+  const mesurer = (e: LayoutChangeEvent) => {
+    const { width, height } = e.nativeEvent.layout
+    setEcran({ largeur: width, hauteur: height })
+  }
+
   return (
-    <View style={[styles.cadre, style]} pointerEvents="none">
-      {PHOTOS.map((source, k) => (
-        <Animated.Image
-          key={k}
-          source={source}
-          resizeMode="contain"
-          accessible={false}
-          style={[styles.photo, { opacity: opacites[k], transform: [{ scale: echelles[k] }] }]}
-        />
-      ))}
+    <View style={[styles.cadre, style]} pointerEvents="none" onLayout={mesurer}>
+      {ecran &&
+        PHOTOS.map((photo, k) => {
+          const taille = tailleAffichee(photo, ecran.largeur, ecran.hauteur)
+          return (
+            <Animated.Image
+              key={k}
+              source={photo.source}
+              resizeMode="cover"
+              accessible={false}
+              style={{
+                position: 'absolute',
+                width: taille.width,
+                height: taille.height,
+                // centrée en largeur ; en hauteur, centrée vers 40 % de
+                // l'écran pour rester visible au-dessus du texte
+                left: (ecran.largeur - taille.width) / 2,
+                top:
+                  taille.height >= ecran.hauteur
+                    ? (ecran.hauteur - taille.height) / 2
+                    : Math.max(0, ecran.hauteur * 0.4 - taille.height / 2),
+                opacity: opacites[k],
+                transform: [{ scale: echelles[k] }],
+              }}
+            />
+          )
+        })}
+
+      {/* Dégradé : léger en haut (logo), sombre en bas (texte et boutons) */}
+      <Svg style={StyleSheet.absoluteFill} width="100%" height="100%" preserveAspectRatio="none">
+        <Defs>
+          <LinearGradient id="voile" x1="0" y1="0" x2="0" y2="1">
+            <Stop offset="0" stopColor={couleurs.navyLogo} stopOpacity={0.55} />
+            <Stop offset="0.18" stopColor={couleurs.navyLogo} stopOpacity={0} />
+            <Stop offset="0.42" stopColor={couleurs.navyLogo} stopOpacity={0.15} />
+            <Stop offset="0.62" stopColor={couleurs.navyLogo} stopOpacity={0.85} />
+            <Stop offset="1" stopColor={couleurs.navyLogo} stopOpacity={1} />
+          </LinearGradient>
+        </Defs>
+        <Rect x="0" y="0" width="100%" height="100%" fill="url(#voile)" />
+      </Svg>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  cadre: { overflow: 'hidden' },
-  // Taille explicite : sans elle, l'image peut garder ses 1200 px d'origine
-  // au lieu de s'ajuster au cadre (constaté dans l'aperçu web)
-  photo: { position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' },
+  cadre: { overflow: 'hidden', backgroundColor: couleurs.navyLogo },
 })

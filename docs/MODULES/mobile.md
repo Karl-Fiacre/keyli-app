@@ -220,10 +220,14 @@ obligatoire — crédits conservés ici par correction) :
 2. duplex éclairé de nuit — Naksha Banwao, unsplash.com/photos/3ddHcjHmiGw ;
 3. maison à toit-jardin — Hardik Panchal, unsplash.com/photos/gto28gGSTcY.
 Depuis le 2026-11-11 (porteur : « je veux qu'on voie l'intégralité des
-images »), les photos occupent l'espace libre entre le logo et le texte, sur
-toute la largeur, en `contain` : chaque image est entière, sans recadrage ni
-voile, quelle que soit la taille du téléphone ; le zoom ne dépasse jamais
-l'image complète. La mention « Abidjan · Côte d'Ivoire » a été retirée à la demande
+images »), puis réglage final le même jour (porteur : photos entières
+« trop petites », souhait d'une image de fond avec les mêmes animations) :
+les photos sont en **fond plein écran**, derrière le logo et le texte, avec
+un zoom à mi-chemin (`ZOOM = 0.5` dans `DefilementPhotos.tsx`) entre « photo
+entière » (0) et « écran rempli » (1), centrées vers 40 % de la hauteur, et
+un dégradé navy (react-native-svg) léger en haut, sombre en bas pour le
+texte. Les dimensions des fichiers sont écrites dans le composant (à mettre
+à jour si une photo change). La mention « Abidjan · Côte d'Ivoire » a été retirée à la demande
 du porteur (2026-11-10). À remplacer par des photos de biens réels d'Abidjan
 dès que Keyli en dispose (droits d'usage écrits du propriétaire ou du photographe).
 
