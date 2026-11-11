@@ -74,6 +74,19 @@
       ],
       "cwd": "apps/mobile",
       "port": 8081
+    },
+    {
+      "name": "keyli-mobile-web-8082",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "expo",
+        "start",
+        "--web",
+        "--port",
+        "8082"
+      ],
+      "cwd": "apps/mobile",
+      "port": 8082
     }
   ]
 }

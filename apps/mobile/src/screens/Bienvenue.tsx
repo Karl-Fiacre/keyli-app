@@ -39,12 +39,16 @@ export default function Bienvenue({ onExplorer }: { onExplorer: () => void }) {
   return (
     <View style={styles.ecran}>
       <StatusBar style="light" />
-      <DefilementPhotos onPhoto={setPhoto} />
+
+      {/* Les photos en fond plein écran, derrière le logo et le texte */}
+      <DefilementPhotos onPhoto={setPhoto} style={StyleSheet.absoluteFill} />
 
       <SafeAreaView style={styles.contenu} edges={['top', 'bottom']}>
         <View style={styles.haut}>
           <Logo largeur={150} blanc />
         </View>
+
+        <View style={styles.espace} />
 
         <Animated.View style={[styles.bas, glisse(24)]}>
           <View style={styles.reperes} accessible={false}>
@@ -85,7 +89,8 @@ export default function Bienvenue({ onExplorer }: { onExplorer: () => void }) {
 
 const styles = StyleSheet.create({
   ecran: { flex: 1, backgroundColor: couleurs.navyLogo },
-  contenu: { flex: 1, justifyContent: 'space-between', paddingHorizontal: espaces.xl },
+  contenu: { flex: 1, paddingHorizontal: espaces.xl },
+  espace: { flex: 1 },
   haut: { alignItems: 'center', paddingTop: espaces.m },
   bas: { gap: espaces.l, paddingBottom: espaces.l },
   reperes: { flexDirection: 'row', gap: espaces.s },

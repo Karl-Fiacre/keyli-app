@@ -250,6 +250,14 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine (la
   Content-Security-Policy est en place depuis le Sprint 6). Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Bienvenue : photos entières** (2026-11-11, branche
+  `feature/bienvenue-photos-entieres`, retour du porteur sur iPhone :
+  images trop zoomées) — photos dans l'espace entre logo et texte, en
+  `contain`, photo 3 retéléchargée en 16:9 d'origine, zoom de 96 % vers
+  100 % ; animation et fondus inchangés (validés par le porteur).
+  Réglage final (même jour, « trop petit ») : photos en fond plein écran,
+  zoom à 50 % entre photo entière et écran rempli, dégradé navy pour le
+  texte. Vérifié dans l'aperçu web à 390×844.
 - **iOS : réglages Apple et Codemagic faits, première compilation**
   (2026-11-10) — identifiant `com.keyli.app`, profil « Keyli App Store »,
   app « Keyli » dans App Store Connect, application keyli-app dans
