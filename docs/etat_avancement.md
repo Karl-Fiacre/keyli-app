@@ -258,6 +258,8 @@ concernés :
   Réglage final (même jour, « trop petit ») : photos en fond plein écran,
   zoom à 50 % entre photo entière et écran rempli, dégradé navy pour le
   texte. Vérifié dans l'aperçu web à 390×844.
+  Envoyé sur TestFlight : compilation Codemagic n°4 (main f790982,
+  2026-11-11), « UPLOAD SUCCEEDED ».
 - **iOS : réglages Apple et Codemagic faits, première compilation**
   (2026-11-10) — identifiant `com.keyli.app`, profil « Keyli App Store »,
   app « Keyli » dans App Store Connect, application keyli-app dans
