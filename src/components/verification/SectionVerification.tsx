@@ -1,14 +1,9 @@
 import { VerifiedBadge } from '@/components/VerifiedBadge'
 import { EmplacementDocument } from '@/components/verification/EmplacementDocument'
-import { dernierDocument, useMesDocuments, type TypeDocument } from '@/partage/hooks/useVerification'
+import { dernierDocument, useMesDocuments } from '@/partage/hooks/useVerification'
+// Pièces à fournir selon le rôle : commun avec le mobile
+import { PIECES_COMPTE } from '@/partage/lib/documents'
 
-// Pièces à fournir selon le rôle (docs/MODULES/verification.md) :
-// propriétaire = extrait de naissance + certificat de résidence ;
-// agence = registre de commerce (obligatoire pour publier)
-const PIECES: Record<'owner' | 'agency', TypeDocument[]> = {
-  owner: ['extrait_naissance', 'cert_residence'],
-  agency: ['registre'],
-}
 
 export function SectionVerification({ role, verifie }: { role: 'owner' | 'agency'; verifie: boolean }) {
   const documents = useMesDocuments()
@@ -28,7 +23,7 @@ export function SectionVerification({ role, verifie }: { role: 'owner' | 'agency
         <p className="text-sm text-muted-foreground">Chargement…</p>
       ) : (
         <div className="space-y-3">
-          {PIECES[role].map((type) => (
+          {PIECES_COMPTE[role].map((type) => (
             <EmplacementDocument key={type} type={type} document={dernierDocument(documents.data, type)} />
           ))}
         </div>

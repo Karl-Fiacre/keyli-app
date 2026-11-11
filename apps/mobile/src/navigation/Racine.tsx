@@ -25,6 +25,8 @@ import Inscription from '@mobile/screens/Inscription'
 import MotDePasseOublie from '@mobile/screens/MotDePasseOublie'
 import AcceptationCgu from '@mobile/screens/AcceptationCgu'
 import { Chargement } from '@mobile/composants/base'
+import { EcranVerrou, useVerrouBiometrique } from '@mobile/composants/VerrouBiometrique'
+import Verification from '@mobile/screens/Verification'
 import { couleurs } from '@mobile/theme/tokens'
 import type { ParamsCompte, ParamsOnglets, ParamsRacine } from '@mobile/navigation/types'
 
@@ -99,8 +101,12 @@ export function Racine() {
   // jusqu'à ce qu'il se connecte ou choisisse de découvrir sans compte
   const [explorer, setExplorer] = useState(false)
   const bienvenue = !session && !explorer
+  // Verrou Face ID / empreinte, si la personne l'a activé (Sprint 16)
+  const verrou = useVerrouBiometrique(!!session, chargement)
 
-  if (chargement || (session && profil.isPending)) return <Chargement />
+  if (chargement) return <Chargement />
+  if (session && verrou.verrouille) return <EcranVerrou onDeverrouille={verrou.deverrouiller} />
+  if (session && profil.isPending) return <Chargement />
   if (session && profil.data && profil.data.cgu_version !== VERSION_CGU) {
     return <AcceptationCgu dejaAcceptees={!!profil.data.cgu_version} />
   }
@@ -119,6 +125,7 @@ export function Racine() {
             <Pile.Screen name="Favoris" component={Favoris} options={{ title: 'Mes favoris' }} />
             <Pile.Screen name="Alertes" component={Alertes} options={{ title: 'Mes alertes' }} />
             <Pile.Screen name="PublierAnnonce" component={PublierAnnonce} options={{ title: 'Nouvelle annonce' }} />
+            <Pile.Screen name="Verification" component={Verification} options={{ title: 'Vérification' }} />
           </>
         )}
         {/* Le parcours de compte se referme de lui-même quand la session change
