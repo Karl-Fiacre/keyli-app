@@ -19,6 +19,8 @@ export type ParamsRacine = {
   FicheAnnonce: { id: string; source?: string }
   Favoris: undefined
   Alertes: undefined
+  // Réservé aux propriétaires et aux agences (Sprint 15)
+  PublierAnnonce: undefined
   Compte: NavigatorScreenParams<ParamsCompte>
 }
 

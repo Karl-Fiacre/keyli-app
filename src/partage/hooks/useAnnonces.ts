@@ -2,6 +2,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
 import { useSession } from '@/partage/hooks/useSession'
 import type { Database } from '@/integrations/supabase/types'
+import { erreurKeyli } from '@/partage/lib/erreurs'
+import type { SignaturesPhotos } from '@/partage/lib/photos'
 
 export type TypeBien = Database['public']['Enums']['property_type_keyli']
 export type StatutBien = Database['public']['Enums']['property_status_keyli']
@@ -48,6 +50,19 @@ export function useQuartiers() {
         .sort((a, b) => a.commune.localeCompare(b.commune, 'fr') || a.nom.localeCompare(b.nom, 'fr'))
     },
   })
+}
+
+// Signatures d'envoi de `nombre` photos vers Cloudinary (Edge Function
+// cloudinary-signature) : aucun secret ne passe par le client. Commun au web
+// et au mobile ; chacun envoie ensuite les fichiers à sa façon.
+export async function demanderSignaturesPhotos(nombre: number): Promise<SignaturesPhotos> {
+  const { data, error } = await supabase.functions.invoke<SignaturesPhotos>('cloudinary-signature', {
+    body: { nombre },
+  })
+  if (error || !data?.envois || data.envois.length !== nombre) {
+    throw erreurKeyli('Envoi de photos indisponible pour le moment. Réessayez dans quelques minutes.')
+  }
+  return data
 }
 
 export interface NouvelleAnnonce {
