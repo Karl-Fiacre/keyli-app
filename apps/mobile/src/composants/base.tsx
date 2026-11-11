@@ -114,14 +114,15 @@ export function Bouton({
   )
 }
 
-export function Champ({ libelle, erreur, ...props }: TextInputProps & { libelle: string; erreur?: string }) {
+export function Champ({ libelle, erreur, style, ...props }: TextInputProps & { libelle: string; erreur?: string }) {
   return (
     <View style={styles.groupe}>
       <Text style={styles.libelle}>{libelle}</Text>
       <TextInput
         placeholderTextColor={couleurs.attenue}
         accessibilityLabel={libelle}
-        style={[styles.champ, erreur ? styles.champErreur : null]}
+        // Un style fourni (ex. hauteur d'une zone de texte) s'ajoute au style du champ
+        style={[styles.champ, erreur ? styles.champErreur : null, style]}
         {...props}
       />
       {erreur ? <Text style={styles.erreur}>{erreur}</Text> : null}

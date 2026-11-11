@@ -231,6 +231,45 @@ texte. Les dimensions des fichiers sont écrites dans le composant (à mettre
 du porteur (2026-11-10). À remplacer par des photos de biens réels d'Abidjan
 dès que Keyli en dispose (droits d'usage écrits du propriétaire ou du photographe).
 
+## Sprint 15 — publication d'annonce mobile (2026-11-11)
+Un propriétaire ou une agence publie une annonce complète depuis le
+téléphone : **Profil → « Publier une annonce »** (bouton visible pour ces deux
+rôles seulement), écran `PublierAnnonce`.
+
+- **Mêmes règles que le web** : schéma `schemaAnnonce`, état du forfait
+  `useEtatPublication` (compteur, dépassement, blocage — calculés par la
+  base), accord explicite du dépassement, publication atomique
+  `usePublierAnnonce` → `publier_annonce_keyli` (qui refait tous les
+  contrôles). Rien n'est recalculé sur le téléphone.
+- **Photos (nouveau)** : « Prendre une photo » (caméra) ou « Galerie »
+  (sélection multiple), 1 à 10, la première est la principale (« ← » pour
+  avancer, « × » pour retirer). Au moment de publier : réduction à 2 000 px
+  et JPEG 85 % (`expo-image-manipulator`), puis envoi direct à Cloudinary
+  avec la signature de l'Edge Function `cloudinary-signature`, deux envois
+  à la fois, barre d'avancement. Service : `src/services/native/photos.ts`.
+- **Emplacement** : toucher la carte ou glisser le repère
+  (`react-native-maps`), ou « Utiliser ma position » (`expo-location`,
+  permission pendant l'utilisation seulement). Position exacte jamais
+  montrée aux visiteurs. Aperçu navigateur : position de l'appareil
+  seulement (`SelecteurPosition.web.tsx`).
+- **Partagé avec le web** (`src/partage/lib/photos.ts`, testé) : limites
+  (`MAX_PHOTOS`, `COTE_MAX`, `QUALITE_JPEG`, `TAILLE_MAX_OCTETS`),
+  `dimensionsReduites`, `champsEnvoi`, `lireReponseEnvoi` ; signature :
+  `demanderSignaturesPhotos` (`useAnnonces.ts`). Le web
+  (`src/lib/cloudinary.ts`) utilise les mêmes fonctions.
+- **Modules ajoutés** (inclus dans Expo Go) : `expo-image-picker`,
+  `expo-image-manipulator`, `expo-location`. Textes d'autorisation iOS et
+  Android en français dans `app.json` (obligatoires : sans eux, iOS ferme
+  l'application à l'ouverture de la caméra).
+- **Reste sur le site** : types de chambres d'un hôtel ou d'une auberge,
+  modification et archivage d'une annonce (« Mes annonces »).
+
+### Essai sur iPhone (porteur)
+Avec un compte propriétaire ou agence ayant un forfait actif : Profil →
+Publier une annonce → photo prise avec la caméra + une de la galerie →
+« Utiliser ma position » → Publier → « Voir mon annonce ». Vérifier aussi le
+refus d'accès à la caméra (message clair) et l'annonce sur le site.
+
 ## Modules natifs requis
 | Besoin | Module / API | Notes |
 |---|---|---|

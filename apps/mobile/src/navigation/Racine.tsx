@@ -1,6 +1,6 @@
 // Navigation de l'application : onglets (Accueil, Recherche, Messages,
 // Profil), écran de bienvenue (visiteur non connecté), fiche annonce,
-// favoris, alertes, et parcours de compte ouvert en fenêtre. Comme sur
+// favoris, alertes, publication d'annonce (propriétaire, agence), et parcours de compte ouvert en fenêtre. Comme sur
 // le web, la consultation des annonces est libre ; un compte connecté qui
 // doit accepter les CGU voit d'abord l'écran d'acceptation.
 import { useEffect, useState } from 'react'
@@ -19,6 +19,7 @@ import FicheAnnonce from '@mobile/screens/FicheAnnonce'
 import Bienvenue from '@mobile/screens/Bienvenue'
 import Favoris from '@mobile/screens/Favoris'
 import Alertes from '@mobile/screens/Alertes'
+import PublierAnnonce from '@mobile/screens/PublierAnnonce'
 import Connexion from '@mobile/screens/Connexion'
 import Inscription from '@mobile/screens/Inscription'
 import MotDePasseOublie from '@mobile/screens/MotDePasseOublie'
@@ -117,6 +118,7 @@ export function Racine() {
             <Pile.Screen name="FicheAnnonce" component={FicheAnnonce} options={{ title: 'Annonce' }} />
             <Pile.Screen name="Favoris" component={Favoris} options={{ title: 'Mes favoris' }} />
             <Pile.Screen name="Alertes" component={Alertes} options={{ title: 'Mes alertes' }} />
+            <Pile.Screen name="PublierAnnonce" component={PublierAnnonce} options={{ title: 'Nouvelle annonce' }} />
           </>
         )}
         {/* Le parcours de compte se referme de lui-même quand la session change

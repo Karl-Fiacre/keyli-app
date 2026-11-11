@@ -46,6 +46,9 @@ export default function Profil({ navigation }: Props) {
           <Texte attenue>{LIBELLES_ROLE[p.role_keyli] ?? p.role_keyli}</Texte>
         </Carte>
       ) : null}
+      {p && (p.role_keyli === 'owner' || p.role_keyli === 'agency') ? (
+        <Bouton libelle="Publier une annonce" onPress={() => navigation.navigate('PublierAnnonce')} />
+      ) : null}
       <Bouton libelle="Mes favoris" variante="secondaire" onPress={() => navigation.navigate('Favoris')} />
       <Bouton libelle="Mes alertes" variante="secondaire" onPress={() => navigation.navigate('Alertes')} />
       <Bouton

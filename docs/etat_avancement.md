@@ -250,6 +250,18 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine (la
   Content-Security-Policy est en place depuis le Sprint 6). Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Sprint 15 — publication d'annonce mobile** (2026-11-11, branche
+  `feature/publication-mobile`) — écran `PublierAnnonce` (Profil →
+  « Publier une annonce », propriétaire et agence) : mêmes schéma, forfait,
+  accord de dépassement et RPC `publier_annonce_keyli` que le web ; photos
+  par caméra ou galerie (1 à 10, compression 2 000 px, envoi signé à
+  Cloudinary), emplacement par carte ou position du téléphone. Règles des
+  photos mises en commun (`src/partage/lib/photos.ts`, 8 tests) et
+  réutilisées par le web. Modules `expo-image-picker`,
+  `expo-image-manipulator`, `expo-location` ; autorisations iOS/Android en
+  français. Aucune table ni migration. **Prochaine étape : essai par le
+  porteur sur iPhone** (nouvelle compilation TestFlight), puis Sprint 16
+  (vérification documentaire mobile : scan de pièce, biométrie).
 - **Bienvenue : photos entières** (2026-11-11, branche
   `feature/bienvenue-photos-entieres`, retour du porteur sur iPhone :
   images trop zoomées) — photos dans l'espace entre logo et texte, en

@@ -57,3 +57,10 @@ Navigateur ── adresses ──► publier_annonce_keyli / property_media_keyl
       CLOUDINARY_CLOUD_NAME=… CLOUDINARY_API_KEY=… CLOUDINARY_API_SECRET=…`
 - [x] Edge Function déployée, migration poussée (2026-11-01)
 - [ ] Site redéployé (`npm run deploy`, porteur), test réel de publication
+
+## Mobile (Sprint 15, 2026-11-11)
+Même circuit sur le téléphone (caméra ou galerie → compression
+`expo-image-manipulator` → envoi signé direct à Cloudinary), avec les règles
+communes de `src/partage/lib/photos.ts` (limites, réduction, champs signés,
+lecture des réponses) et `demanderSignaturesPhotos`. Détail :
+`docs/MODULES/mobile.md`, section Sprint 15.
