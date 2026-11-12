@@ -123,6 +123,17 @@ refus d'office des demandes concurrentes, notifications),
 Écritures atomiques : déclencheurs de mise en file (dans la transaction de
 la notification ou du message), `terminer_email_keyli`.
 
+### Notifications push mobiles (2026-11-12, Sprint 17)
+| Traitement | Requête | Index |
+|---|---|---|
+| Mise en file | le destinataire a-t-il un appareil ? | `idx_appareils_push_user` |
+| Tâche chaque minute | existe-t-il un push `en_attente` dû ? | `idx_pushs_sortants_a_envoyer` (partiel) |
+| Lot à envoyer | `prendre_pushs_keyli(50)` — `for update skip locked`, jetons en JSON | idem + `idx_appareils_push_user` |
+| Regroupement des messages | push encore en file pour la conversation | `idx_pushs_sortants_conversation` |
+| Enregistrement / retrait (mobile) | `enregistrer_appareil_push_keyli` (upsert sur le jeton), `delete` de son jeton | clé unique `jeton` |
+Écritures atomiques : déclencheurs de mise en file, `terminer_push_keyli`,
+`retirer_jetons_push_keyli`.
+
 ## Actions sensibles = Edge Function, jamais une écriture client directe
 
 Une écriture Postgres directe depuis le client (même protégée par RLS) ne

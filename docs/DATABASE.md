@@ -1017,6 +1017,33 @@ Migration `20261109120000_acceptation_cgu_keyli.sql` (détail
 Tests : `supabase/tests/acceptation_cgu_keyli.test.sql` (9 tests, 674 au
 total).
 
+## ⚠️ DÉCISIONS ACTÉES (2026-11-12) — notifications push mobiles (Sprint 17)
+Migration `20261118120000_notifications_push_keyli.sql` (détail
+`docs/MODULES/mobile.md`, section Sprint 17). Envoi direct par Apple (APNs)
+et Google (FCM), choix du porteur du 2026-11-11.
+- **`appareils_push_keyli`** (nouvelle) : id, user_id, jeton (UNIQUE, 20 à
+  4 096 caractères), plateforme (`ios` | `android`), environnement
+  (`production` | `sandbox`), created_at, derniere_vue. RLS : lecture et
+  retrait de ses propres appareils ; écriture par
+  `enregistrer_appareil_push_keyli(p_jeton, p_plateforme, p_environnement)`
+  (authenticated ; un jeton repris par un autre compte change de
+  propriétaire). Un compte peut avoir plusieurs téléphones : tous sont
+  notifiés.
+- **`pushs_sortants_keyli`** (nouvelle) : même modèle que
+  `emails_sortants_keyli` (categorie, notification_id, type, property_id,
+  expediteur_id, statut, tentatives, erreur, envoyer_apres, envoye_at,
+  created_at, updated_at). RLS : lecture admin seulement.
+- Fonctions : `notification_par_push_keyli` (mêmes types que les emails,
+  sauf `relance_demarrage`), déclencheurs `file_push_notification_keyli` /
+  `file_push_message_keyli` (seulement si le destinataire a un appareil ;
+  message immédiat, un push par conversation en attente),
+  `prendre_pushs_keyli`, `terminer_push_keyli` (nouvel essai 2, 4, 6, 8 min,
+  abandon à 5), `retirer_jetons_push_keyli` (service_role),
+  `declencher_envoi_pushs_keyli` (pg_cron `keyli-envoi-pushs`, mêmes
+  valeurs Vault que les emails).
+Tests : `supabase/tests/notifications_push_keyli.test.sql` (23 tests, 823
+au total).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-11-02) — emails de notification
 Migration `20261107120000_emails_notifications_keyli.sql` (détail
 `docs/MODULES/emails.md`).
