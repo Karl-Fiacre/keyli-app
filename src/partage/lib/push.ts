@@ -8,6 +8,7 @@ export type DestinationPush =
   | { ecran: 'FicheAnnonce'; id: string }
   | { ecran: 'Verification' }
   | { ecran: 'Abonnement' }
+  | { ecran: 'Retours' }
   | { ecran: 'Profil' }
 
 export function destinationPush(donnees: Record<string, unknown> | null | undefined): DestinationPush {
@@ -21,5 +22,6 @@ export function destinationPush(donnees: Record<string, unknown> | null | undefi
   if (type.startsWith('abonnement_') || type === 'depassement_cycle' || type === 'paiement_echoue') {
     return { ecran: 'Abonnement' }
   }
+  if (type === 'retour_repondu') return { ecran: 'Retours' }
   return { ecran: 'Profil' }
 }

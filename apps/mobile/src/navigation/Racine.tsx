@@ -1,7 +1,7 @@
 // Navigation de l'application : onglets (Accueil, Recherche, Messages,
 // Profil), écran de bienvenue (visiteur non connecté), fiche annonce,
 // favoris, alertes, publication d'annonce (propriétaire, agence),
-// vérification, abonnement, et parcours de compte ouvert en fenêtre. Comme sur
+// vérification, abonnement, retours, et parcours de compte ouvert en fenêtre. Comme sur
 // le web, la consultation des annonces est libre ; un compte connecté qui
 // doit accepter les CGU voit d'abord l'écran d'acceptation.
 import { useEffect, useState } from 'react'
@@ -34,6 +34,7 @@ import { Chargement } from '@mobile/composants/base'
 import { EcranVerrou, useVerrouBiometrique } from '@mobile/composants/VerrouBiometrique'
 import Verification from '@mobile/screens/Verification'
 import Abonnement from '@mobile/screens/Abonnement'
+import Retours from '@mobile/screens/Retours'
 import { useNotificationsPush } from '@mobile/composants/NotificationsPush'
 import { couleurs } from '@mobile/theme/tokens'
 import type { ParamsCompte, ParamsOnglets, ParamsRacine } from '@mobile/navigation/types'
@@ -140,6 +141,7 @@ export function Racine() {
             <Pile.Screen name="PublierAnnonce" component={PublierAnnonce} options={{ title: 'Nouvelle annonce' }} />
             <Pile.Screen name="Verification" component={Verification} options={{ title: 'Vérification' }} />
             <Pile.Screen name="Abonnement" component={Abonnement} options={{ title: 'Abonnement' }} />
+            <Pile.Screen name="Retours" component={Retours} options={{ title: 'Donner mon avis' }} />
           </>
         )}
         {/* Le parcours de compte se referme de lui-même quand la session change

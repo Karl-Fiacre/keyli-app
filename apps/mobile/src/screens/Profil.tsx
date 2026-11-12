@@ -1,5 +1,5 @@
 // Profil — identité du compte, publication et vérification (propriétaire,
-// agence), abonnement (Sprint 17), favoris, alertes, verrou Face ID /
+// agence), abonnement (Sprint 17), favoris, alertes, avis (Sprint 18), verrou Face ID /
 // empreinte (Sprint 16) et déconnexion. La modification du profil se fait sur le site.
 import { useEffect, useState } from 'react'
 import { Linking, Text } from 'react-native'
@@ -77,6 +77,7 @@ export default function Profil({ navigation }: Props) {
       ) : null}
       <Bouton libelle="Mes favoris" variante="secondaire" onPress={() => navigation.navigate('Favoris')} />
       <Bouton libelle="Mes alertes" variante="secondaire" onPress={() => navigation.navigate('Alertes')} />
+      <Bouton libelle="Donner mon avis" variante="secondaire" onPress={() => navigation.navigate('Retours')} />
       <Bouton
         libelle="Gérer mon compte sur le site"
         variante="secondaire"

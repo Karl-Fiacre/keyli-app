@@ -25,6 +25,8 @@ export type ParamsRacine = {
   Verification: undefined
   // Forfait et échéance ; paiement Paystack sur Android seulement (Sprint 17)
   Abonnement: undefined
+  // Retours à l'équipe Keyli et réponses (Sprint 18, bêta)
+  Retours: undefined
   Compte: NavigatorScreenParams<ParamsCompte>
 }
 
