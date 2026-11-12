@@ -359,7 +359,17 @@ Expo Go ne reçoit pas ces push : essai dans la version TestFlight.
    générer une clé privée (JSON).
 4. Poser les secrets des Edge Functions : `APNS_KEY_ID`, `APNS_TEAM_ID`
    (3LVBSNH8Z6), `APNS_CLE_PRIVEE` (contenu du .p8), `APNS_BUNDLE_ID`
-   (com.keyli.app), `FCM_COMPTE_SERVICE` (contenu du JSON).
+   (com.keyli.app), `FCM_COMPTE_SERVICE` (JSON du compte de service,
+   **encodé en base64** depuis PowerShell, qui retire sinon les guillemets :
+   `$b=[Convert]::ToBase64String([IO.File]::ReadAllBytes('…ichier.json'))`
+   puis `npx supabase secrets set FCM_COMPTE_SERVICE=$b`).
+
+Fait le 2026-11-12 : Push Notifications activé sur `com.keyli.app`, clé
+APNs `Keyli APNs` créée, profil « Keyli App Store » régénéré
+(`keyli_app_store_push` dans Codemagic), secrets APNs posés, migration et
+fonction déployées ; projet Firebase `keyli-48de1` (compte nguessan-it),
+`google-services.json` versionné dans `apps/mobile/` (configuration
+publique du client, pas un secret).
 5. `npx supabase db push --linked` puis
    `npx supabase functions deploy envoyer-pushs`.
 

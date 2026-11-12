@@ -9,7 +9,8 @@
 //   APNS_KEY_ID, APNS_TEAM_ID, APNS_CLE_PRIVEE (contenu du .p8),
 //   APNS_BUNDLE_ID (défaut com.keyli.app) ;
 // * Android : Google FCM HTTP v1, jeton OAuth signé RS256 avec le compte de
-//   service Firebase — secret FCM_COMPTE_SERVICE (JSON complet).
+//   service Firebase — secret FCM_COMPTE_SERVICE (JSON complet, ou encodé
+//   en base64).
 // Secrets posés par le porteur ; une plateforme non configurée est
 // signalée comme échec (nouvel essai), sans bloquer l'autre.
 import { clientServeur, json, variable } from '../_shared/commun.ts'
@@ -150,7 +151,12 @@ let jetonFcm: { valeur: string; projet: string; expire: number } | null = null
 
 async function autorisationFcm(): Promise<{ valeur: string; projet: string }> {
   if (jetonFcm && jetonFcm.expire > Date.now()) return jetonFcm
-  const compte = JSON.parse(variable('FCM_COMPTE_SERVICE')) as {
+  // JSON du compte de service, tel quel ou encodé en base64 (PowerShell 5
+  // retire les guillemets d'un JSON passé en argument à npx)
+  const brut = variable('FCM_COMPTE_SERVICE')
+  const compte = JSON.parse(brut.startsWith('{') ? brut : new TextDecoder().decode(
+    Uint8Array.from(atob(brut), (c) => c.charCodeAt(0)),
+  )) as {
     client_email: string
     private_key: string
     project_id: string
