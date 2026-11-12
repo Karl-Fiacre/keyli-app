@@ -18,6 +18,19 @@ export type Database = {
                   Relationships: [
                     
                   ]
+                },"appareils_push_keyli": {
+                  Row: {
+                    "created_at": string,"derniere_vue": string,"environnement": string,"id": string,"jeton": string,"plateforme": string,"user_id": string
+                  }
+                  Insert: {
+                    "created_at"?: string,"derniere_vue"?: string,"environnement"?: string,"id"?: string,"jeton": string,"plateforme": string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"derniere_vue"?: string,"environnement"?: string,"id"?: string,"jeton"?: string,"plateforme"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"audit_logs_keyli": {
                   Row: {
                     "action": string,"admin_id": string,"created_at": string | null,"details": Json | null,"entity_id": string | null,"entity_type": string,"id": string
@@ -480,6 +493,31 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"pushs_sortants_keyli": {
+                  Row: {
+                    "categorie": string,"created_at": string,"envoye_at": string | null,"envoyer_apres": string,"erreur": string | null,"expediteur_id": string | null,"id": string,"notification_id": string | null,"property_id": string | null,"statut": string,"tentatives": number,"type": string | null,"updated_at": string,"user_id": string
+                  }
+                  Insert: {
+                    "categorie": string,"created_at"?: string,"envoye_at"?: string | null,"envoyer_apres"?: string,"erreur"?: string | null,"expediteur_id"?: string | null,"id"?: string,"notification_id"?: string | null,"property_id"?: string | null,"statut"?: string,"tentatives"?: number,"type"?: string | null,"updated_at"?: string,"user_id": string
+                  }
+                  Update: {
+                    "categorie"?: string,"created_at"?: string,"envoye_at"?: string | null,"envoyer_apres"?: string,"erreur"?: string | null,"expediteur_id"?: string | null,"id"?: string,"notification_id"?: string | null,"property_id"?: string | null,"statut"?: string,"tentatives"?: number,"type"?: string | null,"updated_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "pushs_sortants_keyli_notification_id_fkey"
+      columns: ["notification_id"]
+isOneToOne: false
+      referencedRelation: "notifications_keyli"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "pushs_sortants_keyli_property_id_fkey"
+      columns: ["property_id"]
+isOneToOne: false
+      referencedRelation: "properties_keyli"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"quartiers_keyli": {
                   Row: {
                     "commune_id": string,"created_at": string | null,"id": string,"nom": string
@@ -861,6 +899,9 @@ isOneToOne: false
 "declencher_envoi_emails_keyli":
 { Args: Record<PropertyKey, never>; Returns: undefined
                            },
+"declencher_envoi_pushs_keyli":
+{ Args: Record<PropertyKey, never>; Returns: undefined
+                           },
 "declencher_rapprochement_paiements_keyli":
 { Args: Record<PropertyKey, never>; Returns: undefined
                            },
@@ -880,6 +921,9 @@ isOneToOne: false
                            },
 "email_de_service_keyli":
 { Args: { "p_type": string }; Returns: boolean
+                           },
+"enregistrer_appareil_push_keyli":
+{ Args: { "p_environnement"?: string,"p_jeton": string,"p_plateforme": string }; Returns: undefined
                            },
 "envoyer_demande_support_keyli":
 { Args: { "p_email": string,"p_message": string,"p_nom": string,"p_sujet": string }; Returns: undefined
@@ -947,6 +991,9 @@ isOneToOne: false
 "notification_par_email_keyli":
 { Args: { "p_type": string }; Returns: boolean
                            },
+"notification_par_push_keyli":
+{ Args: { "p_type": string }; Returns: boolean
+                           },
 "nuits_completes_keyli":
 { Args: { "p_a": string,"p_chambre": string,"p_de": string,"p_property": string }; Returns: string[]
                            },
@@ -1001,6 +1048,11 @@ isOneToOne: false
               "cree_le": string,"reference": string,"statut": string
             }[]
                            },
+"prendre_pushs_keyli":
+{ Args: { "p_limite"?: number }; Returns: {
+              "appareils": Json,"categorie": string,"contenu": string,"expediteur": string,"expediteur_id": string,"extrait": string,"id": string,"non_lus": number,"property_id": string,"titre": string,"type": string
+            }[]
+                           },
 "publications_periode_keyli":
 { Args: { "p_debut": string,"p_fin": string,"p_owner": string }; Returns: number
                            },
@@ -1028,6 +1080,9 @@ isOneToOne: false
                            },
 "repondre_reservation_keyli":
 { Args: { "p_accepter": boolean,"p_motif"?: string,"p_reservation": string }; Returns: undefined
+                           },
+"retirer_jetons_push_keyli":
+{ Args: { "p_jetons": (string)[] }; Returns: number
                            },
 "suivi_pilote_keyli":
 { Args: Record<PropertyKey, never>; Returns: {
@@ -1058,6 +1113,9 @@ isOneToOne: false
 { Args: { "p_jours"?: number }; Returns: Json
                            },
 "terminer_email_keyli":
+{ Args: { "p_erreur"?: string,"p_id": string,"p_ok": boolean }; Returns: undefined
+                           },
+"terminer_push_keyli":
 { Args: { "p_erreur"?: string,"p_id": string,"p_ok": boolean }; Returns: undefined
                            },
 "traiter_echeances_abonnements_keyli":

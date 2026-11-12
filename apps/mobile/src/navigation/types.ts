@@ -23,6 +23,8 @@ export type ParamsRacine = {
   PublierAnnonce: undefined
   // Documents de vérification du compte et ACD des biens (Sprint 16)
   Verification: undefined
+  // Forfait et échéance ; paiement Paystack sur Android seulement (Sprint 17)
+  Abonnement: undefined
   Compte: NavigatorScreenParams<ParamsCompte>
 }
 

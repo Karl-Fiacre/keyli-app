@@ -313,12 +313,72 @@ TestFlight.
    l'app puis la rouvrir : Face ID est demandé. Tester aussi l'échec puis
    « Se connecter avec le mot de passe ».
 
+## Sprint 17 — abonnement et notifications push (2026-11-12)
+**Abonnement** (choix du porteur, 2026-11-11 : « Android paie, iPhone
+affiche ») — Profil → « Mon abonnement » (propriétaire, agence), écran
+`Abonnement`, mêmes hooks que le web (`useAbonnement`) :
+- forfait actif et échéance, forfait expiré, paiement refusé dans les
+  7 derniers jours (motif), dépassements à régler ;
+- **Android** : liste des forfaits, confirmation d'un changement en cours
+  d'abonnement, paiement Paystack ouvert dans le navigateur intégré
+  (`expo-web-browser`) ; au retour dans l'application,
+  `verify-paystack-payment` confirme le paiement et l'écran se met à jour.
+  Le montant est toujours fixé par la base ;
+- **iPhone** : affichage seul, ni bouton de paiement ni lien d'achat (règle
+  App Store 3.1.1). L'application n'indique pas où payer.
+
+**Notifications push** (choix du porteur : envoi direct par Apple et
+Google) — mêmes événements que les emails (réservations, visites, documents
+et vérification, compte, abonnement et paiement, alertes, retours), plus
+chaque nouveau message (immédiat, regroupé par conversation, écarté s'il est
+lu entre-temps). Base : `appareils_push_keyli`, file
+`pushs_sortants_keyli`, tâche `keyli-envoi-pushs` (`docs/DATABASE.md`).
+Edge Function `envoyer-pushs` : APNs (jeton ES256 signé avec la clé .p8,
+serveur de production ou de test selon l'appareil) et FCM HTTP v1 (jeton
+OAuth signé avec le compte de service) ; jetons refusés (APNs 410 /
+BadDeviceToken, FCM UNREGISTERED) retirés ; données jointes : categorie,
+type, property_id, expediteur_id. Un compte connecté sur plusieurs
+téléphones est notifié sur tous.
+Mobile : `services/native/notifications.ts` (autorisation, canal Android
+« keyli », jeton `getDevicePushTokenAsync`, retrait à la déconnexion),
+`composants/NotificationsPush.tsx` (enregistrement à la connexion ; toucher
+une notification ouvre Messages, Vérification, Abonnement, l'annonce d'une
+alerte ou le Profil — règle partagée et testée `src/partage/lib/push.ts`).
+Expo Go ne reçoit pas ces push : essai dans la version TestFlight.
+
+### À faire par le porteur (dans cet ordre)
+1. Apple Developer → Identifiers → `com.keyli.app` : cocher **Push
+   Notifications** ; régénérer le profil « Keyli App Store », puis
+   « Fetch » dans Codemagic.
+2. Apple Developer → Keys : créer une clé **APNs** (.p8, téléchargeable une
+   seule fois) ; noter son Key ID.
+3. Firebase : créer le projet, ajouter l'application Android
+   `com.keyli.app`, télécharger `google-services.json` (à placer dans
+   `apps/mobile/`, puis `"googleServicesFile": "./google-services.json"`
+   dans `app.json` → `android`) ; Paramètres → Comptes de service :
+   générer une clé privée (JSON).
+4. Poser les secrets des Edge Functions : `APNS_KEY_ID`, `APNS_TEAM_ID`
+   (3LVBSNH8Z6), `APNS_CLE_PRIVEE` (contenu du .p8), `APNS_BUNDLE_ID`
+   (com.keyli.app), `FCM_COMPTE_SERVICE` (contenu du JSON).
+5. `npx supabase db push --linked` puis
+   `npx supabase functions deploy envoyer-pushs`.
+
+### Essai (porteur, version TestFlight)
+1. Se connecter : iOS demande l'autorisation des notifications → Autoriser.
+2. Depuis un autre compte sur le site, envoyer un message : notification
+   « Nouveau message de … » en moins d'une minute ; la toucher ouvre
+   Messages.
+3. Refuser un document depuis `/admin/verifications` : la notification
+   ouvre Vérification.
+4. Se déconnecter puis renvoyer un message : plus de notification.
+5. Profil → Mon abonnement : forfait et échéance, aucun bouton de paiement.
+
 ## Modules natifs requis
 | Besoin | Module / API | Notes |
 |---|---|---|
 | Vérification documentaire (scan pièce) | Caméra native + recadrage | Réutilise la même logique de validation que `validate-property-image` côté serveur |
 | Connexion rapide | Face ID (iOS) / Empreinte (Android) | Remplace uniquement la saisie du mot de passe à la connexion — ne remplace jamais la vérification documentaire admin (voir MODULES/verification.md) |
-| Notifications push | APNs (iOS) / FCM (Android) | Nouveau message, statut de vérification, expiration d'abonnement — mêmes événements que les notifications email existantes, canal différent |
+| Notifications push | APNs (iOS) / FCM (Android) — `expo-notifications`, fait au Sprint 17 | Nouveau message, statut de vérification, expiration d'abonnement — mêmes événements que les notifications email existantes, canal différent |
 | Alertes de proximité | Géolocalisation en arrière-plan | Dépend de PostGIS déjà tranché (voir DATABASE.md) — nécessite une permission de localisation continue, à documenter clairement dans le flux de consentement iOS/Android |
 | Mode hors-ligne | Cache local des annonces consultées | Pas de mécanisme de synchronisation différée prévu en v1 — lecture seule hors-ligne, pas d'écriture en attente de reconnexion |
 

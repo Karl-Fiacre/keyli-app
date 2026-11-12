@@ -1,10 +1,16 @@
 // Navigation de l'application : onglets (Accueil, Recherche, Messages,
 // Profil), écran de bienvenue (visiteur non connecté), fiche annonce,
-// favoris, alertes, publication d'annonce (propriétaire, agence), et parcours de compte ouvert en fenêtre. Comme sur
+// favoris, alertes, publication d'annonce (propriétaire, agence),
+// vérification, abonnement, et parcours de compte ouvert en fenêtre. Comme sur
 // le web, la consultation des annonces est libre ; un compte connecté qui
 // doit accepter les CGU voit d'abord l'écran d'acceptation.
 import { useEffect, useState } from 'react'
-import { NavigationContainer, DefaultTheme, useNavigation } from '@react-navigation/native'
+import {
+  NavigationContainer,
+  DefaultTheme,
+  createNavigationContainerRef,
+  useNavigation,
+} from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Ionicons from '@expo/vector-icons/Ionicons'
@@ -27,12 +33,16 @@ import AcceptationCgu from '@mobile/screens/AcceptationCgu'
 import { Chargement } from '@mobile/composants/base'
 import { EcranVerrou, useVerrouBiometrique } from '@mobile/composants/VerrouBiometrique'
 import Verification from '@mobile/screens/Verification'
+import Abonnement from '@mobile/screens/Abonnement'
+import { useNotificationsPush } from '@mobile/composants/NotificationsPush'
 import { couleurs } from '@mobile/theme/tokens'
 import type { ParamsCompte, ParamsOnglets, ParamsRacine } from '@mobile/navigation/types'
 
 const Pile = createNativeStackNavigator<ParamsRacine>()
 const PileCompte = createNativeStackNavigator<ParamsCompte>()
 const Onglets = createBottomTabNavigator<ParamsOnglets>()
+// Navigation depuis une notification touchée (hors des écrans)
+const navigationRef = createNavigationContainerRef<ParamsRacine>()
 
 const THEME = {
   ...DefaultTheme,
@@ -103,6 +113,9 @@ export function Racine() {
   const bienvenue = !session && !explorer
   // Verrou Face ID / empreinte, si la personne l'a activé (Sprint 16)
   const verrou = useVerrouBiometrique(!!session, chargement)
+  // Notifications push : jeton enregistré à la connexion, écran ouvert au
+  // toucher (Sprint 17)
+  const push = useNotificationsPush(!!session, navigationRef)
 
   if (chargement) return <Chargement />
   if (session && verrou.verrouille) return <EcranVerrou onDeverrouille={verrou.deverrouiller} />
@@ -112,7 +125,7 @@ export function Racine() {
   }
 
   return (
-    <NavigationContainer theme={THEME}>
+    <NavigationContainer ref={navigationRef} theme={THEME} onReady={push.pret}>
       <Pile.Navigator screenOptions={{ headerTintColor: couleurs.primaire, headerBackTitle: 'Retour' }}>
         {bienvenue ? (
           <Pile.Screen name="Bienvenue" options={{ headerShown: false }}>
@@ -126,6 +139,7 @@ export function Racine() {
             <Pile.Screen name="Alertes" component={Alertes} options={{ title: 'Mes alertes' }} />
             <Pile.Screen name="PublierAnnonce" component={PublierAnnonce} options={{ title: 'Nouvelle annonce' }} />
             <Pile.Screen name="Verification" component={Verification} options={{ title: 'Vérification' }} />
+            <Pile.Screen name="Abonnement" component={Abonnement} options={{ title: 'Abonnement' }} />
           </>
         )}
         {/* Le parcours de compte se referme de lui-même quand la session change

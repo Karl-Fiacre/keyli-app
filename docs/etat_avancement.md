@@ -15,7 +15,7 @@ conversation précédente, elle ne persiste pas.
   essayer sur le téléphone ; web terminé jusqu'au Sprint 11-12.
   Le détail par sprint est dans « Blocages / questions en attente » (entrées
   « Sprint N ») et dans `docs/MODULES/`.
-- **Dernière session de travail** : 2026-11-09
+- **Dernière session de travail** : 2026-11-12
 - **Dépôt Git** : dépôt privé
   https://github.com/Karl-Fiacre/keyli-app (`Karl-Fiacre/keyli` = ancien
   pilote, conservé comme référence, ne rien y pousser)
@@ -24,7 +24,7 @@ conversation précédente, elle ne persiste pas.
 - **Site en ligne** : https://keyli-2gc.pages.dev (Cloudflare Pages,
   `npm run deploy` par le porteur)
 - **Base locale** : `npx supabase start` ; tests `npx supabase test db`
-  (44 fichiers, 800 tests au 2026-11-08) ; tests unitaires `npm test` (40)
+  (45 fichiers, 823 tests au 2026-11-12) ; tests unitaires `npm test` (56)
 - **Mobile** : `cd apps/mobile`, `npx expo start --port 8082` (Node 22.13+,
   Expo Go sur le téléphone du porteur) — `docs/MODULES/mobile.md`
 
@@ -250,6 +250,20 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine (la
   Content-Security-Policy est en place depuis le Sprint 6). Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Sprint 17 — abonnement et notifications push mobiles** (2026-11-12,
+  branche `feature/paiement-push-mobile`) — écran `Abonnement` (Profil) :
+  Android choisit et paie le forfait (Paystack dans le navigateur intégré,
+  vérification au retour), iPhone affiche seulement (règle Apple 3.1.1).
+  Push directs Apple + Google : migration
+  `20261118120000_notifications_push_keyli.sql` (`appareils_push_keyli`,
+  file `pushs_sortants_keyli`, tâche `keyli-envoi-pushs`, 23 tests pgTAP),
+  Edge Function `envoyer-pushs`, modules `expo-notifications` et
+  `expo-web-browser`, ouverture de l'écran voulu au toucher
+  (`src/partage/lib/push.ts`, 4 tests). **En attente du porteur** :
+  Push Notifications sur l'identifiant Apple, clé APNs, projet Firebase et
+  `google-services.json`, secrets, `db push` et déploiement de la fonction
+  (liste dans `docs/MODULES/mobile.md`, Sprint 17), puis compilation
+  TestFlight et essai.
 - **Sprint 16 — vérification documentaire mobile et verrou biométrique**
   (2026-11-11, branche `feature/verification-mobile`) — écran
   `Verification` (Profil, propriétaire et agence) : pièces du compte et ACD

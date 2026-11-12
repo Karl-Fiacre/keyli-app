@@ -1,6 +1,6 @@
 // Profil — identité du compte, publication et vérification (propriétaire,
-// agence), favoris, alertes, verrou Face ID / empreinte (Sprint 16) et
-// déconnexion. La modification du profil se fait sur le site.
+// agence), abonnement (Sprint 17), favoris, alertes, verrou Face ID /
+// empreinte (Sprint 16) et déconnexion. La modification du profil se fait sur le site.
 import { useEffect, useState } from 'react'
 import { Linking, Text } from 'react-native'
 import type { CompositeScreenProps } from '@react-navigation/native'
@@ -13,6 +13,7 @@ import { LIBELLES_ROLE } from '@/partage/lib/roles'
 import { messageErreur } from '@/partage/lib/erreurs'
 import { plateforme } from '@/plateforme'
 import { Bouton, CaseACocher, Carte, Chargement, Ecran, Message, Texte, Titre } from '@mobile/composants/base'
+import { desactiverPush } from '@mobile/services/native/notifications'
 import { activerVerrou, authentifier, biometrieDisponible, verrouActive } from '@mobile/services/native/biometrie'
 import { InvitationConnexion } from '@mobile/composants/InvitationConnexion'
 import { couleurs, espaces } from '@mobile/theme/tokens'
@@ -71,6 +72,7 @@ export default function Profil({ navigation }: Props) {
             variante="secondaire"
             onPress={() => navigation.navigate('Verification')}
           />
+          <Bouton libelle="Mon abonnement" variante="secondaire" onPress={() => navigation.navigate('Abonnement')} />
         </>
       ) : null}
       <Bouton libelle="Mes favoris" variante="secondaire" onPress={() => navigation.navigate('Favoris')} />
@@ -95,7 +97,11 @@ export default function Profil({ navigation }: Props) {
           // Le verrou appartient à la personne connectée : il est retiré avec elle
           activerVerrou(false)
           setVerrou(false)
-          deconnexion.mutate()
+          // Ce téléphone ne reçoit plus les notifications du compte (avant
+          // la fin de la session, que la règle d'accès exige)
+          void desactiverPush()
+            .catch((e: unknown) => console.warn('Retrait du jeton push impossible :', e))
+            .finally(() => deconnexion.mutate())
         }}
         chargement={deconnexion.isPending}
       />
