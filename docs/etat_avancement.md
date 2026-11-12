@@ -259,11 +259,14 @@ concernés :
   file `pushs_sortants_keyli`, tâche `keyli-envoi-pushs`, 23 tests pgTAP),
   Edge Function `envoyer-pushs`, modules `expo-notifications` et
   `expo-web-browser`, ouverture de l'écran voulu au toucher
-  (`src/partage/lib/push.ts`, 4 tests). **En attente du porteur** :
-  Push Notifications sur l'identifiant Apple, clé APNs, projet Firebase et
-  `google-services.json`, secrets, `db push` et déploiement de la fonction
-  (liste dans `docs/MODULES/mobile.md`, Sprint 17), puis compilation
-  TestFlight et essai.
+  (`src/partage/lib/push.ts`, 4 tests). Configuration faite le même jour
+  par le porteur : Push Notifications et clé APNs Apple, profil régénéré
+  (`keyli_app_store_push` dans Codemagic), projet Firebase `keyli-48de1`,
+  secrets APNs et FCM posés, migration et fonction déployées. Compilation
+  TestFlight **#5** réussie et envoyée à Apple (Sprints 15 à 17).
+  **Prochaine étape : essai du porteur sur iPhone** (liste dans
+  `docs/MODULES/mobile.md`, Sprint 17), puis Sprint 18 (bêta, dont le flux
+  de compilation Android).
 - **Sprint 16 — vérification documentaire mobile et verrou biométrique**
   (2026-11-11, branche `feature/verification-mobile`) — écran
   `Verification` (Profil, propriétaire et agence) : pièces du compte et ACD
