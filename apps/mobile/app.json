@@ -52,6 +52,13 @@
         {
           "locationWhenInUsePermission": "Keyli utilise votre position pour placer votre bien sur la carte quand vous publiez une annonce."
         }
+      ],
+      "expo-web-browser",
+      [
+        "expo-notifications",
+        {
+          "color": "#1a1f2e"
+        }
       ]
     ],
     "experiments": {
