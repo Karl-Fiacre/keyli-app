@@ -24,7 +24,7 @@ conversation précédente, elle ne persiste pas.
 - **Site en ligne** : https://keyli-2gc.pages.dev (Cloudflare Pages,
   `npm run deploy` par le porteur)
 - **Base locale** : `npx supabase start` ; tests `npx supabase test db`
-  (45 fichiers, 823 tests au 2026-11-12) ; tests unitaires `npm test` (56)
+  (45 fichiers, 823 tests au 2026-11-12) ; tests unitaires `npm test` (60)
 - **Mobile** : `cd apps/mobile`, `npx expo start --port 8082` (Node 22.13+,
   Expo Go sur le téléphone du porteur) — `docs/MODULES/mobile.md`
 
@@ -250,6 +250,17 @@ concernés :
   (retour après paiement Paystack), achat d'un domaine (la
   Content-Security-Policy est en place depuis le Sprint 6). Détail :
   `docs/MODULES/hebergement-securite.md`.
+- **Sprint 18 — bêta** (2026-11-12, branche `feature/beta-mobile`) —
+  écran « Donner mon avis » sur mobile (retours et réponses de l'équipe,
+  version de l'app jointe au message, `src/partage/lib/retours.ts`,
+  3 tests) ; notification « réponse à votre retour » → cet écran ; flux
+  Codemagic `android-play-interne` (AAB signé par la clé `keyli_upload`,
+  piste test interne en brouillon). Choix du porteur : lien public
+  TestFlight, compte Play Console existant. **En attente du porteur** :
+  application Play Console, keystore et compte de service dans Codemagic,
+  premier AAB envoyé à la main, groupe externe TestFlight et relecture
+  bêta (liste dans `docs/MODULES/mobile.md`, « Distribution bêta »), puis
+  une semaine de test par 10 à 15 testeurs.
 - **Sprint 17 — abonnement et notifications push mobiles** (2026-11-12,
   branche `feature/paiement-push-mobile`) — écran `Abonnement` (Profil) :
   Android choisit et paie le forfait (Paystack dans le navigateur intégré,

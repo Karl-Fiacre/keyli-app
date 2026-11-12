@@ -20,6 +20,7 @@ describe('destinationPush', () => {
     expect(destinationPush({ type: 'verification_retiree' })).toEqual({ ecran: 'Verification' })
     expect(destinationPush({ type: 'abonnement_expire' })).toEqual({ ecran: 'Abonnement' })
     expect(destinationPush({ type: 'paiement_echoue' })).toEqual({ ecran: 'Abonnement' })
+    expect(destinationPush({ type: 'retour_repondu' })).toEqual({ ecran: 'Retours' })
   })
   it('ouvre le profil par défaut ou si les données manquent', () => {
     expect(destinationPush({ type: 'compte_reactive' })).toEqual({ ecran: 'Profil' })

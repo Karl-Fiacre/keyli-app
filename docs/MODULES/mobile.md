@@ -343,7 +343,8 @@ Mobile : `services/native/notifications.ts` (autorisation, canal Android
 « keyli », jeton `getDevicePushTokenAsync`, retrait à la déconnexion),
 `composants/NotificationsPush.tsx` (enregistrement à la connexion ; toucher
 une notification ouvre Messages, Vérification, Abonnement, l'annonce d'une
-alerte ou le Profil — règle partagée et testée `src/partage/lib/push.ts`).
+alerte, Donner mon avis (réponse à un retour, depuis le Sprint 18) ou le
+Profil — règle partagée et testée `src/partage/lib/push.ts`).
 Expo Go ne reçoit pas ces push : essai dans la version TestFlight.
 
 ### À faire par le porteur (dans cet ordre)
@@ -410,6 +411,54 @@ Durée cible : une semaine minimum avant de passer aux corrections
 pré-soumission — ne pas raccourcir pour gagner du temps, les retours de
 testeurs réels sont la seule validation avant que les deux stores entrent
 dans la boucle (délai de review hors de notre contrôle une fois soumis).
+
+Choix du porteur (2026-11-12) : **lien public TestFlight** (groupe externe,
+relecture bêta d'Apple) ; compte Google Play Console existant.
+
+**Dans l'application** — Profil → « Donner mon avis » (écran `Retours`) :
+même formulaire, même validation (`schemaRetour`) et mêmes hooks que le web
+(`useRetours`) ; les retours arrivent dans `/admin/retours` et la réponse
+de l'équipe s'affiche dans l'app (notification push → cet écran). La
+version de l'application et du téléphone est ajoutée au message
+(`messageAvecContexte`, `src/partage/lib/retours.ts`, 3 tests) pour situer
+un problème. Module `expo-application`.
+
+**Compilation Android** — flux Codemagic `android-play-interne`
+(`codemagic.yaml`, lancement manuel, Mac M2 de l'offre gratuite) :
+`expo prebuild`, signature par la clé d'envoi `keyli_upload`
+(`apps/mobile/scripts/signature-android.js`, qui fixe aussi le
+`versionCode` : dernier numéro publié + 1), `gradlew bundleRelease`, envoi
+de l'AAB sur la piste **test interne** en brouillon.
+
+### À faire par le porteur — Android
+1. Play Console → Créer une application : nom « Keyli », français,
+   application, gratuite ; accepter les déclarations.
+2. Codemagic → Code signing identities → **Android keystores** →
+   « Generate keystore » : nom de référence **`keyli_upload`**. Puis
+   télécharger ce keystore et le garder en lieu sûr (sa perte bloque les
+   mises à jour, sauf réinitialisation par Google).
+3. Google Cloud (projet relié à la Play Console) : compte de service avec
+   une clé JSON ; Play Console → Utilisateurs et autorisations → inviter
+   l'adresse du compte de service, droits « Publier dans les pistes de
+   test ». Codemagic → Global variables : groupe **`keyli_google_play`**,
+   variable `GCLOUD_SERVICE_ACCOUNT_CREDENTIALS` (contenu du JSON, secrète).
+4. Lancer « Keyli Android → Google Play (test interne) ». **Première
+   fois** : l'envoi à Google échoue (Google exige un premier envoi manuel) ;
+   télécharger l'AAB depuis Codemagic et l'envoyer dans Play Console → Test
+   interne → Créer une version.
+5. Test interne → Testeurs : liste d'emails (comptes Google des testeurs),
+   puis partager le lien d'inscription.
+6. Les compilations suivantes arrivent en brouillon dans le test interne :
+   « Vérifier la version » puis « Déployer ».
+
+### À faire — iPhone (lien public TestFlight)
+1. App Store Connect → Keyli → TestFlight → Informations de test :
+   description de la bêta, email de contact, ce qu'il faut tester.
+2. Groupe externe « Bêta Keyli », ajouter la compilation, envoyer à la
+   relecture bêta d'Apple (souvent sous 24 h), puis activer le **lien
+   public** (limite de testeurs réglable, 15 par exemple).
+3. Partager le lien (WhatsApp, email). Les testeurs installent TestFlight
+   puis Keyli.
 
 ## Soumission stores (Sprint 20)
 - [ ] Icônes déjà prêtes (`keyli_brand_assets/keyli_app_icon_1024.png` pour

@@ -1,6 +1,6 @@
-# Codemagic — compilation iOS de l'application mobile Keyli (apps/mobile)
-# et envoi sur TestFlight, sans Mac (docs/MODULES/mobile.md, section
-# « iOS — TestFlight avec Codemagic »).
+# Codemagic — compilation de l'application mobile Keyli (apps/mobile) :
+# iPhone → TestFlight (docs/MODULES/mobile.md, « iOS — TestFlight avec
+# Codemagic ») et Android → Google Play, test interne (Sprint 18, « Bêta »).
 #
 # Lancement MANUEL depuis Codemagic (pas de déclencheur automatique : les
 # minutes de Mac sont comptées). Aucune clé dans ce fichier :
@@ -8,7 +8,10 @@
 #    compte Apple du porteur, valable pour toutes ses apps (Keyli compris),
 #    ajoutée dans Codemagic par le porteur ;
 #  - groupe de variables « keyli_mobile » : EXPO_PUBLIC_SUPABASE_ANON_KEY
-#    (clé publique anon, saisie par le porteur dans Codemagic).
+#    (clé publique anon, saisie par le porteur dans Codemagic) ;
+#  - Android : clé d'envoi « keyli_upload » (Android keystores, générée dans
+#    Codemagic par le porteur) et groupe « keyli_google_play » :
+#    GCLOUD_SERVICE_ACCOUNT_CREDENTIALS (compte de service Google Play).
 workflows:
   ios-testflight:
     name: Keyli iOS → TestFlight
@@ -34,7 +37,8 @@ workflows:
       xcode: latest
       cocoapods: default
     scripts:
-      - name: Vérifier la configuration publique
+      - &configuration_publique
+        name: Vérifier la configuration publique
         script: |
           if [ -z "$EXPO_PUBLIC_SUPABASE_ANON_KEY" ]; then
             echo "EXPO_PUBLIC_SUPABASE_ANON_KEY manquante : l'ajouter au groupe keyli_mobile dans Codemagic."
@@ -82,3 +86,50 @@ workflows:
         # dès qu'Apple a traité la compilation, sans relecture d'Apple.
         # Passer à true seulement pour des testeurs externes (relecture Apple).
         submit_to_testflight: false
+
+  android-play-interne:
+    name: Keyli Android → Google Play (test interne)
+    max_build_duration: 60
+    # Mac M2 : seules machines comprises dans l'offre gratuite
+    instance_type: mac_mini_m2
+    working_directory: apps/mobile
+    environment:
+      groups:
+        - keyli_mobile
+        - keyli_google_play
+      android_signing:
+        - keyli_upload
+      vars:
+        EXPO_PUBLIC_SUPABASE_URL: https://zcqirdowjussoaevqlbd.supabase.co
+        EXPO_PUBLIC_KEYLI_SITE_URL: https://keyli-2gc.pages.dev
+        PACKAGE_NAME: com.keyli.app
+      node: 22.14.0
+      java: 17
+    scripts:
+      - *configuration_publique
+      - name: Installer les dépendances
+        script: npm ci
+      - name: Contrôler les types
+        script: npm run typecheck
+      - name: Générer le projet Android natif
+        script: npx expo prebuild --platform android --no-install
+      - name: Signature et numéro de version
+        script: |
+          # Google refuse un numéro déjà envoyé : dernier numéro publié + 1
+          # (première compilation : compteur de Codemagic)
+          DERNIER=$(google-play get-latest-build-number --package-name "$PACKAGE_NAME" 2>/dev/null || echo 0)
+          VERSION_CODE=$(( DERNIER > BUILD_NUMBER ? DERNIER + 1 : BUILD_NUMBER ))
+          node scripts/signature-android.js "$VERSION_CODE"
+      - name: Compiler l'AAB
+        script: cd android && ./gradlew bundleRelease
+    artifacts:
+      - android/app/build/outputs/bundle/release/*.aab
+    publishing:
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal
+        # Application encore en brouillon chez Google : la version arrive
+        # en brouillon, le porteur la déploie aux testeurs depuis la Play
+        # Console. La TOUTE PREMIÈRE version doit être envoyée à la main
+        # (exigence de Google) : télécharger l'AAB depuis Codemagic.
+        submit_as_draft: true
