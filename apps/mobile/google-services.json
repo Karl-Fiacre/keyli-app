@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "639621416421",
+    "project_id": "keyli-48de1",
+    "storage_bucket": "keyli-48de1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639621416421:android:8db4221230a7cba0871b0c",
+        "android_client_info": {
+          "package_name": "com.keyli.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_ECqnVtibSz2AVZZKjLboRYX67r5KuWM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

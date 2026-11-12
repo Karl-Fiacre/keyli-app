@@ -25,7 +25,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/icone-adaptative.png",
         "backgroundColor": "#1a1f2e"
-      }
+      },
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro"
