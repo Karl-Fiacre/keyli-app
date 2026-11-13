@@ -440,7 +440,8 @@ de l'AAB sur la piste **test interne** en brouillon.
 3. Google Cloud (projet relié à la Play Console) : compte de service avec
    une clé JSON ; Play Console → Utilisateurs et autorisations → inviter
    l'adresse du compte de service, droits « Publier dans les pistes de
-   test ». Codemagic → Global variables : groupe **`keyli_google_play`**,
+   test ». Codemagic → application keyli-app → Environment variables (les
+   variables globales sont réservées aux équipes) : groupe **`keyli_google_play`**,
    variable `GCLOUD_SERVICE_ACCOUNT_CREDENTIALS` (contenu du JSON, secrète).
 4. Lancer « Keyli Android → Google Play (test interne) ». **Première
    fois** : l'envoi à Google échoue (Google exige un premier envoi manuel) ;
