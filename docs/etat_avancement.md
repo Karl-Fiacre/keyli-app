@@ -256,11 +256,24 @@ concernés :
   3 tests) ; notification « réponse à votre retour » → cet écran ; flux
   Codemagic `android-play-interne` (AAB signé par la clé `keyli_upload`,
   piste test interne en brouillon). Choix du porteur : lien public
-  TestFlight, compte Play Console existant. **En attente du porteur** :
-  application Play Console, keystore et compte de service dans Codemagic,
-  premier AAB envoyé à la main, groupe externe TestFlight et relecture
-  bêta (liste dans `docs/MODULES/mobile.md`, « Distribution bêta »), puis
-  une semaine de test par 10 à 15 testeurs.
+  TestFlight, compte Play Console existant.
+  **Android en test interne le 2026-11-13** : application Keyli
+  (`com.keyli.app`) créée dans le compte Play NAËLLYS EXPRESS (transfert
+  vers un compte Nguessan-IT prévu plus tard) ; clé d'envoi `keyli_upload`
+  (Codemagic, compte personnel, propre à Keyli) ; compte de service
+  `codemagic-play@keyli-48de1.iam.gserviceaccount.com` (projet Google Cloud
+  `keyli-48de1`, aucun rôle Cloud ; dans la Play Console : Keyli seulement,
+  lecture seule + « Déployer sur des canaux de test », aucun droit de
+  production) ; API Google Play Android Developer activée. Les variables
+  globales Codemagic étant réservées aux équipes, le groupe
+  `keyli_google_play` (`GCLOUD_SERVICE_ACCOUNT_CREDENTIALS`) est dans les
+  variables de l'application keyli-app, comme `keyli_mobile`. Version
+  **0.1.0 (1)** publiée en test interne pour la liste « Testeurs Keyli »
+  (le porteur et son frère). **Reste** : essai Android par le porteur
+  (paiement Paystack, push Google, caméra — jamais essayés sur un vrai
+  téléphone), compilation TestFlight n° 6 (« Donner mon avis »), groupe
+  externe TestFlight et relecture bêta (`docs/MODULES/mobile.md`,
+  « Distribution bêta »), puis une semaine de test par 10 à 15 testeurs.
 - **Sprint 17 — abonnement et notifications push mobiles** (2026-11-12,
   branche `feature/paiement-push-mobile`) — écran `Abonnement` (Profil) :
   Android choisit et paie le forfait (Paystack dans le navigateur intégré,
