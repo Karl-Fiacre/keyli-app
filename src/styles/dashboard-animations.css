@@ -190,6 +190,21 @@
     filter 900ms var(--kf-ease-cinema);
 }
 
+/* Panneau de photos des pages de connexion (PanneauPhotos.tsx, 2026-11-14) :
+   fondu enchaîné de 1,4 s et zoom lent sur la photo affichée, comme l'écran
+   de bienvenue de l'application mobile */
+@keyframes kf-zoom-lent {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+.kf-defile {
+  transition: opacity 1400ms ease-in-out;
+}
+.kf-defile-active {
+  opacity: 1;
+  animation: kf-zoom-lent 8800ms var(--kf-ease-cinema) forwards;
+}
+
 /* Cœur favori — petit battement à l'ajout, 250 ms */
 @keyframes kf-battement {
   0% { transform: scale(1); }
@@ -212,7 +227,8 @@
   .kf-trace,
   .kf-donut,
   .kf-barre,
-  .kf-glisse-gauche {
+  .kf-glisse-gauche,
+  .kf-defile-active {
     animation: none !important;
   }
   .kf-trace {
