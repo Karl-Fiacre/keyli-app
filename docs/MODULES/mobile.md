@@ -384,6 +384,28 @@ publique du client, pas un secret).
 4. Se déconnecter puis renvoyer un message : plus de notification.
 5. Profil → Mon abonnement : forfait et échéance, aucun bouton de paiement.
 
+## Retours du porteur sur la bêta (2026-11-13)
+
+- **Accueil** : en-tête fixe (logo à gauche, bouton « Rechercher un
+  logement » à droite), titre et présentation défilent avec le catalogue.
+- **Carte** (`CarteAnnonces.tsx`) : pastilles de prix vues de loin ; en
+  dessous de `ZOOM_APERCU` (0,08° de hauteur de carte, environ l'échelle
+  d'une commune), chaque annonce s'affiche en aperçu photo avec son prix.
+  Android : le marqueur se redessine 1,5 s (chargement de la photo) puis se
+  fige (`tracksViewChanges`). Non visible dans l'aperçu navigateur
+  (react-native-maps n'existe que sur téléphone) : à essayer sur le
+  téléphone.
+- **Photos** : correction automatique à l'affichage (`docs/MODULES/photos.md`).
+- **Messagerie** : contact de l'annonceur et conversations dans
+  l'application (`docs/MODULES/messagerie.md`).
+- **Recherche « Autour de moi »** (2026-11-14) : `FiltreAutour.tsx` sous le
+  titre de la recherche, rayons 1/3/5/10 km, distance arrondie sur les
+  cartes d'annonce, cercle du rayon sur la carte
+  (`docs/MODULES/geolocalisation.md`).
+- **Barre d'onglets aux couleurs Keyli en relief** (essai, 2026-11-14) :
+  `BarreOnglets.tsx`, fond bleu nuit, onglet actif dans une bulle turquoise
+  surélevée. Retour à l'ancienne barre : `STYLE_BARRE = 'classique'`.
+
 ## Modules natifs requis
 | Besoin | Module / API | Notes |
 |---|---|---|

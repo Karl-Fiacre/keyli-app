@@ -40,6 +40,14 @@ ensuite réponse seulement à quelqu'un qui nous a déjà écrit sur ce bien
   filet de sécurité.
 - Pages `/messages` et `/messages/:bien/:interlocuteur` (liste + fil côte à
   côte ; l'un ou l'autre sur mobile), pastille des non-lus dans l'en-tête.
+- **Application mobile** (2026-11-13) : tout se passe dans l'application,
+  plus aucun renvoi vers le site — formulaire de premier message sur la
+  fiche (`ContactAnnonceur`, `useContacterAnnonceur`), onglet Messages
+  (liste, `useConversations`, pastille turquoise des non-lus sur l'onglet),
+  écran `Conversation` (fil, réponse, marquage « lu », lien vers l'annonce).
+  Mêmes hooks que le web (`src/partage/hooks/useMessagerie.ts`), temps réel
+  monté dans la navigation à onglets. Pas encore sur mobile : le panneau de
+  demande de visite du fil (`PanneauVisite` du web).
 
 ## Règles
 - [x] `read` passe à `true` uniquement à l'ouverture réelle du fil par le

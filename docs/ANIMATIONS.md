@@ -106,6 +106,7 @@ des classes vers un nouveau composant sans vérifier qu'elle suit.
 8. Cloche de notification — une oscillation courte à la réception
 9. LeadCard / RecommendationCard — hover translateY(-2px) + ombre
 10. Boutons — scale(0.97) au clic
+11. Panneau de photos de la connexion (`PanneauPhotos.tsx`, 2026-11-14) — fondu enchaîné 1,4 s toutes les 6 s + zoom lent 1→1,08 (`kf-defile`, `kf-zoom-lent`) ; mouvements réduits : fondu seul
 
 ## Règles Claude Code
 1. Importer les classes depuis `src/styles/dashboard-animations.css` — ne

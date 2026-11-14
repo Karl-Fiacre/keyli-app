@@ -62,6 +62,7 @@ atteint son volume cible (500 biens).
 |---|---|---|
 | Fiche — calendrier | `nuits_completes_keyli(annonce, chambre, début, fin)` (≤ 400 jours) | `idx_reservations_occupation` (partiel `acceptee`) |
 | Fiche — devis | `devis_sejour_keyli(...)` | idem |
+| Recherche par rayon (« Autour de moi », 2026-11-14) | `rechercher_annonces_keyli(p_lat, p_lng, p_rayon_km)` → `annonces_autour_keyli` : `ST_DWithin` sur `geolocation` (présélection, + 700 m) puis filtre et distance sur la position approximative | `idx_properties_geolocation` (GiST) — créé |
 | Recherche par dates | `rechercher_annonces_keyli(p_arrivee, p_depart, p_voyageurs)` — disponibilité via `occupation_sejour_keyli` (voit toutes les réservations acceptées, renvoie des nombres ; 2026-11-08) | `idx_properties_sejour`, `idx_reservations_occupation`, `idx_types_chambres_property` |
 | Mes séjours | `reservations_keyli` où `voyageur_id = moi`, tri arrivée | `idx_reservations_voyageur` |
 | Demandes reçues | `reservations_keyli` où `owner_id = moi` | `idx_reservations_hote` |

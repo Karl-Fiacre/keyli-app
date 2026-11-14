@@ -31,8 +31,20 @@ Navigateur ── adresses ──► publier_annonce_keyli / property_media_keyl
 - **Navigateur** (`src/lib/cloudinary.ts`) : compression avant envoi (côté
   le plus long 2000 px, JPEG qualité 0,85 — souvent 4-8 Mo → moins de 1 Mo,
   important sur les réseaux mobiles), trois envois en parallèle, barre de
-  progression. Affichage via `urlPhoto()` : `f_auto,q_auto` + recadrage à la
-  taille utile (vignettes 160-640 px, galerie 640/1280 px).
+  progression. Affichage via `urlPhoto()` : correction automatique, puis
+  `f_auto,q_auto` + recadrage à la taille utile (vignettes 160-640 px,
+  galerie 640/1280 px).
+- **Correction automatique des photos** (décision du porteur, 2026-11-13) :
+  `CORRECTION_PHOTO` = `e_improve/e_sharpen:80`, ajoutée par `urlPhoto()`
+  (`src/partage/lib/photos.ts`, donc web ET mobile) devant chaque photo
+  Cloudinary. `e_improve` rééquilibre lumière, contraste et couleurs
+  (débouche les zones d'ombre, ravive une photo terne) ; `e_sharpen:80`
+  redonne du piqué à une photo un peu floue. Appliquée à l'affichage : la
+  photo d'origine de l'annonceur reste intacte dans Cloudinary, le réglage
+  peut être changé ou retiré sans renvoyer aucune photo. Une adresse hors
+  Cloudinary n'est pas modifiée. Coût : chaque taille affichée est une
+  transformation Cloudinary de plus (calculée une fois, puis en cache) —
+  surveiller le quota de l'offre gratuite.
 - Écrans : `GrillePhotos` (choix, ordre, retrait), `GestionPhotos` (Mes
   annonces), `GaleriePhotos` (fiche d'annonce : grande photo, flèches,
   vignettes).

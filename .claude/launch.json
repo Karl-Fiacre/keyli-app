@@ -76,6 +76,19 @@
       "port": 8081
     },
     {
+      "name": "keyli-mobile-web-node26",
+      "runtimeExecutable": "C:\\Program Files\\nodejs\\node.exe",
+      "runtimeArgs": [
+        "node_modules/expo/bin/cli",
+        "start",
+        "--web",
+        "--port",
+        "8081"
+      ],
+      "cwd": "apps/mobile",
+      "port": 8081
+    },
+    {
       "name": "keyli-mobile-web-8082",
       "runtimeExecutable": "npx",
       "runtimeArgs": [
