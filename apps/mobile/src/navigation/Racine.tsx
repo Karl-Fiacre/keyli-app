@@ -16,10 +16,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useSession } from '@/partage/hooks/useSession'
 import { useProfil } from '@/partage/hooks/useProfil'
+import { useMessagesNonLus, useMessagesTempsReel } from '@/partage/hooks/useMessagerie'
 import { VERSION_CGU } from '@/partage/lib/juridique'
 import Accueil from '@mobile/screens/Accueil'
 import Recherche from '@mobile/screens/Recherche'
 import Messages from '@mobile/screens/Messages'
+import Conversation from '@mobile/screens/Conversation'
 import Profil from '@mobile/screens/Profil'
 import FicheAnnonce from '@mobile/screens/FicheAnnonce'
 import Bienvenue from '@mobile/screens/Bienvenue'
@@ -36,6 +38,7 @@ import Verification from '@mobile/screens/Verification'
 import Abonnement from '@mobile/screens/Abonnement'
 import Retours from '@mobile/screens/Retours'
 import { useNotificationsPush } from '@mobile/composants/NotificationsPush'
+import { optionsBarre } from '@mobile/composants/BarreOnglets'
 import { couleurs } from '@mobile/theme/tokens'
 import type { ParamsCompte, ParamsOnglets, ParamsRacine } from '@mobile/navigation/types'
 
@@ -65,20 +68,27 @@ const ICONES: Record<keyof ParamsOnglets, [keyof typeof Ionicons.glyphMap, keyof
 }
 
 function NavigationOnglets() {
+  // Messagerie : rafraîchie en temps réel, pastille des messages non lus
+  useMessagesTempsReel()
+  const nonLus = useMessagesNonLus().data ?? 0
   return (
     <Onglets.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarActiveTintColor: couleurs.primaire,
-        tabBarInactiveTintColor: couleurs.attenue,
-        tabBarIcon: ({ focused, color, size }) => (
-          <Ionicons name={ICONES[route.name][focused ? 0 : 1]} color={color} size={size} />
-        ),
+        // Style de la barre (Keyli 3D ou classique) : composants/BarreOnglets.tsx
+        ...optionsBarre(ICONES[route.name]),
       })}
     >
       <Onglets.Screen name="Accueil" component={Accueil} />
       <Onglets.Screen name="Recherche" component={Recherche} />
-      <Onglets.Screen name="Messages" component={Messages} />
+      <Onglets.Screen
+        name="Messages"
+        component={Messages}
+        options={{
+          tabBarBadge: nonLus > 0 ? (nonLus > 99 ? '99+' : nonLus) : undefined,
+          tabBarBadgeStyle: { backgroundColor: couleurs.turquoise, color: couleurs.surPrimaire, fontSize: 11 },
+        }}
+      />
       <Onglets.Screen name="Profil" component={Profil} />
     </Onglets.Navigator>
   )
@@ -136,6 +146,7 @@ export function Racine() {
           <>
             <Pile.Screen name="Onglets" component={NavigationOnglets} options={{ headerShown: false }} />
             <Pile.Screen name="FicheAnnonce" component={FicheAnnonce} options={{ title: 'Annonce' }} />
+            <Pile.Screen name="Conversation" component={Conversation} options={{ title: 'Conversation' }} />
             <Pile.Screen name="Favoris" component={Favoris} options={{ title: 'Mes favoris' }} />
             <Pile.Screen name="Alertes" component={Alertes} options={{ title: 'Mes alertes' }} />
             <Pile.Screen name="PublierAnnonce" component={PublierAnnonce} options={{ title: 'Nouvelle annonce' }} />
