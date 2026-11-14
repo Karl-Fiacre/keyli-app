@@ -15,7 +15,7 @@ conversation précédente, elle ne persiste pas.
   essayer sur le téléphone ; web terminé jusqu'au Sprint 11-12.
   Le détail par sprint est dans « Blocages / questions en attente » (entrées
   « Sprint N ») et dans `docs/MODULES/`.
-- **Dernière session de travail** : 2026-11-12
+- **Dernière session de travail** : 2026-11-13/14 (captures Google Play et retours bêta mobile)
 - **Dépôt Git** : dépôt privé
   https://github.com/Karl-Fiacre/keyli-app (`Karl-Fiacre/keyli` = ancien
   pilote, conservé comme référence, ne rien y pousser)
@@ -964,6 +964,61 @@ concernés :
   échouant sur l'arbre de dépendances).
 
 ---
+
+### Session du 2026-11-13/14 — captures Google Play et retours bêta mobile
+- **Captures Google Play** : 7 captures 1080 × 1920 dans
+  `apps/mobile/fiche-store/captures/` (bienvenue, accueil, fiche vérifiée,
+  recherche, petits budgets, filtres, fiche studio), faites sur l'aperçu
+  navigateur de l'app (Chrome sans fenêtre à 360 × 640, densité 3).
+  L'émulateur Android ne tourne pas sur ce PC (8 Go de RAM, disque C:
+  saturé — caches npm, Gradle et temporaires vidés, ~7 Go libérés).
+  Expo SDK 58 exige Node 22.13+ : configuration `keyli-mobile-web-node26`
+  ajoutée à `.claude/launch.json` (Node 26 de `C:\Program Files\nodejs`,
+  nvm n'a que Node 20).
+- **⚠️ Annonces FICTIVES en ligne** (demande du porteur, pour les captures) :
+  8 annonces du compte propriétaire « Test »
+  (`eff2f7a4-abdf-4ee1-88d4-bd8f76dfb87f`) dans la base distante, photos
+  Pexels, insérées en `session_replication_role = replica` (aucun
+  déclencheur : ni alerte, ni facturation, ni email). Le porteur a demandé
+  de les GARDER pour l'instant (essais d'affichage). **À supprimer ensuite**
+  (`delete from properties_keyli where owner_id = 'eff2f7a4-…'`, médias en
+  cascade ; vérifier aussi messages, interactions et favoris liés — le
+  porteur a écrit à l'une d'elles le 13/11).
+- **Retours du porteur sur la bêta** (branche
+  `feature/mobile-entete-carte-photos-contact`) :
+  1. Accueil : en-tête fixe logo + bouton « Rechercher un logement » ;
+  2. Carte : aperçu photo des logements en vue rapprochée (`ZOOM_APERCU`) ;
+  3. Correction automatique des photos à l'affichage
+     (`CORRECTION_PHOTO` = `e_improve/e_sharpen:80` dans `urlPhoto`, web et
+     mobile ; tests mis à jour) ;
+  4. Messagerie entièrement dans l'app : contact sur la fiche, onglet
+     Messages, écran Conversation, pastille non lus — plus de renvoi au site.
+  Détail : `docs/MODULES/mobile.md`, `photos.md`, `messagerie.md`.
+  5. **Recherche « Autour de moi »** (promesse produit) : décisions du
+     porteur — rayons 1/3/5/10 km, 5 par défaut ; le rayon remplace commune
+     et quartier ; distance arrondie « à environ X km » calculée sur la
+     position approximative ; web ET mobile. Migration
+     `20261119120000_recherche_rayon_keyli.sql` + tests pgTAP (essayés sur
+     la base distante dans des transactions annulées : 9/9). **En ligne le
+     2026-11-14** (mise en ligne par le porteur), types régénérés depuis la
+     base distante (`gen types --linked`, d'où une mise en forme différente
+     du fichier). Essai réel : depuis le Plateau à 5 km, l'appartement de
+     Marcory « à environ 4,5 km ». Détail : `docs/MODULES/geolocalisation.md`.
+  6. **Barre d'onglets Keyli en relief** (essai) : `BarreOnglets.tsx`,
+     retour possible par `STYLE_BARRE = 'classique'`.
+  7. **Site web, pages de connexion et d'inscription** : panneau de photos à gauche sur grand
+     écran (`PanneauPhotos.tsx`), les trois photos de l'écran de bienvenue
+     mobile, en fondu enchaîné avec un zoom lent (`kf-defile`, mouvements
+     réduits respectés) ; masqué sur petit écran (le formulaire d'abord). Sur
+     l'inscription (formulaire long), le panneau reste fixe au défilement.
+- Vérifié : types mobile et web, 59 tests, lint, `npm run build`,
+  `expo export --platform android` ; accueil, Messages, Conversation et
+  formulaire de contact essayés dans l'aperçu navigateur (compte du
+  porteur). **Non vérifiable dans le navigateur** : la carte (aperçu photo)
+  — à essayer sur le téléphone.
+- Prochaine étape : essai sur téléphone, demande de visite dans le fil
+  mobile (`PanneauVisite` du web), suppression des annonces fictives,
+  nouvelle compilation bêta.
 
 ## Modèle à copier pour chaque nouvelle entrée de session
 

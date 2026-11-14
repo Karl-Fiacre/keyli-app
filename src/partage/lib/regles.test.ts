@@ -21,7 +21,13 @@ import {
   pluriel,
   premierDuMois,
 } from '@/partage/lib/sejour'
-import { etatBoutonAlerte, filtresDepuisAlerte, rechercheDepuisAlerte } from '@/partage/lib/recherche'
+import {
+  etatBoutonAlerte,
+  filtresDepuisAlerte,
+  libelleDistance,
+  nombreFiltresActifs,
+  rechercheDepuisAlerte,
+} from '@/partage/lib/recherche'
 import { publicationPossible } from '@/partage/lib/publication'
 import { cheminConversation } from '@/partage/lib/messagerie'
 import { motifRefus, LIBELLES_TENTATIVE } from '@/partage/lib/paiements'
@@ -193,14 +199,35 @@ describe('messages d’erreur', () => {
 
 describe('photos', () => {
   const source = 'https://res.cloudinary.com/djizi4dod/image/upload/keyli/annonces/u/p.jpg'
-  it('réduit une photo Cloudinary, avec ou sans recadrage', () => {
+  it('corrige et réduit une photo Cloudinary, avec ou sans recadrage', () => {
     expect(urlPhoto(source, 640)).toBe(
-      'https://res.cloudinary.com/djizi4dod/image/upload/f_auto,q_auto,c_limit,w_640/keyli/annonces/u/p.jpg',
+      'https://res.cloudinary.com/djizi4dod/image/upload/e_improve/e_sharpen:80/f_auto,q_auto,c_limit,w_640/keyli/annonces/u/p.jpg',
     )
-    expect(urlPhoto(source, 640, 480)).toContain('/image/upload/f_auto,q_auto,c_fill,g_auto,w_640,h_480/')
+    expect(urlPhoto(source, 640, 480)).toContain(
+      '/image/upload/e_improve/e_sharpen:80/f_auto,q_auto,c_fill,g_auto,w_640,h_480/',
+    )
   })
   it('rend toute autre adresse telle quelle, et rien sans adresse', () => {
     expect(urlPhoto('https://exemple.ci/p.jpg', 640)).toBe('https://exemple.ci/p.jpg')
     expect(urlPhoto(null, 640)).toBeUndefined()
+  })
+})
+
+describe('recherche par rayon', () => {
+  it('affiche une distance approximative, au demi-kilomètre près', () => {
+    expect(libelleDistance(2)).toBe('à environ 2 km')
+    expect(libelleDistance(4.5)).toBe('à environ 4,5 km')
+    expect(libelleDistance(0.2)).toBe('à environ 0,5 km')
+    expect(libelleDistance(3.3)).toBe('à environ 3,5 km')
+  })
+  it("n'affiche rien sans distance", () => {
+    expect(libelleDistance(null)).toBeNull()
+    expect(libelleDistance(undefined)).toBeNull()
+  })
+  it('compte le rayon parmi les filtres actifs', () => {
+    expect(nombreFiltresActifs({ avantages: [], tri: 'pertinence', page: 1 })).toBe(0)
+    expect(
+      nombreFiltresActifs({ avantages: [], tri: 'pertinence', page: 1, autour: { lat: 5.36, lng: -4, rayonKm: 5 } }),
+    ).toBe(1)
   })
 })

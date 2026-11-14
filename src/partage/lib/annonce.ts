@@ -15,4 +15,7 @@ export interface ResumeAnnonce {
   image: string | null
   verifiee: boolean
   sejour_court?: boolean
+  // Recherche par rayon : distance arrondie au demi-kilomètre, calculée par
+  // la base sur la position approximative
+  distance_km?: number | null
 }

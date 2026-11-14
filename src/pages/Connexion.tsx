@@ -1,72 +1,125 @@
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Alert } from '@/components/ui/alert'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { ChampFormulaire } from '@/components/ChampFormulaire'
-import { useConnexion } from '@/partage/hooks/useCompte'
-import { messageErreur } from '@/partage/lib/erreurs'
-import { schemaConnexion, type DonneesConnexion } from '@/partage/lib/validation'
-import { Revele } from '@/components/animation/Revele'
-import { useTitrePage } from '@/hooks/useTitrePage'
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Alert } from "@/components/ui/alert";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ChampFormulaire } from "@/components/ChampFormulaire";
+import { useConnexion } from "@/partage/hooks/useCompte";
+import { messageErreur } from "@/partage/lib/erreurs";
+import {
+  schemaConnexion,
+  type DonneesConnexion,
+} from "@/partage/lib/validation";
+import { Revele } from "@/components/animation/Revele";
+import { PanneauPhotos } from "@/components/animation/PanneauPhotos";
+import { useTitrePage } from "@/hooks/useTitrePage";
 
 export default function Connexion() {
-  useTitrePage('Se connecter')
-  const connexion = useConnexion()
-  const naviguer = useNavigate()
-  const etat = useLocation().state as { depuis?: string } | null
+  useTitrePage("Se connecter");
+  const connexion = useConnexion();
+  const naviguer = useNavigate();
+  const etat = useLocation().state as { depuis?: string } | null;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<DonneesConnexion>({
     resolver: zodResolver(schemaConnexion),
-    defaultValues: { email: '', motDePasse: '' },
-  })
+    defaultValues: { email: "", motDePasse: "" },
+  });
 
   const envoyer = handleSubmit((d) =>
-    connexion.mutate(d, { onSuccess: () => naviguer(etat?.depuis ?? '/tableau-de-bord', { replace: true }) }),
-  )
+    connexion.mutate(d, {
+      onSuccess: () =>
+        naviguer(etat?.depuis ?? "/tableau-de-bord", { replace: true }),
+    }),
+  );
 
   return (
-    <section className="container flex justify-center py-12">
-      <Revele effet="profondeur" className="w-full max-w-md">
-        <Card className="w-full">
-          <CardHeader>
-            <CardTitle>Se connecter</CardTitle>
-            <CardDescription>Accédez à votre compte Keyli.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={envoyer} noValidate className="space-y-5">
-              <ChampFormulaire libelle="Adresse email" erreur={errors.email?.message}>
-                {(a) => <Input {...a} type="email" autoComplete="email" {...register('email')} />}
-              </ChampFormulaire>
-              <ChampFormulaire libelle="Mot de passe" erreur={errors.motDePasse?.message}>
-                {(a) => <Input {...a} type="password" autoComplete="current-password" {...register('motDePasse')} />}
-              </ChampFormulaire>
-              <div className="text-right">
-                <Link to="/mot-de-passe-oublie" className="text-sm font-semibold text-primary-glow hover:underline">
-                  Mot de passe oublié ?
-                </Link>
-              </div>
+    <section className="container py-8 lg:py-12">
+      <div className="grid items-stretch gap-10 lg:grid-cols-2">
+        {/* Grand écran : photos de logements à gauche, comme l'application */}
+        <PanneauPhotos className="hidden min-h-[620px] rounded-accueil shadow-lift lg:block" />
+        <div className="flex items-center justify-center">
+          <Revele effet="profondeur" className="w-full max-w-md">
+            <Card className="w-full">
+              <CardHeader>
+                <CardTitle>Se connecter</CardTitle>
+                <CardDescription>Accédez à votre compte Keyli.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={envoyer} noValidate className="space-y-5">
+                  <ChampFormulaire
+                    libelle="Adresse email"
+                    erreur={errors.email?.message}
+                  >
+                    {(a) => (
+                      <Input
+                        {...a}
+                        type="email"
+                        autoComplete="email"
+                        {...register("email")}
+                      />
+                    )}
+                  </ChampFormulaire>
+                  <ChampFormulaire
+                    libelle="Mot de passe"
+                    erreur={errors.motDePasse?.message}
+                  >
+                    {(a) => (
+                      <Input
+                        {...a}
+                        type="password"
+                        autoComplete="current-password"
+                        {...register("motDePasse")}
+                      />
+                    )}
+                  </ChampFormulaire>
+                  <div className="text-right">
+                    <Link
+                      to="/mot-de-passe-oublie"
+                      className="text-sm font-semibold text-primary-glow hover:underline"
+                    >
+                      Mot de passe oublié ?
+                    </Link>
+                  </div>
 
-              {connexion.isError && <Alert variant="erreur">{messageErreur(connexion.error)}</Alert>}
+                  {connexion.isError && (
+                    <Alert variant="erreur">
+                      {messageErreur(connexion.error)}
+                    </Alert>
+                  )}
 
-              <Button type="submit" className="w-full" disabled={connexion.isPending}>
-                {connexion.isPending ? 'Connexion…' : 'Se connecter'}
-              </Button>
-              <p className="text-center text-sm text-muted-foreground">
-                Pas encore de compte ?{' '}
-                <Link to="/inscription" className="font-semibold text-primary-glow hover:underline">
-                  Créer un compte
-                </Link>
-              </p>
-            </form>
-          </CardContent>
-        </Card>
-      </Revele>
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={connexion.isPending}
+                  >
+                    {connexion.isPending ? "Connexion…" : "Se connecter"}
+                  </Button>
+                  <p className="text-center text-sm text-muted-foreground">
+                    Pas encore de compte ?{" "}
+                    <Link
+                      to="/inscription"
+                      className="font-semibold text-primary-glow hover:underline"
+                    >
+                      Créer un compte
+                    </Link>
+                  </p>
+                </form>
+              </CardContent>
+            </Card>
+          </Revele>
+        </div>
+      </div>
     </section>
-  )
+  );
 }

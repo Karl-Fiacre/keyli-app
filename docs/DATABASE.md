@@ -979,6 +979,19 @@ Migration `20261111120000_demarrage_retours_keyli.sql` (détail
 Tests : `supabase/tests/demarrage_retours_keyli.test.sql` (16 tests, 699 au
 total).
 
+## ⚠️ DÉCISIONS ACTÉES (2026-11-14) — recherche par rayon
+Migration `20261119120000_recherche_rayon_keyli.sql` (détail :
+MODULES/geolocalisation.md).
+- `annonces_autour_keyli(p_lat, p_lng, p_rayon_km)` (anon, authenticated ;
+  security definer) : `table(id uuid, distance_km numeric)`, jamais de
+  position. Présélection GiST sur `geolocation` (+ 700 m), filtre et
+  distance sur `position_approchee_keyli` ; rayon borné 0,5–20 km ;
+  distance arrondie au demi-km, 0,5 au minimum.
+- `rechercher_annonces_keyli` : + `p_lat`, `p_lng`, `p_rayon_km` (défaut
+  null) et colonne `distance_km` (avant `total`). Avec un rayon,
+  `p_commune` et `p_quartier` sont ignorés ; tri : à critère égal, les
+  plus proches d'abord. L'ancienne signature à 16 arguments est supprimée.
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-11-04) — carte du catalogue, position protégée
 Migration `20261110120000_carte_annonces_keyli.sql`. Décision du porteur :
 la carte publique montre une zone approximative, jamais la position exacte.

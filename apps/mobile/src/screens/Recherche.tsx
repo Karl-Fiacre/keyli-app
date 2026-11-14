@@ -14,6 +14,7 @@ import { ListeAnnonces } from '@mobile/composants/ListeAnnonces'
 import { CarteAnnonces } from '@mobile/composants/CarteAnnonces'
 import { PanneauFiltres } from '@mobile/composants/PanneauFiltres'
 import { BoutonAlerte } from '@mobile/composants/BoutonAlerte'
+import { FiltreAutour } from '@mobile/composants/FiltreAutour'
 import { Bouton, Choix, Texte, Titre } from '@mobile/composants/base'
 import { couleurs, espaces, rayons } from '@mobile/theme/tokens'
 import type { ParamsOnglets, ParamsRacine } from '@mobile/navigation/types'
@@ -72,6 +73,9 @@ export default function Recherche({ navigation, route }: Props) {
         </View>
       </View>
 
+      {/* Recherche par rayon autour de la position GPS */}
+      <FiltreAutour filtres={filtres} onChange={setFiltres} />
+
       {vue === 'carte' ? (
         <View style={styles.plein}>
           {/* La carte montre la page de résultats en cours (20 annonces) */}
@@ -82,6 +86,7 @@ export default function Recherche({ navigation, route }: Props) {
           ) : null}
           <CarteAnnonces
             annonces={recherche.data?.annonces ?? []}
+            autour={filtres.autour}
             onOuvrir={(id) => navigation.navigate('FicheAnnonce', { id, source: 'map' })}
           />
         </View>
@@ -99,10 +104,15 @@ export default function Recherche({ navigation, route }: Props) {
               {recherche.data ? (
                 <Texte attenue>
                   {total === 0 ? 'Aucune annonce' : `${total} annonce${total > 1 ? 's' : ''}`}
-                  {actifs > 0 ? ' pour ces filtres' : ''}
+                  {filtres.autour
+                    ? ` à ${filtres.autour.rayonKm} km autour de vous`
+                    : actifs > 0
+                      ? ' pour ces filtres'
+                      : ''}
                 </Texte>
               ) : null}
-              <BoutonAlerte filtres={filtres} />
+              {/* Les alertes ne portent pas encore de rayon autour de soi */}
+              {filtres.autour ? null : <BoutonAlerte filtres={filtres} />}
             </View>
           }
           pied={pages > 1 ? <Pagination page={filtres.page} pages={pages} onChange={allerPage} /> : null}

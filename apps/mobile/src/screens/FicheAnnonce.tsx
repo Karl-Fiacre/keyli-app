@@ -1,13 +1,12 @@
 // Fiche publique d'une annonce — mêmes données que le web (useFicheAnnonce)
 // et même enregistrement de la consultation (statistiques de conversion).
 // Sprint 14 : galerie plein écran, badge officiel, favori, partage et
-// annonces similaires. Le contact par la messagerie Keyli arrive sur mobile
-// au sprint suivant : d'ici là, le bouton ouvre la fiche sur le site.
+// annonces similaires. Contact de l'annonceur par la messagerie Keyli,
+// directement dans l'application (2026-11-13).
 import { useState } from 'react'
 import {
   FlatList,
   Image,
-  Linking,
   Platform,
   Pressable,
   Share,
@@ -26,9 +25,10 @@ import { pluriel } from '@/partage/lib/sejour'
 import { urlPhoto } from '@/partage/lib/photos'
 import { messageErreur } from '@/partage/lib/erreurs'
 import { plateforme } from '@/plateforme'
-import { Bouton, Carte, Chargement, Ecran, Message, Texte, Titre } from '@mobile/composants/base'
+import { Carte, Chargement, Ecran, Message, Texte, Titre } from '@mobile/composants/base'
 import { BadgeVerifie } from '@mobile/composants/BadgeVerifie'
 import { BoutonFavori } from '@mobile/composants/BoutonFavori'
+import { ContactAnnonceur } from '@mobile/composants/ContactAnnonceur'
 import { CarteAnnonce } from '@mobile/composants/CarteAnnonce'
 import { GaleriePleinEcran } from '@mobile/composants/GaleriePleinEcran'
 import { couleurs, espaces, ombreCarte, rayons } from '@mobile/theme/tokens'
@@ -184,11 +184,12 @@ export default function FicheAnnonce({ route, navigation }: NativeStackScreenPro
         </Carte>
       ) : null}
 
-      <Bouton
-        libelle="Contacter l'annonceur sur le site"
-        onPress={() => void Linking.openURL(plateforme.urlApp(`/annonce/${a.id}`))}
+      <ContactAnnonceur
+        propertyId={a.id}
+        destinataire={a.owner_id}
+        nomDestinataire={annonceur?.nom_affiche ?? undefined}
+        titreAnnonce={a.title}
       />
-      <Texte attenue>Le contact passe toujours par la messagerie Keyli : le numéro de l'annonceur reste privé.</Texte>
 
       {similaires.data?.length ? (
         <View style={{ gap: espaces.m }}>

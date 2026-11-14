@@ -10,10 +10,14 @@ export interface Point {
   longitude: number
 }
 
-export async function positionActuelle(): Promise<Point> {
+// Aussi utilisée par la recherche « Autour de moi » (2026-11-14) : message
+// de refus propre à chaque usage
+export async function positionActuelle(
+  messageRefus = "Keyli n'a pas accès à votre position. Placez le bien sur la carte, ou autorisez la localisation.",
+): Promise<Point> {
   const autorisation = await Location.requestForegroundPermissionsAsync()
   if (!autorisation.granted) {
-    throw erreurKeyli("Keyli n'a pas accès à votre position. Placez le bien sur la carte, ou autorisez la localisation.")
+    throw erreurKeyli(messageRefus)
   }
   const position = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High })
   return { latitude: position.coords.latitude, longitude: position.coords.longitude }

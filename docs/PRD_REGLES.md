@@ -16,9 +16,12 @@ résumé, pas la source primaire.
       DATABASE.md) — `geolocation` en `geography(Point, 4326)` avec index
       GiST créé dans la même migration que `properties_keyli`
 - [ ] Filtre par rayon via `ST_DWithin` uniquement, jamais sans l'index GiST
-- [ ] Rayon par défaut, sélection du point et interaction avec le filtre
-      quartier restent à trancher (MODULES/geolocalisation.md) — demander
-      avant de coder l'interface de recherche par rayon
+- [x] **Tranché par le porteur (2026-11-14)** : rayons 1, 3, 5, 10 km,
+      5 par défaut ; point = position GPS de l'utilisateur (« Autour de
+      moi ») ; le rayon REMPLACE commune et quartier, les autres filtres
+      restent cumulés ; distance arrondie affichée (« à environ 2 km »),
+      calculée sur la position approximative ; web et mobile
+      (migration `20261119120000_recherche_rayon_keyli.sql`)
 - [ ] Ne jamais dupliquer une colonne de coordonnées à côté de
       `geolocation`
 

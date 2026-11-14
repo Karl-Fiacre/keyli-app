@@ -17,6 +17,9 @@ export type ParamsRacine = {
   Onglets: NavigatorScreenParams<ParamsOnglets>
   // source : provenance de la visite (statistiques de conversion)
   FicheAnnonce: { id: string; source?: string }
+  // Fil de la messagerie Keyli (propertyId null : conversation directe).
+  // nom et titre : affichage immédiat, avant le chargement des messages
+  Conversation: { propertyId: string | null; interlocuteur: string; nom?: string; titre?: string }
   Favoris: undefined
   Alertes: undefined
   // Réservé aux propriétaires et aux agences (Sprint 15)

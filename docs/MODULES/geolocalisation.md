@@ -33,11 +33,42 @@ justifier l'option la plus légère.
       `positions_annonces_keyli`, case ≈ 450 m ; zoom maximum 16 ; mention
       « Positions approximatives » sous la carte. La position exacte n'est
       plus lisible par le client (DATABASE.md, 2026-11-04).
-- [ ] La recherche par rayon, quand elle sera faite, devra passer par une
-      fonction de la base (le client ne lit plus `geolocation`).
+- [x] La recherche par rayon passe par une fonction de la base (le client
+      ne lit plus `geolocation`) — voir ci-dessous.
+
+## Recherche par rayon (2026-11-14)
+Décisions du porteur (option A à chaque question) :
+- rayons proposés **1, 3, 5, 10 km**, **5 par défaut** (la base accepte
+  0,5 à 20 km) ;
+- point de recherche = **position GPS de l'utilisateur** (bouton « Autour
+  de moi » : `expo-location` sur mobile, géolocalisation du navigateur sur
+  le web). La position reste en mémoire dans l'écran : jamais dans l'URL,
+  jamais enregistrée ;
+- le rayon **remplace commune et quartier** ; prix, type, pièces, meublé,
+  équipements, dates restent cumulés ; à tri égal, les plus proches
+  d'abord ;
+- chaque résultat affiche une **distance arrondie** au demi-kilomètre
+  (« à environ 2 km », 0,5 km au minimum), `libelleDistance` partagé.
+
+Base (`20261119120000_recherche_rayon_keyli.sql`) :
+- `annonces_autour_keyli(lat, lng, rayon_km)` (security definer) renvoie
+  seulement `id` + `distance_km` arrondie. Présélection par l'index GiST
+  (`ST_DWithin` sur la position exacte, marge de 700 m), puis filtre et
+  distance **sur la position approximative** : sinon, en déplaçant le
+  centre, on retrouverait le point exact d'une annonce par
+  trilatération.
+- `rechercher_annonces_keyli` reçoit `p_lat`, `p_lng`, `p_rayon_km` et
+  renvoie `distance_km` (null sans rayon).
+- Tests : `supabase/tests/recherche_rayon_keyli.test.sql`.
+
+Interface : `apps/mobile/src/composants/FiltreAutour.tsx` (sous le titre de
+la recherche, en liste comme en carte ; sur la carte, cercle du rayon et
+point bleu de l'utilisateur) et `src/components/annonce/FiltreAutour.tsx`
+(web). « Créer une alerte » est masqué pendant une recherche par rayon (les
+alertes ne reprennent pas ce rayon).
 
 ## Toujours à trancher (n'a pas changé)
-- [ ] Rayon par défaut proposé à l'utilisateur
+- [x] Rayon par défaut proposé à l'utilisateur — 5 km (2026-11-14)
 - [ ] Unité affichée (distance seule, ou aussi temps de trajet estimé — Google
       Routes API, non intégrée actuellement)
 - [ ] Interface de sélection du point (géolocalisation utilisateur, adresse
