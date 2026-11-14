@@ -1,1145 +1,2793 @@
-
-export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
 
 export type Database = {
-  
-  "public": {
-          Tables: {
-            "agency_agents_keyli": {
-                  Row: {
-                    "actif": boolean | null,"agency_user_id": string,"created_at": string | null,"id": string,"nom": string
-                  }
-                  Insert: {
-                    "actif"?: boolean | null,"agency_user_id": string,"created_at"?: string | null,"id"?: string,"nom": string
-                  }
-                  Update: {
-                    "actif"?: boolean | null,"agency_user_id"?: string,"created_at"?: string | null,"id"?: string,"nom"?: string
-                  }
-                  Relationships: [
-                    
-                  ]
-                },"appareils_push_keyli": {
-                  Row: {
-                    "created_at": string,"derniere_vue": string,"environnement": string,"id": string,"jeton": string,"plateforme": string,"user_id": string
-                  }
-                  Insert: {
-                    "created_at"?: string,"derniere_vue"?: string,"environnement"?: string,"id"?: string,"jeton": string,"plateforme": string,"user_id": string
-                  }
-                  Update: {
-                    "created_at"?: string,"derniere_vue"?: string,"environnement"?: string,"id"?: string,"jeton"?: string,"plateforme"?: string,"user_id"?: string
-                  }
-                  Relationships: [
-                    
-                  ]
-                },"audit_logs_keyli": {
-                  Row: {
-                    "action": string,"admin_id": string,"created_at": string | null,"details": Json | null,"entity_id": string | null,"entity_type": string,"id": string
-                  }
-                  Insert: {
-                    "action": string,"admin_id": string,"created_at"?: string | null,"details"?: Json | null,"entity_id"?: string | null,"entity_type": string,"id"?: string
-                  }
-                  Update: {
-                    "action"?: string,"admin_id"?: string,"created_at"?: string | null,"details"?: Json | null,"entity_id"?: string | null,"entity_type"?: string,"id"?: string
-                  }
-                  Relationships: [
-                    
-                  ]
-                },"avantages_keyli": {
-                  Row: {
-                    "actif": boolean,"categorie": string,"code": string,"created_at": string | null,"id": string,"libelle": string,"ordre": number
-                  }
-                  Insert: {
-                    "actif"?: boolean,"categorie": string,"code": string,"created_at"?: string | null,"id"?: string,"libelle": string,"ordre"?: number
-                  }
-                  Update: {
-                    "actif"?: boolean,"categorie"?: string,"code"?: string,"created_at"?: string | null,"id"?: string,"libelle"?: string,"ordre"?: number
-                  }
-                  Relationships: [
-                    
-                  ]
-                },"communes_keyli": {
-                  Row: {
-                    "created_at": string | null,"id": string,"nom": string
-                  }
-                  Insert: {
-                    "created_at"?: string | null,"id"?: string,"nom": string
-                  }
-                  Update: {
-                    "created_at"?: string | null,"id"?: string,"nom"?: string
-                  }
-                  Relationships: [
-                    
-                  ]
-                },"demandes_support_keyli": {
-                  Row: {
-                    "created_at": string,"email": string,"id": string,"message": string,"nom": string,"note_admin": string | null,"statut": string,"sujet": string,"updated_at": string,"user_id": string | null
-                  }
-                  Insert: {
-                    "created_at"?: string,"email": string,"id"?: string,"message": string,"nom": string,"note_admin"?: string | null,"statut"?: string,"sujet": string,"updated_at"?: string,"user_id"?: string | null
-                  }
-                  Update: {
-                    "created_at"?: string,"email"?: string,"id"?: string,"message"?: string,"nom"?: string,"note_admin"?: string | null,"statut"?: string,"sujet"?: string,"updated_at"?: string,"user_id"?: string | null
-                  }
-                  Relationships: [
-                    
-                  ]
-                },"depassements_cycle_keyli": {
-                  Row: {
-                    "created_at": string,"cycle_debut": string,"cycle_fin": string,"en_depassement": boolean,"id": string,"montant": number,"nb_depassement": number,"nb_publications": number,"prix_unitaire": number | null,"seuil": number | null,"statut": string,"subscription_id": string,"tentative_id": string | null,"transaction_id": string | null,"user_id": string
-                  }
-                  Insert: {
-                    "created_at"?: string,"cycle_debut": string,"cycle_fin": string,"en_depassement"?: boolean,"id"?: string,"montant"?: number,"nb_depassement"?: number,"nb_publications": number,"prix_unitaire"?: number | null,"seuil"?: number | null,"statut": string,"subscription_id": string,"tentative_id"?: string | null,"transaction_id"?: string | null,"user_id": string
-                  }
-                  Update: {
-                    "created_at"?: string,"cycle_debut"?: string,"cycle_fin"?: string,"en_depassement"?: boolean,"id"?: string,"montant"?: number,"nb_depassement"?: number,"nb_publications"?: number,"prix_unitaire"?: number | null,"seuil"?: number | null,"statut"?: string,"subscription_id"?: string,"tentative_id"?: string | null,"transaction_id"?: string | null,"user_id"?: string
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "depassements_cycle_keyli_subscription_id_fkey"
-      columns: ["subscription_id"]
-isOneToOne: false
-      referencedRelation: "subscriptions_keyli"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "depassements_cycle_keyli_tentative_id_fkey"
-      columns: ["tentative_id"]
-isOneToOne: false
-      referencedRelation: "payment_attempts_keyli"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "depassements_cycle_keyli_transaction_id_fkey"
-      columns: ["transaction_id"]
-isOneToOne: false
-      referencedRelation: "transactions_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"documents_keyli": {
-                  Row: {
-                    "created_at": string | null,"doc_type": Database["public"]['Enums']["document_type_keyli"],"file_url": string,"id": string,"property_id": string | null,"review_notes": string | null,"reviewed_at": string | null,"status": Database["public"]['Enums']["document_status_keyli"] | null,"user_id": string
-                  }
-                  Insert: {
-                    "created_at"?: string | null,"doc_type": Database["public"]['Enums']["document_type_keyli"],"file_url": string,"id"?: string,"property_id"?: string | null,"review_notes"?: string | null,"reviewed_at"?: string | null,"status"?: Database["public"]['Enums']["document_status_keyli"] | null,"user_id": string
-                  }
-                  Update: {
-                    "created_at"?: string | null,"doc_type"?: Database["public"]['Enums']["document_type_keyli"],"file_url"?: string,"id"?: string,"property_id"?: string | null,"review_notes"?: string | null,"reviewed_at"?: string | null,"status"?: Database["public"]['Enums']["document_status_keyli"] | null,"user_id"?: string
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "documents_keyli_property_id_fkey"
-      columns: ["property_id"]
-isOneToOne: false
-      referencedRelation: "properties_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"emails_sortants_keyli": {
-                  Row: {
-                    "categorie": string,"created_at": string,"envoye_at": string | null,"envoyer_apres": string,"erreur": string | null,"expediteur_id": string | null,"id": string,"notification_id": string | null,"property_id": string | null,"statut": string,"tentatives": number,"type": string | null,"updated_at": string,"user_id": string
-                  }
-                  Insert: {
-                    "categorie": string,"created_at"?: string,"envoye_at"?: string | null,"envoyer_apres"?: string,"erreur"?: string | null,"expediteur_id"?: string | null,"id"?: string,"notification_id"?: string | null,"property_id"?: string | null,"statut"?: string,"tentatives"?: number,"type"?: string | null,"updated_at"?: string,"user_id": string
-                  }
-                  Update: {
-                    "categorie"?: string,"created_at"?: string,"envoye_at"?: string | null,"envoyer_apres"?: string,"erreur"?: string | null,"expediteur_id"?: string | null,"id"?: string,"notification_id"?: string | null,"property_id"?: string | null,"statut"?: string,"tentatives"?: number,"type"?: string | null,"updated_at"?: string,"user_id"?: string
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "emails_sortants_keyli_notification_id_fkey"
-      columns: ["notification_id"]
-isOneToOne: false
-      referencedRelation: "notifications_keyli"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "emails_sortants_keyli_property_id_fkey"
-      columns: ["property_id"]
-isOneToOne: false
-      referencedRelation: "properties_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"erreurs_client_keyli": {
-                  Row: {
-                    "code": string | null,"created_at": string,"id": string,"message": string,"navigateur": string | null,"page": string,"user_id": string | null
-                  }
-                  Insert: {
-                    "code"?: string | null,"created_at"?: string,"id"?: string,"message": string,"navigateur"?: string | null,"page": string,"user_id"?: string | null
-                  }
-                  Update: {
-                    "code"?: string | null,"created_at"?: string,"id"?: string,"message"?: string,"navigateur"?: string | null,"page"?: string,"user_id"?: string | null
-                  }
-                  Relationships: [
-                    
-                  ]
-                },"favorites_keyli": {
-                  Row: {
-                    "created_at": string | null,"id": string,"property_id": string,"user_id": string
-                  }
-                  Insert: {
-                    "created_at"?: string | null,"id"?: string,"property_id": string,"user_id": string
-                  }
-                  Update: {
-                    "created_at"?: string | null,"id"?: string,"property_id"?: string,"user_id"?: string
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "favorites_keyli_property_id_fkey"
-      columns: ["property_id"]
-isOneToOne: false
-      referencedRelation: "properties_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"feedback_keyli": {
-                  Row: {
-                    "admin_response": string | null,"created_at": string | null,"id": string,"message": string,"status": string | null,"subject": string,"type": string | null,"updated_at": string | null,"user_id": string
-                  }
-                  Insert: {
-                    "admin_response"?: string | null,"created_at"?: string | null,"id"?: string,"message": string,"status"?: string | null,"subject": string,"type"?: string | null,"updated_at"?: string | null,"user_id": string
-                  }
-                  Update: {
-                    "admin_response"?: string | null,"created_at"?: string | null,"id"?: string,"message"?: string,"status"?: string | null,"subject"?: string,"type"?: string | null,"updated_at"?: string | null,"user_id"?: string
-                  }
-                  Relationships: [
-                    
-                  ]
-                },"inscription_pilot_keyli": {
-                  Row: {
-                    "budget": number | null,"city": string | null,"commune": string | null,"created_at": string | null,"email": string,"first_name": string | null,"id": string,"last_name": string | null,"message": string | null,"nb_biens": number | null,"nom_agence": string | null,"note_admin": string | null,"phone": string | null,"priority_level": Database["public"]['Enums']["priority_level_keyli"] | null,"profil": string | null,"property_type": Database["public"]['Enums']["property_type_keyli"] | null,"source": string | null,"status": Database["public"]['Enums']["inscription_status_keyli"] | null,"updated_at": string | null
-                  }
-                  Insert: {
-                    "budget"?: number | null,"city"?: string | null,"commune"?: string | null,"created_at"?: string | null,"email": string,"first_name"?: string | null,"id"?: string,"last_name"?: string | null,"message"?: string | null,"nb_biens"?: number | null,"nom_agence"?: string | null,"note_admin"?: string | null,"phone"?: string | null,"priority_level"?: Database["public"]['Enums']["priority_level_keyli"] | null,"profil"?: string | null,"property_type"?: Database["public"]['Enums']["property_type_keyli"] | null,"source"?: string | null,"status"?: Database["public"]['Enums']["inscription_status_keyli"] | null,"updated_at"?: string | null
-                  }
-                  Update: {
-                    "budget"?: number | null,"city"?: string | null,"commune"?: string | null,"created_at"?: string | null,"email"?: string,"first_name"?: string | null,"id"?: string,"last_name"?: string | null,"message"?: string | null,"nb_biens"?: number | null,"nom_agence"?: string | null,"note_admin"?: string | null,"phone"?: string | null,"priority_level"?: Database["public"]['Enums']["priority_level_keyli"] | null,"profil"?: string | null,"property_type"?: Database["public"]['Enums']["property_type_keyli"] | null,"source"?: string | null,"status"?: Database["public"]['Enums']["inscription_status_keyli"] | null,"updated_at"?: string | null
-                  }
-                  Relationships: [
-                    
-                  ]
-                },"leads_keyli": {
-                  Row: {
-                    "agent_id": string | null,"contact_nom": string | null,"contact_user_id": string | null,"created_at": string | null,"id": string,"owner_id": string,"property_id": string,"source_message_id": string | null,"stage": Database["public"]['Enums']["lead_stage_keyli"] | null,"updated_at": string | null
-                  }
-                  Insert: {
-                    "agent_id"?: string | null,"contact_nom"?: string | null,"contact_user_id"?: string | null,"created_at"?: string | null,"id"?: string,"owner_id": string,"property_id": string,"source_message_id"?: string | null,"stage"?: Database["public"]['Enums']["lead_stage_keyli"] | null,"updated_at"?: string | null
-                  }
-                  Update: {
-                    "agent_id"?: string | null,"contact_nom"?: string | null,"contact_user_id"?: string | null,"created_at"?: string | null,"id"?: string,"owner_id"?: string,"property_id"?: string,"source_message_id"?: string | null,"stage"?: Database["public"]['Enums']["lead_stage_keyli"] | null,"updated_at"?: string | null
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "leads_keyli_agent_id_fkey"
-      columns: ["agent_id"]
-isOneToOne: false
-      referencedRelation: "agency_agents_keyli"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "leads_keyli_property_id_fkey"
-      columns: ["property_id"]
-isOneToOne: false
-      referencedRelation: "properties_keyli"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "leads_keyli_source_message_id_fkey"
-      columns: ["source_message_id"]
-isOneToOne: false
-      referencedRelation: "messages_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"marketing_templates_keyli": {
-                  Row: {
-                    "content": string,"created_at": string | null,"created_by": string | null,"id": string,"image_url": string | null,"name": string,"target_audience": string | null,"title": string | null,"type": string,"updated_at": string | null
-                  }
-                  Insert: {
-                    "content": string,"created_at"?: string | null,"created_by"?: string | null,"id"?: string,"image_url"?: string | null,"name": string,"target_audience"?: string | null,"title"?: string | null,"type": string,"updated_at"?: string | null
-                  }
-                  Update: {
-                    "content"?: string,"created_at"?: string | null,"created_by"?: string | null,"id"?: string,"image_url"?: string | null,"name"?: string,"target_audience"?: string | null,"title"?: string | null,"type"?: string,"updated_at"?: string | null
-                  }
-                  Relationships: [
-                    
-                  ]
-                },"messages_keyli": {
-                  Row: {
-                    "body": string,"created_at": string | null,"from_user": string,"id": string,"property_id": string | null,"read": boolean | null,"to_user": string
-                  }
-                  Insert: {
-                    "body": string,"created_at"?: string | null,"from_user": string,"id"?: string,"property_id"?: string | null,"read"?: boolean | null,"to_user": string
-                  }
-                  Update: {
-                    "body"?: string,"created_at"?: string | null,"from_user"?: string,"id"?: string,"property_id"?: string | null,"read"?: boolean | null,"to_user"?: string
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "messages_keyli_property_id_fkey"
-      columns: ["property_id"]
-isOneToOne: false
-      referencedRelation: "properties_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"notifications_keyli": {
-                  Row: {
-                    "alert_id": string | null,"contenu": string | null,"created_at": string,"id": string,"lue": boolean,"property_id": string | null,"titre": string,"type": string,"user_id": string
-                  }
-                  Insert: {
-                    "alert_id"?: string | null,"contenu"?: string | null,"created_at"?: string,"id"?: string,"lue"?: boolean,"property_id"?: string | null,"titre": string,"type": string,"user_id": string
-                  }
-                  Update: {
-                    "alert_id"?: string | null,"contenu"?: string | null,"created_at"?: string,"id"?: string,"lue"?: boolean,"property_id"?: string | null,"titre"?: string,"type"?: string,"user_id"?: string
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "notifications_keyli_alert_id_fkey"
-      columns: ["alert_id"]
-isOneToOne: false
-      referencedRelation: "search_alerts_keyli"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "notifications_keyli_property_id_fkey"
-      columns: ["property_id"]
-isOneToOne: false
-      referencedRelation: "properties_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"onboarding_checklists_keyli": {
-                  Row: {
-                    "completed": boolean | null,"completed_at": string | null,"created_at": string | null,"id": string,"notes": string | null,"step": string,"updated_at": string | null,"user_id": string
-                  }
-                  Insert: {
-                    "completed"?: boolean | null,"completed_at"?: string | null,"created_at"?: string | null,"id"?: string,"notes"?: string | null,"step": string,"updated_at"?: string | null,"user_id": string
-                  }
-                  Update: {
-                    "completed"?: boolean | null,"completed_at"?: string | null,"created_at"?: string | null,"id"?: string,"notes"?: string | null,"step"?: string,"updated_at"?: string | null,"user_id"?: string
-                  }
-                  Relationships: [
-                    
-                  ]
-                },"payment_attempts_keyli": {
-                  Row: {
-                    "amount": number | null,"created_at": string | null,"derniere_verification": string | null,"email": string | null,"error_message": string | null,"id": string,"montant_depassements": number,"motif_refus": string | null,"paystack_reference": string | null,"plan_id": string | null,"status": string | null,"user_id": string | null,"verifications": number
-                  }
-                  Insert: {
-                    "amount"?: number | null,"created_at"?: string | null,"derniere_verification"?: string | null,"email"?: string | null,"error_message"?: string | null,"id"?: string,"montant_depassements"?: number,"motif_refus"?: string | null,"paystack_reference"?: string | null,"plan_id"?: string | null,"status"?: string | null,"user_id"?: string | null,"verifications"?: number
-                  }
-                  Update: {
-                    "amount"?: number | null,"created_at"?: string | null,"derniere_verification"?: string | null,"email"?: string | null,"error_message"?: string | null,"id"?: string,"montant_depassements"?: number,"motif_refus"?: string | null,"paystack_reference"?: string | null,"plan_id"?: string | null,"status"?: string | null,"user_id"?: string | null,"verifications"?: number
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "payment_attempts_keyli_plan_id_fkey"
-      columns: ["plan_id"]
-isOneToOne: false
-      referencedRelation: "plans_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"plans_keyli": {
-                  Row: {
-                    "actif": boolean | null,"code": string,"created_at": string | null,"id": string,"nom": string,"prix_depassement_unitaire": number | null,"prix_mensuel": number,"seuil_max": number | null,"seuil_min": number,"updated_at": string | null
-                  }
-                  Insert: {
-                    "actif"?: boolean | null,"code": string,"created_at"?: string | null,"id"?: string,"nom": string,"prix_depassement_unitaire"?: number | null,"prix_mensuel": number,"seuil_max"?: number | null,"seuil_min": number,"updated_at"?: string | null
-                  }
-                  Update: {
-                    "actif"?: boolean | null,"code"?: string,"created_at"?: string | null,"id"?: string,"nom"?: string,"prix_depassement_unitaire"?: number | null,"prix_mensuel"?: number,"seuil_max"?: number | null,"seuil_min"?: number,"updated_at"?: string | null
-                  }
-                  Relationships: [
-                    
-                  ]
-                },"profiles_keyli": {
-                  Row: {
-                    "cgu_acceptees_at": string | null,"cgu_version": string | null,"created_at": string | null,"email": string,"emails_notifications": boolean,"first_name": string | null,"id": string,"id_number": string | null,"id_validity_date": string | null,"jeton_desinscription": string,"last_name": string | null,"nom_agence": string | null,"phone": string | null,"photo_url": string | null,"rating_avg": number | null,"role_keyli": Database["public"]['Enums']["user_role_keyli"],"suspendu": boolean,"suspension_fin": string | null,"suspension_motif": string | null,"updated_at": string | null,"user_id": string,"verification_date": string | null,"verified": boolean | null
-                  }
-                  Insert: {
-                    "cgu_acceptees_at"?: string | null,"cgu_version"?: string | null,"created_at"?: string | null,"email": string,"emails_notifications"?: boolean,"first_name"?: string | null,"id"?: string,"id_number"?: string | null,"id_validity_date"?: string | null,"jeton_desinscription"?: string,"last_name"?: string | null,"nom_agence"?: string | null,"phone"?: string | null,"photo_url"?: string | null,"rating_avg"?: number | null,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"],"suspendu"?: boolean,"suspension_fin"?: string | null,"suspension_motif"?: string | null,"updated_at"?: string | null,"user_id": string,"verification_date"?: string | null,"verified"?: boolean | null
-                  }
-                  Update: {
-                    "cgu_acceptees_at"?: string | null,"cgu_version"?: string | null,"created_at"?: string | null,"email"?: string,"emails_notifications"?: boolean,"first_name"?: string | null,"id"?: string,"id_number"?: string | null,"id_validity_date"?: string | null,"jeton_desinscription"?: string,"last_name"?: string | null,"nom_agence"?: string | null,"phone"?: string | null,"photo_url"?: string | null,"rating_avg"?: number | null,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"],"suspendu"?: boolean,"suspension_fin"?: string | null,"suspension_motif"?: string | null,"updated_at"?: string | null,"user_id"?: string,"verification_date"?: string | null,"verified"?: boolean | null
-                  }
-                  Relationships: [
-                    
-                  ]
-                },"properties_keyli": {
-                  Row: {
-                    "accepte_depassement": boolean,"agent_id": string | null,"archived_at": string | null,"area_m2": number | null,"bathrooms": number | null,"city": string,"contacts_count": number | null,"created_at": string | null,"description": string | null,"furnished": boolean | null,"geolocation": unknown,"id": string,"is_verified": boolean | null,"main_image_url": string | null,"nuits_min": number,"owner_id": string,"price": number,"quartier_id": string | null,"rooms": number | null,"sejour_court": boolean,"status": Database["public"]['Enums']["property_status_keyli"],"title": string,"type": Database["public"]['Enums']["property_type_keyli"],"updated_at": string | null,"video_url": string | null,"views_count": number | null,"voyageurs_max": number | null
-                  }
-                  Insert: {
-                    "accepte_depassement"?: boolean,"agent_id"?: string | null,"archived_at"?: string | null,"area_m2"?: number | null,"bathrooms"?: number | null,"city": string,"contacts_count"?: number | null,"created_at"?: string | null,"description"?: string | null,"furnished"?: boolean | null,"geolocation": unknown,"id"?: string,"is_verified"?: boolean | null,"main_image_url"?: string | null,"nuits_min"?: number,"owner_id": string,"price": number,"quartier_id"?: string | null,"rooms"?: number | null,"sejour_court"?: boolean,"status": Database["public"]['Enums']["property_status_keyli"],"title": string,"type": Database["public"]['Enums']["property_type_keyli"],"updated_at"?: string | null,"video_url"?: string | null,"views_count"?: number | null,"voyageurs_max"?: number | null
-                  }
-                  Update: {
-                    "accepte_depassement"?: boolean,"agent_id"?: string | null,"archived_at"?: string | null,"area_m2"?: number | null,"bathrooms"?: number | null,"city"?: string,"contacts_count"?: number | null,"created_at"?: string | null,"description"?: string | null,"furnished"?: boolean | null,"geolocation"?: unknown,"id"?: string,"is_verified"?: boolean | null,"main_image_url"?: string | null,"nuits_min"?: number,"owner_id"?: string,"price"?: number,"quartier_id"?: string | null,"rooms"?: number | null,"sejour_court"?: boolean,"status"?: Database["public"]['Enums']["property_status_keyli"],"title"?: string,"type"?: Database["public"]['Enums']["property_type_keyli"],"updated_at"?: string | null,"video_url"?: string | null,"views_count"?: number | null,"voyageurs_max"?: number | null
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "properties_keyli_agent_id_fkey"
-      columns: ["agent_id"]
-isOneToOne: false
-      referencedRelation: "agency_agents_keyli"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "properties_keyli_quartier_id_fkey"
-      columns: ["quartier_id"]
-isOneToOne: false
-      referencedRelation: "quartiers_keyli"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "properties_keyli_quartier_id_fkey"
-      columns: ["quartier_id"]
-isOneToOne: false
-      referencedRelation: "tendances_prix_keyli"
-      referencedColumns: ["quartier_id"]
-    }
-                  ]
-                },"property_avantages_keyli": {
-                  Row: {
-                    "avantage_id": string,"created_at": string | null,"property_id": string
-                  }
-                  Insert: {
-                    "avantage_id": string,"created_at"?: string | null,"property_id": string
-                  }
-                  Update: {
-                    "avantage_id"?: string,"created_at"?: string | null,"property_id"?: string
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "property_avantages_keyli_avantage_id_fkey"
-      columns: ["avantage_id"]
-isOneToOne: false
-      referencedRelation: "avantages_keyli"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "property_avantages_keyli_property_id_fkey"
-      columns: ["property_id"]
-isOneToOne: false
-      referencedRelation: "properties_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"property_interactions_keyli": {
-                  Row: {
-                    "created_at": string | null,"id": string,"interaction_type": Database["public"]['Enums']["interaction_type_keyli"],"property_id": string | null,"quartier_id": string | null,"session_id": string,"source": string | null,"user_id": string | null
-                  }
-                  Insert: {
-                    "created_at"?: string | null,"id"?: string,"interaction_type": Database["public"]['Enums']["interaction_type_keyli"],"property_id"?: string | null,"quartier_id"?: string | null,"session_id": string,"source"?: string | null,"user_id"?: string | null
-                  }
-                  Update: {
-                    "created_at"?: string | null,"id"?: string,"interaction_type"?: Database["public"]['Enums']["interaction_type_keyli"],"property_id"?: string | null,"quartier_id"?: string | null,"session_id"?: string,"source"?: string | null,"user_id"?: string | null
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "property_interactions_keyli_property_id_fkey"
-      columns: ["property_id"]
-isOneToOne: false
-      referencedRelation: "properties_keyli"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "property_interactions_keyli_quartier_id_fkey"
-      columns: ["quartier_id"]
-isOneToOne: false
-      referencedRelation: "quartiers_keyli"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "property_interactions_keyli_quartier_id_fkey"
-      columns: ["quartier_id"]
-isOneToOne: false
-      referencedRelation: "tendances_prix_keyli"
-      referencedColumns: ["quartier_id"]
-    }
-                  ]
-                },"property_media_keyli": {
-                  Row: {
-                    "created_at": string | null,"id": string,"media_type": string | null,"order_index": number | null,"property_id": string | null,"url": string
-                  }
-                  Insert: {
-                    "created_at"?: string | null,"id"?: string,"media_type"?: string | null,"order_index"?: number | null,"property_id"?: string | null,"url": string
-                  }
-                  Update: {
-                    "created_at"?: string | null,"id"?: string,"media_type"?: string | null,"order_index"?: number | null,"property_id"?: string | null,"url"?: string
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "property_media_keyli_property_id_fkey"
-      columns: ["property_id"]
-isOneToOne: false
-      referencedRelation: "properties_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"property_publications_keyli": {
-                  Row: {
-                    "created_at": string | null,"hors_forfait": boolean,"id": string,"owner_id": string,"prix_depassement": number | null,"property_id": string,"published_at": string,"subscription_id": string | null,"unpublished_at": string | null
-                  }
-                  Insert: {
-                    "created_at"?: string | null,"hors_forfait"?: boolean,"id"?: string,"owner_id": string,"prix_depassement"?: number | null,"property_id": string,"published_at"?: string,"subscription_id"?: string | null,"unpublished_at"?: string | null
-                  }
-                  Update: {
-                    "created_at"?: string | null,"hors_forfait"?: boolean,"id"?: string,"owner_id"?: string,"prix_depassement"?: number | null,"property_id"?: string,"published_at"?: string,"subscription_id"?: string | null,"unpublished_at"?: string | null
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "property_publications_keyli_property_id_fkey"
-      columns: ["property_id"]
-isOneToOne: false
-      referencedRelation: "properties_keyli"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "property_publications_keyli_subscription_id_fkey"
-      columns: ["subscription_id"]
-isOneToOne: false
-      referencedRelation: "subscriptions_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"pushs_sortants_keyli": {
-                  Row: {
-                    "categorie": string,"created_at": string,"envoye_at": string | null,"envoyer_apres": string,"erreur": string | null,"expediteur_id": string | null,"id": string,"notification_id": string | null,"property_id": string | null,"statut": string,"tentatives": number,"type": string | null,"updated_at": string,"user_id": string
-                  }
-                  Insert: {
-                    "categorie": string,"created_at"?: string,"envoye_at"?: string | null,"envoyer_apres"?: string,"erreur"?: string | null,"expediteur_id"?: string | null,"id"?: string,"notification_id"?: string | null,"property_id"?: string | null,"statut"?: string,"tentatives"?: number,"type"?: string | null,"updated_at"?: string,"user_id": string
-                  }
-                  Update: {
-                    "categorie"?: string,"created_at"?: string,"envoye_at"?: string | null,"envoyer_apres"?: string,"erreur"?: string | null,"expediteur_id"?: string | null,"id"?: string,"notification_id"?: string | null,"property_id"?: string | null,"statut"?: string,"tentatives"?: number,"type"?: string | null,"updated_at"?: string,"user_id"?: string
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "pushs_sortants_keyli_notification_id_fkey"
-      columns: ["notification_id"]
-isOneToOne: false
-      referencedRelation: "notifications_keyli"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "pushs_sortants_keyli_property_id_fkey"
-      columns: ["property_id"]
-isOneToOne: false
-      referencedRelation: "properties_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"quartiers_keyli": {
-                  Row: {
-                    "commune_id": string,"created_at": string | null,"id": string,"nom": string
-                  }
-                  Insert: {
-                    "commune_id": string,"created_at"?: string | null,"id"?: string,"nom": string
-                  }
-                  Update: {
-                    "commune_id"?: string,"created_at"?: string | null,"id"?: string,"nom"?: string
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "quartiers_keyli_commune_id_fkey"
-      columns: ["commune_id"]
-isOneToOne: false
-      referencedRelation: "communes_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"quartiers_tendance_keyli": {
-                  Row: {
-                    "calcule_le": string,"commune_id": string,"nb_location": number,"nb_vente": number,"niveau": string,"nom": string,"periode_debut": string,"periode_fin": string,"prix_fiable": boolean,"prix_moyen_location": number | null,"prix_moyen_location_prec": number | null,"prix_moyen_vente": number | null,"prix_moyen_vente_prec": number | null,"score_popularite": number,"sessions_recherche": number,"sessions_vue": number,"tendance_location_pct": number | null,"tendance_vente_pct": number | null,"zone_id": string
-                  }
-                  Insert: {
-                    "calcule_le"?: string,"commune_id": string,"nb_location"?: number,"nb_vente"?: number,"niveau": string,"nom": string,"periode_debut": string,"periode_fin": string,"prix_fiable"?: boolean,"prix_moyen_location"?: number | null,"prix_moyen_location_prec"?: number | null,"prix_moyen_vente"?: number | null,"prix_moyen_vente_prec"?: number | null,"score_popularite"?: number,"sessions_recherche"?: number,"sessions_vue"?: number,"tendance_location_pct"?: number | null,"tendance_vente_pct"?: number | null,"zone_id": string
-                  }
-                  Update: {
-                    "calcule_le"?: string,"commune_id"?: string,"nb_location"?: number,"nb_vente"?: number,"niveau"?: string,"nom"?: string,"periode_debut"?: string,"periode_fin"?: string,"prix_fiable"?: boolean,"prix_moyen_location"?: number | null,"prix_moyen_location_prec"?: number | null,"prix_moyen_vente"?: number | null,"prix_moyen_vente_prec"?: number | null,"score_popularite"?: number,"sessions_recherche"?: number,"sessions_vue"?: number,"tendance_location_pct"?: number | null,"tendance_vente_pct"?: number | null,"zone_id"?: string
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "quartiers_tendance_keyli_commune_id_fkey"
-      columns: ["commune_id"]
-isOneToOne: false
-      referencedRelation: "communes_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"ratings_keyli": {
-                  Row: {
-                    "comment": string | null,"created_at": string | null,"id": string,"property_id": string,"rated_user_id": string,"rater_id": string,"rating": number,"updated_at": string | null
-                  }
-                  Insert: {
-                    "comment"?: string | null,"created_at"?: string | null,"id"?: string,"property_id": string,"rated_user_id": string,"rater_id": string,"rating": number,"updated_at"?: string | null
-                  }
-                  Update: {
-                    "comment"?: string | null,"created_at"?: string | null,"id"?: string,"property_id"?: string,"rated_user_id"?: string,"rater_id"?: string,"rating"?: number,"updated_at"?: string | null
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "ratings_keyli_property_id_fkey"
-      columns: ["property_id"]
-isOneToOne: false
-      referencedRelation: "properties_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"relances_keyli": {
-                  Row: {
-                    "created_at": string,"etape": string,"id": string,"palier": number,"user_id": string
-                  }
-                  Insert: {
-                    "created_at"?: string,"etape": string,"id"?: string,"palier": number,"user_id": string
-                  }
-                  Update: {
-                    "created_at"?: string,"etape"?: string,"id"?: string,"palier"?: number,"user_id"?: string
-                  }
-                  Relationships: [
-                    
-                  ]
-                },"reports_keyli": {
-                  Row: {
-                    "created_at": string | null,"id": string,"motif": string,"property_id": string | null,"reason": string | null,"reporter_id": string,"status": Database["public"]['Enums']["report_status_keyli"] | null,"updated_at": string | null
-                  }
-                  Insert: {
-                    "created_at"?: string | null,"id"?: string,"motif"?: string,"property_id"?: string | null,"reason"?: string | null,"reporter_id": string,"status"?: Database["public"]['Enums']["report_status_keyli"] | null,"updated_at"?: string | null
-                  }
-                  Update: {
-                    "created_at"?: string | null,"id"?: string,"motif"?: string,"property_id"?: string | null,"reason"?: string | null,"reporter_id"?: string,"status"?: Database["public"]['Enums']["report_status_keyli"] | null,"updated_at"?: string | null
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "reports_keyli_property_id_fkey"
-      columns: ["property_id"]
-isOneToOne: false
-      referencedRelation: "properties_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"reservations_keyli": {
-                  Row: {
-                    "annulee_par": string | null,"chambre_id": string | null,"created_at": string,"date_arrivee": string,"date_depart": string,"id": string,"message": string | null,"montant_total": number,"motif": string | null,"nb_chambres": number,"nuits": number | null,"owner_id": string,"prix_nuit": number,"property_id": string,"repondu_at": string | null,"statut": Database["public"]['Enums']["reservation_status_keyli"],"updated_at": string,"voyageur_id": string,"voyageurs": number
-                  }
-                  Insert: {
-                    "annulee_par"?: string | null,"chambre_id"?: string | null,"created_at"?: string,"date_arrivee": string,"date_depart": string,"id"?: string,"message"?: string | null,"montant_total": number,"motif"?: string | null,"nb_chambres"?: number,"nuits"?: never,"owner_id": string,"prix_nuit": number,"property_id": string,"repondu_at"?: string | null,"statut"?: Database["public"]['Enums']["reservation_status_keyli"],"updated_at"?: string,"voyageur_id": string,"voyageurs": number
-                  }
-                  Update: {
-                    "annulee_par"?: string | null,"chambre_id"?: string | null,"created_at"?: string,"date_arrivee"?: string,"date_depart"?: string,"id"?: string,"message"?: string | null,"montant_total"?: number,"motif"?: string | null,"nb_chambres"?: number,"nuits"?: never,"owner_id"?: string,"prix_nuit"?: number,"property_id"?: string,"repondu_at"?: string | null,"statut"?: Database["public"]['Enums']["reservation_status_keyli"],"updated_at"?: string,"voyageur_id"?: string,"voyageurs"?: number
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "reservations_keyli_chambre_id_fkey"
-      columns: ["chambre_id"]
-isOneToOne: false
-      referencedRelation: "types_chambres_keyli"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "reservations_keyli_property_id_fkey"
-      columns: ["property_id"]
-isOneToOne: false
-      referencedRelation: "properties_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"search_alerts_keyli": {
-                  Row: {
-                    "actif": boolean | null,"created_at": string | null,"criteres": NonNullable<Json>,"derniere_notification_at": string | null,"id": string,"user_id": string
-                  }
-                  Insert: {
-                    "actif"?: boolean | null,"created_at"?: string | null,"criteres": NonNullable<Json>,"derniere_notification_at"?: string | null,"id"?: string,"user_id": string
-                  }
-                  Update: {
-                    "actif"?: boolean | null,"created_at"?: string | null,"criteres"?: NonNullable<Json>,"derniere_notification_at"?: string | null,"id"?: string,"user_id"?: string
-                  }
-                  Relationships: [
-                    
-                  ]
-                },"signup_attempts_keyli": {
-                  Row: {
-                    "completed": boolean | null,"completed_at": string | null,"created_at": string | null,"email": string | null,"error_message": string | null,"first_name": string | null,"id": string,"last_name": string | null,"phone": string | null,"role": string | null,"step_reached": string | null,"user_agent": string | null
-                  }
-                  Insert: {
-                    "completed"?: boolean | null,"completed_at"?: string | null,"created_at"?: string | null,"email"?: string | null,"error_message"?: string | null,"first_name"?: string | null,"id"?: string,"last_name"?: string | null,"phone"?: string | null,"role"?: string | null,"step_reached"?: string | null,"user_agent"?: string | null
-                  }
-                  Update: {
-                    "completed"?: boolean | null,"completed_at"?: string | null,"created_at"?: string | null,"email"?: string | null,"error_message"?: string | null,"first_name"?: string | null,"id"?: string,"last_name"?: string | null,"phone"?: string | null,"role"?: string | null,"step_reached"?: string | null,"user_agent"?: string | null
-                  }
-                  Relationships: [
-                    
-                  ]
-                },"subscriptions_keyli": {
-                  Row: {
-                    "amount": number,"conditions_negociees": string | null,"created_at": string | null,"end_date": string,"id": string,"montant_depassement_negocie": number | null,"paystack_payment_id": string | null,"plan_id": string,"prix_depassement_negocie": number | null,"rappel_j1_pour": string | null,"rappel_j7_pour": string | null,"start_date": string,"status": Database["public"]['Enums']["subscription_status_keyli"] | null,"updated_at": string | null,"user_id": string
-                  }
-                  Insert: {
-                    "amount": number,"conditions_negociees"?: string | null,"created_at"?: string | null,"end_date": string,"id"?: string,"montant_depassement_negocie"?: number | null,"paystack_payment_id"?: string | null,"plan_id": string,"prix_depassement_negocie"?: number | null,"rappel_j1_pour"?: string | null,"rappel_j7_pour"?: string | null,"start_date": string,"status"?: Database["public"]['Enums']["subscription_status_keyli"] | null,"updated_at"?: string | null,"user_id": string
-                  }
-                  Update: {
-                    "amount"?: number,"conditions_negociees"?: string | null,"created_at"?: string | null,"end_date"?: string,"id"?: string,"montant_depassement_negocie"?: number | null,"paystack_payment_id"?: string | null,"plan_id"?: string,"prix_depassement_negocie"?: number | null,"rappel_j1_pour"?: string | null,"rappel_j7_pour"?: string | null,"start_date"?: string,"status"?: Database["public"]['Enums']["subscription_status_keyli"] | null,"updated_at"?: string | null,"user_id"?: string
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "subscriptions_keyli_plan_id_fkey"
-      columns: ["plan_id"]
-isOneToOne: false
-      referencedRelation: "plans_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"transactions_keyli": {
-                  Row: {
-                    "amount": number,"created_at": string | null,"currency": string | null,"id": string,"paystack_ref": string | null,"status": Database["public"]['Enums']["transaction_status_keyli"] | null,"subscription_id": string | null,"user_id": string
-                  }
-                  Insert: {
-                    "amount": number,"created_at"?: string | null,"currency"?: string | null,"id"?: string,"paystack_ref"?: string | null,"status"?: Database["public"]['Enums']["transaction_status_keyli"] | null,"subscription_id"?: string | null,"user_id": string
-                  }
-                  Update: {
-                    "amount"?: number,"created_at"?: string | null,"currency"?: string | null,"id"?: string,"paystack_ref"?: string | null,"status"?: Database["public"]['Enums']["transaction_status_keyli"] | null,"subscription_id"?: string | null,"user_id"?: string
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "transactions_keyli_subscription_id_fkey"
-      columns: ["subscription_id"]
-isOneToOne: false
-      referencedRelation: "subscriptions_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"types_chambres_keyli": {
-                  Row: {
-                    "actif": boolean,"created_at": string,"description": string | null,"id": string,"nom": string,"prix_nuit": number,"property_id": string,"quantite": number,"updated_at": string,"voyageurs_max": number
-                  }
-                  Insert: {
-                    "actif"?: boolean,"created_at"?: string,"description"?: string | null,"id"?: string,"nom": string,"prix_nuit": number,"property_id": string,"quantite": number,"updated_at"?: string,"voyageurs_max": number
-                  }
-                  Update: {
-                    "actif"?: boolean,"created_at"?: string,"description"?: string | null,"id"?: string,"nom"?: string,"prix_nuit"?: number,"property_id"?: string,"quantite"?: number,"updated_at"?: string,"voyageurs_max"?: number
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "types_chambres_keyli_property_id_fkey"
-      columns: ["property_id"]
-isOneToOne: false
-      referencedRelation: "properties_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"visits_keyli": {
-                  Row: {
-                    "created_at": string | null,"id": string,"lead_id": string | null,"property_id": string,"scheduled_at": string,"scheduled_by": string,"status": Database["public"]['Enums']["visit_status_keyli"] | null,"visitor_nom": string | null,"visitor_user_id": string | null
-                  }
-                  Insert: {
-                    "created_at"?: string | null,"id"?: string,"lead_id"?: string | null,"property_id": string,"scheduled_at": string,"scheduled_by": string,"status"?: Database["public"]['Enums']["visit_status_keyli"] | null,"visitor_nom"?: string | null,"visitor_user_id"?: string | null
-                  }
-                  Update: {
-                    "created_at"?: string | null,"id"?: string,"lead_id"?: string | null,"property_id"?: string,"scheduled_at"?: string,"scheduled_by"?: string,"status"?: Database["public"]['Enums']["visit_status_keyli"] | null,"visitor_nom"?: string | null,"visitor_user_id"?: string | null
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "visits_keyli_lead_id_fkey"
-      columns: ["lead_id"]
-isOneToOne: false
-      referencedRelation: "leads_keyli"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "visits_keyli_property_id_fkey"
-      columns: ["property_id"]
-isOneToOne: false
-      referencedRelation: "properties_keyli"
-      referencedColumns: ["id"]
-    }
-                  ]
-                }
-          }
-          Views: {
-            "profils_publics_keyli": {
-                  Row: {
-                    "membre_depuis": string | null,"nom_affiche": string | null,"photo_url": string | null,"rating_avg": number | null,"role_keyli": Database["public"]['Enums']["user_role_keyli"] | null,"user_id": string | null,"verified": boolean | null
-                  }
-                  Insert: {
-                           "membre_depuis"?: string | null,"nom_affiche"?: never,"photo_url"?: string | null,"rating_avg"?: never,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"] | null,"user_id"?: string | null,"verified"?: never
-                         }
-                        Update: {
-                           "membre_depuis"?: string | null,"nom_affiche"?: never,"photo_url"?: string | null,"rating_avg"?: never,"role_keyli"?: Database["public"]['Enums']["user_role_keyli"] | null,"user_id"?: string | null,"verified"?: never
-                         }
-                        Relationships: [
-                    
-                  ]
-                },"quartiers_populaires_keyli": {
-                  Row: {
-                    "calcule_le": string | null,"commune": string | null,"nom": string | null,"quartier_id": string | null,"score_popularite": number | null,"sessions_recherche": number | null,"sessions_vue": number | null
-                  }
-                  Relationships: [
-                    
-                  ]
-                },"tendances_prix_keyli": {
-                  Row: {
-                    "calcule_le": string | null,"niveau_affiche": string | null,"nom_affiche": string | null,"prix_moyen_location": number | null,"prix_moyen_vente": number | null,"quartier_id": string | null,"tendance_location_pct": number | null,"tendance_vente_pct": number | null
-                  }
-                  Relationships: [
-                    
-                  ]
-                }
-          }
-          Functions: {
-            "a_recu_message_de_keyli":
-{ Args: { "p_auteur": string,"p_property": string }; Returns: boolean
-                           },
-"abandonner_paiement_keyli":
-{ Args: { "p_immediat"?: boolean,"p_reference": string }; Returns: boolean
-                           },
-"abonnement_en_cours_keyli":
-{ Args: { "p_user": string }; Returns: boolean
-                           },
-"accepter_cgu_keyli":
-{ Args: { "p_version": string }; Returns: undefined
-                           },
-"admin_activite_quotidienne_keyli":
-{ Args: { "p_jours"?: number }; Returns: {
-              "contacts": number,"inscriptions": number,"jour": string,"vues": number
-            }[]
-                           },
-"admin_file_signalements_keyli":
-{ Args: { "p_limite"?: number,"p_statut"?: Database["public"]['Enums']["report_status_keyli"] }; Returns: {
-              "annonceur": string,"annonceur_id": string,"annonceur_suspendu": boolean,"auteur": string,"bien_archive": boolean,"bien_verifie": boolean,"id": string,"motif": string,"precision_texte": string,"property_id": string,"signale_le": string,"signalements_en_attente": number,"statut": Database["public"]['Enums']["report_status_keyli"],"titre_bien": string
-            }[]
-                           },
-"admin_file_verification_keyli":
-{ Args: { "p_limite"?: number,"p_statut"?: Database["public"]['Enums']["document_status_keyli"] }; Returns: {
-              "compte_verifie": boolean,"depose_le": string,"doc_type": Database["public"]['Enums']["document_type_keyli"],"email": string,"fichier": string,"id": string,"nom": string,"notes": string,"property_id": string,"revu_le": string,"role": Database["public"]['Enums']["user_role_keyli"],"statut": Database["public"]['Enums']["document_status_keyli"],"titre_bien": string,"user_id": string
-            }[]
-                           },
-"admin_indicateurs_keyli":
-{ Args: Record<PropertyKey, never>; Returns: {
-              "abonnements_actifs": number,"agences": number,"annonces_publiees": number,"annonces_verifiees": number,"annonces_visibles": number,"annonceurs_verifies": number,"avis": number,"chercheurs": number,"comptes_total": number,"contacts_30j": number,"documents_en_attente": number,"encaisse_30j": number,"inscriptions_30j": number,"note_moyenne": number,"proprietaires": number,"signalements_en_attente": number,"taux_verification": number,"vues_30j": number
-            }[]
-                           },
-"admin_modifier_nom_agence_keyli":
-{ Args: { "p_motif": string,"p_nom": string,"p_user": string }; Returns: undefined
-                           },
-"admin_reactiver_compte_keyli":
-{ Args: { "p_note"?: string,"p_user": string }; Returns: undefined
-                           },
-"admin_retirer_verification_bien_keyli":
-{ Args: { "p_motif": string,"p_property": string }; Returns: undefined
-                           },
-"admin_retirer_verification_compte_keyli":
-{ Args: { "p_motif": string,"p_user": string }; Returns: undefined
-                           },
-"admin_reviser_document_keyli":
-{ Args: { "p_decision": Database["public"]['Enums']["document_status_keyli"],"p_document": string,"p_notes"?: string }; Returns: undefined
-                           },
-"admin_suspendre_compte_keyli":
-{ Args: { "p_fin"?: string,"p_motif": string,"p_user": string }; Returns: undefined
-                           },
-"admin_traiter_signalement_keyli":
-{ Args: { "p_note"?: string,"p_report": string,"p_statut": Database["public"]['Enums']["report_status_keyli"] }; Returns: undefined
-                           },
-"annonce_correspond_alerte_keyli":
-{ Args: { "c": Json,"p": Database["public"]['Tables']["properties_keyli"]['Row'] }; Returns: boolean
-                           },
-"annonces_similaires_keyli":
-{ Args: { "p_id": string,"p_limite"?: number }; Returns: {
-              "commune": string,"id": string,"image": string,"pieces": number,"prix": number,"quartier": string,"sejour_court": boolean,"statut": Database["public"]['Enums']["property_status_keyli"],"titre": string,"type": Database["public"]['Enums']["property_type_keyli"],"verifiee": boolean,"ville": string
-            }[]
-                           },
-"annuler_reservation_keyli":
-{ Args: { "p_motif"?: string,"p_reservation": string }; Returns: undefined
-                           },
-"anomalies_paiements_keyli":
-{ Args: { "p_fenetre"?: string }; Returns: {
-              "controle": string,"libelle": string,"nombre": number
-            }[]
-                           },
-"avis_recus_keyli":
-{ Args: { "p_limite"?: number,"p_user": string }; Returns: {
-              "auteur": string,"commentaire": string,"date_avis": string,"id": string,"note": number,"titre_bien": string
-            }[]
-                           },
-"calculer_quartiers_tendance_keyli":
-{ Args: Record<PropertyKey, never>; Returns: undefined
-                           },
-"candidater_pilote_keyli":
-{ Args: { "p_commune"?: string,"p_email": string,"p_message"?: string,"p_nb_biens"?: number,"p_nom": string,"p_nom_agence"?: string,"p_prenom": string,"p_profil": string,"p_telephone": string }; Returns: undefined
-                           },
-"candidatures_pilote_keyli":
-{ Args: { "p_statut": Database["public"]['Enums']["inscription_status_keyli"] }; Returns: {
-              "commune": string,"compte_cree": boolean,"created_at": string,"email": string,"id": string,"message": string,"nb_biens": number,"nom": string,"nom_agence": string,"note_admin": string,"prenom": string,"priorite": Database["public"]['Enums']["priority_level_keyli"],"profil": string,"statut": Database["public"]['Enums']["inscription_status_keyli"],"telephone": string
-            }[]
-                           },
-"cloturer_cycles_keyli":
-{ Args: Record<PropertyKey, never>; Returns: number
-                           },
-"cloudinary_cloud_keyli":
-{ Args: Record<PropertyKey, never>; Returns: string
-                           },
-"compte_actif_keyli":
-{ Args: { "p_user": string }; Returns: boolean
-                           },
-"confirmer_paiement_keyli":
-{ Args: { "p_devise": string,"p_montant_subunit": number,"p_paystack_id": string,"p_reference": string }; Returns: string
-                           },
-"conseils_agence_keyli":
-{ Args: Record<PropertyKey, never>; Returns: {
-              "action_libelle": string,"action_vers": string,"regle": string,"texte": string,"titre": string,"type": string
-            }[]
-                           },
-"controles_paiements_keyli":
-{ Args: Record<PropertyKey, never>; Returns: {
-              "controle": string,"libelle": string,"nombre": number
-            }[]
-                           },
-"conversion_annonces_keyli":
-{ Args: { "p_debut": string,"p_fin": string }; Returns: {
-              "cle": string,"contacts": number,"dimension": string,"intentions": number,"visiteurs": number
-            }[]
-                           },
-"criteres_alerte_valides_keyli":
-{ Args: { "c": Json }; Returns: boolean
-                           },
-"current_user_role_keyli":
-{ Args: Record<PropertyKey, never>; Returns: Database["public"]['Enums']["user_role_keyli"]
-                           },
-"cycle_abonnement_keyli":
-{ Args: { "p_at": string,"p_end": string,"p_start": string }; Returns: {
-              "debut": string,"fin": string
-            }[]
-                           },
-"declencher_envoi_emails_keyli":
-{ Args: Record<PropertyKey, never>; Returns: undefined
-                           },
-"declencher_envoi_pushs_keyli":
-{ Args: Record<PropertyKey, never>; Returns: undefined
-                           },
-"declencher_rapprochement_paiements_keyli":
-{ Args: Record<PropertyKey, never>; Returns: undefined
-                           },
-"demander_reservation_keyli":
-{ Args: { "p_arrivee": string,"p_chambre": string,"p_chambres"?: number,"p_depart": string,"p_message"?: string,"p_property": string,"p_voyageurs": number }; Returns: string
-                           },
-"desinscrire_emails_keyli":
-{ Args: { "p_jeton": string }; Returns: boolean
-                           },
-"devis_sejour_keyli":
-{ Args: { "p_arrivee": string,"p_chambre": string,"p_chambres"?: number,"p_depart": string,"p_property": string,"p_voyageurs": number }; Returns: {
-              "montant_total": number,"motif": string,"nuits": number,"prix_nuit": number,"restantes": number
-            }[]
-                           },
-"echec_paiement_keyli":
-{ Args: { "p_message": string,"p_motif_refus"?: string,"p_notifier"?: boolean,"p_reference": string }; Returns: undefined
-                           },
-"email_de_service_keyli":
-{ Args: { "p_type": string }; Returns: boolean
-                           },
-"enregistrer_appareil_push_keyli":
-{ Args: { "p_environnement"?: string,"p_jeton": string,"p_plateforme": string }; Returns: undefined
-                           },
-"envoyer_demande_support_keyli":
-{ Args: { "p_email": string,"p_message": string,"p_nom": string,"p_sujet": string }; Returns: undefined
-                           },
-"erreurs_recentes_keyli":
-{ Args: { "p_jours"?: number }; Returns: {
-              "code": string,"comptes": number,"derniere": string,"message": string,"occurrences": number,"page": string
-            }[]
-                           },
-"est_admin_keyli":
-{ Args: Record<PropertyKey, never>; Returns: boolean
-                           },
-"est_hotelier_keyli":
-{ Args: { "p_type": Database["public"]['Enums']["property_type_keyli"] }; Returns: boolean
-                           },
-"est_super_admin_keyli":
-{ Args: Record<PropertyKey, never>; Returns: boolean
-                           },
-"etapes_demarrage_keyli":
-{ Args: Record<PropertyKey, never>; Returns: {
-              "etape": string,"faite": boolean,"ordre": number
-            }[]
-                           },
-"etat_publication_keyli":
-{ Args: Record<PropertyKey, never>; Returns: {
-              "plan_code": string,"prix_depassement": number,"publications_cycle": number,"seuil_max": number,"statut": string,"subscription_id": string
-            }[]
-                           },
-"evaluer_publication_keyli":
-{ Args: { "p_owner": string }; Returns: {
-              "plan_code": string,"prix_depassement": number,"publications_cycle": number,"seuil_max": number,"statut": string,"subscription_id": string
-            }[]
-                           },
-"initier_paiement_keyli":
-{ Args: { "p_plan": string }; Returns: {
-              "devise": string,"email": string,"montant": number,"montant_depassements": number,"montant_forfait": number,"plan_code": string,"reference": string
-            }[]
-                           },
-"journaliser_erreur_keyli":
-{ Args: { "p_code"?: string,"p_message": string,"p_navigateur"?: string,"p_page": string }; Returns: undefined
-                           },
-"journaliser_keyli":
-{ Args: { "p_action": string,"p_details"?: Json,"p_entity_id": string,"p_entity_type": string }; Returns: undefined
-                           },
-"mes_alertes_keyli":
-{ Args: Record<PropertyKey, never>; Returns: {
-              "actif": boolean,"commune": string,"created_at": string,"criteres": Json,"id": string,"nouvelles": number,"quartier": string
-            }[]
-                           },
-"mes_biens_marche_keyli":
-{ Args: Record<PropertyKey, never>; Returns: {
-              "ecart_pct": number,"id": string,"prix": number,"prix_moyen": number,"quartier": string,"statut": Database["public"]['Enums']["property_status_keyli"],"titre": string,"verifiee": boolean,"vues": number
-            }[]
-                           },
-"mes_conversations_keyli":
-{ Args: Record<PropertyKey, never>; Returns: {
-              "dernier_envoi": string,"dernier_message": string,"envoye_par_moi": boolean,"image_annonce": string,"interlocuteur": string,"interlocuteur_verifie": boolean,"nom_interlocuteur": string,"non_lus": number,"property_id": string,"titre_annonce": string
-            }[]
-                           },
-"mes_visites_a_venir_keyli":
-{ Args: { "p_limite"?: number }; Returns: {
-              "id": string,"interlocuteur": string,"nom": string,"property_id": string,"scheduled_at": string,"status": Database["public"]['Enums']["visit_status_keyli"],"titre": string
-            }[]
-                           },
-"notification_par_email_keyli":
-{ Args: { "p_type": string }; Returns: boolean
-                           },
-"notification_par_push_keyli":
-{ Args: { "p_type": string }; Returns: boolean
-                           },
-"nuits_completes_keyli":
-{ Args: { "p_a": string,"p_chambre": string,"p_de": string,"p_property": string }; Returns: string[]
-                           },
-"occupation_sejour_keyli":
-{ Args: { "p_a": string,"p_chambre": string,"p_de": string,"p_property": string }; Returns: {
-              "capacite": number,"jour": string,"occupees": number
-            }[]
-                           },
-"ordonner_photos_keyli":
-{ Args: { "p_ids": (string)[],"p_property": string }; Returns: undefined
-                           },
-"paiements_admin_keyli":
-{ Args: { "p_limite"?: number,"p_statut"?: string }; Returns: {
-              "cree_le": string,"derniere_verification": string,"email": string,"forfait": string,"id": string,"message": string,"montant": number,"motif_refus": string,"reference": string,"statut": string,"verifications": number
-            }[]
-                           },
-"performance_equipe_keyli":
-{ Args: { "p_jours"?: number }; Returns: {
-              "actif": boolean,"agent_id": string,"annonces": number,"conclus": number,"conversion": number,"leads": number,"nb_avis": number,"nom": string,"note": number
-            }[]
-                           },
-"performance_mes_annonces_keyli":
-{ Args: { "p_jours"?: number }; Returns: {
-              "a_description": boolean,"a_pieces": boolean,"a_position": boolean,"a_quartier": boolean,"a_surface": boolean,"annonceur_verifie": boolean,"contacts": number,"id": string,"intentions": number,"nb_photos": number,"publiee_le": string,"titre": string,"visiteurs": number
-            }[]
-                           },
-"pipeline_leads_keyli":
-{ Args: Record<PropertyKey, never>; Returns: {
-              "agent": string,"agent_id": string,"bien": string,"contact": string,"contact_user_id": string,"derniere_activite": string,"etape": Database["public"]['Enums']["lead_stage_keyli"],"id": string,"property_id": string
-            }[]
-                           },
-"position_approchee_keyli":
-{ Args: { "p_geo": unknown,"p_id": string }; Returns: {
-              "latitude": number,"longitude": number
-            }[]
-                           },
-"positions_annonces_keyli":
-{ Args: { "p_ids": (string)[] }; Returns: {
-              "id": string,"latitude": number,"longitude": number
-            }[]
-                           },
-"preferences_chercheur_keyli":
-{ Args: Record<PropertyKey, never>; Returns: Json
-                           },
-"prendre_emails_keyli":
-{ Args: { "p_limite"?: number }; Returns: {
-              "categorie": string,"contenu": string,"destinataire": string,"expediteur": string,"expediteur_id": string,"extrait": string,"id": string,"jeton": string,"non_lus": number,"prenom": string,"property_id": string,"titre": string,"titre_annonce": string,"type": string
-            }[]
-                           },
-"prendre_paiements_a_verifier_keyli":
-{ Args: { "p_limite"?: number,"p_reference"?: string }; Returns: {
-              "cree_le": string,"reference": string,"statut": string
-            }[]
-                           },
-"prendre_pushs_keyli":
-{ Args: { "p_limite"?: number }; Returns: {
-              "appareils": Json,"categorie": string,"contenu": string,"expediteur": string,"expediteur_id": string,"extrait": string,"id": string,"non_lus": number,"property_id": string,"titre": string,"type": string
-            }[]
-                           },
-"publications_periode_keyli":
-{ Args: { "p_debut": string,"p_fin": string,"p_owner": string }; Returns: number
-                           },
-"publier_annonce_keyli":
-{ Args: { "p_accepte_depassement"?: boolean,"p_avantages"?: (string)[],"p_description"?: string,"p_latitude": number,"p_longitude": number,"p_meuble"?: boolean,"p_nuits_min"?: number,"p_photos": (string)[],"p_pieces"?: number,"p_prix": number,"p_quartier"?: string,"p_salles_de_bain"?: number,"p_sejour_court"?: boolean,"p_statut": Database["public"]['Enums']["property_status_keyli"],"p_surface"?: number,"p_titre": string,"p_type": Database["public"]['Enums']["property_type_keyli"],"p_ville": string,"p_voyageurs_max"?: number }; Returns: string
-                           },
-"purger_erreurs_client_keyli":
-{ Args: Record<PropertyKey, never>; Returns: undefined
-                           },
-"rechercher_annonces_keyli":
-{ Args: { "p_arrivee"?: string,"p_avantages"?: (string)[],"p_commune"?: string,"p_decalage"?: number,"p_depart"?: string,"p_limite"?: number,"p_meuble"?: boolean,"p_pieces_min"?: number,"p_prix_max"?: number,"p_prix_min"?: number,"p_quartier"?: string,"p_sejour"?: boolean,"p_statut"?: Database["public"]['Enums']["property_status_keyli"],"p_tri"?: string,"p_type"?: Database["public"]['Enums']["property_type_keyli"],"p_voyageurs"?: number }; Returns: {
-              "commune": string,"id": string,"image": string,"meuble": boolean,"nuits_min": number,"pieces": number,"prix": number,"publiee_le": string,"quartier": string,"salles_de_bain": number,"sejour_court": boolean,"statut": Database["public"]['Enums']["property_status_keyli"],"surface": number,"titre": string,"total": number,"type": Database["public"]['Enums']["property_type_keyli"],"verifiee": boolean,"ville": string
-            }[]
-                           },
-"recommandations_keyli":
-{ Args: { "p_limite"?: number }; Returns: {
-              "commune": string,"id": string,"image": string,"pertinence": number,"prix": number,"quartier": string,"statut": Database["public"]['Enums']["property_status_keyli"],"titre": string,"type": Database["public"]['Enums']["property_type_keyli"],"verifiee": boolean,"ville": string
-            }[]
-                           },
-"relancer_annonceurs_keyli":
-{ Args: Record<PropertyKey, never>; Returns: number
-                           },
-"relation_notable_keyli":
-{ Args: { "p_autre": string,"p_property": string }; Returns: boolean
-                           },
-"repondre_reservation_keyli":
-{ Args: { "p_accepter": boolean,"p_motif"?: string,"p_reservation": string }; Returns: undefined
-                           },
-"retirer_jetons_push_keyli":
-{ Args: { "p_jetons": (string)[] }; Returns: number
-                           },
-"suivi_pilote_keyli":
-{ Args: Record<PropertyKey, never>; Returns: {
-              "annonceurs": number,"annonceurs_annonce": number,"annonceurs_documents": number,"annonceurs_forfait": number,"annonceurs_profil": number,"annonceurs_verifies": number,"avis": number,"candidatures_avec_compte": number,"candidatures_contactees": number,"candidatures_converties": number,"candidatures_en_attente": number,"candidatures_rejetees": number,"delai_moyen_heures": number,"documents_en_attente": number,"documents_en_retard": number,"relances_7j": number,"reservations_acceptees": number,"reservations_demandees": number,"retours_en_attente": number,"retours_total": number,"visites_effectuees": number,"visites_planifiees": number
-            }[]
-                           },
-"super_admin_changer_role_keyli":
-{ Args: { "p_role": Database["public"]['Enums']["user_role_keyli"],"p_user": string }; Returns: undefined
-                           },
-"super_admin_formule_negociee_keyli":
-{ Args: { "p_conditions": string,"p_montant_depassement_negocie": number,"p_prix_depassement_negocie": number,"p_subscription": string }; Returns: undefined
-                           },
-"super_admin_modifier_forfait_keyli":
-{ Args: { "p_actif": boolean,"p_plan": string,"p_prix_depassement_unitaire": number,"p_prix_mensuel": number,"p_seuil_max": number,"p_seuil_min": number }; Returns: undefined
-                           },
-"surveiller_paiements_keyli":
-{ Args: Record<PropertyKey, never>; Returns: number
-                           },
-"synthese_paiements_keyli":
-{ Args: { "p_debut": string,"p_fin": string }; Returns: {
-              "abandonnes": number,"echoues": number,"en_cours": number,"encaisse": number,"reussis": number
-            }[]
-                           },
-"tableau_bord_agence_keyli":
-{ Args: { "p_jours"?: number }; Returns: Json
-                           },
-"tableau_bord_proprietaire_keyli":
-{ Args: { "p_jours"?: number }; Returns: Json
-                           },
-"terminer_email_keyli":
-{ Args: { "p_erreur"?: string,"p_id": string,"p_ok": boolean }; Returns: undefined
-                           },
-"terminer_push_keyli":
-{ Args: { "p_erreur"?: string,"p_id": string,"p_ok": boolean }; Returns: undefined
-                           },
-"traiter_echeances_abonnements_keyli":
-{ Args: Record<PropertyKey, never>; Returns: {
-              "expirations": number,"rappels_j1": number,"rappels_j7": number
-            }[]
-                           },
-"url_photo_keyli_valide":
-{ Args: { "p_proprietaire": string,"p_url": string }; Returns: boolean
-                           },
-"version_cgu_keyli":
-{ Args: Record<PropertyKey, never>; Returns: string
-                           }
-          }
-          Enums: {
-            "document_status_keyli": "pending"|"approved"|"rejected","document_type_keyli": "acd"|"registre"|"extrait_naissance"|"cert_residence","inscription_status_keyli": "en_attente"|"contacte"|"converti"|"rejete","interaction_type_keyli": "view"|"click_contact"|"click_phone"|"click_whatsapp"|"click_favorite"|"click_gallery"|"click_map"|"search_neighborhood","lead_stage_keyli": "nouveau"|"visite_planifiee"|"negociation"|"conclu","priority_level_keyli": "haute"|"moyenne"|"basse","property_status_keyli": "a_louer"|"a_vendre","property_type_keyli": "maison"|"duplex"|"villa"|"appartement"|"studio"|"residence_meublee"|"auberge"|"hotel"|"bureau"|"magasin","report_status_keyli": "pending"|"reviewed"|"resolved","reservation_status_keyli": "demandee"|"acceptee"|"refusee"|"annulee","subscription_status_keyli": "active"|"expired"|"canceled","transaction_status_keyli": "pending"|"completed"|"failed","user_role_keyli": "user"|"owner"|"agency"|"admin"|"super_admin","visit_status_keyli": "planifiee"|"effectuee"|"annulee"
-          }
-          CompositeTypes: {
-            [_ in never]: never
-          }
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "14.18"
+  }
+  public: {
+    Tables: {
+      agency_agents_keyli: {
+        Row: {
+          actif: boolean | null
+          agency_user_id: string
+          created_at: string | null
+          id: string
+          nom: string
         }
+        Insert: {
+          actif?: boolean | null
+          agency_user_id: string
+          created_at?: string | null
+          id?: string
+          nom: string
+        }
+        Update: {
+          actif?: boolean | null
+          agency_user_id?: string
+          created_at?: string | null
+          id?: string
+          nom?: string
+        }
+        Relationships: []
+      }
+      appareils_push_keyli: {
+        Row: {
+          created_at: string
+          derniere_vue: string
+          environnement: string
+          id: string
+          jeton: string
+          plateforme: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          derniere_vue?: string
+          environnement?: string
+          id?: string
+          jeton: string
+          plateforme: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          derniere_vue?: string
+          environnement?: string
+          id?: string
+          jeton?: string
+          plateforme?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      audit_logs_keyli: {
+        Row: {
+          action: string
+          admin_id: string
+          created_at: string | null
+          details: Json | null
+          entity_id: string | null
+          entity_type: string
+          id: string
+        }
+        Insert: {
+          action: string
+          admin_id: string
+          created_at?: string | null
+          details?: Json | null
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+        }
+        Update: {
+          action?: string
+          admin_id?: string
+          created_at?: string | null
+          details?: Json | null
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      avantages_keyli: {
+        Row: {
+          actif: boolean
+          categorie: string
+          code: string
+          created_at: string | null
+          id: string
+          libelle: string
+          ordre: number
+        }
+        Insert: {
+          actif?: boolean
+          categorie: string
+          code: string
+          created_at?: string | null
+          id?: string
+          libelle: string
+          ordre?: number
+        }
+        Update: {
+          actif?: boolean
+          categorie?: string
+          code?: string
+          created_at?: string | null
+          id?: string
+          libelle?: string
+          ordre?: number
+        }
+        Relationships: []
+      }
+      communes_keyli: {
+        Row: {
+          created_at: string | null
+          id: string
+          nom: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          nom: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          nom?: string
+        }
+        Relationships: []
+      }
+      demandes_support_keyli: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          nom: string
+          note_admin: string | null
+          statut: string
+          sujet: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          nom: string
+          note_admin?: string | null
+          statut?: string
+          sujet: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          nom?: string
+          note_admin?: string | null
+          statut?: string
+          sujet?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      depassements_cycle_keyli: {
+        Row: {
+          created_at: string
+          cycle_debut: string
+          cycle_fin: string
+          en_depassement: boolean
+          id: string
+          montant: number
+          nb_depassement: number
+          nb_publications: number
+          prix_unitaire: number | null
+          seuil: number | null
+          statut: string
+          subscription_id: string
+          tentative_id: string | null
+          transaction_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          cycle_debut: string
+          cycle_fin: string
+          en_depassement?: boolean
+          id?: string
+          montant?: number
+          nb_depassement?: number
+          nb_publications: number
+          prix_unitaire?: number | null
+          seuil?: number | null
+          statut: string
+          subscription_id: string
+          tentative_id?: string | null
+          transaction_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          cycle_debut?: string
+          cycle_fin?: string
+          en_depassement?: boolean
+          id?: string
+          montant?: number
+          nb_depassement?: number
+          nb_publications?: number
+          prix_unitaire?: number | null
+          seuil?: number | null
+          statut?: string
+          subscription_id?: string
+          tentative_id?: string | null
+          transaction_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "depassements_cycle_keyli_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions_keyli"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "depassements_cycle_keyli_tentative_id_fkey"
+            columns: ["tentative_id"]
+            isOneToOne: false
+            referencedRelation: "payment_attempts_keyli"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "depassements_cycle_keyli_transaction_id_fkey"
+            columns: ["transaction_id"]
+            isOneToOne: false
+            referencedRelation: "transactions_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      documents_keyli: {
+        Row: {
+          created_at: string | null
+          doc_type: Database["public"]["Enums"]["document_type_keyli"]
+          file_url: string
+          id: string
+          property_id: string | null
+          review_notes: string | null
+          reviewed_at: string | null
+          status: Database["public"]["Enums"]["document_status_keyli"] | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          doc_type: Database["public"]["Enums"]["document_type_keyli"]
+          file_url: string
+          id?: string
+          property_id?: string | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          status?: Database["public"]["Enums"]["document_status_keyli"] | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          doc_type?: Database["public"]["Enums"]["document_type_keyli"]
+          file_url?: string
+          id?: string
+          property_id?: string | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          status?: Database["public"]["Enums"]["document_status_keyli"] | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_keyli_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      emails_sortants_keyli: {
+        Row: {
+          categorie: string
+          created_at: string
+          envoye_at: string | null
+          envoyer_apres: string
+          erreur: string | null
+          expediteur_id: string | null
+          id: string
+          notification_id: string | null
+          property_id: string | null
+          statut: string
+          tentatives: number
+          type: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          categorie: string
+          created_at?: string
+          envoye_at?: string | null
+          envoyer_apres?: string
+          erreur?: string | null
+          expediteur_id?: string | null
+          id?: string
+          notification_id?: string | null
+          property_id?: string | null
+          statut?: string
+          tentatives?: number
+          type?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          categorie?: string
+          created_at?: string
+          envoye_at?: string | null
+          envoyer_apres?: string
+          erreur?: string | null
+          expediteur_id?: string | null
+          id?: string
+          notification_id?: string | null
+          property_id?: string | null
+          statut?: string
+          tentatives?: number
+          type?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "emails_sortants_keyli_notification_id_fkey"
+            columns: ["notification_id"]
+            isOneToOne: false
+            referencedRelation: "notifications_keyli"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "emails_sortants_keyli_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      erreurs_client_keyli: {
+        Row: {
+          code: string | null
+          created_at: string
+          id: string
+          message: string
+          navigateur: string | null
+          page: string
+          user_id: string | null
+        }
+        Insert: {
+          code?: string | null
+          created_at?: string
+          id?: string
+          message: string
+          navigateur?: string | null
+          page: string
+          user_id?: string | null
+        }
+        Update: {
+          code?: string | null
+          created_at?: string
+          id?: string
+          message?: string
+          navigateur?: string | null
+          page?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      favorites_keyli: {
+        Row: {
+          created_at: string | null
+          id: string
+          property_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          property_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          property_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_keyli_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      feedback_keyli: {
+        Row: {
+          admin_response: string | null
+          created_at: string | null
+          id: string
+          message: string
+          status: string | null
+          subject: string
+          type: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          admin_response?: string | null
+          created_at?: string | null
+          id?: string
+          message: string
+          status?: string | null
+          subject: string
+          type?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          admin_response?: string | null
+          created_at?: string | null
+          id?: string
+          message?: string
+          status?: string | null
+          subject?: string
+          type?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      inscription_pilot_keyli: {
+        Row: {
+          budget: number | null
+          city: string | null
+          commune: string | null
+          created_at: string | null
+          email: string
+          first_name: string | null
+          id: string
+          last_name: string | null
+          message: string | null
+          nb_biens: number | null
+          nom_agence: string | null
+          note_admin: string | null
+          phone: string | null
+          priority_level:
+            | Database["public"]["Enums"]["priority_level_keyli"]
+            | null
+          profil: string | null
+          property_type:
+            | Database["public"]["Enums"]["property_type_keyli"]
+            | null
+          source: string | null
+          status: Database["public"]["Enums"]["inscription_status_keyli"] | null
+          updated_at: string | null
+        }
+        Insert: {
+          budget?: number | null
+          city?: string | null
+          commune?: string | null
+          created_at?: string | null
+          email: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          message?: string | null
+          nb_biens?: number | null
+          nom_agence?: string | null
+          note_admin?: string | null
+          phone?: string | null
+          priority_level?:
+            | Database["public"]["Enums"]["priority_level_keyli"]
+            | null
+          profil?: string | null
+          property_type?:
+            | Database["public"]["Enums"]["property_type_keyli"]
+            | null
+          source?: string | null
+          status?:
+            | Database["public"]["Enums"]["inscription_status_keyli"]
+            | null
+          updated_at?: string | null
+        }
+        Update: {
+          budget?: number | null
+          city?: string | null
+          commune?: string | null
+          created_at?: string | null
+          email?: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          message?: string | null
+          nb_biens?: number | null
+          nom_agence?: string | null
+          note_admin?: string | null
+          phone?: string | null
+          priority_level?:
+            | Database["public"]["Enums"]["priority_level_keyli"]
+            | null
+          profil?: string | null
+          property_type?:
+            | Database["public"]["Enums"]["property_type_keyli"]
+            | null
+          source?: string | null
+          status?:
+            | Database["public"]["Enums"]["inscription_status_keyli"]
+            | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      leads_keyli: {
+        Row: {
+          agent_id: string | null
+          contact_nom: string | null
+          contact_user_id: string | null
+          created_at: string | null
+          id: string
+          owner_id: string
+          property_id: string
+          source_message_id: string | null
+          stage: Database["public"]["Enums"]["lead_stage_keyli"] | null
+          updated_at: string | null
+        }
+        Insert: {
+          agent_id?: string | null
+          contact_nom?: string | null
+          contact_user_id?: string | null
+          created_at?: string | null
+          id?: string
+          owner_id: string
+          property_id: string
+          source_message_id?: string | null
+          stage?: Database["public"]["Enums"]["lead_stage_keyli"] | null
+          updated_at?: string | null
+        }
+        Update: {
+          agent_id?: string | null
+          contact_nom?: string | null
+          contact_user_id?: string | null
+          created_at?: string | null
+          id?: string
+          owner_id?: string
+          property_id?: string
+          source_message_id?: string | null
+          stage?: Database["public"]["Enums"]["lead_stage_keyli"] | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leads_keyli_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "agency_agents_keyli"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leads_keyli_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_keyli"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leads_keyli_source_message_id_fkey"
+            columns: ["source_message_id"]
+            isOneToOne: false
+            referencedRelation: "messages_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketing_templates_keyli: {
+        Row: {
+          content: string
+          created_at: string | null
+          created_by: string | null
+          id: string
+          image_url: string | null
+          name: string
+          target_audience: string | null
+          title: string | null
+          type: string
+          updated_at: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          image_url?: string | null
+          name: string
+          target_audience?: string | null
+          title?: string | null
+          type: string
+          updated_at?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          target_audience?: string | null
+          title?: string | null
+          type?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      messages_keyli: {
+        Row: {
+          body: string
+          created_at: string | null
+          from_user: string
+          id: string
+          property_id: string | null
+          read: boolean | null
+          to_user: string
+        }
+        Insert: {
+          body: string
+          created_at?: string | null
+          from_user: string
+          id?: string
+          property_id?: string | null
+          read?: boolean | null
+          to_user: string
+        }
+        Update: {
+          body?: string
+          created_at?: string | null
+          from_user?: string
+          id?: string
+          property_id?: string | null
+          read?: boolean | null
+          to_user?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_keyli_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications_keyli: {
+        Row: {
+          alert_id: string | null
+          contenu: string | null
+          created_at: string
+          id: string
+          lue: boolean
+          property_id: string | null
+          titre: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          alert_id?: string | null
+          contenu?: string | null
+          created_at?: string
+          id?: string
+          lue?: boolean
+          property_id?: string | null
+          titre: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          alert_id?: string | null
+          contenu?: string | null
+          created_at?: string
+          id?: string
+          lue?: boolean
+          property_id?: string | null
+          titre?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_keyli_alert_id_fkey"
+            columns: ["alert_id"]
+            isOneToOne: false
+            referencedRelation: "search_alerts_keyli"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_keyli_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      onboarding_checklists_keyli: {
+        Row: {
+          completed: boolean | null
+          completed_at: string | null
+          created_at: string | null
+          id: string
+          notes: string | null
+          step: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean | null
+          completed_at?: string | null
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          step: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          completed?: boolean | null
+          completed_at?: string | null
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          step?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      payment_attempts_keyli: {
+        Row: {
+          amount: number | null
+          created_at: string | null
+          derniere_verification: string | null
+          email: string | null
+          error_message: string | null
+          id: string
+          montant_depassements: number
+          motif_refus: string | null
+          paystack_reference: string | null
+          plan_id: string | null
+          status: string | null
+          user_id: string | null
+          verifications: number
+        }
+        Insert: {
+          amount?: number | null
+          created_at?: string | null
+          derniere_verification?: string | null
+          email?: string | null
+          error_message?: string | null
+          id?: string
+          montant_depassements?: number
+          motif_refus?: string | null
+          paystack_reference?: string | null
+          plan_id?: string | null
+          status?: string | null
+          user_id?: string | null
+          verifications?: number
+        }
+        Update: {
+          amount?: number | null
+          created_at?: string | null
+          derniere_verification?: string | null
+          email?: string | null
+          error_message?: string | null
+          id?: string
+          montant_depassements?: number
+          motif_refus?: string | null
+          paystack_reference?: string | null
+          plan_id?: string | null
+          status?: string | null
+          user_id?: string | null
+          verifications?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_attempts_keyli_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "plans_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      plans_keyli: {
+        Row: {
+          actif: boolean | null
+          code: string
+          created_at: string | null
+          id: string
+          nom: string
+          prix_depassement_unitaire: number | null
+          prix_mensuel: number
+          seuil_max: number | null
+          seuil_min: number
+          updated_at: string | null
+        }
+        Insert: {
+          actif?: boolean | null
+          code: string
+          created_at?: string | null
+          id?: string
+          nom: string
+          prix_depassement_unitaire?: number | null
+          prix_mensuel: number
+          seuil_max?: number | null
+          seuil_min: number
+          updated_at?: string | null
+        }
+        Update: {
+          actif?: boolean | null
+          code?: string
+          created_at?: string | null
+          id?: string
+          nom?: string
+          prix_depassement_unitaire?: number | null
+          prix_mensuel?: number
+          seuil_max?: number | null
+          seuil_min?: number
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      profiles_keyli: {
+        Row: {
+          cgu_acceptees_at: string | null
+          cgu_version: string | null
+          created_at: string | null
+          email: string
+          emails_notifications: boolean
+          first_name: string | null
+          id: string
+          id_number: string | null
+          id_validity_date: string | null
+          jeton_desinscription: string
+          last_name: string | null
+          nom_agence: string | null
+          phone: string | null
+          photo_url: string | null
+          rating_avg: number | null
+          role_keyli: Database["public"]["Enums"]["user_role_keyli"]
+          suspendu: boolean
+          suspension_fin: string | null
+          suspension_motif: string | null
+          updated_at: string | null
+          user_id: string
+          verification_date: string | null
+          verified: boolean | null
+        }
+        Insert: {
+          cgu_acceptees_at?: string | null
+          cgu_version?: string | null
+          created_at?: string | null
+          email: string
+          emails_notifications?: boolean
+          first_name?: string | null
+          id?: string
+          id_number?: string | null
+          id_validity_date?: string | null
+          jeton_desinscription?: string
+          last_name?: string | null
+          nom_agence?: string | null
+          phone?: string | null
+          photo_url?: string | null
+          rating_avg?: number | null
+          role_keyli?: Database["public"]["Enums"]["user_role_keyli"]
+          suspendu?: boolean
+          suspension_fin?: string | null
+          suspension_motif?: string | null
+          updated_at?: string | null
+          user_id: string
+          verification_date?: string | null
+          verified?: boolean | null
+        }
+        Update: {
+          cgu_acceptees_at?: string | null
+          cgu_version?: string | null
+          created_at?: string | null
+          email?: string
+          emails_notifications?: boolean
+          first_name?: string | null
+          id?: string
+          id_number?: string | null
+          id_validity_date?: string | null
+          jeton_desinscription?: string
+          last_name?: string | null
+          nom_agence?: string | null
+          phone?: string | null
+          photo_url?: string | null
+          rating_avg?: number | null
+          role_keyli?: Database["public"]["Enums"]["user_role_keyli"]
+          suspendu?: boolean
+          suspension_fin?: string | null
+          suspension_motif?: string | null
+          updated_at?: string | null
+          user_id?: string
+          verification_date?: string | null
+          verified?: boolean | null
+        }
+        Relationships: []
+      }
+      properties_keyli: {
+        Row: {
+          accepte_depassement: boolean
+          agent_id: string | null
+          archived_at: string | null
+          area_m2: number | null
+          bathrooms: number | null
+          city: string
+          contacts_count: number | null
+          created_at: string | null
+          description: string | null
+          furnished: boolean | null
+          geolocation: unknown
+          id: string
+          is_verified: boolean | null
+          main_image_url: string | null
+          nuits_min: number
+          owner_id: string
+          price: number
+          quartier_id: string | null
+          rooms: number | null
+          sejour_court: boolean
+          status: Database["public"]["Enums"]["property_status_keyli"]
+          title: string
+          type: Database["public"]["Enums"]["property_type_keyli"]
+          updated_at: string | null
+          video_url: string | null
+          views_count: number | null
+          voyageurs_max: number | null
+        }
+        Insert: {
+          accepte_depassement?: boolean
+          agent_id?: string | null
+          archived_at?: string | null
+          area_m2?: number | null
+          bathrooms?: number | null
+          city: string
+          contacts_count?: number | null
+          created_at?: string | null
+          description?: string | null
+          furnished?: boolean | null
+          geolocation: unknown
+          id?: string
+          is_verified?: boolean | null
+          main_image_url?: string | null
+          nuits_min?: number
+          owner_id: string
+          price: number
+          quartier_id?: string | null
+          rooms?: number | null
+          sejour_court?: boolean
+          status: Database["public"]["Enums"]["property_status_keyli"]
+          title: string
+          type: Database["public"]["Enums"]["property_type_keyli"]
+          updated_at?: string | null
+          video_url?: string | null
+          views_count?: number | null
+          voyageurs_max?: number | null
+        }
+        Update: {
+          accepte_depassement?: boolean
+          agent_id?: string | null
+          archived_at?: string | null
+          area_m2?: number | null
+          bathrooms?: number | null
+          city?: string
+          contacts_count?: number | null
+          created_at?: string | null
+          description?: string | null
+          furnished?: boolean | null
+          geolocation?: unknown
+          id?: string
+          is_verified?: boolean | null
+          main_image_url?: string | null
+          nuits_min?: number
+          owner_id?: string
+          price?: number
+          quartier_id?: string | null
+          rooms?: number | null
+          sejour_court?: boolean
+          status?: Database["public"]["Enums"]["property_status_keyli"]
+          title?: string
+          type?: Database["public"]["Enums"]["property_type_keyli"]
+          updated_at?: string | null
+          video_url?: string | null
+          views_count?: number | null
+          voyageurs_max?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "properties_keyli_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "agency_agents_keyli"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "properties_keyli_quartier_id_fkey"
+            columns: ["quartier_id"]
+            isOneToOne: false
+            referencedRelation: "quartiers_keyli"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "properties_keyli_quartier_id_fkey"
+            columns: ["quartier_id"]
+            isOneToOne: false
+            referencedRelation: "tendances_prix_keyli"
+            referencedColumns: ["quartier_id"]
+          },
+        ]
+      }
+      property_avantages_keyli: {
+        Row: {
+          avantage_id: string
+          created_at: string | null
+          property_id: string
+        }
+        Insert: {
+          avantage_id: string
+          created_at?: string | null
+          property_id: string
+        }
+        Update: {
+          avantage_id?: string
+          created_at?: string | null
+          property_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_avantages_keyli_avantage_id_fkey"
+            columns: ["avantage_id"]
+            isOneToOne: false
+            referencedRelation: "avantages_keyli"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_avantages_keyli_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      property_interactions_keyli: {
+        Row: {
+          created_at: string | null
+          id: string
+          interaction_type: Database["public"]["Enums"]["interaction_type_keyli"]
+          property_id: string | null
+          quartier_id: string | null
+          session_id: string
+          source: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          interaction_type: Database["public"]["Enums"]["interaction_type_keyli"]
+          property_id?: string | null
+          quartier_id?: string | null
+          session_id: string
+          source?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          interaction_type?: Database["public"]["Enums"]["interaction_type_keyli"]
+          property_id?: string | null
+          quartier_id?: string | null
+          session_id?: string
+          source?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_interactions_keyli_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_keyli"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_interactions_keyli_quartier_id_fkey"
+            columns: ["quartier_id"]
+            isOneToOne: false
+            referencedRelation: "quartiers_keyli"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_interactions_keyli_quartier_id_fkey"
+            columns: ["quartier_id"]
+            isOneToOne: false
+            referencedRelation: "tendances_prix_keyli"
+            referencedColumns: ["quartier_id"]
+          },
+        ]
+      }
+      property_media_keyli: {
+        Row: {
+          created_at: string | null
+          id: string
+          media_type: string | null
+          order_index: number | null
+          property_id: string | null
+          url: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          media_type?: string | null
+          order_index?: number | null
+          property_id?: string | null
+          url: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          media_type?: string | null
+          order_index?: number | null
+          property_id?: string | null
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_media_keyli_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      property_publications_keyli: {
+        Row: {
+          created_at: string | null
+          hors_forfait: boolean
+          id: string
+          owner_id: string
+          prix_depassement: number | null
+          property_id: string
+          published_at: string
+          subscription_id: string | null
+          unpublished_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          hors_forfait?: boolean
+          id?: string
+          owner_id: string
+          prix_depassement?: number | null
+          property_id: string
+          published_at?: string
+          subscription_id?: string | null
+          unpublished_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          hors_forfait?: boolean
+          id?: string
+          owner_id?: string
+          prix_depassement?: number | null
+          property_id?: string
+          published_at?: string
+          subscription_id?: string | null
+          unpublished_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_publications_keyli_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_keyli"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_publications_keyli_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pushs_sortants_keyli: {
+        Row: {
+          categorie: string
+          created_at: string
+          envoye_at: string | null
+          envoyer_apres: string
+          erreur: string | null
+          expediteur_id: string | null
+          id: string
+          notification_id: string | null
+          property_id: string | null
+          statut: string
+          tentatives: number
+          type: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          categorie: string
+          created_at?: string
+          envoye_at?: string | null
+          envoyer_apres?: string
+          erreur?: string | null
+          expediteur_id?: string | null
+          id?: string
+          notification_id?: string | null
+          property_id?: string | null
+          statut?: string
+          tentatives?: number
+          type?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          categorie?: string
+          created_at?: string
+          envoye_at?: string | null
+          envoyer_apres?: string
+          erreur?: string | null
+          expediteur_id?: string | null
+          id?: string
+          notification_id?: string | null
+          property_id?: string | null
+          statut?: string
+          tentatives?: number
+          type?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pushs_sortants_keyli_notification_id_fkey"
+            columns: ["notification_id"]
+            isOneToOne: false
+            referencedRelation: "notifications_keyli"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pushs_sortants_keyli_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quartiers_keyli: {
+        Row: {
+          commune_id: string
+          created_at: string | null
+          id: string
+          nom: string
+        }
+        Insert: {
+          commune_id: string
+          created_at?: string | null
+          id?: string
+          nom: string
+        }
+        Update: {
+          commune_id?: string
+          created_at?: string | null
+          id?: string
+          nom?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quartiers_keyli_commune_id_fkey"
+            columns: ["commune_id"]
+            isOneToOne: false
+            referencedRelation: "communes_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quartiers_tendance_keyli: {
+        Row: {
+          calcule_le: string
+          commune_id: string
+          nb_location: number
+          nb_vente: number
+          niveau: string
+          nom: string
+          periode_debut: string
+          periode_fin: string
+          prix_fiable: boolean
+          prix_moyen_location: number | null
+          prix_moyen_location_prec: number | null
+          prix_moyen_vente: number | null
+          prix_moyen_vente_prec: number | null
+          score_popularite: number
+          sessions_recherche: number
+          sessions_vue: number
+          tendance_location_pct: number | null
+          tendance_vente_pct: number | null
+          zone_id: string
+        }
+        Insert: {
+          calcule_le?: string
+          commune_id: string
+          nb_location?: number
+          nb_vente?: number
+          niveau: string
+          nom: string
+          periode_debut: string
+          periode_fin: string
+          prix_fiable?: boolean
+          prix_moyen_location?: number | null
+          prix_moyen_location_prec?: number | null
+          prix_moyen_vente?: number | null
+          prix_moyen_vente_prec?: number | null
+          score_popularite?: number
+          sessions_recherche?: number
+          sessions_vue?: number
+          tendance_location_pct?: number | null
+          tendance_vente_pct?: number | null
+          zone_id: string
+        }
+        Update: {
+          calcule_le?: string
+          commune_id?: string
+          nb_location?: number
+          nb_vente?: number
+          niveau?: string
+          nom?: string
+          periode_debut?: string
+          periode_fin?: string
+          prix_fiable?: boolean
+          prix_moyen_location?: number | null
+          prix_moyen_location_prec?: number | null
+          prix_moyen_vente?: number | null
+          prix_moyen_vente_prec?: number | null
+          score_popularite?: number
+          sessions_recherche?: number
+          sessions_vue?: number
+          tendance_location_pct?: number | null
+          tendance_vente_pct?: number | null
+          zone_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quartiers_tendance_keyli_commune_id_fkey"
+            columns: ["commune_id"]
+            isOneToOne: false
+            referencedRelation: "communes_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ratings_keyli: {
+        Row: {
+          comment: string | null
+          created_at: string | null
+          id: string
+          property_id: string
+          rated_user_id: string
+          rater_id: string
+          rating: number
+          updated_at: string | null
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string | null
+          id?: string
+          property_id: string
+          rated_user_id: string
+          rater_id: string
+          rating: number
+          updated_at?: string | null
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string | null
+          id?: string
+          property_id?: string
+          rated_user_id?: string
+          rater_id?: string
+          rating?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ratings_keyli_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      relances_keyli: {
+        Row: {
+          created_at: string
+          etape: string
+          id: string
+          palier: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          etape: string
+          id?: string
+          palier: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          etape?: string
+          id?: string
+          palier?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      reports_keyli: {
+        Row: {
+          created_at: string | null
+          id: string
+          motif: string
+          property_id: string | null
+          reason: string | null
+          reporter_id: string
+          status: Database["public"]["Enums"]["report_status_keyli"] | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          motif?: string
+          property_id?: string | null
+          reason?: string | null
+          reporter_id: string
+          status?: Database["public"]["Enums"]["report_status_keyli"] | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          motif?: string
+          property_id?: string | null
+          reason?: string | null
+          reporter_id?: string
+          status?: Database["public"]["Enums"]["report_status_keyli"] | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reports_keyli_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reservations_keyli: {
+        Row: {
+          annulee_par: string | null
+          chambre_id: string | null
+          created_at: string
+          date_arrivee: string
+          date_depart: string
+          id: string
+          message: string | null
+          montant_total: number
+          motif: string | null
+          nb_chambres: number
+          nuits: number | null
+          owner_id: string
+          prix_nuit: number
+          property_id: string
+          repondu_at: string | null
+          statut: Database["public"]["Enums"]["reservation_status_keyli"]
+          updated_at: string
+          voyageur_id: string
+          voyageurs: number
+        }
+        Insert: {
+          annulee_par?: string | null
+          chambre_id?: string | null
+          created_at?: string
+          date_arrivee: string
+          date_depart: string
+          id?: string
+          message?: string | null
+          montant_total: number
+          motif?: string | null
+          nb_chambres?: number
+          nuits?: number | null
+          owner_id: string
+          prix_nuit: number
+          property_id: string
+          repondu_at?: string | null
+          statut?: Database["public"]["Enums"]["reservation_status_keyli"]
+          updated_at?: string
+          voyageur_id: string
+          voyageurs: number
+        }
+        Update: {
+          annulee_par?: string | null
+          chambre_id?: string | null
+          created_at?: string
+          date_arrivee?: string
+          date_depart?: string
+          id?: string
+          message?: string | null
+          montant_total?: number
+          motif?: string | null
+          nb_chambres?: number
+          nuits?: number | null
+          owner_id?: string
+          prix_nuit?: number
+          property_id?: string
+          repondu_at?: string | null
+          statut?: Database["public"]["Enums"]["reservation_status_keyli"]
+          updated_at?: string
+          voyageur_id?: string
+          voyageurs?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reservations_keyli_chambre_id_fkey"
+            columns: ["chambre_id"]
+            isOneToOne: false
+            referencedRelation: "types_chambres_keyli"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reservations_keyli_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      search_alerts_keyli: {
+        Row: {
+          actif: boolean | null
+          created_at: string | null
+          criteres: Json
+          derniere_notification_at: string | null
+          id: string
+          user_id: string
+        }
+        Insert: {
+          actif?: boolean | null
+          created_at?: string | null
+          criteres: Json
+          derniere_notification_at?: string | null
+          id?: string
+          user_id: string
+        }
+        Update: {
+          actif?: boolean | null
+          created_at?: string | null
+          criteres?: Json
+          derniere_notification_at?: string | null
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      signup_attempts_keyli: {
+        Row: {
+          completed: boolean | null
+          completed_at: string | null
+          created_at: string | null
+          email: string | null
+          error_message: string | null
+          first_name: string | null
+          id: string
+          last_name: string | null
+          phone: string | null
+          role: string | null
+          step_reached: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          completed?: boolean | null
+          completed_at?: string | null
+          created_at?: string | null
+          email?: string | null
+          error_message?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          phone?: string | null
+          role?: string | null
+          step_reached?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          completed?: boolean | null
+          completed_at?: string | null
+          created_at?: string | null
+          email?: string | null
+          error_message?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          phone?: string | null
+          role?: string | null
+          step_reached?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
+      subscriptions_keyli: {
+        Row: {
+          amount: number
+          conditions_negociees: string | null
+          created_at: string | null
+          end_date: string
+          id: string
+          montant_depassement_negocie: number | null
+          paystack_payment_id: string | null
+          plan_id: string
+          prix_depassement_negocie: number | null
+          rappel_j1_pour: string | null
+          rappel_j7_pour: string | null
+          start_date: string
+          status:
+            | Database["public"]["Enums"]["subscription_status_keyli"]
+            | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          conditions_negociees?: string | null
+          created_at?: string | null
+          end_date: string
+          id?: string
+          montant_depassement_negocie?: number | null
+          paystack_payment_id?: string | null
+          plan_id: string
+          prix_depassement_negocie?: number | null
+          rappel_j1_pour?: string | null
+          rappel_j7_pour?: string | null
+          start_date: string
+          status?:
+            | Database["public"]["Enums"]["subscription_status_keyli"]
+            | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          conditions_negociees?: string | null
+          created_at?: string | null
+          end_date?: string
+          id?: string
+          montant_depassement_negocie?: number | null
+          paystack_payment_id?: string | null
+          plan_id?: string
+          prix_depassement_negocie?: number | null
+          rappel_j1_pour?: string | null
+          rappel_j7_pour?: string | null
+          start_date?: string
+          status?:
+            | Database["public"]["Enums"]["subscription_status_keyli"]
+            | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_keyli_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "plans_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      transactions_keyli: {
+        Row: {
+          amount: number
+          created_at: string | null
+          currency: string | null
+          id: string
+          paystack_ref: string | null
+          status: Database["public"]["Enums"]["transaction_status_keyli"] | null
+          subscription_id: string | null
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          currency?: string | null
+          id?: string
+          paystack_ref?: string | null
+          status?:
+            | Database["public"]["Enums"]["transaction_status_keyli"]
+            | null
+          subscription_id?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          currency?: string | null
+          id?: string
+          paystack_ref?: string | null
+          status?:
+            | Database["public"]["Enums"]["transaction_status_keyli"]
+            | null
+          subscription_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_keyli_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      types_chambres_keyli: {
+        Row: {
+          actif: boolean
+          created_at: string
+          description: string | null
+          id: string
+          nom: string
+          prix_nuit: number
+          property_id: string
+          quantite: number
+          updated_at: string
+          voyageurs_max: number
+        }
+        Insert: {
+          actif?: boolean
+          created_at?: string
+          description?: string | null
+          id?: string
+          nom: string
+          prix_nuit: number
+          property_id: string
+          quantite: number
+          updated_at?: string
+          voyageurs_max: number
+        }
+        Update: {
+          actif?: boolean
+          created_at?: string
+          description?: string | null
+          id?: string
+          nom?: string
+          prix_nuit?: number
+          property_id?: string
+          quantite?: number
+          updated_at?: string
+          voyageurs_max?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "types_chambres_keyli_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      visits_keyli: {
+        Row: {
+          created_at: string | null
+          id: string
+          lead_id: string | null
+          property_id: string
+          scheduled_at: string
+          scheduled_by: string
+          status: Database["public"]["Enums"]["visit_status_keyli"] | null
+          visitor_nom: string | null
+          visitor_user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          lead_id?: string | null
+          property_id: string
+          scheduled_at: string
+          scheduled_by: string
+          status?: Database["public"]["Enums"]["visit_status_keyli"] | null
+          visitor_nom?: string | null
+          visitor_user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          lead_id?: string | null
+          property_id?: string
+          scheduled_at?: string
+          scheduled_by?: string
+          status?: Database["public"]["Enums"]["visit_status_keyli"] | null
+          visitor_nom?: string | null
+          visitor_user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "visits_keyli_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads_keyli"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "visits_keyli_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_keyli"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+    }
+    Views: {
+      profils_publics_keyli: {
+        Row: {
+          membre_depuis: string | null
+          nom_affiche: string | null
+          photo_url: string | null
+          rating_avg: number | null
+          role_keyli: Database["public"]["Enums"]["user_role_keyli"] | null
+          user_id: string | null
+          verified: boolean | null
+        }
+        Insert: {
+          membre_depuis?: string | null
+          nom_affiche?: never
+          photo_url?: string | null
+          rating_avg?: never
+          role_keyli?: Database["public"]["Enums"]["user_role_keyli"] | null
+          user_id?: string | null
+          verified?: never
+        }
+        Update: {
+          membre_depuis?: string | null
+          nom_affiche?: never
+          photo_url?: string | null
+          rating_avg?: never
+          role_keyli?: Database["public"]["Enums"]["user_role_keyli"] | null
+          user_id?: string | null
+          verified?: never
+        }
+        Relationships: []
+      }
+      quartiers_populaires_keyli: {
+        Row: {
+          calcule_le: string | null
+          commune: string | null
+          nom: string | null
+          quartier_id: string | null
+          score_popularite: number | null
+          sessions_recherche: number | null
+          sessions_vue: number | null
+        }
+        Relationships: []
+      }
+      tendances_prix_keyli: {
+        Row: {
+          calcule_le: string | null
+          niveau_affiche: string | null
+          nom_affiche: string | null
+          prix_moyen_location: number | null
+          prix_moyen_vente: number | null
+          quartier_id: string | null
+          tendance_location_pct: number | null
+          tendance_vente_pct: number | null
+        }
+        Relationships: []
+      }
+    }
+    Functions: {
+      a_recu_message_de_keyli: {
+        Args: { p_auteur: string; p_property: string }
+        Returns: boolean
+      }
+      abandonner_paiement_keyli: {
+        Args: { p_immediat?: boolean; p_reference: string }
+        Returns: boolean
+      }
+      abonnement_en_cours_keyli: { Args: { p_user: string }; Returns: boolean }
+      accepter_cgu_keyli: { Args: { p_version: string }; Returns: undefined }
+      admin_activite_quotidienne_keyli: {
+        Args: { p_jours?: number }
+        Returns: {
+          contacts: number
+          inscriptions: number
+          jour: string
+          vues: number
+        }[]
+      }
+      admin_file_signalements_keyli: {
+        Args: {
+          p_limite?: number
+          p_statut?: Database["public"]["Enums"]["report_status_keyli"]
+        }
+        Returns: {
+          annonceur: string
+          annonceur_id: string
+          annonceur_suspendu: boolean
+          auteur: string
+          bien_archive: boolean
+          bien_verifie: boolean
+          id: string
+          motif: string
+          precision_texte: string
+          property_id: string
+          signale_le: string
+          signalements_en_attente: number
+          statut: Database["public"]["Enums"]["report_status_keyli"]
+          titre_bien: string
+        }[]
+      }
+      admin_file_verification_keyli: {
+        Args: {
+          p_limite?: number
+          p_statut?: Database["public"]["Enums"]["document_status_keyli"]
+        }
+        Returns: {
+          compte_verifie: boolean
+          depose_le: string
+          doc_type: Database["public"]["Enums"]["document_type_keyli"]
+          email: string
+          fichier: string
+          id: string
+          nom: string
+          notes: string
+          property_id: string
+          revu_le: string
+          role: Database["public"]["Enums"]["user_role_keyli"]
+          statut: Database["public"]["Enums"]["document_status_keyli"]
+          titre_bien: string
+          user_id: string
+        }[]
+      }
+      admin_indicateurs_keyli: {
+        Args: never
+        Returns: {
+          abonnements_actifs: number
+          agences: number
+          annonces_publiees: number
+          annonces_verifiees: number
+          annonces_visibles: number
+          annonceurs_verifies: number
+          avis: number
+          chercheurs: number
+          comptes_total: number
+          contacts_30j: number
+          documents_en_attente: number
+          encaisse_30j: number
+          inscriptions_30j: number
+          note_moyenne: number
+          proprietaires: number
+          signalements_en_attente: number
+          taux_verification: number
+          vues_30j: number
+        }[]
+      }
+      admin_modifier_nom_agence_keyli: {
+        Args: { p_motif: string; p_nom: string; p_user: string }
+        Returns: undefined
+      }
+      admin_reactiver_compte_keyli: {
+        Args: { p_note?: string; p_user: string }
+        Returns: undefined
+      }
+      admin_retirer_verification_bien_keyli: {
+        Args: { p_motif: string; p_property: string }
+        Returns: undefined
+      }
+      admin_retirer_verification_compte_keyli: {
+        Args: { p_motif: string; p_user: string }
+        Returns: undefined
+      }
+      admin_reviser_document_keyli: {
+        Args: {
+          p_decision: Database["public"]["Enums"]["document_status_keyli"]
+          p_document: string
+          p_notes?: string
+        }
+        Returns: undefined
+      }
+      admin_suspendre_compte_keyli: {
+        Args: { p_fin?: string; p_motif: string; p_user: string }
+        Returns: undefined
+      }
+      admin_traiter_signalement_keyli: {
+        Args: {
+          p_note?: string
+          p_report: string
+          p_statut: Database["public"]["Enums"]["report_status_keyli"]
+        }
+        Returns: undefined
+      }
+      annonce_correspond_alerte_keyli: {
+        Args: {
+          c: Json
+          p: Database["public"]["Tables"]["properties_keyli"]["Row"]
+        }
+        Returns: boolean
+      }
+      annonces_autour_keyli: {
+        Args: { p_lat: number; p_lng: number; p_rayon_km: number }
+        Returns: {
+          distance_km: number
+          id: string
+        }[]
+      }
+      annonces_similaires_keyli: {
+        Args: { p_id: string; p_limite?: number }
+        Returns: {
+          commune: string
+          id: string
+          image: string
+          pieces: number
+          prix: number
+          quartier: string
+          sejour_court: boolean
+          statut: Database["public"]["Enums"]["property_status_keyli"]
+          titre: string
+          type: Database["public"]["Enums"]["property_type_keyli"]
+          verifiee: boolean
+          ville: string
+        }[]
+      }
+      annuler_reservation_keyli: {
+        Args: { p_motif?: string; p_reservation: string }
+        Returns: undefined
+      }
+      anomalies_paiements_keyli: {
+        Args: { p_fenetre?: string }
+        Returns: {
+          controle: string
+          libelle: string
+          nombre: number
+        }[]
+      }
+      avis_recus_keyli: {
+        Args: { p_limite?: number; p_user: string }
+        Returns: {
+          auteur: string
+          commentaire: string
+          date_avis: string
+          id: string
+          note: number
+          titre_bien: string
+        }[]
+      }
+      calculer_quartiers_tendance_keyli: { Args: never; Returns: undefined }
+      candidater_pilote_keyli: {
+        Args: {
+          p_commune?: string
+          p_email: string
+          p_message?: string
+          p_nb_biens?: number
+          p_nom: string
+          p_nom_agence?: string
+          p_prenom: string
+          p_profil: string
+          p_telephone: string
+        }
+        Returns: undefined
+      }
+      candidatures_pilote_keyli: {
+        Args: {
+          p_statut: Database["public"]["Enums"]["inscription_status_keyli"]
+        }
+        Returns: {
+          commune: string
+          compte_cree: boolean
+          created_at: string
+          email: string
+          id: string
+          message: string
+          nb_biens: number
+          nom: string
+          nom_agence: string
+          note_admin: string
+          prenom: string
+          priorite: Database["public"]["Enums"]["priority_level_keyli"]
+          profil: string
+          statut: Database["public"]["Enums"]["inscription_status_keyli"]
+          telephone: string
+        }[]
+      }
+      cloturer_cycles_keyli: { Args: never; Returns: number }
+      cloudinary_cloud_keyli: { Args: never; Returns: string }
+      compte_actif_keyli: { Args: { p_user: string }; Returns: boolean }
+      confirmer_paiement_keyli: {
+        Args: {
+          p_devise: string
+          p_montant_subunit: number
+          p_paystack_id: string
+          p_reference: string
+        }
+        Returns: string
+      }
+      conseils_agence_keyli: {
+        Args: never
+        Returns: {
+          action_libelle: string
+          action_vers: string
+          regle: string
+          texte: string
+          titre: string
+          type: string
+        }[]
+      }
+      controles_paiements_keyli: {
+        Args: never
+        Returns: {
+          controle: string
+          libelle: string
+          nombre: number
+        }[]
+      }
+      conversion_annonces_keyli: {
+        Args: { p_debut: string; p_fin: string }
+        Returns: {
+          cle: string
+          contacts: number
+          dimension: string
+          intentions: number
+          visiteurs: number
+        }[]
+      }
+      criteres_alerte_valides_keyli: { Args: { c: Json }; Returns: boolean }
+      current_user_role_keyli: {
+        Args: never
+        Returns: Database["public"]["Enums"]["user_role_keyli"]
+      }
+      cycle_abonnement_keyli: {
+        Args: { p_at: string; p_end: string; p_start: string }
+        Returns: {
+          debut: string
+          fin: string
+        }[]
+      }
+      declencher_envoi_emails_keyli: { Args: never; Returns: undefined }
+      declencher_envoi_pushs_keyli: { Args: never; Returns: undefined }
+      declencher_rapprochement_paiements_keyli: {
+        Args: never
+        Returns: undefined
+      }
+      demander_reservation_keyli: {
+        Args: {
+          p_arrivee: string
+          p_chambre: string
+          p_chambres?: number
+          p_depart: string
+          p_message?: string
+          p_property: string
+          p_voyageurs: number
+        }
+        Returns: string
+      }
+      desinscrire_emails_keyli: { Args: { p_jeton: string }; Returns: boolean }
+      devis_sejour_keyli: {
+        Args: {
+          p_arrivee: string
+          p_chambre: string
+          p_chambres?: number
+          p_depart: string
+          p_property: string
+          p_voyageurs: number
+        }
+        Returns: {
+          montant_total: number
+          motif: string
+          nuits: number
+          prix_nuit: number
+          restantes: number
+        }[]
+      }
+      echec_paiement_keyli: {
+        Args: {
+          p_message: string
+          p_motif_refus?: string
+          p_notifier?: boolean
+          p_reference: string
+        }
+        Returns: undefined
+      }
+      email_de_service_keyli: { Args: { p_type: string }; Returns: boolean }
+      enregistrer_appareil_push_keyli: {
+        Args: {
+          p_environnement?: string
+          p_jeton: string
+          p_plateforme: string
+        }
+        Returns: undefined
+      }
+      envoyer_demande_support_keyli: {
+        Args: {
+          p_email: string
+          p_message: string
+          p_nom: string
+          p_sujet: string
+        }
+        Returns: undefined
+      }
+      erreurs_recentes_keyli: {
+        Args: { p_jours?: number }
+        Returns: {
+          code: string
+          comptes: number
+          derniere: string
+          message: string
+          occurrences: number
+          page: string
+        }[]
+      }
+      est_admin_keyli: { Args: never; Returns: boolean }
+      est_hotelier_keyli: {
+        Args: { p_type: Database["public"]["Enums"]["property_type_keyli"] }
+        Returns: boolean
+      }
+      est_super_admin_keyli: { Args: never; Returns: boolean }
+      etapes_demarrage_keyli: {
+        Args: never
+        Returns: {
+          etape: string
+          faite: boolean
+          ordre: number
+        }[]
+      }
+      etat_publication_keyli: {
+        Args: never
+        Returns: {
+          plan_code: string
+          prix_depassement: number
+          publications_cycle: number
+          seuil_max: number
+          statut: string
+          subscription_id: string
+        }[]
+      }
+      evaluer_publication_keyli: {
+        Args: { p_owner: string }
+        Returns: {
+          plan_code: string
+          prix_depassement: number
+          publications_cycle: number
+          seuil_max: number
+          statut: string
+          subscription_id: string
+        }[]
+      }
+      initier_paiement_keyli: {
+        Args: { p_plan: string }
+        Returns: {
+          devise: string
+          email: string
+          montant: number
+          montant_depassements: number
+          montant_forfait: number
+          plan_code: string
+          reference: string
+        }[]
+      }
+      journaliser_erreur_keyli: {
+        Args: {
+          p_code?: string
+          p_message: string
+          p_navigateur?: string
+          p_page: string
+        }
+        Returns: undefined
+      }
+      journaliser_keyli: {
+        Args: {
+          p_action: string
+          p_details?: Json
+          p_entity_id: string
+          p_entity_type: string
+        }
+        Returns: undefined
+      }
+      mes_alertes_keyli: {
+        Args: never
+        Returns: {
+          actif: boolean
+          commune: string
+          created_at: string
+          criteres: Json
+          id: string
+          nouvelles: number
+          quartier: string
+        }[]
+      }
+      mes_biens_marche_keyli: {
+        Args: never
+        Returns: {
+          ecart_pct: number
+          id: string
+          prix: number
+          prix_moyen: number
+          quartier: string
+          statut: Database["public"]["Enums"]["property_status_keyli"]
+          titre: string
+          verifiee: boolean
+          vues: number
+        }[]
+      }
+      mes_conversations_keyli: {
+        Args: never
+        Returns: {
+          dernier_envoi: string
+          dernier_message: string
+          envoye_par_moi: boolean
+          image_annonce: string
+          interlocuteur: string
+          interlocuteur_verifie: boolean
+          nom_interlocuteur: string
+          non_lus: number
+          property_id: string
+          titre_annonce: string
+        }[]
+      }
+      mes_visites_a_venir_keyli: {
+        Args: { p_limite?: number }
+        Returns: {
+          id: string
+          interlocuteur: string
+          nom: string
+          property_id: string
+          scheduled_at: string
+          status: Database["public"]["Enums"]["visit_status_keyli"]
+          titre: string
+        }[]
+      }
+      notification_par_email_keyli: {
+        Args: { p_type: string }
+        Returns: boolean
+      }
+      notification_par_push_keyli: {
+        Args: { p_type: string }
+        Returns: boolean
+      }
+      nuits_completes_keyli: {
+        Args: {
+          p_a: string
+          p_chambre: string
+          p_de: string
+          p_property: string
+        }
+        Returns: string[]
+      }
+      occupation_sejour_keyli: {
+        Args: {
+          p_a: string
+          p_chambre: string
+          p_de: string
+          p_property: string
+        }
+        Returns: {
+          capacite: number
+          jour: string
+          occupees: number
+        }[]
+      }
+      ordonner_photos_keyli: {
+        Args: { p_ids: string[]; p_property: string }
+        Returns: undefined
+      }
+      paiements_admin_keyli: {
+        Args: { p_limite?: number; p_statut?: string }
+        Returns: {
+          cree_le: string
+          derniere_verification: string
+          email: string
+          forfait: string
+          id: string
+          message: string
+          montant: number
+          motif_refus: string
+          reference: string
+          statut: string
+          verifications: number
+        }[]
+      }
+      performance_equipe_keyli: {
+        Args: { p_jours?: number }
+        Returns: {
+          actif: boolean
+          agent_id: string
+          annonces: number
+          conclus: number
+          conversion: number
+          leads: number
+          nb_avis: number
+          nom: string
+          note: number
+        }[]
+      }
+      performance_mes_annonces_keyli: {
+        Args: { p_jours?: number }
+        Returns: {
+          a_description: boolean
+          a_pieces: boolean
+          a_position: boolean
+          a_quartier: boolean
+          a_surface: boolean
+          annonceur_verifie: boolean
+          contacts: number
+          id: string
+          intentions: number
+          nb_photos: number
+          publiee_le: string
+          titre: string
+          visiteurs: number
+        }[]
+      }
+      pipeline_leads_keyli: {
+        Args: never
+        Returns: {
+          agent: string
+          agent_id: string
+          bien: string
+          contact: string
+          contact_user_id: string
+          derniere_activite: string
+          etape: Database["public"]["Enums"]["lead_stage_keyli"]
+          id: string
+          property_id: string
+        }[]
+      }
+      position_approchee_keyli: {
+        Args: { p_geo: unknown; p_id: string }
+        Returns: {
+          latitude: number
+          longitude: number
+        }[]
+      }
+      positions_annonces_keyli: {
+        Args: { p_ids: string[] }
+        Returns: {
+          id: string
+          latitude: number
+          longitude: number
+        }[]
+      }
+      preferences_chercheur_keyli: { Args: never; Returns: Json }
+      prendre_emails_keyli: {
+        Args: { p_limite?: number }
+        Returns: {
+          categorie: string
+          contenu: string
+          destinataire: string
+          expediteur: string
+          expediteur_id: string
+          extrait: string
+          id: string
+          jeton: string
+          non_lus: number
+          prenom: string
+          property_id: string
+          titre: string
+          titre_annonce: string
+          type: string
+        }[]
+      }
+      prendre_paiements_a_verifier_keyli: {
+        Args: { p_limite?: number; p_reference?: string }
+        Returns: {
+          cree_le: string
+          reference: string
+          statut: string
+        }[]
+      }
+      prendre_pushs_keyli: {
+        Args: { p_limite?: number }
+        Returns: {
+          appareils: Json
+          categorie: string
+          contenu: string
+          expediteur: string
+          expediteur_id: string
+          extrait: string
+          id: string
+          non_lus: number
+          property_id: string
+          titre: string
+          type: string
+        }[]
+      }
+      publications_periode_keyli: {
+        Args: { p_debut: string; p_fin: string; p_owner: string }
+        Returns: number
+      }
+      publier_annonce_keyli: {
+        Args: {
+          p_accepte_depassement?: boolean
+          p_avantages?: string[]
+          p_description?: string
+          p_latitude: number
+          p_longitude: number
+          p_meuble?: boolean
+          p_nuits_min?: number
+          p_photos: string[]
+          p_pieces?: number
+          p_prix: number
+          p_quartier?: string
+          p_salles_de_bain?: number
+          p_sejour_court?: boolean
+          p_statut: Database["public"]["Enums"]["property_status_keyli"]
+          p_surface?: number
+          p_titre: string
+          p_type: Database["public"]["Enums"]["property_type_keyli"]
+          p_ville: string
+          p_voyageurs_max?: number
+        }
+        Returns: string
+      }
+      purger_erreurs_client_keyli: { Args: never; Returns: undefined }
+      rechercher_annonces_keyli: {
+        Args: {
+          p_arrivee?: string
+          p_avantages?: string[]
+          p_commune?: string
+          p_decalage?: number
+          p_depart?: string
+          p_lat?: number
+          p_limite?: number
+          p_lng?: number
+          p_meuble?: boolean
+          p_pieces_min?: number
+          p_prix_max?: number
+          p_prix_min?: number
+          p_quartier?: string
+          p_rayon_km?: number
+          p_sejour?: boolean
+          p_statut?: Database["public"]["Enums"]["property_status_keyli"]
+          p_tri?: string
+          p_type?: Database["public"]["Enums"]["property_type_keyli"]
+          p_voyageurs?: number
+        }
+        Returns: {
+          commune: string
+          distance_km: number
+          id: string
+          image: string
+          meuble: boolean
+          nuits_min: number
+          pieces: number
+          prix: number
+          publiee_le: string
+          quartier: string
+          salles_de_bain: number
+          sejour_court: boolean
+          statut: Database["public"]["Enums"]["property_status_keyli"]
+          surface: number
+          titre: string
+          total: number
+          type: Database["public"]["Enums"]["property_type_keyli"]
+          verifiee: boolean
+          ville: string
+        }[]
+      }
+      recommandations_keyli: {
+        Args: { p_limite?: number }
+        Returns: {
+          commune: string
+          id: string
+          image: string
+          pertinence: number
+          prix: number
+          quartier: string
+          statut: Database["public"]["Enums"]["property_status_keyli"]
+          titre: string
+          type: Database["public"]["Enums"]["property_type_keyli"]
+          verifiee: boolean
+          ville: string
+        }[]
+      }
+      relancer_annonceurs_keyli: { Args: never; Returns: number }
+      relation_notable_keyli: {
+        Args: { p_autre: string; p_property: string }
+        Returns: boolean
+      }
+      repondre_reservation_keyli: {
+        Args: { p_accepter: boolean; p_motif?: string; p_reservation: string }
+        Returns: undefined
+      }
+      retirer_jetons_push_keyli: {
+        Args: { p_jetons: string[] }
+        Returns: number
+      }
+      suivi_pilote_keyli: {
+        Args: never
+        Returns: {
+          annonceurs: number
+          annonceurs_annonce: number
+          annonceurs_documents: number
+          annonceurs_forfait: number
+          annonceurs_profil: number
+          annonceurs_verifies: number
+          avis: number
+          candidatures_avec_compte: number
+          candidatures_contactees: number
+          candidatures_converties: number
+          candidatures_en_attente: number
+          candidatures_rejetees: number
+          delai_moyen_heures: number
+          documents_en_attente: number
+          documents_en_retard: number
+          relances_7j: number
+          reservations_acceptees: number
+          reservations_demandees: number
+          retours_en_attente: number
+          retours_total: number
+          visites_effectuees: number
+          visites_planifiees: number
+        }[]
+      }
+      super_admin_changer_role_keyli: {
+        Args: {
+          p_role: Database["public"]["Enums"]["user_role_keyli"]
+          p_user: string
+        }
+        Returns: undefined
+      }
+      super_admin_formule_negociee_keyli: {
+        Args: {
+          p_conditions: string
+          p_montant_depassement_negocie: number
+          p_prix_depassement_negocie: number
+          p_subscription: string
+        }
+        Returns: undefined
+      }
+      super_admin_modifier_forfait_keyli: {
+        Args: {
+          p_actif: boolean
+          p_plan: string
+          p_prix_depassement_unitaire: number
+          p_prix_mensuel: number
+          p_seuil_max: number
+          p_seuil_min: number
+        }
+        Returns: undefined
+      }
+      surveiller_paiements_keyli: { Args: never; Returns: number }
+      synthese_paiements_keyli: {
+        Args: { p_debut: string; p_fin: string }
+        Returns: {
+          abandonnes: number
+          echoues: number
+          en_cours: number
+          encaisse: number
+          reussis: number
+        }[]
+      }
+      tableau_bord_agence_keyli: { Args: { p_jours?: number }; Returns: Json }
+      tableau_bord_proprietaire_keyli: {
+        Args: { p_jours?: number }
+        Returns: Json
+      }
+      terminer_email_keyli: {
+        Args: { p_erreur?: string; p_id: string; p_ok: boolean }
+        Returns: undefined
+      }
+      terminer_push_keyli: {
+        Args: { p_erreur?: string; p_id: string; p_ok: boolean }
+        Returns: undefined
+      }
+      traiter_echeances_abonnements_keyli: {
+        Args: never
+        Returns: {
+          expirations: number
+          rappels_j1: number
+          rappels_j7: number
+        }[]
+      }
+      url_photo_keyli_valide: {
+        Args: { p_proprietaire: string; p_url: string }
+        Returns: boolean
+      }
+      version_cgu_keyli: { Args: never; Returns: string }
+    }
+    Enums: {
+      document_status_keyli: "pending" | "approved" | "rejected"
+      document_type_keyli:
+        | "acd"
+        | "registre"
+        | "extrait_naissance"
+        | "cert_residence"
+      inscription_status_keyli:
+        | "en_attente"
+        | "contacte"
+        | "converti"
+        | "rejete"
+      interaction_type_keyli:
+        | "view"
+        | "click_contact"
+        | "click_phone"
+        | "click_whatsapp"
+        | "click_favorite"
+        | "click_gallery"
+        | "click_map"
+        | "search_neighborhood"
+      lead_stage_keyli:
+        | "nouveau"
+        | "visite_planifiee"
+        | "negociation"
+        | "conclu"
+      priority_level_keyli: "haute" | "moyenne" | "basse"
+      property_status_keyli: "a_louer" | "a_vendre"
+      property_type_keyli:
+        | "maison"
+        | "duplex"
+        | "villa"
+        | "appartement"
+        | "studio"
+        | "residence_meublee"
+        | "auberge"
+        | "hotel"
+        | "bureau"
+        | "magasin"
+      report_status_keyli: "pending" | "reviewed" | "resolved"
+      reservation_status_keyli: "demandee" | "acceptee" | "refusee" | "annulee"
+      subscription_status_keyli: "active" | "expired" | "canceled"
+      transaction_status_keyli: "pending" | "completed" | "failed"
+      user_role_keyli: "user" | "owner" | "agency" | "admin" | "super_admin"
+      visit_status_keyli: "planifiee" | "effectuee" | "annulee"
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
 }
 
-type DatabaseWithoutInternals = Omit<Database, '__InternalSupabase'>
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
 
 type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
@@ -1147,108 +2795,167 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+    : never) = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
   ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
       DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
-  ? (DefaultSchema["Tables"] & DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
-      Row: infer R
-    }
-    ? R
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
     : never
-  : never
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+    : never) = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
   : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-  ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-      Insert: infer I
-    }
-    ? I
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
     : never
-  : never
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+    : never) = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
     : never
   : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-  ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-      Update: infer U
-    }
-    ? U
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
     : never
-  : never
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never
-> = DefaultSchemaEnumNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+    : never) = never,
+> = DefaultSchemaEnumNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
   ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
-  ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
-  : never
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+    : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never
-> = PublicCompositeTypeNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+    : never) = never,
+> = PublicCompositeTypeNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
   ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
-  ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-  : never
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
 
 export const Constants = {
-  "public": {
-          Enums: {
-            "document_status_keyli": ["pending", "approved", "rejected"],"document_type_keyli": ["acd", "registre", "extrait_naissance", "cert_residence"],"inscription_status_keyli": ["en_attente", "contacte", "converti", "rejete"],"interaction_type_keyli": ["view", "click_contact", "click_phone", "click_whatsapp", "click_favorite", "click_gallery", "click_map", "search_neighborhood"],"lead_stage_keyli": ["nouveau", "visite_planifiee", "negociation", "conclu"],"priority_level_keyli": ["haute", "moyenne", "basse"],"property_status_keyli": ["a_louer", "a_vendre"],"property_type_keyli": ["maison", "duplex", "villa", "appartement", "studio", "residence_meublee", "auberge", "hotel", "bureau", "magasin"],"report_status_keyli": ["pending", "reviewed", "resolved"],"reservation_status_keyli": ["demandee", "acceptee", "refusee", "annulee"],"subscription_status_keyli": ["active", "expired", "canceled"],"transaction_status_keyli": ["pending", "completed", "failed"],"user_role_keyli": ["user", "owner", "agency", "admin", "super_admin"],"visit_status_keyli": ["planifiee", "effectuee", "annulee"]
-          }
-        }
+  public: {
+    Enums: {
+      document_status_keyli: ["pending", "approved", "rejected"],
+      document_type_keyli: [
+        "acd",
+        "registre",
+        "extrait_naissance",
+        "cert_residence",
+      ],
+      inscription_status_keyli: [
+        "en_attente",
+        "contacte",
+        "converti",
+        "rejete",
+      ],
+      interaction_type_keyli: [
+        "view",
+        "click_contact",
+        "click_phone",
+        "click_whatsapp",
+        "click_favorite",
+        "click_gallery",
+        "click_map",
+        "search_neighborhood",
+      ],
+      lead_stage_keyli: [
+        "nouveau",
+        "visite_planifiee",
+        "negociation",
+        "conclu",
+      ],
+      priority_level_keyli: ["haute", "moyenne", "basse"],
+      property_status_keyli: ["a_louer", "a_vendre"],
+      property_type_keyli: [
+        "maison",
+        "duplex",
+        "villa",
+        "appartement",
+        "studio",
+        "residence_meublee",
+        "auberge",
+        "hotel",
+        "bureau",
+        "magasin",
+      ],
+      report_status_keyli: ["pending", "reviewed", "resolved"],
+      reservation_status_keyli: ["demandee", "acceptee", "refusee", "annulee"],
+      subscription_status_keyli: ["active", "expired", "canceled"],
+      transaction_status_keyli: ["pending", "completed", "failed"],
+      user_role_keyli: ["user", "owner", "agency", "admin", "super_admin"],
+      visit_status_keyli: ["planifiee", "effectuee", "annulee"],
+    },
+  },
 } as const
-

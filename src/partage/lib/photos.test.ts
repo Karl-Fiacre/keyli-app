@@ -38,9 +38,12 @@ describe('lireReponseEnvoi', () => {
 })
 
 describe('urlPhoto', () => {
-  it('ajoute les transformations Cloudinary', () => {
+  it('corrige la photo puis ajoute les transformations Cloudinary', () => {
     expect(urlPhoto('https://res.cloudinary.com/k/image/upload/v1/a.jpg', 400, 300)).toBe(
-      'https://res.cloudinary.com/k/image/upload/f_auto,q_auto,c_fill,g_auto,w_400,h_300/v1/a.jpg',
+      'https://res.cloudinary.com/k/image/upload/e_improve/e_sharpen:80/f_auto,q_auto,c_fill,g_auto,w_400,h_300/v1/a.jpg',
+    )
+    expect(urlPhoto('https://res.cloudinary.com/k/image/upload/v1/a.jpg', 800)).toBe(
+      'https://res.cloudinary.com/k/image/upload/e_improve/e_sharpen:80/f_auto,q_auto,c_limit,w_800/v1/a.jpg',
     )
   })
   it('laisse une autre adresse telle quelle', () => {

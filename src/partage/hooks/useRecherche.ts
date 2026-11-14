@@ -24,6 +24,9 @@ export interface FiltresRecherche {
   arrivee?: string
   depart?: string
   voyageurs?: number
+  // Recherche par rayon autour d'un point (position GPS de l'utilisateur) :
+  // remplace commune et quartier (règle en base). Jamais écrite dans l'URL.
+  autour?: { lat: number; lng: number; rayonKm: number }
   tri: TriRecherche
   page: number
 }
@@ -54,6 +57,9 @@ export function useRecherche(f: FiltresRecherche) {
         p_arrivee: f.arrivee,
         p_depart: f.depart,
         p_voyageurs: f.voyageurs,
+        p_lat: f.autour?.lat,
+        p_lng: f.autour?.lng,
+        p_rayon_km: f.autour?.rayonKm,
       })
       if (error) throw error
       return { annonces: data, total: Number(data[0]?.total ?? 0) }

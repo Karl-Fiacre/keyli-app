@@ -8,6 +8,18 @@ import { aujourdhuiIso, isoValide } from '@/partage/lib/sejour'
 
 const TRIS: TriRecherche[] = ['pertinence', 'recent', 'prix_croissant', 'prix_decroissant']
 
+// Recherche par rayon (décision du porteur, 2026-11-14) : rayons proposés,
+// 5 km par défaut. La base accepte de 0,5 à 20 km.
+export const RAYONS_KM = [1, 3, 5, 10] as const
+export const RAYON_DEFAUT_KM = 5
+
+// Distance d'un résultat, toujours approximative : « à environ 2,5 km »
+export function libelleDistance(km: number | null | undefined): string | null {
+  if (km === null || km === undefined || !Number.isFinite(Number(km))) return null
+  const arrondi = Math.max(0.5, Math.round(Number(km) * 2) / 2)
+  return `à environ ${String(arrondi).replace('.', ',')} km`
+}
+
 export const LIBELLES_TRI: Record<TriRecherche, string> = {
   pertinence: "Vérifiées d'abord",
   recent: 'Plus récentes',
@@ -87,6 +99,7 @@ export function nombreFiltresActifs(f: FiltresRecherche): number {
       f.sejour,
       f.arrivee,
       f.voyageurs,
+      f.autour,
     ].filter((v) => v !== undefined).length + f.avantages.length
   )
 }
