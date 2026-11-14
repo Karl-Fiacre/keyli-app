@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
-import { BedDouble, Home, MapPin } from 'lucide-react'
+import { BedDouble, Home, MapPin, Navigation } from 'lucide-react'
 import { VerifiedBadge } from '@/components/VerifiedBadge'
 import { BoutonFavori } from '@/components/annonce/BoutonFavori'
 import type { ResumeAnnonce } from '@/partage/lib/annonce'
 import { formatXof } from '@/partage/lib/format'
+import { libelleDistance } from '@/partage/lib/recherche'
 import { LIBELLES_TYPE } from '@/partage/lib/validation'
 import { urlPhoto } from '@/lib/cloudinary'
 import { ImageFondu } from '@/components/animation/ImageFondu'
@@ -29,6 +30,8 @@ export function CarteAnnonce({
   const lieu = [a.quartier, a.commune && a.commune !== a.quartier ? a.commune : null, a.ville]
     .filter(Boolean)
     .join(', ')
+  // Recherche par rayon : distance arrondie, jamais la position exacte
+  const distance = libelleDistance(a.distance_km)
   return (
     <CarteInclinee intensite={5} arrondi="rounded-lg" className="h-full">
       <div className="relative">
@@ -71,6 +74,12 @@ export function CarteAnnonce({
               <MapPin className="h-3.5 w-3.5 shrink-0" aria-hidden />
               <span className="line-clamp-1">{lieu}</span>
             </p>
+            {distance && (
+              <p className="flex items-center gap-1 text-sm font-semibold text-turquoise">
+                <Navigation className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                {distance}
+              </p>
+            )}
             <p className="flex items-center gap-3 text-xs text-muted-foreground">
               <span>{LIBELLES_TYPE[a.type]}</span>
               {a.pieces !== null && (

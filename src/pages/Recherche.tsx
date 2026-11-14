@@ -6,6 +6,7 @@ import { Alert } from '@/components/ui/alert'
 import { CarteAnnonce } from '@/components/annonce/CarteAnnonce'
 import { FiltresRecherche } from '@/components/annonce/FiltresRecherche'
 import { BoutonAlerte } from '@/components/annonce/BoutonAlerte'
+import { FiltreAutour } from '@/components/annonce/FiltreAutour'
 import { BasculeVue } from '@/components/annonce/BasculeVue'
 import { CarteCatalogue } from '@/components/annonce/CarteCatalogue'
 import { useVueCatalogue } from '@/hooks/useVueCatalogue'
@@ -21,7 +22,9 @@ import { useTitrePage } from '@/hooks/useTitrePage'
 // la base filtre et trie (vérifiées d'abord par défaut).
 export default function Recherche() {
   const [parametres, setParametres] = useSearchParams()
-  const filtres = lireFiltres(parametres)
+  // Recherche par rayon : la position reste en mémoire, jamais dans l'URL
+  const [autour, setAutour] = useState<Filtres['autour']>()
+  const filtres: Filtres = { ...lireFiltres(parametres), autour }
   const recherche = useRecherche(filtres)
   const [panneauOuvert, setPanneauOuvert] = useState(false)
   const [vue, setVue] = useVueCatalogue()
@@ -30,7 +33,10 @@ export default function Recherche() {
     'Appartements, studios, maisons et villas à louer ou à vendre à Abidjan, annonces vérifiées par l’équipe Keyli.',
   )
 
-  const appliquer = (f: Filtres) => setParametres(ecrireFiltres(f))
+  const appliquer = (f: Filtres) => {
+    setAutour(f.autour)
+    setParametres(ecrireFiltres(f))
+  }
   const total = recherche.data?.total ?? 0
   const pages = Math.max(1, Math.ceil(total / TAILLE_PAGE))
   const actifs = nombreFiltresActifs(filtres)
@@ -71,7 +77,9 @@ export default function Recherche() {
                 segments={[{ texte: filtres.sejour ? 'Séjours à Abidjan' : 'Logements à Abidjan' }]}
               />
               <p className="text-sm text-muted-foreground" aria-live="polite">
-                {recherche.isPending ? 'Recherche…' : `${total} annonce${total > 1 ? 's' : ''}`}
+                {recherche.isPending
+                  ? 'Recherche…'
+                  : `${total} annonce${total > 1 ? 's' : ''}${autour ? ` à ${autour.rayonKm} km autour de vous` : ''}`}
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
@@ -103,7 +111,10 @@ export default function Recherche() {
             </div>
           </div>
 
-          <BoutonAlerte filtres={filtres} />
+          <FiltreAutour filtres={filtres} onChange={appliquer} />
+
+          {/* Les alertes ne portent pas encore de rayon autour de soi */}
+          {!autour && <BoutonAlerte filtres={filtres} />}
 
           {recherche.isError && <Alert variant="erreur">{messageErreur(recherche.error)}</Alert>}
 
