@@ -6,7 +6,11 @@ import type { ResumeAnnonce } from '@/partage/lib/annonce'
 import { Texte } from '@mobile/composants/base'
 import { couleurs, espaces } from '@mobile/theme/tokens'
 
-export function CarteAnnonces(_: { annonces: ResumeAnnonce[]; onOuvrir: (id: string) => void }) {
+export function CarteAnnonces(_: {
+  annonces: ResumeAnnonce[]
+  onOuvrir: (id: string) => void
+  autour?: { lat: number; lng: number; rayonKm: number }
+}) {
   return (
     <View style={styles.zone}>
       <Ionicons name="map-outline" size={40} color={couleurs.attenue} />

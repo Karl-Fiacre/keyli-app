@@ -2,10 +2,12 @@
 // similaires) — même résumé que le web (ResumeAnnonce,
 // src/partage/lib/annonce.ts). Version compacte : aperçu sur la carte.
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import Ionicons from '@expo/vector-icons/Ionicons'
 import type { ResumeAnnonce } from '@/partage/lib/annonce'
 import { LIBELLES_TYPE } from '@/partage/lib/validation'
 import { formatXof } from '@/partage/lib/format'
 import { urlPhoto } from '@/partage/lib/photos'
+import { libelleDistance } from '@/partage/lib/recherche'
 import { BadgeVerifie } from '@mobile/composants/BadgeVerifie'
 import { BoutonFavori } from '@mobile/composants/BoutonFavori'
 import { couleurs, espaces, ombreCarte, rayons } from '@mobile/theme/tokens'
@@ -20,6 +22,8 @@ export function CarteAnnonce({
   compacte?: boolean
 }) {
   const lieu = [annonce.quartier, annonce.commune ?? annonce.ville].filter(Boolean).join(', ')
+  // Recherche par rayon : distance arrondie, jamais la position exacte
+  const distance = libelleDistance(annonce.distance_km)
   const photo = annonce.image ? (
     <Image
       source={{ uri: urlPhoto(annonce.image, compacte ? 240 : 640, compacte ? 240 : 400) }}
@@ -55,6 +59,12 @@ export function CarteAnnonce({
           <Text style={styles.titre} numberOfLines={compacte ? 1 : 2}>
             {annonce.titre}
           </Text>
+          {distance ? (
+            <View style={styles.distance}>
+              <Ionicons name="navigate-outline" size={13} color={couleurs.turquoise} />
+              <Text style={styles.texteDistance}>{distance}</Text>
+            </View>
+          ) : null}
           <Text style={styles.attenue} numberOfLines={1}>
             {lieu}
             {annonce.pieces ? ` · ${annonce.pieces} pièce${annonce.pieces > 1 ? 's' : ''}` : ''}
@@ -108,4 +118,6 @@ const styles = StyleSheet.create({
   attenue: { fontSize: 14, color: couleurs.attenue },
   prix: { fontSize: 17, fontWeight: '700', color: couleurs.primaire, marginTop: espaces.xs },
   favori: { position: 'absolute', top: espaces.s, right: espaces.s },
+  distance: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  texteDistance: { fontSize: 13, fontWeight: '600', color: couleurs.turquoise },
 })
