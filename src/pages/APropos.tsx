@@ -8,6 +8,9 @@ import { delaiCascade } from '@/lib/animation'
 import { EMAIL_CONTACT } from '@/partage/lib/juridique'
 import { FondScene } from '@/components/animation/FondScene'
 import { TexteCinema } from '@/components/animation/TexteCinema'
+import { CarteInclinee } from '@/components/animation/CarteInclinee'
+import { PhotosDefilantes } from '@/components/animation/PanneauPhotos'
+import { BandeauVilles } from '@/components/accueil/BandeauVilles'
 import { useTitrePage } from '@/hooks/useTitrePage'
 
 // Page « À propos » (décision du porteur, 2026-11-04) : qui sommes-nous,
@@ -52,7 +55,7 @@ export default function APropos() {
         aria-labelledby="titre-apropos"
       >
         <FondScene />
-        <ZoneRevele className="container">
+        <ZoneRevele className="container grid items-center gap-10 lg:grid-cols-[1.15fr_1fr]">
           <div className="kf-revele max-w-3xl">
             <p className="text-sm font-semibold uppercase tracking-wider text-turquoise">À propos de Keyli</p>
             <TexteCinema
@@ -60,7 +63,7 @@ export default function APropos() {
               className="mt-2 font-titre text-4xl font-bold md:text-5xl"
               segments={[
                 { texte: 'L’immobilier de confiance, ' },
-                { texte: 'à Abidjan d’abord.', className: 'text-turquoise' },
+                { texte: 'partout en Côte d’Ivoire.', className: 'text-turquoise' },
               ]}
             />
             <p className="mt-5 text-lg text-primary-foreground/85">
@@ -70,8 +73,21 @@ export default function APropos() {
             </p>
             <p className="mt-4 text-primary-foreground/85">Keyli est conçue et éditée à Abidjan par Nguessan-IT.</p>
           </div>
+
+          {/* Photos de logements qui défilent, carte inclinable (2026-11-15) */}
+          <div className="kf-revele relative" style={delaiCascade(2, 120)}>
+            <CarteInclinee intensite={6}>
+              <PhotosDefilantes className="aspect-[4/3] rounded-accueil shadow-lift ring-1 ring-primary-foreground/15" />
+            </CarteInclinee>
+            <div className="kf-flotte absolute -bottom-5 left-4 flex items-center gap-2 rounded-pill bg-card px-4 py-2 text-sm font-semibold text-foreground shadow-lift sm:left-6">
+              <img src="/keyli_verified_badge.svg" alt="" aria-hidden className="h-5 w-5" />
+              Biens vérifiés sur le terrain
+            </div>
+          </div>
         </ZoneRevele>
       </section>
+
+      <BandeauVilles />
 
       {/* Nos garanties */}
       <section className="container py-16 md:py-20" aria-labelledby="titre-garanties">
@@ -84,16 +100,17 @@ export default function APropos() {
           </div>
           <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {GARANTIES.map(({ icone: Icone, titre, texte }, i) => (
-              <li
-                key={titre}
-                className="kf-revele rounded-accueil border bg-card p-6 shadow-card"
-                style={delaiCascade(i + 1, 70)}
-              >
-                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-secondary text-primary-glow">
-                  <Icone className="h-5 w-5" aria-hidden />
-                </span>
-                <h3 className="mt-4 text-lg font-bold">{titre}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{texte}</p>
+              <li key={titre} className="kf-revele" style={delaiCascade(i + 1, 70)}>
+                {/* Carte qui s'incline sous la souris (2026-11-15) */}
+                <CarteInclinee className="group h-full">
+                  <div className="h-full rounded-accueil border bg-card p-6 shadow-card">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-full bg-secondary text-primary-glow transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110">
+                      <Icone className="h-5 w-5" aria-hidden />
+                    </span>
+                    <h3 className="mt-4 text-lg font-bold">{titre}</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">{texte}</p>
+                  </div>
+                </CarteInclinee>
               </li>
             ))}
           </ul>
@@ -120,7 +137,7 @@ export default function APropos() {
             </p>
             <Link
               to="/partenaires"
-              className="mt-6 inline-flex h-11 items-center rounded-lg bg-primary px-6 font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+              className="kf-souleve mt-6 inline-flex h-11 items-center rounded-lg bg-primary px-6 font-semibold text-primary-foreground hover:bg-primary/90"
             >
               Devenir partenaire
             </Link>
