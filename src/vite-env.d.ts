@@ -9,6 +9,10 @@ interface ImportMetaEnv {
   // navigateur Google Maps restreinte, publique par nature
   readonly VITE_GOOGLE_MAPS_API_KEY?: string
   readonly VITE_GOOGLE_MAPS_MAP_ID?: string
+  // Outils de suivi publicitaire (identifiants publics, chargés seulement
+  // après consentement : src/lib/suivi.ts)
+  readonly VITE_META_PIXEL_ID?: string
+  readonly VITE_TIKTOK_PIXEL_ID?: string
 }
 
 interface ImportMeta {

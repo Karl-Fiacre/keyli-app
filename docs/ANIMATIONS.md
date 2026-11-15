@@ -42,7 +42,19 @@ parallax et de Framer Motion (règles ci-dessous amendées en conséquence).
   (CSS) ; indicateur de navigation à ressort avec liseré turquoise.
 - **Garde-fous** : aucun état final ne garde de flou ou de décalage
   (`transitionEnd`, `filter: none`), sinon les éléments fixes ou collants
-  cassent ; animations continues limitées aux halos de la bannière.
+  cassent ; animations continues limitées aux halos de la bannière, plus
+  les exceptions de la page À propos ci-dessous.
+- **Page À propos plus animée (demande du porteur, 2026-11-15)** :
+  - en-tête en deux colonnes : photos de logements qui défilent
+    (`PhotosDefilantes`, même rythme que `PanneauPhotos`) dans une
+    `CarteInclinee`, pastille « Biens vérifiés sur le terrain » qui flotte
+    (`kf-flotte`, 6 s) ;
+  - `BandeauVilles` : villes du pilote (`VILLES_PILOTE`) en défilement
+    continu et lent (`kf-defilement-continu`, 38 s, pause au survol) ;
+  - garanties en `CarteInclinee`, icône qui pivote au survol ; bouton
+    « Devenir partenaire » en `kf-souleve`.
+  - Mouvements réduits : bandeau immobile (une seule liste qui passe à la
+    ligne), pastille et photos sans mouvement.
 
 ## Constantes globales
 ```css

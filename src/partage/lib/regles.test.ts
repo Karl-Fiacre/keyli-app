@@ -28,12 +28,13 @@ import {
   nombreFiltresActifs,
   rechercheDepuisAlerte,
 } from '@/partage/lib/recherche'
-import { publicationPossible } from '@/partage/lib/publication'
+import { dernierJourGratuite, messageGratuitePilote, publicationPossible } from '@/partage/lib/publication'
 import { cheminConversation } from '@/partage/lib/messagerie'
 import { motifRefus, LIBELLES_TENTATIVE } from '@/partage/lib/paiements'
 import { erreurKeyli, messageErreur } from '@/partage/lib/erreurs'
 import { lienNotification } from '@/partage/lib/notifications'
 import { urlPhoto } from '@/partage/lib/photos'
+import { listeVilles, VILLES_PILOTE } from '@/partage/lib/villes'
 
 // Intl (fr-FR) sépare les milliers par une espace insécable fine
 const sansEspaces = (s: string) => s.replace(/\s/g, ' ')
@@ -229,5 +230,31 @@ describe('recherche par rayon', () => {
     expect(
       nombreFiltresActifs({ avantages: [], tri: 'pertinence', page: 1, autour: { lat: 5.36, lng: -4, rayonKm: 5 } }),
     ).toBe(1)
+  })
+})
+
+describe('villes du pilote', () => {
+  it('commence par Abidjan et liste les villes en français', () => {
+    expect(VILLES_PILOTE[0]).toBe('Abidjan')
+    expect(listeVilles()).toBe('Abidjan, Bouaké, San-Pédro, Yamoussoukro, Korhogo et Daloa')
+    expect(listeVilles(['Bouaké'])).toBe('Bouaké')
+    expect(listeVilles([])).toBe('')
+  })
+})
+
+describe('gratuité du pilote', () => {
+  it('autorise la publication gratuite', () => {
+    expect(publicationPossible('gratuite_pilote')).toBe(true)
+    expect(publicationPossible('plafond_pilote')).toBe(false)
+  })
+  it('affiche le dernier jour inclus (fin exclue en base)', () => {
+    expect(dernierJourGratuite('2027-03-01T00:00:00+00:00')).toBe('28 février 2027')
+    expect(dernierJourGratuite('2027-01-02T00:00:00Z')).toBe('1er janvier 2027')
+  })
+  it('compose le message du formulaire', () => {
+    expect(messageGratuitePilote(3, 30, '2027-03-01T00:00:00Z')).toBe(
+      "Publication gratuite pendant le pilote, jusqu'au 28 février 2027 inclus : 3 / 30 annonces gratuites en ligne.",
+    )
+    expect(messageGratuitePilote(0, 30, null)).toMatch(/^Publication gratuite pendant le pilote : 0/)
   })
 })

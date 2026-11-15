@@ -43,11 +43,31 @@ export function useQuartiers() {
     queryKey: ['quartiers'],
     staleTime: 60 * 60_000,
     queryFn: async () => {
-      const { data, error } = await supabase.from('quartiers_keyli').select('id, nom, communes_keyli(nom)')
+      const { data, error } = await supabase.from('quartiers_keyli').select('id, nom, communes_keyli(nom, ville)')
       if (error) throw error
       return data
-        .map((q) => ({ id: q.id, nom: q.nom, commune: q.communes_keyli?.nom ?? '' }))
+        .map((q) => ({
+          id: q.id,
+          nom: q.nom,
+          commune: q.communes_keyli?.nom ?? '',
+          // Ville de la commune : la base en déduit la ville de l'annonce
+          ville: q.communes_keyli?.ville ?? '',
+        }))
         .sort((a, b) => a.commune.localeCompare(b.commune, 'fr') || a.nom.localeCompare(b.nom, 'fr'))
+    },
+  })
+}
+
+// Gratuité du pilote national (période et plafond, lus en base ;
+// migration 20261120120000) — pour afficher « gratuit jusqu'au … »
+export function usePiloteGratuite() {
+  return useQuery({
+    queryKey: ['pilote-gratuite'],
+    staleTime: 60 * 60_000,
+    queryFn: async () => {
+      const { data, error } = await supabase.from('pilote_gratuite_keyli').select('debut, fin, plafond').maybeSingle()
+      if (error) throw error
+      return data
     },
   })
 }

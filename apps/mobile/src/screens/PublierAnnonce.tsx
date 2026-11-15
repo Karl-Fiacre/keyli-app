@@ -4,7 +4,7 @@
 // mobile : photos prises avec la caméra et emplacement par la position du
 // téléphone. La base refait tous les contrôles (forfait KY001 à KY004,
 // photos 1 à 10, point GPS) : l'écran ne fait qu'accompagner la saisie.
-import { useState, type ComponentProps } from 'react'
+import { useEffect, useState, type ComponentProps } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Linking, StyleSheet, Text, View } from 'react-native'
@@ -13,6 +13,7 @@ import {
   useAvantages,
   useEtatPublication,
   usePublierAnnonce,
+  usePiloteGratuite,
   useQuartiers,
   type TypeBien,
 } from '@/partage/hooks/useAnnonces'
@@ -20,7 +21,7 @@ import { useProfil } from '@/partage/hooks/useProfil'
 import { useSession } from '@/partage/hooks/useSession'
 import { messageErreur } from '@/partage/lib/erreurs'
 import { formatXof } from '@/partage/lib/format'
-import { publicationPossible } from '@/partage/lib/publication'
+import { MESSAGE_PLAFOND_PILOTE, messageGratuitePilote, publicationPossible } from '@/partage/lib/publication'
 import {
   estHotelier,
   LIBELLES_TYPE,
@@ -84,7 +85,8 @@ export default function PublierAnnonce({ navigation }: Props) {
     defaultValues: {
       titre: '',
       statut: 'a_louer',
-      ville: 'Abidjan',
+      // Déduite du quartier choisi (la base fait de même) ; saisie libre sans quartier
+      ville: '',
       description: '',
       meuble: false,
       avantages: [],
@@ -154,6 +156,11 @@ export default function PublierAnnonce({ navigation }: Props) {
   // Hôtel ou auberge à louer : toujours à la nuit (la base l'impose aussi)
   const sejour = statut === 'a_louer' && (hotelier || !!watch('sejourCourt'))
   const latitude = watch('latitude')
+  // La ville suit le quartier choisi (la base l'impose de toute façon)
+  const quartierChoisi = (quartiers.data ?? []).find((q) => q.id === watch('quartierId'))
+  useEffect(() => {
+    if (quartierChoisi?.ville) setValue('ville', quartierChoisi.ville, { shouldValidate: true })
+  }, [quartierChoisi?.ville, setValue])
   const longitude = watch('longitude')
 
   const photosManquantes = () => {
@@ -281,7 +288,10 @@ export default function PublierAnnonce({ navigation }: Props) {
             nombre,
           )}
 
-          {champ('ville', 'Ville')}
+          {champ('ville', 'Ville', {
+            editable: !quartierChoisi && !envoiEnCours,
+            placeholder: 'Choisissez un quartier, ou saisissez la ville',
+          })}
           <Controller
             control={control}
             name="quartierId"
@@ -403,6 +413,7 @@ function EtatForfait({
 }: {
   etat: { statut: string; seuil_max: number | null; publications_cycle: number; prix_depassement: number | null }
 }) {
+  const pilote = usePiloteGratuite()
   const allerAuForfait = (
     <Bouton
       libelle="Choisir un forfait sur le site"
@@ -411,6 +422,22 @@ function EtatForfait({
     />
   )
   switch (etat.statut) {
+    // Pilote national : gratuit jusqu'au plafond (décision du 2026-11-14)
+    case 'gratuite_pilote':
+      return (
+        <Carte>
+          <Text style={styles.gras}>
+            {messageGratuitePilote(etat.publications_cycle, etat.seuil_max ?? 0, pilote.data?.fin)}
+          </Text>
+        </Carte>
+      )
+    case 'plafond_pilote':
+      return (
+        <>
+          <Message>{MESSAGE_PLAFOND_PILOTE(etat.seuil_max ?? 0)}</Message>
+          {allerAuForfait}
+        </>
+      )
     case 'sans_abonnement':
       return (
         <>

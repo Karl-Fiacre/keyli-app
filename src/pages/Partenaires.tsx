@@ -46,7 +46,7 @@ const PROFILS_PARTENAIRE = PROFILS_PILOTE.filter((p) => p !== 'chercheur')
 export default function Partenaires() {
   useTitrePage(
     'Devenir partenaire',
-    'Propriétaires et agences à Abidjan : publiez des biens vérifiés sur Keyli, avec l’accompagnement de l’équipe.',
+    'Propriétaires et agences de Côte d’Ivoire : publiez des biens vérifiés sur Keyli, avec l’accompagnement de l’équipe.',
   )
   const communes = useCommunes()
   const envoi = useCandidaturePilote()
@@ -69,7 +69,7 @@ export default function Partenaires() {
       >
         <FondScene />
         <div className="container max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-wider text-turquoise">Partenaires · Abidjan</p>
+          <p className="text-sm font-semibold uppercase tracking-wider text-turquoise">Partenaires · Côte d’Ivoire</p>
           <TexteCinema
             id="titre-partenaires"
             className="mt-2 font-titre text-4xl font-bold md:text-5xl"

@@ -25,6 +25,7 @@ import {
   type SaisieAnnonce,
 } from '@/partage/lib/validation'
 import { cn } from '@/lib/utils'
+import { suivre } from '@/lib/suivi'
 
 // Mêmes styles que Input pour les listes et la zone de texte natives
 const champNatif =
@@ -67,13 +68,20 @@ export default function PublierAnnonce() {
     resolver: zodResolver(schemaAnnonce),
     defaultValues: {
       statut: 'a_louer',
-      ville: 'Abidjan',
+      // Déduite du quartier choisi (la base fait de même) ; saisie libre sans quartier
+      ville: '',
       meuble: false,
       avantages: [],
       accepteDepassement: false,
       sejourCourt: false,
     },
   })
+
+  // La ville suit le quartier choisi (la base l'impose de toute façon)
+  const quartierChoisi = (quartiers.data ?? []).find((q) => q.id === watch('quartierId'))
+  useEffect(() => {
+    if (quartierChoisi?.ville) setValue('ville', quartierChoisi.ville, { shouldValidate: true })
+  }, [quartierChoisi?.ville, setValue])
 
   const role = profil.data?.role_keyli
   if (profil.isPending || etat.isPending) {
@@ -137,7 +145,10 @@ export default function PublierAnnonce() {
         photos: adresses,
       },
       {
-        onSuccess: () => naviguer('/annonces', { state: { publiee: true } }),
+        onSuccess: () => {
+          suivre('publication_annonce')
+          naviguer('/annonces', { state: { publiee: true } })
+        },
         onSettled: () => setProgression(null),
       },
     )
@@ -286,7 +297,15 @@ export default function PublierAnnonce() {
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <ChampFormulaire libelle="Ville" erreur={errors.ville?.message}>
-                  {(a) => <Input {...a} {...register('ville')} />}
+                  {(a) => (
+                    <Input
+                      {...a}
+                      readOnly={!!quartierChoisi}
+                      className={cn(quartierChoisi && 'bg-secondary')}
+                      placeholder="Choisissez un quartier, ou saisissez la ville"
+                      {...register('ville')}
+                    />
+                  )}
                 </ChampFormulaire>
                 <ChampFormulaire libelle="Quartier" erreur={errors.quartierId?.message}>
                   {(a) => (

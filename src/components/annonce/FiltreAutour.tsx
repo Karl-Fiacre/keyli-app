@@ -62,7 +62,10 @@ export function FiltreAutour({
             autour ? 'bg-turquoise text-white' : 'bg-background hover:bg-turquoise/10',
           )}
         >
-          <LocateFixed className={cn('h-4 w-4', !autour && 'text-turquoise', recherche && 'animate-pulse')} aria-hidden />
+          <LocateFixed
+            className={cn('h-4 w-4', !autour && 'text-turquoise', recherche && 'animate-pulse')}
+            aria-hidden
+          />
           {recherche ? 'Localisation…' : 'Autour de moi'}
           {autour && <X className="h-4 w-4" aria-label="Désactiver" />}
         </button>
@@ -76,7 +79,9 @@ export function FiltreAutour({
               onClick={() => onChange({ ...filtres, autour: { ...autour, rayonKm: km }, page: 1 })}
               className={cn(
                 'h-10 rounded-pill border px-4 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-                autour.rayonKm === km ? 'border-primary bg-primary text-primary-foreground' : 'bg-background hover:bg-secondary',
+                autour.rayonKm === km
+                  ? 'border-primary bg-primary text-primary-foreground'
+                  : 'bg-background hover:bg-secondary',
               )}
             >
               {km} km

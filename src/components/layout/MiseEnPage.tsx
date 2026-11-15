@@ -13,6 +13,7 @@ import { LienEvitement } from '@/components/layout/LienEvitement'
 import { TransitionPage } from '@/components/animation/TransitionPage'
 import { PorteCgu } from '@/components/juridique/PorteCgu'
 import { ChargementPage } from '@/components/ChargementPage'
+import { retirerChoix, suiviConfigure } from '@/lib/suivi'
 
 // Mise en page commune : en-tête avec le logotype officiel
 // (public/keyli-logo-*.png, déclinés par docs/keyli_brand_assets/generer-raster.cjs
@@ -173,6 +174,11 @@ export function MiseEnPage() {
           <Link to="/mentions-legales" className="hover:text-foreground hover:underline">
             Mentions légales
           </Link>
+          {suiviConfigure() && (
+            <button type="button" onClick={retirerChoix} className="hover:text-foreground hover:underline">
+              Cookies publicitaires
+            </button>
+          )}
         </nav>
         © {new Date().getFullYear()} Keyli — Nguessan-IT, Abidjan
       </footer>

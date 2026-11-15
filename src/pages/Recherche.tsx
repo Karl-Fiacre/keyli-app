@@ -14,6 +14,7 @@ import { TAILLE_PAGE, useRecherche, type FiltresRecherche as Filtres, type TriRe
 import { messageErreur } from '@/partage/lib/erreurs'
 import { ecrireFiltres, LIBELLES_TRI, lireFiltres, nombreFiltresActifs } from '@/partage/lib/recherche'
 import { cn } from '@/lib/utils'
+import { listeVilles } from '@/partage/lib/villes'
 import { delaiCascade } from '@/lib/animation'
 import { TexteCinema } from '@/components/animation/TexteCinema'
 import { useTitrePage } from '@/hooks/useTitrePage'
@@ -29,8 +30,8 @@ export default function Recherche() {
   const [panneauOuvert, setPanneauOuvert] = useState(false)
   const [vue, setVue] = useVueCatalogue()
   useTitrePage(
-    filtres.sejour ? 'Séjours à Abidjan' : 'Logements à Abidjan',
-    'Appartements, studios, maisons et villas à louer ou à vendre à Abidjan, annonces vérifiées par l’équipe Keyli.',
+    filtres.sejour ? 'Séjours en Côte d’Ivoire' : 'Logements en Côte d’Ivoire',
+    `Appartements, studios, maisons et villas à louer ou à vendre à ${listeVilles()}, annonces vérifiées par l’équipe Keyli.`,
   )
 
   const appliquer = (f: Filtres) => {
@@ -74,7 +75,7 @@ export default function Recherche() {
               <TexteCinema
                 key={filtres.sejour ? 'sejour' : 'logement'}
                 className="text-2xl font-bold tracking-tight"
-                segments={[{ texte: filtres.sejour ? 'Séjours à Abidjan' : 'Logements à Abidjan' }]}
+                segments={[{ texte: filtres.sejour ? 'Séjours en Côte d’Ivoire' : 'Logements en Côte d’Ivoire' }]}
               />
               <p className="text-sm text-muted-foreground" aria-live="polite">
                 {recherche.isPending

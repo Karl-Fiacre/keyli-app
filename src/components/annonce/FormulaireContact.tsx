@@ -6,6 +6,7 @@ import { useSession } from '@/partage/hooks/useSession'
 import { useContacterAnnonceur } from '@/partage/hooks/useRecherche'
 import { signalerIntentionContact } from '@/partage/hooks/useConversion'
 import { messageErreur } from '@/partage/lib/erreurs'
+import { suivre } from '@/lib/suivi'
 
 // Premier message à l'annonceur, par la messagerie Keyli (gratuite, sans
 // paywall — docs/MODULES/messagerie.md). Le téléphone reste privé.
@@ -62,7 +63,10 @@ export function FormulaireContact({
         if (!message.trim()) return
         // Intention de contact (Sprint 8) : comptée une fois par session et par annonce
         signalerIntentionContact(propertyId)
-        contact.mutate({ propertyId, destinataire, message: message.trim() })
+        contact.mutate(
+          { propertyId, destinataire, message: message.trim() },
+          { onSuccess: () => suivre('contact_annonceur') },
+        )
       }}
     >
       <label htmlFor="message-contact" className="text-sm font-medium">

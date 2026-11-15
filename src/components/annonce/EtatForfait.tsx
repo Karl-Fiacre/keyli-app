@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import { Alert } from '@/components/ui/alert'
 import { formatXof } from '@/partage/lib/format'
+import { MESSAGE_PLAFOND_PILOTE, messageGratuitePilote } from '@/partage/lib/publication'
+import { usePiloteGratuite } from '@/partage/hooks/useAnnonces'
 
 export interface EtatPublication {
   statut: string
@@ -13,6 +15,7 @@ export interface EtatPublication {
 // Compteur du cycle et raison d'un éventuel blocage — valeurs calculées par
 // la base (etat_publication_keyli), jamais recalculées ici.
 export function EtatForfait({ etat }: { etat: EtatPublication }) {
+  const pilote = usePiloteGratuite()
   const lien = (texte: string) => (
     <Link to="/abonnement" className="font-semibold text-primary-glow hover:underline">
       {texte}
@@ -20,6 +23,21 @@ export function EtatForfait({ etat }: { etat: EtatPublication }) {
   )
 
   switch (etat.statut) {
+    // Pilote national : gratuit jusqu'au plafond (décision du 2026-11-14)
+    case 'gratuite_pilote':
+      return (
+        <Alert>
+          <p className="font-medium">
+            {messageGratuitePilote(etat.publications_cycle, etat.seuil_max ?? 0, pilote.data?.fin)}
+          </p>
+        </Alert>
+      )
+    case 'plafond_pilote':
+      return (
+        <Alert variant="erreur">
+          {MESSAGE_PLAFOND_PILOTE(etat.seuil_max ?? 0)} {lien('Choisir un forfait')}
+        </Alert>
+      )
     case 'sans_abonnement':
       return (
         <Alert variant="erreur">

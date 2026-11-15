@@ -31,6 +31,7 @@ const MESSAGES_BASE: Record<string, string> = {
   KY002: "Votre forfait a atteint son nombre maximal d'annonces.",
   KY003: 'Cette annonce dépasse votre forfait : confirmez le dépassement pour la publier.',
   KY004: 'Votre registre de commerce doit être approuvé avant de publier.',
+  KY005: 'Vous avez atteint le nombre maximal d’annonces gratuites du pilote.',
 }
 
 // Erreur dont le message, déjà en français, s'affiche tel quel

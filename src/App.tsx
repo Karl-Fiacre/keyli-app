@@ -9,6 +9,7 @@ import { CadreConnecte } from '@/components/layout/CadreConnecte'
 import { RouteProtegee } from '@/components/RouteProtegee'
 import Accueil from '@/pages/Accueil'
 import PageIntrouvable from '@/pages/PageIntrouvable'
+import { BandeauConsentement } from '@/components/suivi/BandeauConsentement'
 const Inscription = lazy(() => import('@/pages/Inscription'))
 const Connexion = lazy(() => import('@/pages/Connexion'))
 const VerifierEmail = lazy(() => import('@/pages/VerifierEmail'))
@@ -138,6 +139,8 @@ function App() {
                 <Route path="*" element={<PageIntrouvable />} />
               </Route>
             </Routes>
+            {/* Cookies publicitaires : consentement d'abord (pilote national) */}
+            <BandeauConsentement />
           </BrowserRouter>
         </MotionConfig>
       </FournisseurSession>

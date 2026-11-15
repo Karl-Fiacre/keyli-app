@@ -37,7 +37,7 @@ export async function onRequestGet(contexte: Contexte): Promise<Response> {
   const periode = a.status === 'a_louer' ? (a.sejour_court ? ' / nuit' : ' / mois') : ''
   const nature = a.sejour_court ? 'Séjour court' : a.status === 'a_louer' ? 'À louer' : 'À vendre'
   const titre = `${a.title} — ${prix}${periode} | Keyli`
-  const description = `${nature} · ${LIBELLES_TYPE[a.type] ?? 'Bien'} · ${lieu}. Annonce sur Keyli, l’immobilier de confiance à Abidjan.`
+  const description = `${nature} · ${LIBELLES_TYPE[a.type] ?? 'Bien'} · ${lieu}. Annonce sur Keyli, l’immobilier de confiance en Côte d’Ivoire.`
   const image = urlApercu(a.main_image_url)
   const url = new URL(contexte.request.url)
   const canonique = `${url.origin}/annonce/${a.id}`

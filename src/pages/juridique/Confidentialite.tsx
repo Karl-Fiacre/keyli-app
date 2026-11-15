@@ -149,11 +149,21 @@ const SECTIONS: SectionJuridique[] = [
     id: 'stockage-navigateur',
     titre: 'Stockage dans le navigateur',
     contenu: (
-      <p>
-        Keyli n’utilise pas de cookies publicitaires. Le navigateur conserve seulement ce qui est nécessaire au service
-        : la session de connexion et un identifiant anonyme de statistiques. Les cartes Google Maps peuvent déposer
-        leurs propres éléments techniques.
-      </p>
+      <>
+        <p>
+          Le navigateur conserve ce qui est nécessaire au service : la session de connexion et un identifiant anonyme
+          de statistiques. Les cartes Google Maps peuvent déposer leurs propres éléments techniques.
+        </p>
+        <p>
+          <strong>Cookies publicitaires, seulement avec votre accord.</strong> Si vous acceptez, Keyli charge les
+          outils de mesure de Meta Platforms (Facebook, Instagram) et, s’il est activé, celui de TikTok. Ils permettent de savoir quelles
+          publicités Keyli vous ont amené sur le site, et si vous vous êtes inscrit, avez contacté un annonceur ou
+          publié une annonce. Keyli ne leur transmet aucune donnée de votre compte (nom, email, téléphone,
+          messages) ; ces sociétés peuvent toutefois relier la visite à votre propre compte Facebook, Instagram ou
+          TikTok, selon leurs politiques de confidentialité. Sans accord, rien n’est chargé. Vous pouvez changer
+          d’avis à tout moment avec le lien « Cookies publicitaires » en bas de chaque page.
+        </p>
+      </>
     ),
   },
   {

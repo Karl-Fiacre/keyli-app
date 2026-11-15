@@ -63,7 +63,7 @@ export function gabarit(c: ContenuEmail, urlApp: string, urlDesinscription: stri
           </tr>
           <tr>
             <td align="center" style="padding:24px 16px 0;font-family:${POLICE};font-size:12px;line-height:18px;color:#5c6a80;">
-              Keyli — l'immobilier de confiance à Abidjan<br>
+              Keyli — l'immobilier de confiance en Côte d'Ivoire<br>
               Vous recevez cet email car vous avez un compte Keyli.<br>
               <a href="${urlApp}/profil" target="_blank" style="color:#0046b8;">Gérer mes emails</a> ·
               <a href="${urlDesinscription}" target="_blank" style="color:#0046b8;">Ne plus recevoir ces emails</a><br>
@@ -87,7 +87,7 @@ export function gabarit(c: ContenuEmail, urlApp: string, urlDesinscription: stri
     `${c.bouton.libelle} : ${c.bouton.url}`,
     '',
     '—',
-    'Keyli — l’immobilier de confiance à Abidjan',
+    'Keyli — l’immobilier de confiance en Côte d’Ivoire',
     `Gérer mes emails : ${urlApp}/profil`,
     `Ne plus recevoir ces emails : ${urlDesinscription}`,
   ].join('\n')

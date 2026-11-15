@@ -1,13 +1,15 @@
 import { MotifToits } from '@/components/accueil/MotifToits'
 import { ZoneRevele } from '@/components/animation/ZoneRevele'
 import { delaiCascade } from '@/lib/animation'
+import { listeVilles, VILLES_PILOTE } from '@/partage/lib/villes'
 
-// Étapes de l'ambition (docs/CONTEXT.md : Abidjan, puis sous-région).
-// Formulées comme une trajectoire, sans date ni chiffre promis.
+// Étapes de l'ambition (docs/CONTEXT.md : Abidjan, puis sous-région ;
+// pilote national du 2026-11-14 : vague 2 ouverte). Formulées comme une
+// trajectoire, sans date ni chiffre promis.
 const ETAPES = [
   { lieu: 'Abidjan', etat: 'Ouvert à tous', actif: true },
-  { lieu: 'Côte d’Ivoire', etat: 'Grandes villes ensuite', actif: false },
-  { lieu: 'Afrique de l’Ouest', etat: 'La référence sous-régionale', actif: false },
+  { lieu: listeVilles(VILLES_PILOTE.slice(1)), etat: 'Ouvert à tous', actif: true },
+  { lieu: 'Toute la Côte d’Ivoire', etat: 'Les autres grandes villes ensuite', actif: false },
 ]
 
 export function BandeauVision() {
@@ -20,7 +22,7 @@ export function BandeauVision() {
       <ZoneRevele className="container">
         <div className="kf-revele mx-auto max-w-3xl text-center">
           <h2 id="titre-vision" className="font-titre text-3xl font-bold md:text-4xl">
-            Abidjan aujourd’hui. <span className="text-primary-glow">L’Afrique de l’Ouest demain.</span>
+            La Côte d’Ivoire aujourd’hui. <span className="text-primary-glow">L’Afrique de l’Ouest demain.</span>
           </h2>
           <p className="mt-4 text-muted-foreground md:text-lg">
             Keyli construit le standard de confiance de l’immobilier ouest-africain : des annonces vraies, des

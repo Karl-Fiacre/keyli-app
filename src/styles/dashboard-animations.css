@@ -205,6 +205,29 @@
   animation: kf-zoom-lent 8800ms var(--kf-ease-cinema) forwards;
 }
 
+/* Bandeau des villes de la page À propos (BandeauVilles.tsx, 2026-11-15) :
+   défilement continu et lent, contenu doublé (-50 % = une longueur) ;
+   pause au survol. Mouvements réduits : immobile. */
+@keyframes kf-defilement-continu {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.kf-defilement-continu {
+  animation: kf-defilement-continu 38s linear infinite;
+}
+.kf-defilement-continu:hover {
+  animation-play-state: paused;
+}
+
+/* Pastille qui flotte doucement (badge de l'en-tête À propos), 6 s */
+@keyframes kf-flotte {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.kf-flotte {
+  animation: kf-flotte 6s ease-in-out infinite;
+}
+
 /* Cœur favori — petit battement à l'ajout, 250 ms */
 @keyframes kf-battement {
   0% { transform: scale(1); }
@@ -228,11 +251,22 @@
   .kf-donut,
   .kf-barre,
   .kf-glisse-gauche,
-  .kf-defile-active {
+  .kf-defile-active,
+  .kf-defilement-continu,
+  .kf-flotte {
     animation: none !important;
   }
   .kf-trace {
     stroke-dasharray: none;
+  }
+  /* Bandeau des villes immobile : une seule liste, qui passe à la ligne */
+  .kf-defilement-continu {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .kf-defilement-double {
+    display: none !important; /* l'emporte sur la classe flex de Tailwind */
   }
   .kf-souleve,
   .kf-souleve:hover {

@@ -133,16 +133,19 @@ export type Database = {
           created_at: string | null
           id: string
           nom: string
+          ville: string
         }
         Insert: {
           created_at?: string | null
           id?: string
           nom: string
+          ville?: string
         }
         Update: {
           created_at?: string | null
           id?: string
           nom?: string
+          ville?: string
         }
         Relationships: []
       }
@@ -826,6 +829,27 @@ export type Database = {
           },
         ]
       }
+      pilote_gratuite_keyli: {
+        Row: {
+          debut: string
+          fin: string
+          id: boolean
+          plafond: number
+        }
+        Insert: {
+          debut: string
+          fin: string
+          id?: boolean
+          plafond: number
+        }
+        Update: {
+          debut?: string
+          fin?: string
+          id?: boolean
+          plafond?: number
+        }
+        Relationships: []
+      }
       plans_keyli: {
         Row: {
           actif: boolean | null
@@ -1181,6 +1205,7 @@ export type Database = {
       property_publications_keyli: {
         Row: {
           created_at: string | null
+          gratuite_pilote: boolean
           hors_forfait: boolean
           id: string
           owner_id: string
@@ -1192,6 +1217,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string | null
+          gratuite_pilote?: boolean
           hors_forfait?: boolean
           id?: string
           owner_id: string
@@ -1203,6 +1229,7 @@ export type Database = {
         }
         Update: {
           created_at?: string | null
+          gratuite_pilote?: boolean
           hors_forfait?: boolean
           id?: string
           owner_id?: string

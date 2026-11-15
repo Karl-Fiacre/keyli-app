@@ -1,7 +1,7 @@
 {
   "name": "Keyli",
   "short_name": "Keyli",
-  "description": "Logements vérifiés à Abidjan",
+  "description": "Logements vérifiés en Côte d’Ivoire",
   "lang": "fr",
   "start_url": "/",
   "display": "standalone",
