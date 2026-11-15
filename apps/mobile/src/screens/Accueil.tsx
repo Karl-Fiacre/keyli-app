@@ -32,7 +32,7 @@ export default function Accueil({ navigation }: BottomTabScreenProps<ParamsOngle
         filtres={CATALOGUE}
         entete={
           <View style={styles.presentation}>
-            <Titre>Le logement de confiance à Abidjan</Titre>
+            <Titre>Le logement de confiance en Côte d’Ivoire</Titre>
             <Texte attenue>Annonces vérifiées, contact par la messagerie Keyli, visites organisées.</Texte>
           </View>
         }

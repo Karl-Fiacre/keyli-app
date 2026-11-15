@@ -21,7 +21,7 @@ export function ExplorerCommunes() {
             as="h2"
             quandVisible
             delai={0.2}
-            segments={[{ texte: 'Abidjan, ' }, { texte: 'commune par commune', className: 'text-primary-glow' }]}
+            segments={[{ texte: 'Votre ville, ' }, { texte: 'commune par commune', className: 'text-primary-glow' }]}
             className="mt-1 font-titre text-3xl font-bold md:text-4xl"
           />
           <p className="mt-2 text-muted-foreground">

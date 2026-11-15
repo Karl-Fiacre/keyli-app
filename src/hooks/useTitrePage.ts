@@ -3,9 +3,9 @@ import { useEffect } from 'react'
 // Titre et description propres à chaque page (Sprint 7, référencement —
 // docs/MODULES/ouverture-grand-public.md) : onglet du navigateur, résultats
 // des moteurs de recherche. Sans titre : titre générique de Keyli.
-const TITRE_DEFAUT = 'Keyli — le logement de confiance à Abidjan'
+const TITRE_DEFAUT = 'Keyli — le logement de confiance en Côte d’Ivoire'
 const DESCRIPTION_DEFAUT =
-  'Keyli, l’immobilier de confiance à Abidjan : annonces vérifiées, propriétaires et agences identifiés, avis après visite.'
+  'Keyli, l’immobilier de confiance en Côte d’Ivoire : annonces vérifiées, propriétaires et agences identifiés, avis après visite.'
 
 export function useTitrePage(titre?: string | null, description?: string | null) {
   useEffect(() => {

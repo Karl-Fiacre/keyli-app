@@ -8,6 +8,7 @@ import { useCommunes } from '@/partage/hooks/useRecherche'
 import { TexteCinema } from '@/components/animation/TexteCinema'
 import { CarteInclinee } from '@/components/animation/CarteInclinee'
 import { DUREE, EASE_CINEMA, transitionCinema } from '@/lib/cinema'
+import { VILLES_PILOTE } from '@/partage/lib/villes'
 
 // Communes mises en avant sous la recherche (raccourcis), si elles existent
 const COMMUNES_PHARES = ['Cocody', 'Marcory', 'Plateau', 'Yopougon', 'Koumassi', 'Treichville']
@@ -61,7 +62,7 @@ export function BanniereAccueil() {
             className="inline-flex items-center gap-2 rounded-pill border border-primary-foreground/20 bg-primary-foreground/5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary-foreground/85"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-turquoise" aria-hidden />
-            Abidjan · Côte d’Ivoire
+            {VILLES_PILOTE.join(' · ')}
           </motion.p>
           <TexteCinema
             className="mt-5 font-titre text-4xl font-bold leading-[1.1] md:text-6xl"
