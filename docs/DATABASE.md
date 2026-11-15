@@ -979,6 +979,32 @@ Migration `20261111120000_demarrage_retours_keyli.sql` (détail
 Tests : `supabase/tests/demarrage_retours_keyli.test.sql` (16 tests, 699 au
 total).
 
+## ⚠️ DÉCISIONS ACTÉES (2026-11-14) — pilote national
+Migration `20261120120000_pilote_national_keyli.sql`, tests
+`pilote_national_keyli.test.sql` (16). Décisions du porteur :
+`docs/PRD_REGLES.md` « PILOTE NATIONAL ».
+- `communes_keyli.ville` (text, défaut 'Abidjan') : + Bouaké, San-Pédro,
+  Yamoussoukro (une commune = la ville), chacune avec un quartier
+  « <Ville> Centre » provisoire (liste fermée, enrichie par l'équipe).
+  **+ Korhogo et Daloa** (2026-11-15, même principe) : migration
+  `20261121120000_villes_korhogo_daloa_keyli.sql`, tests
+  `villes_korhogo_daloa_keyli.test.sql` (5).
+- `properties_keyli.city` : **imposée par la base** depuis le quartier
+  (trigger `trg_properties_keyli_ville`, `ville_annonce_keyli`) ; saisie
+  libre seulement sans quartier. Plus de « Abidjan » écrit en dur.
+- `pilote_gratuite_keyli` (une ligne : `debut`, `fin` exclue, `plafond`) :
+  1er décembre 2026 → 1er mars 2027, 30 annonces. Lecture publique,
+  aucune écriture client (RLS + droits).
+- `property_publications_keyli.gratuite_pilote` : mise en ligne gratuite,
+  **jamais comptée dans un forfait** (`publications_periode_keyli`), même
+  si l'annonce reste en ligne après le pilote (option A).
+- `evaluer_publication_keyli` : + statuts `gratuite_pilote` (plafond non
+  atteint, abonnement ou non) et `plafond_pilote` (plafond atteint sans
+  abonnement → refus `KY005` dans `controler_publication_keyli`) ; plafond
+  atteint avec abonnement : règles du forfait. Registre de commerce d'une
+  agence toujours exigé. Les tests de forfaits neutralisent la gratuité
+  (`update pilote_gratuite_keyli set fin = debut`).
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-11-14) — recherche par rayon
 Migration `20261119120000_recherche_rayon_keyli.sql` (détail :
 MODULES/geolocalisation.md).

@@ -14,6 +14,10 @@ set local search_path = "$user", public, extensions;
 
 select plan(22);
 
+-- Gratuité du pilote neutralisée : ces tests portent sur les forfaits
+-- (migration 20261120120000_pilote_national_keyli.sql)
+update public.pilote_gratuite_keyli set fin = debut;
+
 -- ------------------------------------------------------------
 -- Comptes : P propriétaire, A agence, G grande agence, U chercheur
 -- ------------------------------------------------------------

@@ -106,7 +106,27 @@ résumé, pas la source primaire.
       cochées par le client — testé
 - [x] Retours : longueurs bornées, 5 par jour au plus, réponse réservée à
       l'admin et notifiée à l'auteur — testé
-- [ ] Tarif des annonceurs pendant le pilote : à décider avant l'ouverture
+- [x] Tarif des annonceurs pendant le pilote : **tranché par le porteur
+      (2026-11-14) — gratuit pour tous les annonceurs, sur tout le territoire
+      national, pendant les 3 mois du pilote**. Modalités (dates, plafond,
+      sortie de gratuité) : `docs/MODULES/publicite-pilote-villes.md`.
+      Appliqué par la base, jamais par l'interface.
+
+## PILOTE NATIONAL (décisions du porteur, 2026-11-14)
+- [x] Écart assumé au PRD (pilote = Abidjan seul) : **vague 2 ouverte
+      pendant le pilote — Bouaké, San-Pédro, Yamoussoukro** ; **Korhogo et
+      Daloa ouvertes elles aussi dès le pilote** (décision du 2026-11-15,
+      elles étaient prévues en vague 3 après bilan). Le mot « Abidjan » ne
+      doit plus être écrit en dur comme seule ville dans l'interface.
+- [x] Vérification hors d'Abidjan : membres de l'équipe issus des villes +
+      visites possibles de l'administration dans les villes.
+- [x] Publicité grand public dans une ville seulement à partir de **50
+      annonces vérifiées** dans cette ville.
+- [x] Outils de suivi publicitaire (pixels Meta et TikTok) : **oui**, avec
+      consentement préalable du visiteur.
+- [x] Budget publicitaire : 200 000 XOF de décembre 2026 à mars 2027.
+- [x] Pas d'agence de communication pour l'instant : base de communication
+      préparée en interne.
 
 ## CATALOGUE ET CARTE (2026-11-04)
 - [x] La position exacte d'un bien n'est jamais lisible par le client
