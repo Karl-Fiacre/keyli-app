@@ -1011,6 +1011,37 @@ concernés :
      mobile, en fondu enchaîné avec un zoom lent (`kf-defile`, mouvements
      réduits respectés) ; masqué sur petit écran (le formulaire d'abord). Sur
      l'inscription (formulaire long), le panneau reste fixe au défilement.
+  8. **Brouillon du dossier de publicité et du pilote multi-villes**
+     (`docs/MODULES/publicite-pilote-villes.md`) : villes proposées par
+     vagues (Abidjan ; Bouaké, San-Pédro, Yamoussoukro ; Korhogo, Daloa ;
+     séjours à Grand-Bassam/Assinie), messages, canaux, calendrier,
+     travaux techniques (villes dans la base, suivi des campagnes).
+     **Décisions du porteur prises le jour même** (vague 2 ouverte,
+     200 000 XOF de décembre à mars, équipe et visites dans les villes,
+     seuil de 50 annonces vérifiées par ville, pixels Meta/TikTok avec
+     consentement, gratuité nationale pendant les 3 mois du pilote) :
+     `PRD_REGLES.md` (« PILOTE NATIONAL ») et le dossier, section 7.
+  9. **Branche `feature/pilote-national`** (en cours) : « Abidjan » retiré
+     des textes en dur (accueil, recherche, partenaires, à propos,
+     inscription, titres, `index.html`, manifeste, aperçu des annonces,
+     emails, fiche Play) au profit de « Côte d'Ivoire » ou de la liste
+     `VILLES_PILOTE` (`src/partage/lib/villes.ts`, testée). Restent
+     légitimes : siège de Nguessan-IT, tribunal, fuseau horaire. **À
+     redéployer** : fonction `envoyer-emails` et site ; gabarits
+     `supabase/templates/` à recopier sur le projet distant (porteur).
+     Migration `20261120120000_pilote_national_keyli.sql` (villes de la
+     vague 2, ville d'une annonce imposée depuis son quartier, gratuité
+     du 1er décembre 2026 au 28 février 2027, 30 annonces gratuites en
+     ligne, option A à la fin) : 16 tests + 5 fichiers de tests de
+     forfaits rejoués sur la base distante en transaction annulée (tous
+     OK). Interface web et mobile : statuts `gratuite_pilote` /
+     `plafond_pilote`, erreur `KY005`, ville déduite du quartier.
+     **Pas encore en ligne** ; types à régénérer ensuite.
+     Pixels Meta/TikTok avec bandeau de consentement : faits
+     (`src/lib/suivi.ts`, dossier section 9) ; identifiants à fournir par
+     le porteur dans `.env`. Correction : Connexion, Inscription et
+     PanneauPhotos avaient été reformatés au mauvais style (guillemets
+     doubles, points-virgules) le 2026-11-14 : style du projet rétabli.
 - Vérifié : types mobile et web, 59 tests, lint, `npm run build`,
   `expo export --platform android` ; accueil, Messages, Conversation et
   formulaire de contact essayés dans l'aperçu navigateur (compte du
@@ -1019,6 +1050,28 @@ concernés :
 - Prochaine étape : essai sur téléphone, demande de visite dans le fil
   mobile (`PanneauVisite` du web), suppression des annonces fictives,
   nouvelle compilation bêta.
+
+### Session du 2026-11-15 — comptes Meta, TikTok reporté
+- Migration du pilote national **en ligne** (confirmé par le porteur).
+- Meta, sous le portefeuille Nguessan-IT : pixel « Keyli »
+  (2258767188386737, écrit dans `.env`), Page Facebook « Keyli »,
+  compte publicitaire en euros (pas de XOF chez Meta), fuseau Abidjan.
+  Détail : `docs/MODULES/publicite-pilote-villes.md` section 9.
+- TikTok **reporté** (décision du porteur) : la Côte d'Ivoire n'est pas
+  proposée à l'inscription TikTok Ads ; budget TikTok reporté sur Meta.
+- Bandeau et politique de confidentialité : ne citent TikTok que s'il est
+  configuré (`nomsOutils()` dans `src/lib/suivi.ts`).
+- Vérifié : types web, 66 tests ; dans le navigateur (base distante),
+  bandeau « Meta » seul, rien chargé avant le choix, après « Accepter »
+  PageView envoyé au pixel Keyli.
+- **Korhogo et Daloa ouvertes dès le pilote** (décision du porteur) :
+  migration `20261121120000_villes_korhogo_daloa_keyli.sql` (communes +
+  quartier « Centre »), tests pgTAP 5/5 sur la base distante en
+  transaction annulée ; `VILLES_PILOTE` complétée. **Migration pas encore
+  en ligne** (`supabase db push` par le porteur).
+- Prochaine étape : lint + `npm run build` + `expo export`, commit et
+  fusion de `feature/pilote-national` (avec l'accord du porteur), puis
+  `npm run deploy` et redéploiement de `envoyer-emails`.
 
 ## Modèle à copier pour chaque nouvelle entrée de session
 
