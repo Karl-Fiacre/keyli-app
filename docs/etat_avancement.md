@@ -1073,6 +1073,20 @@ concernés :
   fusion de `feature/pilote-national` (avec l'accord du porteur), puis
   `npm run deploy` et redéploiement de `envoyer-emails`.
 
+### Session du 2026-11-15 (suite) — déploiement, compilations, fiche Google Play
+- Web redéployé (`npm run deploy`) après libération d'espace disque ;
+  cache `npx` de wrangler corrompu par le disque plein, vidé.
+- Compilations Codemagic iOS (TestFlight) et Android (test interne)
+  lancées sur `main` : réussies (confirmé par le porteur).
+- Fiche Google Play par défaut complétée et enregistrée (brouillon) : icône
+  Keyli, image de présentation « en Côte d'Ivoire » (au lieu de « à
+  Abidjan »), 7 captures, textes aux six villes du pilote
+  (`apps/mobile/fiche-store/`).
+- Reste au porteur : « Suivant » → déclaration des éléments d'IA →
+  « Enregistrer », puis envoi à l'examen depuis « Vue d'ensemble de la
+  publication ». La capture `01-bienvenue` dit encore « à Abidjan » (à
+  retirer ou reprendre).
+
 ## Modèle à copier pour chaque nouvelle entrée de session
 
 ```

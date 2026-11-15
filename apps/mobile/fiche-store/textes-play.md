@@ -16,7 +16,7 @@ Louer ou acheter en Côte d'Ivoire : annonces vérifiées, annonceurs identifié
 
 ## Description complète (4 000 caractères max.)
 
-Keyli, c'est l'immobilier de confiance en Côte d'Ivoire : Abidjan, Bouaké, San-Pédro et Yamoussoukro. Trouvez un appartement, un studio, une maison ou une villa à louer ou à vendre, et échangez avec des propriétaires et des agences identifiés.
+Keyli, c'est l'immobilier de confiance en Côte d'Ivoire : Abidjan, Bouaké, San-Pédro, Yamoussoukro, Korhogo et Daloa. Trouvez un appartement, un studio, une maison ou une villa à louer ou à vendre, et échangez avec des propriétaires et des agences identifiés.
 
 POURQUOI KEYLI ?
 • Des annonces vérifiées : les documents des propriétaires et des agences sont contrôlés par l'équipe Keyli. Les annonces vérifiées portent un badge officiel et apparaissent en premier.
