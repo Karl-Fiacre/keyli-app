@@ -45,9 +45,48 @@ const SECTIONS: SectionJuridique[] = [
         <li>Abonnement : forfait choisi, historique des paiements (sans numéro de carte, traité par Paystack).</li>
         <li>
           Statistiques : consultations et clics sur les annonces, rattachés à un identifiant anonyme conservé dans votre
-          navigateur.
+          navigateur ou dans l’application.
+        </li>
+        <li>
+          Notifications (application mobile) : l’identifiant de notification de votre téléphone, enregistré pour votre
+          compte si vous autorisez les notifications, et retiré quand vous vous déconnectez.
+        </li>
+        <li>
+          Vos retours (« Donner mon avis ») : votre message, accompagné de la version de l’application et du système
+          de votre téléphone (par exemple « Android 15 »), pour nous aider à comprendre un problème.
         </li>
       </ul>
+    ),
+  },
+  {
+    id: 'application-mobile',
+    titre: 'Autorisations de l’application mobile',
+    contenu: (
+      <>
+        <p>
+          L’application Keyli ne demande l’accès à une fonction de votre téléphone qu’au moment où vous en avez besoin.
+          Vous pouvez refuser ou retirer chaque autorisation dans les réglages du téléphone ; l’application reste
+          utilisable sans elle.
+        </p>
+        <ul>
+          <li>
+            Position : seulement pendant que vous utilisez l’application, jamais en arrière-plan. Elle sert à
+            rechercher les annonces « Autour de moi » et à placer un bien sur la carte quand vous publiez une annonce.
+            Pour la recherche, votre position est utilisée le temps de la recherche et n’est pas enregistrée.
+          </li>
+          <li>
+            Appareil photo et photos : pour photographier un bien ou choisir des images dans votre galerie, et pour
+            envoyer vos documents de vérification. Seules les images que vous choisissez sont envoyées.
+          </li>
+          <li>
+            Notifications : pour vous prévenir d’un nouveau message, d’une visite ou du suivi de vos documents.
+          </li>
+          <li>
+            Face ID ou empreinte digitale : si vous activez le verrouillage dans votre profil. La reconnaissance se fait
+            entièrement sur votre téléphone : Keyli ne reçoit ni votre visage ni vos empreintes.
+          </li>
+        </ul>
+      </>
     ),
   },
   {
@@ -95,6 +134,10 @@ const SECTIONS: SectionJuridique[] = [
           <li>Paystack : paiement des forfaits.</li>
           <li>Google Maps : affichage des cartes et choix de la position d’un bien.</li>
           <li>Resend : envoi des emails.</li>
+          <li>
+            Google (Firebase Cloud Messaging) et Apple (Apple Push Notification service) : acheminement des
+            notifications vers votre téléphone Android ou iPhone.
+          </li>
         </ul>
       </>
     ),
@@ -147,12 +190,18 @@ const SECTIONS: SectionJuridique[] = [
   },
   {
     id: 'stockage-navigateur',
-    titre: 'Stockage dans le navigateur',
+    titre: 'Stockage sur votre appareil',
     contenu: (
       <>
         <p>
           Le navigateur conserve ce qui est nécessaire au service : la session de connexion et un identifiant anonyme
           de statistiques. Les cartes Google Maps peuvent déposer leurs propres éléments techniques.
+        </p>
+        <p>
+          Dans l’application mobile, la session de connexion est gardée dans le coffre sécurisé du téléphone
+          (Trousseau sur iPhone, Keystore sur Android) ; vos préférences et l’identifiant anonyme de statistiques
+          sont conservés dans l’espace propre à l’application. L’application ne dépose aucun cookie publicitaire et
+          ne charge pas les outils de mesure de Meta ou de TikTok.
         </p>
         <p>
           <strong>Cookies publicitaires, seulement avec votre accord.</strong> Si vous acceptez, Keyli charge les

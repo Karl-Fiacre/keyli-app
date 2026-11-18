@@ -76,3 +76,32 @@ Détail : `docs/MODULES/pricing.md`.
       sur keyli.com) et l'aperçu d'une annonce partagée sur WhatsApp.
 - [ ] Mettre à jour l'adresse de fin des vidéos publicitaires si elle doit
       afficher keyli.com (`docs/MODULES/videos.md`).
+
+## 7. Remplacer l'adresse provisoire `keyli-2gc.pages.dev` partout
+Le site, l'app mobile et les fiches des stores pointent aujourd'hui vers
+l'adresse provisoire de Cloudflare. Une fois le nom de domaine choisi et
+branché (étape 1), remplacer `https://keyli-2gc.pages.dev` par la nouvelle
+adresse aux endroits suivants (garder l'ancienne dans les Redirect URLs de
+Supabase tant que des versions anciennes de l'app circulent) :
+
+Code (puis `npm run deploy` et nouvelles compilations mobiles) :
+- [ ] `codemagic.yaml` : `EXPO_PUBLIC_KEYLI_SITE_URL` (flux iOS **et**
+      Android) — liens de l'app vers le site (CGU, confidentialité, aide).
+- [ ] `apps/mobile/.env.example` (et `.env` local) : même variable ; valeur
+      par défaut dans `apps/mobile/src/plateforme/index.ts`.
+- [ ] `index.html` : `og:image` (aperçu des liens partagés).
+- [ ] `src/partage/lib/juridique.ts` : `EMAIL_CONTACT` si l'adresse de
+      contact change de domaine.
+
+Tableaux de bord (porteur) :
+- [ ] Play Console → Contenu de l'appli → **Règles de confidentialité** :
+      `https://<domaine>/confidentialite` (saisie le 2026-11-15 avec
+      l'adresse provisoire).
+- [ ] Play Console → Paramètres de la fiche Play Store : site web et email
+      de contact.
+- [ ] Play Console → Sécurité des données : lien de demande de suppression
+      de compte, s'il pointe vers le site.
+- [ ] App Store Connect (iOS, quand la fiche sera créée) : URL de la
+      politique de confidentialité, URL d'assistance, URL marketing.
+- [ ] Meta (pixel, Page Facebook) : domaine du site et domaine vérifié.
+- [ ] `apps/mobile/fiche-store/textes-play.md` : toute adresse citée.
