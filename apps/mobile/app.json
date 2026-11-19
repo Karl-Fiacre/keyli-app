@@ -21,7 +21,10 @@
         "foregroundImage": "./assets/icone-adaptative.png",
         "backgroundColor": "#1a1f2e"
       },
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "blockedPermissions": [
+        "com.google.android.gms.permission.AD_ID"
+      ]
     },
     "web": {
       "bundler": "metro"
