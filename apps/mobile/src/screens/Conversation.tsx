@@ -3,6 +3,7 @@
 // à l'ouverture réelle, réponse (la base refuse tout démarchage à froid).
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
+  Alert,
   FlatList,
   KeyboardAvoidingView,
   Platform,
@@ -21,6 +22,8 @@ import { messageErreur } from '@/partage/lib/erreurs'
 import { Chargement, Message, Texte } from '@mobile/composants/base'
 import { couleurs, espaces, rayons } from '@mobile/theme/tokens'
 import type { ParamsRacine } from '@mobile/navigation/types'
+import { Signalement } from '@mobile/composants/Signalement'
+import { useBloquer, useDebloquer, useEstBloque } from '@/partage/hooks/useBlocages'
 
 // Jour/mois et heure d'un message
 function horodatage(iso: string | null): string {
@@ -39,10 +42,40 @@ export default function Conversation({ route, navigation }: NativeStackScreenPro
   const repondre = useRepondre()
   const [message, setMessage] = useState('')
   const dejaMarque = useRef<string | undefined>(undefined)
+  const [signaler, setSignaler] = useState(false)
+  const bloque = useEstBloque(interlocuteur)
+  const { mutate: bloquer } = useBloquer()
+  const { mutate: debloquer } = useDebloquer()
+  const nomAffiche = nom ?? 'cet utilisateur'
 
+  // Menu « … » : signaler ou bloquer l'interlocuteur (exigence des boutiques)
   useLayoutEffect(() => {
-    navigation.setOptions({ title: nom ?? 'Conversation' })
-  }, [navigation, nom])
+    const confirmerBlocage = () =>
+      Alert.alert(
+        `Bloquer ${nomAffiche} ?`,
+        'Vous ne pourrez plus vous écrire. Vous pourrez le débloquer depuis votre profil.',
+        [
+          { text: 'Annuler', style: 'cancel' },
+          { text: 'Bloquer', style: 'destructive', onPress: () => bloquer(interlocuteur) },
+        ],
+      )
+    const ouvrirMenu = () =>
+      Alert.alert(nomAffiche, undefined, [
+        { text: 'Signaler', onPress: () => setSignaler(true) },
+        bloque
+          ? { text: 'Débloquer', onPress: () => debloquer(interlocuteur) }
+          : { text: 'Bloquer', style: 'destructive', onPress: confirmerBlocage },
+        { text: 'Annuler', style: 'cancel' },
+      ])
+    navigation.setOptions({
+      title: nom ?? 'Conversation',
+      headerRight: () => (
+        <Pressable onPress={ouvrirMenu} accessibilityRole="button" accessibilityLabel="Signaler ou bloquer" hitSlop={12}>
+          <Ionicons name="ellipsis-horizontal" size={22} color={couleurs.texte} />
+        </Pressable>
+      ),
+    })
+  }, [navigation, nom, nomAffiche, bloque, interlocuteur, bloquer, debloquer])
 
   const messages = fil.data ?? []
   // Dernier message reçu encore non lu : déclenche le marquage, une seule fois
@@ -117,31 +150,42 @@ export default function Conversation({ route, navigation }: NativeStackScreenPro
           </View>
         ) : null}
 
-        <View style={styles.saisie}>
-          <TextInput
-            value={message}
-            onChangeText={setMessage}
-            placeholder="Écrire un message…"
-            placeholderTextColor={couleurs.attenue}
-            accessibilityLabel="Votre réponse"
-            multiline
-            maxLength={2000}
-            style={styles.champ}
-          />
-          <Pressable
-            onPress={envoyer}
-            disabled={!message.trim() || repondre.isPending}
-            accessibilityRole="button"
-            accessibilityLabel="Envoyer"
-            style={({ pressed }) => [
-              styles.envoyer,
-              (pressed || !message.trim() || repondre.isPending) && { opacity: 0.5 },
-            ]}
-          >
-            <Ionicons name="send" size={18} color={couleurs.surPrimaire} />
-          </Pressable>
-        </View>
+        {bloque ? (
+          <View style={styles.saisie}>
+            <Texte attenue>Vous avez bloqué cet utilisateur : vous ne pouvez plus vous écrire.</Texte>
+          </View>
+        ) : (
+          <View style={styles.saisie}>
+            <TextInput
+              value={message}
+              onChangeText={setMessage}
+              placeholder="Écrire un message…"
+              placeholderTextColor={couleurs.attenue}
+              accessibilityLabel="Votre réponse"
+              multiline
+              maxLength={2000}
+              style={styles.champ}
+            />
+            <Pressable
+              onPress={envoyer}
+              disabled={!message.trim() || repondre.isPending}
+              accessibilityRole="button"
+              accessibilityLabel="Envoyer"
+              style={({ pressed }) => [
+                styles.envoyer,
+                (pressed || !message.trim() || repondre.isPending) && { opacity: 0.5 },
+              ]}
+            >
+              <Ionicons name="send" size={18} color={couleurs.surPrimaire} />
+            </Pressable>
+          </View>
+        )}
       </KeyboardAvoidingView>
+      <Signalement
+        cible={{ type: 'utilisateur', utilisateurId: interlocuteur, nom: nomAffiche }}
+        visible={signaler}
+        onFermer={() => setSignaler(false)}
+      />
     </SafeAreaView>
   )
 }

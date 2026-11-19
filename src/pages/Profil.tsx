@@ -10,6 +10,8 @@ import { VerifiedBadge } from '@/components/VerifiedBadge'
 import { SectionVerification } from '@/components/verification/SectionVerification'
 import { useModificationProfil, useProfil } from '@/partage/hooks/useProfil'
 import { PreferenceEmails } from '@/components/profil/PreferenceEmails'
+import { UtilisateursBloques } from '@/components/profil/UtilisateursBloques'
+import { SupprimerCompte } from '@/components/profil/SupprimerCompte'
 import { messageErreur } from '@/partage/lib/erreurs'
 import { schemaProfil, type DonneesProfil } from '@/partage/lib/validation'
 import { LIBELLES_ROLE } from '@/partage/lib/roles'
@@ -123,6 +125,9 @@ export default function Profil() {
               <SectionVerification role={p.role_keyli} verifie={!!p.verified} />
             </div>
           )}
+          <UtilisateursBloques />
+          {/* Un compte administrateur ne se supprime pas lui-même (règle en base) */}
+          {p.role_keyli !== 'admin' && p.role_keyli !== 'super_admin' && <SupprimerCompte />}
         </CardContent>
       </Card>
     </section>
