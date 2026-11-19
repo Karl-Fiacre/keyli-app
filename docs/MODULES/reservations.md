@@ -65,3 +65,9 @@ forme volontairement limitée :
 - Pas d'expiration automatique des demandes sans réponse (pg_cron possible).
 - Mobile : la carte de réservation est sous la description ; une barre
   « Réserver » fixe en bas d'écran serait plus confortable.
+- Application mobile (Sprint 19, 2026-11-18, `docs/MODULES/mobile.md`) :
+  carte de réservation sur la fiche (`ReservationSejour`), dates reprises
+  de la recherche, écran « Mes réservations » (séjours et demandes reçues),
+  notifications `reservation_*` vers cet écran. Même règle de calendrier
+  que le web (`jourBloqueSejour` dans `src/partage/lib/sejour.ts`). La
+  gestion des chambres (`GestionChambres`) reste sur le web.

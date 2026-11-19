@@ -1087,6 +1087,26 @@ concernés :
   publication ». La capture `01-bienvenue` dit encore « à Abidjan » (à
   retirer ou reprendre).
 
+### Session du 2026-11-18/19 — Sprint 19 : réservation de séjours sur mobile
+- Branche `feature/sprint19-reservation-mobile`. L'app mobile réserve
+  comme Booking : dates d'arrivée et de départ, voyageurs, devis calculé
+  par la base, « Demander à réserver », suivi dans « Mes réservations »
+  (Profil), réponses de l'hôte (accepter / refuser / annuler avec motif).
+- Règle de blocage du calendrier mise en commun web / mobile
+  (`limiteDepartSejour`, `jourBloqueSejour`, testées).
+- Notifications `reservation_*` → écran Réservations (`push.ts`).
+- Textes de la fiche Play réécrits (séjours, hôtels, auberges, résidences
+  meublées, réservation dans l'app) : `apps/mobile/fiche-store/textes-play.md`.
+- Contrôles : 68 tests partagés, `typecheck` mobile, `tsc` web,
+  `expo export --platform android`. Écran Réservations vérifié dans
+  l'aperçu web du mobile.
+- Blocage : aucune annonce `sejour_court` en base distante → la carte de
+  réservation n'a pas pu être essayée avec de vraies données. Publier une
+  annonce de séjour court (hôtel ou résidence meublée) pour la tester.
+- Suite : fusion dans `main`, nouvelles compilations Codemagic, coller les
+  textes dans la Play Console. Plus tard : terrains et espaces
+  événementiels (réservation à la journée, change le schéma).
+
 ## Modèle à copier pour chaque nouvelle entrée de session
 
 ```

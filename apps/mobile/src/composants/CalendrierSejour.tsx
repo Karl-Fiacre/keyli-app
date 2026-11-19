@@ -1,7 +1,8 @@
 // Calendrier de séjour : 1er toucher = arrivée, 2e toucher = départ. Les
-// jours passés sont grisés. Même grille et même règle de choix que le web
-// (grilleMois, choisirJourSejour : src/partage/lib/sejour.ts).
-import { useState } from 'react'
+// jours passés et les nuits complètes sont grisés ; un séjour ne peut pas
+// enjamber une nuit complète. Même grille et mêmes règles que le web
+// (grilleMois, choisirJourSejour, jourBloqueSejour : src/partage/lib/sejour.ts).
+import { useMemo, useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import {
@@ -9,7 +10,9 @@ import {
   aujourdhuiIso,
   choisirJourSejour,
   grilleMois,
+  jourBloqueSejour,
   jourDepuisIso,
+  limiteDepartSejour,
   premierDuMois,
 } from '@/partage/lib/sejour'
 import { couleurs, espaces, rayons } from '@mobile/theme/tokens'
@@ -22,13 +25,24 @@ export function CalendrierSejour({
   arrivee,
   depart,
   onChange,
+  completes,
+  onMoisChange,
 }: {
   arrivee: string | null
   depart: string | null
   onChange: (arrivee: string | null, depart: string | null) => void
+  // Nuits complètes (plus rien de libre), sur la fiche d'une annonce
+  completes?: Set<string>
+  // Mois affiché (AAAA-MM-01), pour charger les nuits complètes de ce mois
+  onMoisChange?: (mois: string) => void
 }) {
   const aujourdhui = aujourdhuiIso()
-  const [mois, setMois] = useState(() => premierDuMois(arrivee ?? aujourdhui))
+  const [mois, setMoisAffiche] = useState(() => premierDuMois(arrivee ?? aujourdhui))
+  const setMois = (m: string) => {
+    setMoisAffiche(m)
+    onMoisChange?.(m)
+  }
+  const limiteDepart = useMemo(() => limiteDepartSejour(arrivee, depart, completes), [arrivee, depart, completes])
   const { decalage, jours } = grilleMois(mois)
   const titre = jourDepuisIso(mois).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
   const premierPossible = mois <= premierDuMois(aujourdhui)
@@ -71,29 +85,32 @@ export function CalendrierSejour({
         ))}
         {jours.map((jour) => {
           const passe = jour < aujourdhui
+          const complete = !!completes?.has(jour)
+          const bloque = jourBloqueSejour(jour, { arrivee, depart, completes, limiteDepart, aujourdhui })
           const borne = jour === arrivee || jour === depart
           const dedans = !!arrivee && !!depart && jour > arrivee && jour < depart
           return (
             <Pressable
               key={jour}
-              disabled={passe}
+              disabled={bloque}
               onPress={() => {
                 const choix = choisirJourSejour(arrivee, depart, jour)
                 onChange(choix.arrivee, choix.depart)
               }}
               accessibilityRole="button"
-              accessibilityState={{ disabled: passe, selected: borne }}
-              accessibilityLabel={jourDepuisIso(jour).toLocaleDateString('fr-FR', {
+              accessibilityState={{ disabled: bloque, selected: borne }}
+              accessibilityLabel={`${jourDepuisIso(jour).toLocaleDateString('fr-FR', {
                 weekday: 'long',
                 day: 'numeric',
                 month: 'long',
-              })}
+              })}${complete ? ', complet' : ''}`}
               style={[styles.case, styles.jour, dedans && styles.dedans, borne && styles.borne]}
             >
               <Text
                 style={[
                   styles.chiffre,
-                  passe && styles.passe,
+                  bloque && styles.passe,
+                  complete && !passe && styles.complet,
                   jour === aujourdhui && !borne && styles.aujourdhui,
                   borne && styles.chiffreBorne,
                 ]}
@@ -127,6 +144,7 @@ const styles = StyleSheet.create({
   chiffre: { fontSize: 15, color: couleurs.texte },
   chiffreBorne: { color: couleurs.surPrimaire, fontWeight: '700' },
   passe: { color: couleurs.bordure },
+  complet: { textDecorationLine: 'line-through' },
   aujourdhui: { color: couleurs.bleuLogo, fontWeight: '700' },
   effacer: { alignSelf: 'flex-end', paddingVertical: espaces.xs },
   lien: { fontSize: 14, fontWeight: '600', color: couleurs.bleuLogo },

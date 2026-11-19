@@ -75,6 +75,7 @@ export default function Profil({ navigation }: Props) {
           <Bouton libelle="Mon abonnement" variante="secondaire" onPress={() => navigation.navigate('Abonnement')} />
         </>
       ) : null}
+      <Bouton libelle="Mes réservations" variante="secondaire" onPress={() => navigation.navigate('Reservations')} />
       <Bouton libelle="Mes favoris" variante="secondaire" onPress={() => navigation.navigate('Favoris')} />
       <Bouton libelle="Mes alertes" variante="secondaire" onPress={() => navigation.navigate('Alertes')} />
       <Bouton libelle="Donner mon avis" variante="secondaire" onPress={() => navigation.navigate('Retours')} />

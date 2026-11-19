@@ -2,12 +2,18 @@ import { describe, expect, it } from 'vitest'
 import { destinationPush } from './push'
 
 describe('destinationPush', () => {
-  it('ouvre la messagerie pour un message, une visite ou une réservation', () => {
+  it('ouvre la messagerie pour un message ou une visite', () => {
     expect(destinationPush({ categorie: 'message', property_id: 'b1', expediteur_id: 'u1' })).toEqual({
       ecran: 'Messages',
     })
     expect(destinationPush({ categorie: 'notification', type: 'visite_planifiee' })).toEqual({ ecran: 'Messages' })
-    expect(destinationPush({ categorie: 'notification', type: 'reservation_demandee' })).toEqual({ ecran: 'Messages' })
+  })
+  it('ouvre les réservations pour une demande, une réponse ou une annulation', () => {
+    expect(destinationPush({ categorie: 'notification', type: 'reservation_demandee' })).toEqual({
+      ecran: 'Reservations',
+    })
+    expect(destinationPush({ type: 'reservation_acceptee' })).toEqual({ ecran: 'Reservations' })
+    expect(destinationPush({ type: 'reservation_annulee' })).toEqual({ ecran: 'Reservations' })
   })
   it("ouvre l'annonce d'une alerte de recherche", () => {
     expect(destinationPush({ categorie: 'notification', type: 'alerte_recherche', property_id: 'b1' })).toEqual({

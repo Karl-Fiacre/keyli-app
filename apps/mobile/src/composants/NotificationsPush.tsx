@@ -1,7 +1,8 @@
 // Notifications push dans la navigation (Sprint 17) : enregistre le jeton
 // du téléphone quand un compte est connecté, et ouvre l'écran voulu quand
 // on touche une notification (message → Messages, vérification →
-// Vérification, abonnement → Abonnement, alerte → annonce). Une
+// Vérification, abonnement → Abonnement, alerte → annonce, réservation →
+// Réservations). Une
 // notification touchée avant que la navigation soit prête (démarrage,
 // verrou Face ID, CGU) est ouverte dès qu'elle l'est.
 import { useCallback, useEffect, useRef } from 'react'
