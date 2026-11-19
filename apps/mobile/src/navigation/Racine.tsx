@@ -1,7 +1,7 @@
 // Navigation de l'application : onglets (Accueil, Recherche, Messages,
 // Profil), écran de bienvenue (visiteur non connecté), fiche annonce,
 // favoris, alertes, publication d'annonce (propriétaire, agence),
-// vérification, abonnement, retours, et parcours de compte ouvert en fenêtre. Comme sur
+// vérification, abonnement, retours, réservations, et parcours de compte ouvert en fenêtre. Comme sur
 // le web, la consultation des annonces est libre ; un compte connecté qui
 // doit accepter les CGU voit d'abord l'écran d'acceptation.
 import { useEffect, useState } from 'react'
@@ -37,6 +37,7 @@ import { EcranVerrou, useVerrouBiometrique } from '@mobile/composants/VerrouBiom
 import Verification from '@mobile/screens/Verification'
 import Abonnement from '@mobile/screens/Abonnement'
 import Retours from '@mobile/screens/Retours'
+import Reservations from '@mobile/screens/Reservations'
 import { useNotificationsPush } from '@mobile/composants/NotificationsPush'
 import { optionsBarre } from '@mobile/composants/BarreOnglets'
 import { couleurs } from '@mobile/theme/tokens'
@@ -153,6 +154,7 @@ export function Racine() {
             <Pile.Screen name="Verification" component={Verification} options={{ title: 'Vérification' }} />
             <Pile.Screen name="Abonnement" component={Abonnement} options={{ title: 'Abonnement' }} />
             <Pile.Screen name="Retours" component={Retours} options={{ title: 'Donner mon avis' }} />
+            <Pile.Screen name="Reservations" component={Reservations} options={{ title: 'Mes réservations' }} />
           </>
         )}
         {/* Le parcours de compte se referme de lui-même quand la session change

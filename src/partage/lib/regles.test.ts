@@ -17,6 +17,8 @@ import {
   grilleMois,
   isoJour,
   isoValide,
+  jourBloqueSejour,
+  limiteDepartSejour,
   nuitsEntre,
   pluriel,
   premierDuMois,
@@ -119,6 +121,24 @@ describe('dates de séjour', () => {
     // Jour avant l'arrivée, ou séjour déjà complet : on recommence
     expect(choisirJourSejour('2026-11-10', null, '2026-11-08')).toEqual({ arrivee: '2026-11-08', depart: null })
     expect(choisirJourSejour('2026-11-10', '2026-11-13', '2026-11-20')).toEqual({ arrivee: '2026-11-20', depart: null })
+  })
+  it('bloque les jours impossibles du calendrier', () => {
+    const completes = new Set(['2026-11-12', '2026-11-20'])
+    const aujourdhui = '2026-11-05'
+    const base = { arrivee: null, depart: null, completes, limiteDepart: null, aujourdhui }
+    // Jour passé, nuit complète : pas d'arrivée possible
+    expect(jourBloqueSejour('2026-11-04', base)).toBe(true)
+    expect(jourBloqueSejour('2026-11-12', base)).toBe(true)
+    expect(jourBloqueSejour('2026-11-11', base)).toBe(false)
+    // Choix du départ après une arrivée le 10 : limite = 1re nuit complète (12)
+    const limite = limiteDepartSejour('2026-11-10', null, completes)
+    expect(limite).toBe('2026-11-12')
+    const depart = { ...base, arrivee: '2026-11-10', limiteDepart: limite }
+    expect(jourBloqueSejour('2026-11-12', depart)).toBe(false) // départ le matin d'une nuit complète
+    expect(jourBloqueSejour('2026-11-13', depart)).toBe(true) // enjamberait la nuit du 12
+    // Sans nuits complètes ou départ déjà choisi : pas de limite
+    expect(limiteDepartSejour('2026-11-10', null, undefined)).toBeNull()
+    expect(limiteDepartSejour('2026-11-10', '2026-11-11', completes)).toBeNull()
   })
 })
 

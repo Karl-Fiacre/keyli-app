@@ -406,6 +406,40 @@ publique du client, pas un secret).
   `BarreOnglets.tsx`, fond bleu nuit, onglet actif dans une bulle turquoise
   surélevée. Retour à l'ancienne barre : `STYLE_BARRE = 'classique'`.
 
+## Sprint 19 — réservation de séjours sur mobile, type Booking (2026-11-18)
+
+Demande du porteur : l'application mobile doit permettre, comme le web et
+à l'image de Booking, de réserver un hôtel, une auberge, une résidence
+meublée ou un logement « séjour court » par dates d'arrivée et de départ,
+et de suivre ses réservations. Jusqu'ici le mobile cherchait par dates
+mais renvoyait vers la messagerie pour réserver. Règles inchangées
+(`docs/MODULES/reservations.md`) : demande acceptée ou refusée par l'hôte,
+**sans paiement en ligne** ; prix, total et disponibilités calculés par la
+base. Aucune migration : tout passe par `src/partage/hooks/useReservations.ts`.
+
+Périmètre :
+- [x] Fiche : carte de réservation pour les séjours courts — type de
+      chambre (hôtel, auberge), calendrier avec nuits complètes barrées,
+      voyageurs, chambres, devis de la base, message à l'hôte, « Demander à
+      réserver » (`ReservationSejour.tsx` mobile).
+- [x] Dates et voyageurs de la recherche transmis à la fiche (liste et
+      carte).
+- [x] Écran **Réservations** : « Mes séjours » (tout compte) et « Demandes
+      reçues » (propriétaires, agences) ; à venir puis historique ;
+      accepter, refuser (motif facultatif), annuler (motif obligatoire pour
+      l'hôte), écrire à l'hôte ou au voyageur.
+- [x] Profil → « Mes réservations » ; notification `reservation_*`
+      touchée → écran Réservations (au lieu de Messages).
+- [x] Règle de blocage des jours du calendrier (arrivée sur une nuit
+      complète, départ au-delà de la première nuit complète) déplacée dans
+      `src/partage/lib/sejour.ts`, testée, utilisée par le web et le mobile.
+
+Hors périmètre (reste sur le site) : gestion des types de chambres d'un
+hôtel (`GestionChambres`), paiement en ligne des séjours.
+
+Ensuite : textes de la fiche Google Play (« Réserver un séjour »),
+nouvelles compilations iOS et Android.
+
 ## Modules natifs requis
 | Besoin | Module / API | Notes |
 |---|---|---|

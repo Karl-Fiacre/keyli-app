@@ -12,6 +12,11 @@ import { Message, Texte } from '@mobile/composants/base'
 import { couleurs, espaces } from '@mobile/theme/tokens'
 import type { ParamsRacine } from '@mobile/navigation/types'
 
+// Dates d'une recherche de séjour, transmises à la fiche (carte de réservation)
+export function datesSejour(f: FiltresRecherche) {
+  return f.sejour && f.arrivee && f.depart ? { arrivee: f.arrivee, depart: f.depart, voyageurs: f.voyageurs } : {}
+}
+
 export function ListeAnnonces({
   filtres,
   entete,
@@ -41,7 +46,10 @@ export function ListeAnnonces({
         />
       }
       renderItem={({ item }) => (
-        <CarteAnnonce annonce={item} onPress={() => navigation.navigate('FicheAnnonce', { id: item.id })} />
+        <CarteAnnonce
+          annonce={item}
+          onPress={() => navigation.navigate('FicheAnnonce', { id: item.id, ...datesSejour(filtres) })}
+        />
       )}
       ListEmptyComponent={
         recherche.isPending ? (

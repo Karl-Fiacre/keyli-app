@@ -6,7 +6,9 @@ import {
   aujourdhuiIso,
   choisirJourSejour,
   grilleMois,
+  jourBloqueSejour,
   jourDepuisIso,
+  limiteDepartSejour,
   premierDuMois,
 } from '@/partage/lib/sejour'
 import { cn } from '@/lib/utils'
@@ -41,11 +43,7 @@ export function CalendrierSejour({ arrivee, depart, onChange, completes, onMoisC
   const premierMoisPossible = mois <= premierDuMois(aujourdhui)
 
   // Première nuit complète après l'arrivée : le départ ne peut pas la dépasser
-  const limiteDepart = useMemo(() => {
-    if (!arrivee || depart || !completes) return null
-    const triees = [...completes].filter((j) => j >= arrivee).sort()
-    return triees[0] ?? null
-  }, [arrivee, depart, completes])
+  const limiteDepart = useMemo(() => limiteDepartSejour(arrivee, depart, completes), [arrivee, depart, completes])
 
   const choisir = (jour: string) => {
     const choix = choisirJourSejour(arrivee, depart, jour)
@@ -83,10 +81,8 @@ export function CalendrierSejour({ arrivee, depart, onChange, completes, onMoisC
             masquerSurMobile={i > 0}
             rendreJour={(jour) => {
               const passe = jour < aujourdhui
-              // Arrivée : la nuit du jour doit être libre. Départ : seule la
-              // nuit précédente compte (on peut partir le matin d'une nuit complète)
-              const choixDepart = !!arrivee && !depart && jour > arrivee
-              const bloque = passe || (choixDepart ? !!limiteDepart && jour > limiteDepart : !!completes?.has(jour))
+              // Règle commune web / mobile (src/partage/lib/sejour.ts)
+              const bloque = jourBloqueSejour(jour, { arrivee, depart, completes, limiteDepart, aujourdhui })
               const debut = jour === arrivee
               const fin = jour === finSurvol
               const dedans = !!arrivee && !!finSurvol && jour > arrivee && jour < finSurvol

@@ -2,7 +2,8 @@
 // et même enregistrement de la consultation (statistiques de conversion).
 // Sprint 14 : galerie plein écran, badge officiel, favori, partage et
 // annonces similaires. Contact de l'annonceur par la messagerie Keyli,
-// directement dans l'application (2026-11-13).
+// directement dans l'application (2026-11-13). Sprint 19 : carte de
+// réservation des séjours courts, comme sur le web.
 import { useState } from 'react'
 import {
   FlatList,
@@ -18,6 +19,7 @@ import {
 import Ionicons from '@expo/vector-icons/Ionicons'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { useFicheAnnonce, useVueAnnonce } from '@/partage/hooks/useRecherche'
+import { useSession } from '@/partage/hooks/useSession'
 import { useAnnoncesSimilaires } from '@/partage/hooks/useConversion'
 import { LIBELLES_TYPE } from '@/partage/lib/validation'
 import { formatXof } from '@/partage/lib/format'
@@ -29,6 +31,7 @@ import { Carte, Chargement, Ecran, Message, Texte, Titre } from '@mobile/composa
 import { BadgeVerifie } from '@mobile/composants/BadgeVerifie'
 import { BoutonFavori } from '@mobile/composants/BoutonFavori'
 import { ContactAnnonceur } from '@mobile/composants/ContactAnnonceur'
+import { ReservationSejour } from '@mobile/composants/ReservationSejour'
 import { CarteAnnonce } from '@mobile/composants/CarteAnnonce'
 import { GaleriePleinEcran } from '@mobile/composants/GaleriePleinEcran'
 import { couleurs, espaces, ombreCarte, rayons } from '@mobile/theme/tokens'
@@ -46,8 +49,9 @@ function partager(id: string, titre: string) {
 }
 
 export default function FicheAnnonce({ route, navigation }: NativeStackScreenProps<ParamsRacine, 'FicheAnnonce'>) {
-  const { id, source } = route.params
+  const { id, source, arrivee, depart, voyageurs } = route.params
   const { width } = useWindowDimensions()
+  const { session } = useSession()
   const fiche = useFicheAnnonce(id)
   const similaires = useAnnoncesSimilaires(id)
   const [galerie, setGalerie] = useState<number | null>(null)
@@ -71,6 +75,10 @@ export default function FicheAnnonce({ route, navigation }: NativeStackScreenPro
     .map((pa) => pa.avantages_keyli)
     .filter((v): v is NonNullable<typeof v> => !!v)
     .sort((x, y) => x.ordre - y.ordre)
+  const estProprietaire = session?.user.id === a.owner_id
+  const hotelier = a.type === 'hotel' || a.type === 'auberge'
+  // Même condition que le web : séjour court à louer, annonce en ligne
+  const reservable = a.sejour_court && a.status === 'a_louer' && !a.archived_at
   const lieu = [a.quartiers_keyli?.nom, a.quartiers_keyli?.communes_keyli?.nom ?? a.city].filter(Boolean).join(', ')
   const caracteristiques = [
     LIBELLES_TYPE[a.type],
@@ -182,6 +190,20 @@ export default function FicheAnnonce({ route, navigation }: NativeStackScreenPro
             ) : null}
           </View>
         </Carte>
+      ) : null}
+
+      {reservable ? (
+        <ReservationSejour
+          propertyId={a.id}
+          hotelier={hotelier}
+          prixNuit={Number(a.price)}
+          nuitsMin={a.nuits_min}
+          voyageursMax={a.voyageurs_max}
+          estProprietaire={estProprietaire}
+          arriveeInitiale={arrivee}
+          departInitial={depart}
+          voyageursInitiaux={voyageurs}
+        />
       ) : null}
 
       <ContactAnnonceur

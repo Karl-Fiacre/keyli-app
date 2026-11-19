@@ -73,3 +73,33 @@ export function choisirJourSejour(
   if (!arrivee || depart || jour <= arrivee) return { arrivee: jour, depart: null }
   return { arrivee, depart: jour }
 }
+
+// Première nuit complète à partir de l'arrivée, pendant le choix du départ :
+// un séjour ne peut pas l'enjamber (null si aucune ou si le départ est choisi)
+export function limiteDepartSejour(
+  arrivee: string | null,
+  depart: string | null,
+  completes: Set<string> | undefined,
+): string | null {
+  if (!arrivee || depart || !completes) return null
+  return [...completes].filter((j) => j >= arrivee).sort()[0] ?? null
+}
+
+// Jour non sélectionnable du calendrier de séjour. Arrivée : la nuit du jour
+// doit être libre. Départ (jour après l'arrivée) : seule la nuit précédente
+// compte, on peut partir le matin d'une nuit complète, mais pas au-delà.
+export function jourBloqueSejour(
+  jour: string,
+  c: {
+    arrivee: string | null
+    depart: string | null
+    completes: Set<string> | undefined
+    limiteDepart: string | null
+    aujourdhui: string
+  },
+): boolean {
+  if (jour < c.aujourdhui) return true
+  const choixDepart = !!c.arrivee && !c.depart && jour > c.arrivee
+  if (choixDepart) return !!c.limiteDepart && jour > c.limiteDepart
+  return !!c.completes?.has(jour)
+}

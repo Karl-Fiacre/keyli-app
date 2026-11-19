@@ -10,7 +10,7 @@ import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { TAILLE_PAGE, useRecherche, type FiltresRecherche, type TriRecherche } from '@/partage/hooks/useRecherche'
 import { LIBELLES_TRI, nombreFiltresActifs } from '@/partage/lib/recherche'
-import { ListeAnnonces } from '@mobile/composants/ListeAnnonces'
+import { ListeAnnonces, datesSejour } from '@mobile/composants/ListeAnnonces'
 import { CarteAnnonces } from '@mobile/composants/CarteAnnonces'
 import { PanneauFiltres } from '@mobile/composants/PanneauFiltres'
 import { BoutonAlerte } from '@mobile/composants/BoutonAlerte'
@@ -87,7 +87,7 @@ export default function Recherche({ navigation, route }: Props) {
           <CarteAnnonces
             annonces={recherche.data?.annonces ?? []}
             autour={filtres.autour}
-            onOuvrir={(id) => navigation.navigate('FicheAnnonce', { id, source: 'map' })}
+            onOuvrir={(id) => navigation.navigate('FicheAnnonce', { id, source: 'map', ...datesSejour(filtres) })}
           />
         </View>
       ) : (

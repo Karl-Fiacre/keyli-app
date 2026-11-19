@@ -15,8 +15,9 @@ export type ParamsRacine = {
   // Premier écran d'un visiteur non connecté
   Bienvenue: undefined
   Onglets: NavigatorScreenParams<ParamsOnglets>
-  // source : provenance de la visite (statistiques de conversion)
-  FicheAnnonce: { id: string; source?: string }
+  // source : provenance de la visite (statistiques de conversion).
+  // arrivee, depart, voyageurs : dates d'une recherche de séjour (Sprint 19)
+  FicheAnnonce: { id: string; source?: string; arrivee?: string; depart?: string; voyageurs?: number }
   // Fil de la messagerie Keyli (propertyId null : conversation directe).
   // nom et titre : affichage immédiat, avant le chargement des messages
   Conversation: { propertyId: string | null; interlocuteur: string; nom?: string; titre?: string }
@@ -30,6 +31,8 @@ export type ParamsRacine = {
   Abonnement: undefined
   // Retours à l'équipe Keyli et réponses (Sprint 18, bêta)
   Retours: undefined
+  // Mes séjours et demandes reçues (Sprint 19)
+  Reservations: undefined
   Compte: NavigatorScreenParams<ParamsCompte>
 }
 

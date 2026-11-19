@@ -9,6 +9,7 @@ export type DestinationPush =
   | { ecran: 'Verification' }
   | { ecran: 'Abonnement' }
   | { ecran: 'Retours' }
+  | { ecran: 'Reservations' }
   | { ecran: 'Profil' }
 
 export function destinationPush(donnees: Record<string, unknown> | null | undefined): DestinationPush {
@@ -17,7 +18,9 @@ export function destinationPush(donnees: Record<string, unknown> | null | undefi
   const bien = texte('property_id')
   if (texte('categorie') === 'message') return { ecran: 'Messages' }
   if (type === 'alerte_recherche' && bien) return { ecran: 'FicheAnnonce', id: bien }
-  if (type.startsWith('visite_') || type.startsWith('reservation_')) return { ecran: 'Messages' }
+  // Réservations : écran dédié depuis le Sprint 19
+  if (type.startsWith('reservation_')) return { ecran: 'Reservations' }
+  if (type.startsWith('visite_')) return { ecran: 'Messages' }
   if (type.startsWith('document_') || type === 'verification_retiree') return { ecran: 'Verification' }
   if (type.startsWith('abonnement_') || type === 'depassement_cycle' || type === 'paiement_echoue') {
     return { ecran: 'Abonnement' }
