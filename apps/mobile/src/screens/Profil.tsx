@@ -1,6 +1,6 @@
 // Profil — identité du compte, publication et vérification (propriétaire,
 // agence), abonnement (Sprint 17), favoris, alertes, avis (Sprint 18), verrou Face ID /
-// empreinte (Sprint 16) et déconnexion. La modification du profil se fait sur le site.
+// empreinte (Sprint 16), utilisateurs bloqués et suppression du compte (Sprint 20) et déconnexion. La modification du profil se fait sur le site.
 import { useEffect, useState } from 'react'
 import { Linking, Text } from 'react-native'
 import type { CompositeScreenProps } from '@react-navigation/native'
@@ -80,6 +80,11 @@ export default function Profil({ navigation }: Props) {
       <Bouton libelle="Mes alertes" variante="secondaire" onPress={() => navigation.navigate('Alertes')} />
       <Bouton libelle="Donner mon avis" variante="secondaire" onPress={() => navigation.navigate('Retours')} />
       <Bouton
+        libelle="Utilisateurs bloqués"
+        variante="secondaire"
+        onPress={() => navigation.navigate('UtilisateursBloques')}
+      />
+      <Bouton
         libelle="Gérer mon compte sur le site"
         variante="secondaire"
         onPress={() => void Linking.openURL(plateforme.urlApp('/profil'))}
@@ -107,6 +112,10 @@ export default function Profil({ navigation }: Props) {
         }}
         chargement={deconnexion.isPending}
       />
+      {/* Un compte administrateur ne se supprime pas lui-même (règle en base) */}
+      {p && p.role_keyli !== 'admin' && p.role_keyli !== 'super_admin' ? (
+        <Bouton libelle="Supprimer mon compte" variante="lien" onPress={() => navigation.navigate('SupprimerCompte')} />
+      ) : null}
     </Ecran>
   )
 }

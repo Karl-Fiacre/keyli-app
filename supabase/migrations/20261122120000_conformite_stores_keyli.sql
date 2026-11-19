@@ -253,18 +253,26 @@ begin
    where owner_id = p_user and archived_at is null;
 
   -- Données personnelles effacées
+  -- Les leads gardent leur historique sans pointer vers les messages effacés
+  update public.leads_keyli set source_message_id = null
+   where source_message_id in (select id from public.messages_keyli where p_user in (from_user, to_user));
   delete from public.messages_keyli where p_user in (from_user, to_user);
   delete from public.ratings_keyli where p_user in (rater_id, rated_user_id);
   delete from public.favorites_keyli where user_id = p_user;
-  delete from public.search_alerts_keyli where user_id = p_user;
   delete from public.notifications_keyli where user_id = p_user;
+  update public.notifications_keyli set alert_id = null
+   where alert_id in (select id from public.search_alerts_keyli where user_id = p_user);
+  delete from public.search_alerts_keyli where user_id = p_user;
   delete from public.appareils_push_keyli where user_id = p_user;
   delete from public.documents_keyli where user_id = p_user;
   delete from public.onboarding_checklists_keyli where user_id = p_user;
   delete from public.reports_keyli where reporter_id = p_user;
   delete from public.blocages_keyli where p_user in (bloqueur_id, bloque_id);
-  update public.leads_keyli set contact_user_id = null where contact_user_id = p_user;
-  update public.visits_keyli set visitor_user_id = null where visitor_user_id = p_user;
+  -- Le contrat du lead exige un contact identifié : on garde une mention anonyme
+  update public.leads_keyli set contact_user_id = null, contact_nom = coalesce(nullif(btrim(contact_nom), ''), 'Compte supprimé')
+   where contact_user_id = p_user;
+  update public.visits_keyli set visitor_user_id = null, visitor_nom = coalesce(nullif(btrim(visitor_nom), ''), 'Compte supprimé')
+   where visitor_user_id = p_user;
   update public.property_interactions_keyli set user_id = null where user_id = p_user;
 
   -- Profil anonymisé et suspendu sans fin (annonces masquées, écritures

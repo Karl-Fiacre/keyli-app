@@ -90,7 +90,8 @@ select pg_temp.connecter('d7000000-0000-0000-0000-00000000000a');
 select throws_ok($$ select * from public.erreurs_recentes_keyli(7) $$, '42501', null,
   'Un annonceur ne lit pas le journal des erreurs');
 select pg_temp.connecter('d7000000-0000-0000-0000-0000000000ff');
-select set_config('test.erreur', (select page || '|' || message from public.erreurs_recentes_keyli(7) limit 1), true);
+select set_config('test.erreur', (select page || '|' || message from public.erreurs_recentes_keyli(7)
+  where page like '/annonce/%' limit 1), true);
 reset role;
 set local role postgres;
 

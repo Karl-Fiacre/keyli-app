@@ -115,7 +115,7 @@ select lives_ok(
 
 -- Demande de réservation de C chez P (pour la suppression)
 select set_config('test.resa', public.demander_reservation_keyli(
-  current_setting('test.bien')::uuid, pg_temp.j(10), pg_temp.j(12), 1)::text, true);
+  current_setting('test.bien')::uuid, null, pg_temp.j(10), pg_temp.j(12), 1)::text, true);
 
 -- ------------------------------------------------------------
 -- Suppression de compte

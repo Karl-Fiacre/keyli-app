@@ -24,7 +24,7 @@ select is(
 select has_index('public', 'quartiers_keyli', 'idx_quartiers_commune',
   'Index du sélecteur de quartier présent');
 select results_eq(
-  $$ select count(*)::int from public.communes_keyli $$,
+  $$ select count(*)::int from public.communes_keyli where ville = 'Abidjan' $$,
   $$ values (13) $$,
   'Les 13 communes du Grand Abidjan sont présentes'
 );
@@ -56,7 +56,7 @@ select set_config('request.jwt.claims', '{"role": "anon"}', true);
 
 select results_eq(
   $$ select count(*)::int from public.quartiers_keyli $$,
-  $$ values (17) $$,
+  $$ values (22) $$,
   'Un visiteur lit tous les quartiers'
 );
 select throws_ok(
@@ -74,7 +74,7 @@ select set_config('request.jwt.claims',
 
 select results_eq(
   $$ select count(*)::int from public.communes_keyli $$,
-  $$ values (13) $$,
+  $$ values (18) $$,
   'Un utilisateur connecté lit toutes les communes'
 );
 select throws_ok(
@@ -98,7 +98,7 @@ set local role postgres;
 
 select results_eq(
   $$ select count(*)::int from public.quartiers_keyli $$,
-  $$ values (17) $$,
+  $$ values (22) $$,
   'Le référentiel est inchangé après les tentatives'
 );
 

@@ -27,13 +27,14 @@ import { pluriel } from '@/partage/lib/sejour'
 import { urlPhoto } from '@/partage/lib/photos'
 import { messageErreur } from '@/partage/lib/erreurs'
 import { plateforme } from '@/plateforme'
-import { Carte, Chargement, Ecran, Message, Texte, Titre } from '@mobile/composants/base'
+import { Bouton, Carte, Chargement, Ecran, Message, Texte, Titre } from '@mobile/composants/base'
 import { BadgeVerifie } from '@mobile/composants/BadgeVerifie'
 import { BoutonFavori } from '@mobile/composants/BoutonFavori'
 import { ContactAnnonceur } from '@mobile/composants/ContactAnnonceur'
 import { ReservationSejour } from '@mobile/composants/ReservationSejour'
 import { CarteAnnonce } from '@mobile/composants/CarteAnnonce'
 import { GaleriePleinEcran } from '@mobile/composants/GaleriePleinEcran'
+import { Signalement } from '@mobile/composants/Signalement'
 import { couleurs, espaces, ombreCarte, rayons } from '@mobile/theme/tokens'
 import type { ParamsRacine } from '@mobile/navigation/types'
 
@@ -56,6 +57,7 @@ export default function FicheAnnonce({ route, navigation }: NativeStackScreenPro
   const similaires = useAnnoncesSimilaires(id)
   const [galerie, setGalerie] = useState<number | null>(null)
   const [photoVisible, setPhotoVisible] = useState(0)
+  const [signalement, setSignalement] = useState(false)
   useVueAnnonce(fiche.data?.annonce.id, source ?? 'search')
 
   if (fiche.isPending) return <Chargement />
@@ -212,6 +214,18 @@ export default function FicheAnnonce({ route, navigation }: NativeStackScreenPro
         nomDestinataire={annonceur?.nom_affiche ?? undefined}
         titreAnnonce={a.title}
       />
+
+      {/* Signaler l'annonce (exigence des boutiques) : compte connecté, pas sa propre annonce */}
+      {session && !estProprietaire ? (
+        <>
+          <Bouton libelle="Signaler cette annonce" variante="lien" onPress={() => setSignalement(true)} />
+          <Signalement
+            cible={{ type: 'annonce', propertyId: a.id }}
+            visible={signalement}
+            onFermer={() => setSignalement(false)}
+          />
+        </>
+      ) : null}
 
       {similaires.data?.length ? (
         <View style={{ gap: espaces.m }}>

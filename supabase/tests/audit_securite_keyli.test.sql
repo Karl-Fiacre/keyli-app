@@ -63,6 +63,7 @@ select set_eq(
        ('abonnement_en_cours_keyli'),   -- règle de lecture publique des annonces
        ('compte_actif_keyli'),          -- règle de lecture publique des annonces
        ('positions_annonces_keyli'),    -- carte publique (positions arrondies)
+       ('annonces_autour_keyli'),       -- recherche par rayon (identifiants et distances seulement)
        ('devis_sejour_keyli'),          -- prix d'un séjour sur la fiche
        ('occupation_sejour_keyli'),     -- disponibilités sur la fiche
        ('candidater_pilote_keyli'),     -- candidature au pilote (débit limité)

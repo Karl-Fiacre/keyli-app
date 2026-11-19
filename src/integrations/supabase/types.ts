@@ -7,11 +7,6 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
-  __InternalSupabase: {
-    PostgrestVersion: "14.18"
-  }
   public: {
     Tables: {
       agency_agents_keyli: {
@@ -125,6 +120,24 @@ export type Database = {
           id?: string
           libelle?: string
           ordre?: number
+        }
+        Relationships: []
+      }
+      blocages_keyli: {
+        Row: {
+          bloque_id: string
+          bloqueur_id: string
+          created_at: string
+        }
+        Insert: {
+          bloque_id: string
+          bloqueur_id: string
+          created_at?: string
+        }
+        Update: {
+          bloque_id?: string
+          bloqueur_id?: string
+          created_at?: string
         }
         Relationships: []
       }
@@ -485,12 +498,10 @@ export type Database = {
           note_admin: string | null
           phone: string | null
           priority_level:
-            | Database["public"]["Enums"]["priority_level_keyli"]
-            | null
+            Database["public"]["Enums"]["priority_level_keyli"] | null
           profil: string | null
           property_type:
-            | Database["public"]["Enums"]["property_type_keyli"]
-            | null
+            Database["public"]["Enums"]["property_type_keyli"] | null
           source: string | null
           status: Database["public"]["Enums"]["inscription_status_keyli"] | null
           updated_at: string | null
@@ -510,16 +521,13 @@ export type Database = {
           note_admin?: string | null
           phone?: string | null
           priority_level?:
-            | Database["public"]["Enums"]["priority_level_keyli"]
-            | null
+            Database["public"]["Enums"]["priority_level_keyli"] | null
           profil?: string | null
           property_type?:
-            | Database["public"]["Enums"]["property_type_keyli"]
-            | null
+            Database["public"]["Enums"]["property_type_keyli"] | null
           source?: string | null
           status?:
-            | Database["public"]["Enums"]["inscription_status_keyli"]
-            | null
+            Database["public"]["Enums"]["inscription_status_keyli"] | null
           updated_at?: string | null
         }
         Update: {
@@ -537,16 +545,13 @@ export type Database = {
           note_admin?: string | null
           phone?: string | null
           priority_level?:
-            | Database["public"]["Enums"]["priority_level_keyli"]
-            | null
+            Database["public"]["Enums"]["priority_level_keyli"] | null
           profil?: string | null
           property_type?:
-            | Database["public"]["Enums"]["property_type_keyli"]
-            | null
+            Database["public"]["Enums"]["property_type_keyli"] | null
           source?: string | null
           status?:
-            | Database["public"]["Enums"]["inscription_status_keyli"]
-            | null
+            Database["public"]["Enums"]["inscription_status_keyli"] | null
           updated_at?: string | null
         }
         Relationships: []
@@ -893,6 +898,7 @@ export type Database = {
         Row: {
           cgu_acceptees_at: string | null
           cgu_version: string | null
+          compte_supprime_le: string | null
           created_at: string | null
           email: string
           emails_notifications: boolean
@@ -918,6 +924,7 @@ export type Database = {
         Insert: {
           cgu_acceptees_at?: string | null
           cgu_version?: string | null
+          compte_supprime_le?: string | null
           created_at?: string | null
           email: string
           emails_notifications?: boolean
@@ -943,6 +950,7 @@ export type Database = {
         Update: {
           cgu_acceptees_at?: string | null
           cgu_version?: string | null
+          compte_supprime_le?: string | null
           created_at?: string | null
           email?: string
           emails_notifications?: boolean
@@ -1497,6 +1505,7 @@ export type Database = {
           motif: string
           property_id: string | null
           reason: string | null
+          reported_user_id: string | null
           reporter_id: string
           status: Database["public"]["Enums"]["report_status_keyli"] | null
           updated_at: string | null
@@ -1507,6 +1516,7 @@ export type Database = {
           motif?: string
           property_id?: string | null
           reason?: string | null
+          reported_user_id?: string | null
           reporter_id: string
           status?: Database["public"]["Enums"]["report_status_keyli"] | null
           updated_at?: string | null
@@ -1517,6 +1527,7 @@ export type Database = {
           motif?: string
           property_id?: string | null
           reason?: string | null
+          reported_user_id?: string | null
           reporter_id?: string
           status?: Database["public"]["Enums"]["report_status_keyli"] | null
           updated_at?: string | null
@@ -1564,7 +1575,7 @@ export type Database = {
           montant_total: number
           motif?: string | null
           nb_chambres?: number
-          nuits?: number | null
+          nuits?: never
           owner_id: string
           prix_nuit: number
           property_id: string
@@ -1585,7 +1596,7 @@ export type Database = {
           montant_total?: number
           motif?: string | null
           nb_chambres?: number
-          nuits?: number | null
+          nuits?: never
           owner_id?: string
           prix_nuit?: number
           property_id?: string
@@ -1616,7 +1627,7 @@ export type Database = {
         Row: {
           actif: boolean | null
           created_at: string | null
-          criteres: Json
+          criteres: NonNullable<Json>
           derniere_notification_at: string | null
           id: string
           user_id: string
@@ -1624,7 +1635,7 @@ export type Database = {
         Insert: {
           actif?: boolean | null
           created_at?: string | null
-          criteres: Json
+          criteres: NonNullable<Json>
           derniere_notification_at?: string | null
           id?: string
           user_id: string
@@ -1632,7 +1643,7 @@ export type Database = {
         Update: {
           actif?: boolean | null
           created_at?: string | null
-          criteres?: Json
+          criteres?: NonNullable<Json>
           derniere_notification_at?: string | null
           id?: string
           user_id?: string
@@ -1699,8 +1710,7 @@ export type Database = {
           rappel_j7_pour: string | null
           start_date: string
           status:
-            | Database["public"]["Enums"]["subscription_status_keyli"]
-            | null
+            Database["public"]["Enums"]["subscription_status_keyli"] | null
           updated_at: string | null
           user_id: string
         }
@@ -1718,8 +1728,7 @@ export type Database = {
           rappel_j7_pour?: string | null
           start_date: string
           status?:
-            | Database["public"]["Enums"]["subscription_status_keyli"]
-            | null
+            Database["public"]["Enums"]["subscription_status_keyli"] | null
           updated_at?: string | null
           user_id: string
         }
@@ -1737,8 +1746,7 @@ export type Database = {
           rappel_j7_pour?: string | null
           start_date?: string
           status?:
-            | Database["public"]["Enums"]["subscription_status_keyli"]
-            | null
+            Database["public"]["Enums"]["subscription_status_keyli"] | null
           updated_at?: string | null
           user_id?: string
         }
@@ -1770,8 +1778,7 @@ export type Database = {
           id?: string
           paystack_ref?: string | null
           status?:
-            | Database["public"]["Enums"]["transaction_status_keyli"]
-            | null
+            Database["public"]["Enums"]["transaction_status_keyli"] | null
           subscription_id?: string | null
           user_id: string
         }
@@ -1782,8 +1789,7 @@ export type Database = {
           id?: string
           paystack_ref?: string | null
           status?:
-            | Database["public"]["Enums"]["transaction_status_keyli"]
-            | null
+            Database["public"]["Enums"]["transaction_status_keyli"] | null
           subscription_id?: string | null
           user_id?: string
         }
@@ -2018,7 +2024,7 @@ export type Database = {
         }[]
       }
       admin_indicateurs_keyli: {
-        Args: never
+        Args: Record<PropertyKey, never>
         Returns: {
           abonnements_actifs: number
           agences: number
@@ -2130,7 +2136,14 @@ export type Database = {
           titre_bien: string
         }[]
       }
-      calculer_quartiers_tendance_keyli: { Args: never; Returns: undefined }
+      bloque_entre_keyli: {
+        Args: { p_a: string; p_b: string }
+        Returns: boolean
+      }
+      calculer_quartiers_tendance_keyli: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       candidater_pilote_keyli: {
         Args: {
           p_commune?: string
@@ -2167,8 +2180,14 @@ export type Database = {
           telephone: string
         }[]
       }
-      cloturer_cycles_keyli: { Args: never; Returns: number }
-      cloudinary_cloud_keyli: { Args: never; Returns: string }
+      cloturer_cycles_keyli: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      cloudinary_cloud_keyli: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
       compte_actif_keyli: { Args: { p_user: string }; Returns: boolean }
       confirmer_paiement_keyli: {
         Args: {
@@ -2180,7 +2199,7 @@ export type Database = {
         Returns: string
       }
       conseils_agence_keyli: {
-        Args: never
+        Args: Record<PropertyKey, never>
         Returns: {
           action_libelle: string
           action_vers: string
@@ -2191,7 +2210,7 @@ export type Database = {
         }[]
       }
       controles_paiements_keyli: {
-        Args: never
+        Args: Record<PropertyKey, never>
         Returns: {
           controle: string
           libelle: string
@@ -2210,7 +2229,7 @@ export type Database = {
       }
       criteres_alerte_valides_keyli: { Args: { c: Json }; Returns: boolean }
       current_user_role_keyli: {
-        Args: never
+        Args: Record<PropertyKey, never>
         Returns: Database["public"]["Enums"]["user_role_keyli"]
       }
       cycle_abonnement_keyli: {
@@ -2220,10 +2239,16 @@ export type Database = {
           fin: string
         }[]
       }
-      declencher_envoi_emails_keyli: { Args: never; Returns: undefined }
-      declencher_envoi_pushs_keyli: { Args: never; Returns: undefined }
+      declencher_envoi_emails_keyli: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      declencher_envoi_pushs_keyli: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       declencher_rapprochement_paiements_keyli: {
-        Args: never
+        Args: Record<PropertyKey, never>
         Returns: undefined
       }
       demander_reservation_keyli: {
@@ -2294,14 +2319,17 @@ export type Database = {
           page: string
         }[]
       }
-      est_admin_keyli: { Args: never; Returns: boolean }
+      est_admin_keyli: { Args: Record<PropertyKey, never>; Returns: boolean }
       est_hotelier_keyli: {
         Args: { p_type: Database["public"]["Enums"]["property_type_keyli"] }
         Returns: boolean
       }
-      est_super_admin_keyli: { Args: never; Returns: boolean }
+      est_super_admin_keyli: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
       etapes_demarrage_keyli: {
-        Args: never
+        Args: Record<PropertyKey, never>
         Returns: {
           etape: string
           faite: boolean
@@ -2309,7 +2337,7 @@ export type Database = {
         }[]
       }
       etat_publication_keyli: {
-        Args: never
+        Args: Record<PropertyKey, never>
         Returns: {
           plan_code: string
           prix_depassement: number
@@ -2361,7 +2389,7 @@ export type Database = {
         Returns: undefined
       }
       mes_alertes_keyli: {
-        Args: never
+        Args: Record<PropertyKey, never>
         Returns: {
           actif: boolean
           commune: string
@@ -2373,7 +2401,7 @@ export type Database = {
         }[]
       }
       mes_biens_marche_keyli: {
-        Args: never
+        Args: Record<PropertyKey, never>
         Returns: {
           ecart_pct: number
           id: string
@@ -2386,8 +2414,17 @@ export type Database = {
           vues: number
         }[]
       }
+      mes_blocages_keyli: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          bloque_id: string
+          bloque_le: string
+          nom: string
+          photo_url: string
+        }[]
+      }
       mes_conversations_keyli: {
-        Args: never
+        Args: Record<PropertyKey, never>
         Returns: {
           dernier_envoi: string
           dernier_message: string
@@ -2496,7 +2533,7 @@ export type Database = {
         }[]
       }
       pipeline_leads_keyli: {
-        Args: never
+        Args: Record<PropertyKey, never>
         Returns: {
           agent: string
           agent_id: string
@@ -2524,7 +2561,10 @@ export type Database = {
           longitude: number
         }[]
       }
-      preferences_chercheur_keyli: { Args: never; Returns: Json }
+      preferences_chercheur_keyli: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
       prendre_emails_keyli: {
         Args: { p_limite?: number }
         Returns: {
@@ -2596,7 +2636,10 @@ export type Database = {
         }
         Returns: string
       }
-      purger_erreurs_client_keyli: { Args: never; Returns: undefined }
+      purger_erreurs_client_keyli: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       rechercher_annonces_keyli: {
         Args: {
           p_arrivee?: string
@@ -2657,7 +2700,10 @@ export type Database = {
           ville: string
         }[]
       }
-      relancer_annonceurs_keyli: { Args: never; Returns: number }
+      relancer_annonceurs_keyli: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
       relation_notable_keyli: {
         Args: { p_autre: string; p_property: string }
         Returns: boolean
@@ -2671,7 +2717,7 @@ export type Database = {
         Returns: number
       }
       suivi_pilote_keyli: {
-        Args: never
+        Args: Record<PropertyKey, never>
         Returns: {
           annonceurs: number
           annonceurs_annonce: number
@@ -2724,7 +2770,11 @@ export type Database = {
         }
         Returns: undefined
       }
-      surveiller_paiements_keyli: { Args: never; Returns: number }
+      supprimer_compte_keyli: { Args: { p_user: string }; Returns: undefined }
+      surveiller_paiements_keyli: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
       synthese_paiements_keyli: {
         Args: { p_debut: string; p_fin: string }
         Returns: {
@@ -2749,7 +2799,7 @@ export type Database = {
         Returns: undefined
       }
       traiter_echeances_abonnements_keyli: {
-        Args: never
+        Args: Record<PropertyKey, never>
         Returns: {
           expirations: number
           rappels_j1: number
@@ -2760,20 +2810,14 @@ export type Database = {
         Args: { p_proprietaire: string; p_url: string }
         Returns: boolean
       }
-      version_cgu_keyli: { Args: never; Returns: string }
+      version_cgu_keyli: { Args: Record<PropertyKey, never>; Returns: string }
     }
     Enums: {
       document_status_keyli: "pending" | "approved" | "rejected"
       document_type_keyli:
-        | "acd"
-        | "registre"
-        | "extrait_naissance"
-        | "cert_residence"
+        "acd" | "registre" | "extrait_naissance" | "cert_residence"
       inscription_status_keyli:
-        | "en_attente"
-        | "contacte"
-        | "converti"
-        | "rejete"
+        "en_attente" | "contacte" | "converti" | "rejete"
       interaction_type_keyli:
         | "view"
         | "click_contact"
@@ -2784,10 +2828,7 @@ export type Database = {
         | "click_map"
         | "search_neighborhood"
       lead_stage_keyli:
-        | "nouveau"
-        | "visite_planifiee"
-        | "negociation"
-        | "conclu"
+        "nouveau" | "visite_planifiee" | "negociation" | "conclu"
       priority_level_keyli: "haute" | "moyenne" | "basse"
       property_status_keyli: "a_louer" | "a_vendre"
       property_type_keyli:
@@ -2849,8 +2890,7 @@ export type Tables<
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
-    | { schema: keyof DatabaseWithoutInternals },
+    keyof DefaultSchema["Tables"] | { schema: keyof DatabaseWithoutInternals },
   TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
@@ -2874,8 +2914,7 @@ export type TablesInsert<
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
-    | { schema: keyof DatabaseWithoutInternals },
+    keyof DefaultSchema["Tables"] | { schema: keyof DatabaseWithoutInternals },
   TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
@@ -2899,8 +2938,7 @@ export type TablesUpdate<
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema["Enums"]
-    | { schema: keyof DatabaseWithoutInternals },
+    keyof DefaultSchema["Enums"] | { schema: keyof DatabaseWithoutInternals },
   EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
