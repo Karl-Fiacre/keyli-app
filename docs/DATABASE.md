@@ -1005,6 +1005,36 @@ Migration `20261120120000_pilote_national_keyli.sql`, tests
   agence toujours exigé. Les tests de forfaits neutralisent la gratuité
   (`update pilote_gratuite_keyli set fin = debut`).
 
+## ⚠️ DÉCISIONS ACTÉES (2026-11-19) — conformité des boutiques (Sprint 20)
+Migration `20261122120000_conformite_stores_keyli.sql` (détail :
+MODULES/conformite.md). Exigences Google Play / App Store : suppression du
+compte depuis l'app, blocage et signalement d'un utilisateur.
+- `profiles_keyli.compte_supprime_le timestamptz` : date de suppression
+  (null tant que le compte existe).
+- `blocages_keyli(bloqueur_id, bloque_id, created_at)` : clé primaire sur
+  la paire, `check` pas soi-même, index `idx_blocages_bloque`. RLS : chacun
+  lit, pose et retire ses propres blocages ; la personne bloquée ne voit
+  rien.
+- `bloque_entre_keyli(a, b)` (security definer) + policy restrictive
+  « Pas de message entre utilisateurs bloqués » sur `messages_keyli` : un
+  blocage coupe l'échange dans les deux sens.
+- `mes_blocages_keyli()` : `table(bloque_id, nom, photo_url, bloque_le)`.
+- `reports_keyli.reported_user_id` (FK `auth.users`) : signalement d'un
+  utilisateur, permis seulement envers quelqu'un qui vous a écrit. Index
+  unique « en attente » recréé sur `(reporter_id, property_id,
+  reported_user_id) nulls not distinct`. `admin_file_signalements_keyli` :
+  `annonceur = coalesce(p.owner_id, r.reported_user_id)`.
+- `supprimer_compte_keyli(p_user)` (security definer, **service_role
+  seulement** — appelée par la fonction Edge `supprimer-compte`) : refus
+  pour admin / super_admin, idempotente ; annule les séjours à venir
+  (l'autre partie est notifiée), archive les annonces, efface messages,
+  avis, favoris, alertes, notifications, appareils push, documents,
+  checklists, signalements faits et blocages ; leads et visites gardent
+  une mention « Compte supprimé » (contrainte « contact identifié ») ;
+  profil anonymisé (`supprime-<id>@keyli.invalid`), suspendu sans fin ;
+  entrée `audit_logs_keyli` `suppression_compte`. Conservés : transactions
+  et abonnements (obligations comptables), réservations passées.
+
 ## ⚠️ DÉCISIONS ACTÉES (2026-11-14) — recherche par rayon
 Migration `20261119120000_recherche_rayon_keyli.sql` (détail :
 MODULES/geolocalisation.md).

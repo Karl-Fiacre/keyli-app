@@ -56,6 +56,30 @@ export function useDeconnexion() {
   })
 }
 
+// Suppression du compte par son titulaire : tout se fait côté serveur
+// (fonction Edge supprimer-compte), puis la session locale est fermée.
+export const MOT_CONFIRMATION_SUPPRESSION = 'SUPPRIMER'
+
+export function useSupprimerCompte() {
+  return useMutation({
+    mutationFn: async (confirmation: string) => {
+      const { data, error } = await supabase.functions.invoke<{ supprime?: boolean; erreur?: string }>(
+        'supprimer-compte',
+        { body: { confirmation } },
+      )
+      if (error) {
+        // Message métier renvoyé par la fonction (400, 403…)
+        const contexte = (error as { context?: Response }).context
+        const corps = contexte ? await contexte.json().catch(() => null) : null
+        throw new Error(corps?.erreur ?? 'La suppression du compte a échoué. Réessayez ou contactez Keyli.')
+      }
+      if (!data?.supprime) throw new Error(data?.erreur ?? 'La suppression du compte a échoué.')
+      // Le compte n'existe plus : fermeture locale seulement
+      await supabase.auth.signOut({ scope: 'local' })
+    },
+  })
+}
+
 export function useRenvoiConfirmation() {
   return useMutation({
     mutationFn: async (email: string) => {

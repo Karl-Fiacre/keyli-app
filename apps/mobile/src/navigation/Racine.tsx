@@ -38,6 +38,8 @@ import Verification from '@mobile/screens/Verification'
 import Abonnement from '@mobile/screens/Abonnement'
 import Retours from '@mobile/screens/Retours'
 import Reservations from '@mobile/screens/Reservations'
+import UtilisateursBloques from '@mobile/screens/UtilisateursBloques'
+import SupprimerCompte from '@mobile/screens/SupprimerCompte'
 import { useNotificationsPush } from '@mobile/composants/NotificationsPush'
 import { optionsBarre } from '@mobile/composants/BarreOnglets'
 import { couleurs } from '@mobile/theme/tokens'
@@ -155,6 +157,12 @@ export function Racine() {
             <Pile.Screen name="Abonnement" component={Abonnement} options={{ title: 'Abonnement' }} />
             <Pile.Screen name="Retours" component={Retours} options={{ title: 'Donner mon avis' }} />
             <Pile.Screen name="Reservations" component={Reservations} options={{ title: 'Mes réservations' }} />
+            <Pile.Screen
+              name="UtilisateursBloques"
+              component={UtilisateursBloques}
+              options={{ title: 'Utilisateurs bloqués' }}
+            />
+            <Pile.Screen name="SupprimerCompte" component={SupprimerCompte} options={{ title: 'Supprimer mon compte' }} />
           </>
         )}
         {/* Le parcours de compte se referme de lui-même quand la session change

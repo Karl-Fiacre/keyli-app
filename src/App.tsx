@@ -37,6 +37,7 @@ const TableauDeBord = lazy(() => import('@/pages/dashboard/TableauDeBord'))
 const Conditions = lazy(() => import('@/pages/juridique/Conditions'))
 const Confidentialite = lazy(() => import('@/pages/juridique/Confidentialite'))
 const MentionsLegales = lazy(() => import('@/pages/juridique/MentionsLegales'))
+const SuppressionCompte = lazy(() => import('@/pages/juridique/SuppressionCompte'))
 const Aide = lazy(() => import('@/pages/juridique/Aide'))
 const APropos = lazy(() => import('@/pages/APropos'))
 const Partenaires = lazy(() => import('@/pages/Partenaires'))
@@ -110,6 +111,7 @@ function App() {
                 <Route path="conditions" element={<Conditions />} />
                 <Route path="confidentialite" element={<Confidentialite />} />
                 <Route path="mentions-legales" element={<MentionsLegales />} />
+                <Route path="suppression-compte" element={<SuppressionCompte />} />
                 <Route path="aide" element={<Aide />} />
                 <Route path="a-propos" element={<APropos />} />
                 <Route path="partenaires" element={<Partenaires />} />

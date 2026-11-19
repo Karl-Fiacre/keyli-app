@@ -9,6 +9,8 @@ import { messageErreur } from '@/partage/lib/erreurs'
 import { cn } from '@/lib/utils'
 import type { Conversation } from '@/components/messagerie/ListeConversations'
 import { PanneauVisite } from '@/components/messagerie/PanneauVisite'
+import { ActionsInterlocuteur } from '@/components/messagerie/ActionsInterlocuteur'
+import { useEstBloque } from '@/partage/hooks/useBlocages'
 
 const heure = (iso: string) =>
   new Date(iso).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })
@@ -30,6 +32,7 @@ export function FilConversation({
   const marquerLu = useMarquerLu()
   const repondre = useRepondre()
   const [message, setMessage] = useState('')
+  const bloque = useEstBloque(interlocuteur)
   const bas = useRef<HTMLDivElement>(null)
 
   const messages = fil.data ?? []
@@ -74,6 +77,12 @@ export function FilConversation({
         </div>
       </div>
 
+      <ActionsInterlocuteur
+        interlocuteur={interlocuteur}
+        nom={resume?.nom_interlocuteur ?? 'cet utilisateur'}
+        bloque={bloque}
+      />
+
       {propertyId && (
         <PanneauVisite
           propertyId={propertyId}
@@ -107,35 +116,41 @@ export function FilConversation({
         <div ref={bas} />
       </div>
 
-      <form
-        className="flex items-end gap-2 border-t p-3"
-        onSubmit={(e) => {
-          e.preventDefault()
-          envoyer()
-        }}
-      >
-        <label htmlFor="reponse" className="sr-only">
-          Votre réponse
-        </label>
-        <textarea
-          id="reponse"
-          rows={2}
-          maxLength={2000}
-          value={message}
-          placeholder="Écrire un message…"
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault()
-              envoyer()
-            }
+      {bloque ? (
+        <p className="border-t p-4 text-center text-sm text-muted-foreground">
+          Vous avez bloqué cet utilisateur : vous ne pouvez plus vous écrire.
+        </p>
+      ) : (
+        <form
+          className="flex items-end gap-2 border-t p-3"
+          onSubmit={(e) => {
+            e.preventDefault()
+            envoyer()
           }}
-          className="min-h-11 flex-1 resize-none rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-        />
-        <Button type="submit" disabled={!message.trim() || repondre.isPending} aria-label="Envoyer">
-          <Send className="h-4 w-4" aria-hidden />
-        </Button>
-      </form>
+        >
+          <label htmlFor="reponse" className="sr-only">
+            Votre réponse
+          </label>
+          <textarea
+            id="reponse"
+            rows={2}
+            maxLength={2000}
+            value={message}
+            placeholder="Écrire un message…"
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault()
+                envoyer()
+              }
+            }}
+            className="min-h-11 flex-1 resize-none rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          />
+          <Button type="submit" disabled={!message.trim() || repondre.isPending} aria-label="Envoyer">
+            <Send className="h-4 w-4" aria-hidden />
+          </Button>
+        </form>
+      )}
       {repondre.isError && (
         <Alert variant="erreur" className="mx-3 mb-3">
           {messageErreur(repondre.error)}

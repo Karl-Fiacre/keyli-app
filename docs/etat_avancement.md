@@ -15,7 +15,7 @@ conversation précédente, elle ne persiste pas.
   essayer sur le téléphone ; web terminé jusqu'au Sprint 11-12.
   Le détail par sprint est dans « Blocages / questions en attente » (entrées
   « Sprint N ») et dans `docs/MODULES/`.
-- **Dernière session de travail** : 2026-11-13/14 (captures Google Play et retours bêta mobile)
+- **Dernière session de travail** : 2026-11-19 (Sprint 20 : conformité des boutiques)
 - **Dépôt Git** : dépôt privé
   https://github.com/Karl-Fiacre/keyli-app (`Karl-Fiacre/keyli` = ancien
   pilote, conservé comme référence, ne rien y pousser)
@@ -1106,6 +1106,30 @@ concernés :
 - Suite : fusion dans `main`, nouvelles compilations Codemagic, coller les
   textes dans la Play Console. Plus tard : terrains et espaces
   événementiels (réservation à la journée, change le schéma).
+
+### Session du 2026-11-19 — Sprint 20 : conformité des boutiques
+- Branche `feature/sprint20-conformite-stores`. Écran de démarrage animé
+  et Sprint 19 fusionnés dans `main` ; permission AD_ID bloquée (Android).
+- Fait : suppression de compte (migration
+  `20261122120000_conformite_stores_keyli.sql`, fonction Edge
+  `supprimer-compte`, page publique `/suppression-compte`, écrans web et
+  mobile), blocage et signalement d'un utilisateur (web + mobile),
+  « Signaler cette annonce » sur la fiche mobile. Détail :
+  `docs/MODULES/conformite.md`.
+- Tests pgTAP en retard sur le pilote national corrigés
+  (`audit_securite`, `communes_quartiers`, `stabilisation_pilote`) : 49
+  fichiers, 877 tests, tous verts en local.
+- `types.ts` : la CLI 2.118 produit désormais une sortie non formatée
+  sous Windows ; fichier formaté avec prettier (`--no-semi`) avant commit.
+  À surveiller : le contrôle « types à jour » de la CI.
+- Reste (avec accord du porteur) : migration et fonction Edge sur le
+  distant, fusion dans `main`, déploiement web, compilations Codemagic.
+- Play Console : « Sécurité des données » (URL de suppression ci-dessus),
+  fin de la classification (blocage et signalement : Oui). Le porteur
+  remplit les informations de connexion (compte de test) et le statut
+  de professionnel, puis « Cible et contenu ».
+- Décision en attente : paiement des forfaits par Paystack dans l'app
+  mobile, contraire aux règles de facturation Google Play / Apple.
 
 ## Modèle à copier pour chaque nouvelle entrée de session
 

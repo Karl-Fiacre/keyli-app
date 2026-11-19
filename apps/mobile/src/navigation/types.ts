@@ -33,6 +33,9 @@ export type ParamsRacine = {
   Retours: undefined
   // Mes séjours et demandes reçues (Sprint 19)
   Reservations: undefined
+  // Conformité des boutiques (Sprint 20)
+  UtilisateursBloques: undefined
+  SupprimerCompte: undefined
   Compte: NavigatorScreenParams<ParamsCompte>
 }
 
