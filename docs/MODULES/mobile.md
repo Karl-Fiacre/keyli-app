@@ -440,6 +440,21 @@ hôtel (`GestionChambres`), paiement en ligne des séjours.
 Ensuite : textes de la fiche Google Play (« Réserver un séjour »),
 nouvelles compilations iOS et Android.
 
+## Écran de démarrage animé (2026-11-19)
+
+- Natif : plugin `expo-splash-screen` (app.json) — fond `#1a1f2e`,
+  `logo-blanc.png` à 200 de large. Il reste affiché
+  (`preventAutoHideAsync`) jusqu'à l'affichage de l'écran animé.
+- Animé : `src/composants/EcranDemarrage.tsx`, monté au-dessus de la
+  navigation dans `App.tsx`. Même fond et même logo au même endroit
+  (passage invisible), logo qui « respire », deux halos turquoise,
+  accroche « L'immobilier de confiance / en Côte d'Ivoire », barre de
+  progression. Durée minimale 1,7 s, puis sortie (logo qui s'avance +
+  fondu) dès que la session est lue (`useSession().chargement`).
+- « Réduire les animations » du téléphone : pas de boucle, fondu court.
+- Changement natif : nécessite une nouvelle compilation (Codemagic), pas
+  visible dans Expo Go tel quel pour la partie native.
+
 ## Modules natifs requis
 | Besoin | Module / API | Notes |
 |---|---|---|

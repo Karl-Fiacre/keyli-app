@@ -7,11 +7,6 @@
     "orientation": "portrait",
     "icon": "./assets/icone.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/logo-blanc.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#1a1f2e"
-    },
     "ios": {
       "bundleIdentifier": "com.keyli.app",
       "buildNumber": "1",
@@ -59,6 +54,15 @@
         "expo-notifications",
         {
           "color": "#1a1f2e"
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/logo-blanc.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#1a1f2e"
         }
       ]
     ],
