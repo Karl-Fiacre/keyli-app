@@ -1120,8 +1120,8 @@ concernés :
   (`audit_securite`, `communes_quartiers`, `stabilisation_pilote`) : 49
   fichiers, 877 tests, tous verts en local.
 - `types.ts` : la CLI 2.118 produit désormais une sortie non formatée
-  sous Windows ; fichier formaté avec prettier (`--no-semi`) avant commit.
-  À surveiller : le contrôle « types à jour » de la CI.
+  (en local comme en CI). Le fichier est committé tel que généré — ne
+  pas le reformater, sinon le contrôle « types à jour » de la CI échoue.
 - Reste (avec accord du porteur) : migration et fonction Edge sur le
   distant, fusion dans `main`, déploiement web, compilations Codemagic.
 - Play Console : « Sécurité des données » (URL de suppression ci-dessus),
