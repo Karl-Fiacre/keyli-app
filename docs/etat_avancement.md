@@ -1128,8 +1128,9 @@ concernés :
   fin de la classification (blocage et signalement : Oui). Le porteur
   remplit les informations de connexion (compte de test) et le statut
   de professionnel, puis « Cible et contenu ».
-- Décision en attente : paiement des forfaits par Paystack dans l'app
-  mobile, contraire aux règles de facturation Google Play / Apple.
+- Décision du porteur (2026-11-20) : paiement des forfaits sur le site
+  seulement. L'écran Abonnement mobile est en lecture seule sur Android
+  comme sur iPhone (`docs/MODULES/mobile.md`, Sprint 17).
 
 ## Modèle à copier pour chaque nouvelle entrée de session
 

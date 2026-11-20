@@ -327,6 +327,13 @@ affiche ») — Profil → « Mon abonnement » (propriétaire, agence), écran
 - **iPhone** : affichage seul, ni bouton de paiement ni lien d'achat (règle
   App Store 3.1.1). L'application n'indique pas où payer.
 
+**Mise à jour du 2026-11-20 (décision du porteur)** : le paiement Paystack
+est retiré de l'application Android aussi. Les règles de paiement de Google
+Play imposent Google Play Billing pour un service numérique utilisé dans
+l'app (droit de publier des annonces). L'écran Abonnement est désormais en
+lecture seule sur les deux plateformes ; les forfaits se paient sur le
+site. L'application n'indique pas où payer.
+
 **Notifications push** (choix du porteur : envoi direct par Apple et
 Google) — mêmes événements que les emails (réservations, visites, documents
 et vérification, compte, abonnement et paiement, alertes, retours), plus

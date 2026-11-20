@@ -1,37 +1,22 @@
-// Abonnement (Sprint 17, choix du porteur du 2026-11-11 « Android paie,
-// iPhone affiche ») :
-// * Android : choix du forfait et paiement Paystack dans le navigateur
-//   intégré, puis vérification par le serveur au retour dans l'application ;
-// * iPhone : forfait, échéance et état du dernier paiement seulement — ni
-//   bouton de paiement ni lien d'achat (règle App Store 3.1.1).
-// Mêmes hooks que la page web : le montant est fixé par la base, le client
-// n'envoie jamais de prix.
-import { useEffect, useRef, useState } from 'react'
-import { AppState, Platform, Text, View } from 'react-native'
-import * as WebBrowser from 'expo-web-browser'
+// Abonnement — forfait, échéance, dernier paiement et dépassements, en
+// lecture seule sur Android comme sur iPhone (décision du porteur du
+// 2026-11-20) : le paiement des forfaits se fait sur le site, jamais dans
+// l'application — ni bouton de paiement ni lien d'achat, conformément aux
+// règles de paiement de Google Play et de l'App Store (3.1.1). Mêmes hooks
+// que la page web.
 import {
   useAbonnementActif,
   useDepassementsAPayer,
   useDerniereTentativePaiement,
   useDernierAbonnementExpire,
-  useForfaits,
-  usePaiementForfait,
-  useVerificationPaiement,
-  type Forfait,
 } from '@/partage/hooks/useAbonnement'
 import { useProfil } from '@/partage/hooks/useProfil'
 import { formatXof } from '@/partage/lib/format'
 import { motifRefus } from '@/partage/lib/paiements'
-import { messageErreur } from '@/partage/lib/erreurs'
-import { Bouton, Carte, Chargement, Ecran, Message, Texte, Titre } from '@mobile/composants/base'
-import { couleurs, espaces, rayons } from '@mobile/theme/tokens'
+import { Carte, Chargement, Ecran, Message, Texte, Titre } from '@mobile/composants/base'
+import { espaces } from '@mobile/theme/tokens'
 
 const JOUR = 86_400_000
-const PAIEMENT_DANS_APP = Platform.OS === 'android'
-
-function libelleAnnonces(f: Forfait) {
-  return f.seuil_max ? `${f.seuil_min} à ${f.seuil_max} annonces par mois` : `${f.seuil_min} annonces et plus par mois`
-}
 
 function date(iso: string) {
   return new Date(iso).toLocaleDateString('fr-FR')
@@ -39,33 +24,13 @@ function date(iso: string) {
 
 export default function Abonnement() {
   const profil = useProfil()
-  const forfaits = useForfaits()
   const abonnement = useAbonnementActif()
   const actuel = abonnement.data
   const expire = useDernierAbonnementExpire(!!actuel || abonnement.isPending).data
   const depassements = useDepassementsAPayer().data ?? []
   const derniere = useDerniereTentativePaiement().data
-  const paiement = usePaiementForfait()
-  const verification = useVerificationPaiement()
-  const verifier = verification.mutate
-  const [aConfirmer, setAConfirmer] = useState<string | null>(null)
-  // Paiement ouvert dans le navigateur, à vérifier au retour
-  const enCours = useRef<string | null>(null)
 
-  // Retour dans l'application après la page Paystack : le serveur confirme
-  useEffect(() => {
-    if (!PAIEMENT_DANS_APP) return
-    const abonnementEtat = AppState.addEventListener('change', (etat) => {
-      if (etat === 'active' && enCours.current) {
-        const reference = enCours.current
-        enCours.current = null
-        verifier(reference)
-      }
-    })
-    return () => abonnementEtat.remove()
-  }, [verifier])
-
-  if (profil.isPending || forfaits.isPending || abonnement.isPending) return <Chargement />
+  if (profil.isPending || abonnement.isPending) return <Chargement />
 
   const role = profil.data?.role_keyli
   if (role !== 'owner' && role !== 'agency') {
@@ -77,8 +42,6 @@ export default function Abonnement() {
     )
   }
 
-  // Une agence ne peut pas prendre le forfait Propriétaire (règle aussi en base)
-  const proposes = (forfaits.data ?? []).filter((f) => !(role === 'agency' && f.code === 'proprietaire'))
   const totalDepassements = depassements.reduce((s, d) => s + Number(d.montant), 0)
   const joursRestants = actuel ? Math.max(0, Math.ceil((new Date(actuel.end_date).getTime() - Date.now()) / JOUR)) : 0
   // Paiement refusé récemment (moins de 7 jours) et pas encore retenté
@@ -87,19 +50,6 @@ export default function Abonnement() {
       ? derniere
       : null
 
-  const payer = (planId: string) =>
-    paiement.mutate(planId, {
-      onSuccess: async ({ authorization_url, reference }) => {
-        setAConfirmer(null)
-        enCours.current = reference
-        await WebBrowser.openBrowserAsync(authorization_url, {
-          toolbarColor: couleurs.navyLogo,
-          showTitle: true,
-        })
-      },
-    })
-
-  const resultat = verification.data
   return (
     <Ecran>
       <Titre>Mon abonnement</Titre>
@@ -133,75 +83,6 @@ export default function Abonnement() {
         <Message>
           Dépassements de forfait à régler : {formatXof(totalDepassements)}, ajoutés au prochain paiement.
         </Message>
-      ) : null}
-
-      {verification.isPending ? <Texte attenue>Vérification du paiement…</Texte> : null}
-      {resultat?.statut === 'success' ? <Message type="succes">Paiement confirmé : votre abonnement est à jour.</Message> : null}
-      {resultat && resultat.statut !== 'success' ? (
-        <Message>
-          {resultat.statut === 'pending'
-            ? 'Paiement pas encore confirmé. Revenez sur cet écran dans quelques minutes.'
-            : `Le paiement n'a pas abouti. ${motifRefus(resultat.motif)}`}
-        </Message>
-      ) : null}
-      {verification.isError ? <Message>{messageErreur(verification.error)}</Message> : null}
-      {paiement.isError ? <Message>{messageErreur(paiement.error)}</Message> : null}
-
-      {PAIEMENT_DANS_APP ? (
-        <>
-          {proposes.map((f) => {
-            const estActuel = actuel?.plan_id === f.id
-            const total = Number(f.prix_mensuel) + totalDepassements
-            return (
-              <Carte
-                key={f.id}
-                style={{
-                  gap: espaces.s,
-                  borderWidth: estActuel ? 2 : 0,
-                  borderColor: couleurs.primaire,
-                  borderRadius: rayons.carte,
-                }}
-              >
-                <Text style={{ fontSize: 17, fontWeight: '700', color: couleurs.texte }}>
-                  {f.nom}
-                  {estActuel ? ' · actuel' : ''}
-                </Text>
-                <Texte attenue>{libelleAnnonces(f)}</Texte>
-                <Text style={{ fontSize: 20, fontWeight: '700', color: couleurs.texte }}>
-                  {formatXof(Number(f.prix_mensuel))}
-                  <Text style={{ fontSize: 14, fontWeight: '400', color: couleurs.attenue }}> / mois</Text>
-                </Text>
-                {totalDepassements > 0 ? (
-                  <Texte attenue>À payer maintenant : {formatXof(total)} (dépassements inclus)</Texte>
-                ) : null}
-                {aConfirmer === f.id && actuel ? (
-                  <View style={{ gap: espaces.s }}>
-                    <Message>
-                      Changement immédiat : votre forfait {actuel.plans_keyli?.nom} s'arrête aujourd'hui
-                      {joursRestants > 0 ? ` (${joursRestants} jour(s) non utilisé(s), sans remboursement)` : ''} et
-                      le forfait {f.nom} démarre pour un mois. Montant : {formatXof(total)}.
-                    </Message>
-                    <Bouton libelle="Confirmer et payer" chargement={paiement.isPending} onPress={() => payer(f.id)} />
-                    <Bouton libelle="Annuler" variante="lien" onPress={() => setAConfirmer(null)} />
-                  </View>
-                ) : (
-                  <Bouton
-                    libelle={estActuel ? "Prolonger d'un mois" : actuel ? 'Passer à ce forfait' : 'Choisir ce forfait'}
-                    variante={estActuel ? 'secondaire' : 'primaire'}
-                    chargement={paiement.isPending && paiement.variables === f.id}
-                    desactive={paiement.isPending}
-                    // Changer de forfait en cours d'abonnement se confirme d'abord
-                    onPress={() => (actuel && !estActuel ? setAConfirmer(f.id) : payer(f.id))}
-                  />
-                )}
-              </Carte>
-            )
-          })}
-          <Texte attenue>
-            Paiement sécurisé par Paystack (carte bancaire, Mobile Money). Votre abonnement est activé dès la
-            confirmation du paiement.
-          </Texte>
-        </>
       ) : null}
     </Ecran>
   )
