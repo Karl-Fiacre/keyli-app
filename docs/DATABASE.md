@@ -59,7 +59,8 @@ dans l'auto-complétion des types générés.
 ```sql
 user_role_keyli            ('user','owner','agency','admin')
 property_type_keyli        ('maison','duplex','villa','appartement','studio',
-                             'residence_meublee','auberge','hotel','bureau','magasin')
+                             'residence_meublee','auberge','hotel','bureau','magasin',
+                             'terrain')  -- terrain : ajouté le 2026-11-21
 property_status_keyli      ('a_louer','a_vendre')
 document_type_keyli        ('acd','registre','extrait_naissance','cert_residence')
 document_status_keyli      ('pending','approved','rejected')
@@ -1004,6 +1005,24 @@ Migration `20261120120000_pilote_national_keyli.sql`, tests
   atteint avec abonnement : règles du forfait. Registre de commerce d'une
   agence toujours exigé. Les tests de forfaits neutralisent la gratuité
   (`update pilote_gratuite_keyli set fin = debut`).
+
+## ⚠️ DÉCISIONS ACTÉES (2026-11-21) — accueil mobile par catégories
+Migration `20261123120000_terrains_categories_keyli.sql`. L'accueil des apps
+mobiles propose des cartes de catégories (à la manière de Booking) au lieu
+du catalogue ; liste commune web/mobile : `src/partage/lib/categories.ts`.
+- `property_type_keyli` : nouvelle valeur `terrain` (carte « Terrains »,
+  en vente). Un terrain n'a ni pièces, ni salles de bain, ni meublé, ni
+  séjour à la nuit : les formulaires web et mobile masquent ces champs
+  (`estTerrain`, `src/partage/lib/validation.ts`). La base n'impose pas
+  encore cette règle (`publier_annonce_keyli` inchangée) — à ajouter si une
+  annonce incohérente apparaît.
+- `rechercher_annonces_keyli` : paramètre `p_types property_type_keyli[]`
+  (au moins un de ces types ; vide ou null : tous), cumulé avec `p_type`.
+  Sert la carte « Hôtels & auberges ». Les alertes (`search_alerts_keyli`)
+  ne retiennent qu'un type : le bouton « Créer une alerte » est masqué sur
+  une recherche multi-types.
+- Tests : `supabase/tests/terrains_categories_keyli.test.sql`.
+- Plus tard : restaurants partenaires (nouvelle entité, schéma à définir).
 
 ## ⚠️ DÉCISIONS ACTÉES (2026-11-19) — conformité des boutiques (Sprint 20)
 Migration `20261122120000_conformite_stores_keyli.sql` (détail :
