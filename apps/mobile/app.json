@@ -68,7 +68,8 @@
           "backgroundColor": "#1a1f2e"
         }
       ],
-      "./plugins/ecranPortraitFacultatif"
+      "./plugins/ecranPortraitFacultatif",
+      "./plugins/sansReductionCodeAndroid"
     ],
     "experiments": {
       "tsconfigPaths": false
