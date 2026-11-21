@@ -1159,6 +1159,15 @@ concernés :
   obligatoire et exclut certains appareils (ordinateurs, XR, quelques
   tablettes). Corrigé (plugin `apps/mobile/plugins/ecranPortraitFacultatif.js`,
   `required="false"`) : effectif à la prochaine compilation Android.
+- Accueil mobile (iOS et Android, décision du porteur) : cartes de
+  catégories à la manière de Booking au lieu du catalogue — Séjourner
+  (séjour à la nuit, hôtels, auberges, résidences meublées), Se loger
+  (louer, acheter), Professionnels (bureaux, magasins). Chaque carte ouvre
+  la recherche filtrée. Liste commune web/mobile :
+  `src/partage/lib/categories.ts` (testée). Hôtels et auberges sont deux
+  cartes : la recherche ne filtre que sur un type à la fois. Plus tard :
+  restaurants partenaires et terrains (évolution du schéma). Effectif à la
+  prochaine compilation (n°6).
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 
