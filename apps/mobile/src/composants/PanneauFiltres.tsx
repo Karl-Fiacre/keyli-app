@@ -24,8 +24,11 @@ const TRANSACTIONS: readonly { valeur: Transaction; libelle: string }[] = [
   { valeur: 'a_vendre', libelle: 'À vendre' },
   { valeur: 'sejour', libelle: 'Séjour court' },
 ]
+// « Hôtels & auberges » : les deux types à la fois (carte de l'accueil)
+const HOTELS_AUBERGES = 'hotels_auberges'
 const TYPES = [
   { valeur: '', libelle: 'Tous' },
+  { valeur: HOTELS_AUBERGES, libelle: 'Hôtels & auberges' },
   ...TYPES_BIEN.map((t) => ({ valeur: t as string, libelle: LIBELLES_TYPE[t] })),
 ]
 const PIECES = [
@@ -152,8 +155,12 @@ export function PanneauFiltres({
           <Choix
             libelle="Type de bien"
             options={TYPES}
-            valeur={f.type ?? ''}
-            onChange={(v) => maj({ type: (v || undefined) as TypeBien | undefined })}
+            valeur={f.types?.length ? HOTELS_AUBERGES : (f.type ?? '')}
+            onChange={(v) =>
+              v === HOTELS_AUBERGES
+                ? maj({ type: undefined, types: ['hotel', 'auberge'] })
+                : maj({ type: (v || undefined) as TypeBien | undefined, types: undefined })
+            }
           />
 
           <View style={styles.ligne}>

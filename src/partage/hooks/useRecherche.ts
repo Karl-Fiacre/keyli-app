@@ -12,6 +12,9 @@ export type TypeInteraction = Database['public']['Enums']['interaction_type_keyl
 export interface FiltresRecherche {
   statut?: StatutBien
   type?: TypeBien
+  // Plusieurs types à la fois (carte « Hôtels & auberges » de l'accueil
+  // mobile) : au moins un doit correspondre. Jamais écrit dans l'URL.
+  types?: TypeBien[]
   commune?: string
   quartier?: string
   prixMin?: number
@@ -60,6 +63,7 @@ export function useRecherche(f: FiltresRecherche) {
         p_lat: f.autour?.lat,
         p_lng: f.autour?.lng,
         p_rayon_km: f.autour?.rayonKm,
+        p_types: f.types?.length ? f.types : undefined,
       })
       if (error) throw error
       return { annonces: data, total: Number(data[0]?.total ?? 0) }

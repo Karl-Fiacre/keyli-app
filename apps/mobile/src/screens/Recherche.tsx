@@ -112,7 +112,8 @@ export default function Recherche({ navigation, route }: Props) {
                 </Texte>
               ) : null}
               {/* Les alertes ne portent pas encore de rayon autour de soi */}
-              {filtres.autour ? null : <BoutonAlerte filtres={filtres} />}
+              {/* Une alerte ne retient qu'un type de bien et pas le rayon */}
+              {filtres.autour || filtres.types?.length ? null : <BoutonAlerte filtres={filtres} />}
             </View>
           }
           pied={pages > 1 ? <Pagination page={filtres.page} pages={pages} onChange={allerPage} /> : null}

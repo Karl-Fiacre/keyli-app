@@ -46,6 +46,7 @@ const LIBELLES_TYPE_COURT: Record<string, string> = {
   hotel: 'Hôtel',
   bureau: 'Bureau',
   magasin: 'Magasin',
+  terrain: 'Terrain',
 }
 
 // Libellé lisible d'une alerte : « Appartement · à louer · Angré (Cocody) · ≤ 300 000 XOF »
