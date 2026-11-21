@@ -1132,6 +1132,36 @@ concernés :
   seulement. L'écran Abonnement mobile est en lecture seule sur Android
   comme sur iPhone (`docs/MODULES/mobile.md`, Sprint 17).
 
+### Session du 2026-11-20/21 — mise en production du Sprint 20, test fermé Android
+- Production : migration `20261122120000_conformite_stores_keyli.sql`
+  appliquée, fonction `supprimer-compte` déployée, site redéployé
+  (`/suppression-compte` répond). Sprint 20 fusionné dans `main`, CI verte.
+- Compilation Android n°5 (Codemagic, commit `f3cddda`, sans Paystack) :
+  réussie, bundle 5 (0.1.0) dans la Play Console.
+- Play Console : classification IARC transmise (12+, sans achat dans
+  l'app) ; « Sécurité des données » remplie en brouillon (envoi bloqué
+  tant que « Cible et contenu » n'est pas rempli).
+- Test fermé « Alpha » : 178 pays ciblés (Côte d'Ivoire, France et reste
+  du monde — voyageurs et touristes) ; liste « Testeurs Keyli » cochée
+  (3 adresses, il en faut au moins 12) ; version brouillon avec le
+  bundle 5 et des notes en français.
+- Fait ensuite : informations de connexion (compte de test) et statut de
+  professionnel (porteur) ; « Cible et contenu » (18 ans et plus) et
+  « Sécurité des données » enregistrées ; email de commentaires des
+  testeurs `contact@keyli.com` (boîte à créer par le porteur avant le
+  lancement officiel).
+- Fiche Play : catégorie « Maison et intérieur », coordonnées publiques
+  `contact@keyli.com` et `https://keyli-2gc.pages.dev`.
+- 2026-11-21 : 16 modifications envoyées à l'examen de Google (accord du
+  porteur), dont la version Alpha 5 (0.1.0). Examen annoncé sous 7 jours.
+- Avertissement Play ignoré (« résolution prévue ») : `orientation:
+  portrait` (`apps/mobile/app.json`) rend `android.hardware.screen.portrait`
+  obligatoire et exclut certains appareils (ordinateurs, XR, quelques
+  tablettes). Corrigé (plugin `apps/mobile/plugins/ecranPortraitFacultatif.js`,
+  `required="false"`) : effectif à la prochaine compilation Android.
+- Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
+  de demander l'accès à la production. iOS : non relancé.
+
 ## Modèle à copier pour chaque nouvelle entrée de session
 
 ```
