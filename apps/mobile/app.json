@@ -67,7 +67,8 @@
           "resizeMode": "contain",
           "backgroundColor": "#1a1f2e"
         }
-      ]
+      ],
+      "./plugins/ecranPortraitFacultatif"
     ],
     "experiments": {
       "tsconfigPaths": false
