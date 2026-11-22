@@ -1212,6 +1212,11 @@ concernés :
     (consultation libre, PRD ; exigence App Store 5.1.1). Contexte
     `apps/mobile/src/navigation/explorer.ts`. Compilations Android n°8 et
     iOS lancées.
+  - Retour du porteur : la page de connexion (premier écran) reprend les
+    photos en fond de l'ancien écran de bienvenue, formulaire sur une carte
+    blanche (`apps/mobile/src/screens/Connexion.tsx`). Icône Android :
+    fond blanc (`android.adaptiveIcon.backgroundColor`). Nouvelles
+    compilations Android et iOS lancées.
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 
