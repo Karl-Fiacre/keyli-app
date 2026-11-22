@@ -1215,8 +1215,13 @@ concernés :
   - Retour du porteur : la page de connexion (premier écran) reprend les
     photos en fond de l'ancien écran de bienvenue, formulaire sur une carte
     blanche (`apps/mobile/src/screens/Connexion.tsx`). Icône Android :
-    fond blanc (`android.adaptiveIcon.backgroundColor`). Nouvelles
-    compilations Android et iOS lancées.
+    fond blanc (`android.adaptiveIcon.backgroundColor`).
+  - Puis le porteur précise (capture à l'appui) : le premier écran voulu
+    est l'écran de bienvenue (photos, « Créer un compte », « Se
+    connecter », « Découvrir les annonces sans compte »). Bienvenue
+    restauré tel qu'au commit `f474c83` ; page de connexion redevenue
+    simple ; une fois connecté, l'app s'ouvre sur l'onglet Accueil. Icône
+    Android sur fond blanc conservée. Compilations Android et iOS lancées.
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 
