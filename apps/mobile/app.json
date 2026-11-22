@@ -22,6 +22,11 @@
         "backgroundColor": "#1a1f2e"
       },
       "googleServicesFile": "./google-services.json",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCTFCp-vc1B5PbtA5fpd0_SpMZ3wHkGs8o"
+        }
+      },
       "blockedPermissions": [
         "com.google.android.gms.permission.AD_ID"
       ]
