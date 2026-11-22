@@ -1,5 +1,5 @@
 // Navigation de l'application : onglets (Accueil, Recherche, Messages,
-// Profil), écran de bienvenue (visiteur non connecté), fiche annonce,
+// Profil), page de connexion (premier écran d'un visiteur), fiche annonce,
 // favoris, alertes, publication d'annonce (propriétaire, agence),
 // vérification, abonnement, retours, réservations, et parcours de compte ouvert en fenêtre. Comme sur
 // le web, la consultation des annonces est libre ; un compte connecté qui
@@ -24,7 +24,6 @@ import Messages from '@mobile/screens/Messages'
 import Conversation from '@mobile/screens/Conversation'
 import Profil from '@mobile/screens/Profil'
 import FicheAnnonce from '@mobile/screens/FicheAnnonce'
-import Bienvenue from '@mobile/screens/Bienvenue'
 import Favoris from '@mobile/screens/Favoris'
 import Alertes from '@mobile/screens/Alertes'
 import PublierAnnonce from '@mobile/screens/PublierAnnonce'
@@ -43,6 +42,7 @@ import SupprimerCompte from '@mobile/screens/SupprimerCompte'
 import { useNotificationsPush } from '@mobile/composants/NotificationsPush'
 import { optionsBarre } from '@mobile/composants/BarreOnglets'
 import { couleurs } from '@mobile/theme/tokens'
+import { ContexteExplorer } from '@mobile/navigation/explorer'
 import type { ParamsCompte, ParamsOnglets, ParamsRacine } from '@mobile/navigation/types'
 
 const Pile = createNativeStackNavigator<ParamsRacine>()
@@ -121,10 +121,11 @@ function NavigationCompte() {
 export function Racine() {
   const { session, chargement } = useSession()
   const profil = useProfil()
-  // Visiteur non connecté : l'application s'ouvre sur l'écran de bienvenue,
-  // jusqu'à ce qu'il se connecte ou choisisse de découvrir sans compte
+  // Visiteur non connecté : l'application s'ouvre sur la page de connexion
+  // (décision du porteur, 2026-11-22), jusqu'à ce qu'il se connecte ou
+  // choisisse de découvrir les annonces sans compte
   const [explorer, setExplorer] = useState(false)
-  const bienvenue = !session && !explorer
+  const connexionDabord = !session && !explorer
   // Verrou Face ID / empreinte, si la personne l'a activé (Sprint 16)
   const verrou = useVerrouBiometrique(!!session, chargement)
   // Notifications push : jeton enregistré à la connexion, écran ouvert au
@@ -141,9 +142,15 @@ export function Racine() {
   return (
     <NavigationContainer ref={navigationRef} theme={THEME} onReady={push.pret}>
       <Pile.Navigator screenOptions={{ headerTintColor: couleurs.primaire, headerBackTitle: 'Retour' }}>
-        {bienvenue ? (
-          <Pile.Screen name="Bienvenue" options={{ headerShown: false }}>
-            {() => <Bienvenue onExplorer={() => setExplorer(true)} />}
+        {connexionDabord ? (
+          // Visiteur non connecté : la page de connexion est le premier écran ;
+          // une fois connecté, l'application s'ouvre sur l'accueil (onglets)
+          <Pile.Screen name="Compte" options={{ headerShown: false }}>
+            {() => (
+              <ContexteExplorer.Provider value={() => setExplorer(true)}>
+                <NavigationCompte />
+              </ContexteExplorer.Provider>
+            )}
           </Pile.Screen>
         ) : (
           <>
@@ -163,17 +170,17 @@ export function Racine() {
               options={{ title: 'Utilisateurs bloqués' }}
             />
             <Pile.Screen name="SupprimerCompte" component={SupprimerCompte} options={{ title: 'Supprimer mon compte' }} />
+            {/* Connexion ouverte en fenêtre depuis l'application (visiteur sans
+                compte) : se referme d'elle-même quand la session change */}
+            <Pile.Group navigationKey={session ? 'connecte' : 'visiteur'}>
+              <Pile.Screen
+                name="Compte"
+                component={NavigationCompte}
+                options={{ headerShown: false, presentation: 'modal' }}
+              />
+            </Pile.Group>
           </>
         )}
-        {/* Le parcours de compte se referme de lui-même quand la session change
-            (connexion depuis la bienvenue ou depuis un onglet) */}
-        <Pile.Group navigationKey={session ? 'connecte' : 'visiteur'}>
-          <Pile.Screen
-            name="Compte"
-            component={NavigationCompte}
-            options={{ headerShown: false, presentation: 'modal' }}
-          />
-        </Pile.Group>
       </Pile.Navigator>
     </NavigationContainer>
   )

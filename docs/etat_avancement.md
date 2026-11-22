@@ -1205,6 +1205,13 @@ concernés :
     Taille d'installation 21,4 → 28,4 Mo (R8 désactivé).
   - Compilation iOS (Codemagic, même commit) réussie et envoyée sur
     TestFlight (demande du porteur).
+  - Ouverture de l'app mobile (décision du porteur, 2026-11-22) : un
+    visiteur non connecté arrive sur la page de connexion (l'écran de
+    bienvenue à photos est retiré) ; une fois connecté, sur l'onglet
+    Accueil. Lien « Découvrir les annonces sans compte » conservé
+    (consultation libre, PRD ; exigence App Store 5.1.1). Contexte
+    `apps/mobile/src/navigation/explorer.ts`. Compilations Android n°8 et
+    iOS lancées.
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 

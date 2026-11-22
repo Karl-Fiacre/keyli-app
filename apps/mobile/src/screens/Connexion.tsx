@@ -8,10 +8,12 @@ import { useConnexion } from '@/partage/hooks/useCompte'
 import { schemaConnexion, type DonneesConnexion } from '@/partage/lib/validation'
 import { messageErreur } from '@/partage/lib/erreurs'
 import { Bouton, Champ, Ecran, Logo, Message, Texte, Titre } from '@mobile/composants/base'
+import { useExplorer } from '@mobile/navigation/explorer'
 import type { ParamsCompte } from '@mobile/navigation/types'
 
 export default function Connexion({ navigation }: NativeStackScreenProps<ParamsCompte, 'Connexion'>) {
   const connexion = useConnexion()
+  const explorer = useExplorer()
   const { control, handleSubmit, formState } = useForm<DonneesConnexion>({
     resolver: zodResolver(schemaConnexion),
     defaultValues: { email: '', motDePasse: '' },
@@ -67,6 +69,8 @@ export default function Connexion({ navigation }: NativeStackScreenProps<ParamsC
       <Bouton libelle="Se connecter" onPress={envoyer} chargement={connexion.isPending} />
       <Bouton libelle="Mot de passe oublié ?" variante="lien" onPress={() => navigation.navigate('MotDePasseOublie')} />
       <Bouton libelle="Créer un compte" variante="secondaire" onPress={() => navigation.navigate('Inscription')} />
+      {/* Premier écran de l'application : la consultation reste libre */}
+      {explorer ? <Bouton libelle="Découvrir les annonces sans compte" variante="lien" onPress={explorer} /> : null}
     </Ecran>
   )
 }
