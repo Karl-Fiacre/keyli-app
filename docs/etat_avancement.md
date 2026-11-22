@@ -1196,6 +1196,15 @@ concernés :
     (`com.pairip.licensecheck`) ferme toute copie non installée depuis le
     Play Store — le parcours complet ne peut se tester que via le test
     interne ou Alpha (téléphone du porteur).
+  - Clé Google Maps Android (créée par le porteur, restreinte à
+    `com.keyli.app` + SHA-1 de la clé de signature Play
+    `2E:FE:06:E1:…:24:38`, et à Maps SDK for Android) ajoutée dans
+    `apps/mobile/app.json` (`android.config.googleMaps.apiKey`).
+  - Compilation Android n°7 (`22d1b71`) : release Alpha « 7 (0.1.0) »
+    remplace la 5, envoyée à l'examen le 2026-11-22 (accord du porteur).
+    Taille d'installation 21,4 → 28,4 Mo (R8 désactivé).
+  - Compilation iOS (Codemagic, même commit) réussie et envoyée sur
+    TestFlight (demande du porteur).
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 
