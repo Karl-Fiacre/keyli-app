@@ -1222,6 +1222,25 @@ concernés :
     restauré tel qu'au commit `f474c83` ; page de connexion redevenue
     simple ; une fois connecté, l'app s'ouvre sur l'onglet Accueil. Icône
     Android sur fond blanc conservée. Compilations Android et iOS lancées.
+  - Version Alpha 9 (Bienvenue au démarrage, icône sur fond blanc) envoyée
+    à l'examen Google le 2026-11-22.
+- Connexion Google, Apple, Facebook (demande du porteur, 2026-11-22,
+  branche `feature/connexion-sociale`) :
+  - Mobile : `services/native/connexionSociale.ts` (iPhone + Apple : fenêtre
+    native `expo-apple-authentication` → `signInWithIdToken` ; sinon page du
+    fournisseur dans le navigateur sécurisé, retour `keyli://auth`) ;
+    composant `BoutonsSociaux` sur Bienvenue et Connexion ;
+    `ios.usesAppleSignIn` activé.
+  - Web : `useConnexionFournisseur` (`useCompte.ts`) + trois boutons sur
+    la page Connexion.
+  - Migration `20261124120000_connexion_sociale_keyli.sql` (noms lus chez le
+    fournisseur) : à appliquer en production par le porteur.
+  - Configuration à faire par le porteur (aucun secret dans le code) :
+    fournisseurs Google, Apple, Facebook dans Supabase ; adresses
+    `keyli://auth` et celle du site dans les URL de redirection autorisées ;
+    clients OAuth Google ; Services ID + clé Apple (et `com.keyli.app` dans
+    les Client IDs Apple de Supabase) ; application Meta.
+  - Non testé de bout en bout : dépend de cette configuration.
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 

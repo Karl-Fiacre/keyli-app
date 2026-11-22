@@ -8,6 +8,7 @@ import { useConnexion } from '@/partage/hooks/useCompte'
 import { schemaConnexion, type DonneesConnexion } from '@/partage/lib/validation'
 import { messageErreur } from '@/partage/lib/erreurs'
 import { Bouton, Champ, Ecran, Logo, Message, Texte, Titre } from '@mobile/composants/base'
+import { BoutonsSociaux } from '@mobile/composants/BoutonsSociaux'
 import type { ParamsCompte } from '@mobile/navigation/types'
 
 export default function Connexion({ navigation }: NativeStackScreenProps<ParamsCompte, 'Connexion'>) {
@@ -66,6 +67,7 @@ export default function Connexion({ navigation }: NativeStackScreenProps<ParamsC
 
       <Bouton libelle="Se connecter" onPress={envoyer} chargement={connexion.isPending} />
       <Bouton libelle="Mot de passe oublié ?" variante="lien" onPress={() => navigation.navigate('MotDePasseOublie')} />
+      <BoutonsSociaux />
       <Bouton libelle="Créer un compte" variante="secondaire" onPress={() => navigation.navigate('Inscription')} />
     </Ecran>
   )

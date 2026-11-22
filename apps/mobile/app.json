@@ -11,6 +11,7 @@
       "bundleIdentifier": "com.keyli.app",
       "buildNumber": "1",
       "supportsTablet": false,
+      "usesAppleSignIn": true,
       "config": {
         "usesNonExemptEncryption": false
       }
@@ -37,6 +38,7 @@
     "plugins": [
       "expo-secure-store",
       "expo-sqlite",
+      "expo-apple-authentication",
       [
         "expo-image-picker",
         {

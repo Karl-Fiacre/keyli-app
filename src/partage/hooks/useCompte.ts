@@ -47,6 +47,26 @@ export function useConnexion() {
   })
 }
 
+// Connexion Google, Apple ou Facebook sur le web : Supabase redirige vers le
+// fournisseur puis revient sur le site, où la session est lue dans l'adresse.
+// (Le mobile a son propre parcours : apps/mobile/src/services/native/connexionSociale.ts)
+export type FournisseurSocial = 'google' | 'apple' | 'facebook'
+
+export function useConnexionFournisseur() {
+  return useMutation({
+    mutationFn: async ({ fournisseur, retour }: { fournisseur: FournisseurSocial; retour: string }) => {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: fournisseur,
+        options: {
+          redirectTo: urlApp(retour),
+          scopes: fournisseur === 'facebook' ? 'email public_profile' : undefined,
+        },
+      })
+      if (error) throw error
+    },
+  })
+}
+
 export function useDeconnexion() {
   return useMutation({
     mutationFn: async () => {
