@@ -1188,6 +1188,14 @@ concernés :
     `20261123120000_terrains_categories_keyli.sql` + test pgTAP. Pour un
     terrain, la publication masque pièces, salles de bain, meublé et
     séjour court (web et mobile).
+  - 2026-11-22 : migration appliquée en production (porteur), test pgTAP
+    distant vert (5/5). Compilation Android n°6 (Codemagic, `9141b87`)
+    réussie, bundle 6 en brouillon dans la Play Console. APK universel 6
+    sur émulateur : plus de plantage WorkDatabase (l'app tourne ~20 s
+    sans erreur), puis la protection automatique de Google Play
+    (`com.pairip.licensecheck`) ferme toute copie non installée depuis le
+    Play Store — le parcours complet ne peut se tester que via le test
+    interne ou Alpha (téléphone du porteur).
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 
