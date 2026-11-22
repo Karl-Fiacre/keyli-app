@@ -64,6 +64,7 @@ atteint son volume cible (500 biens).
 | Fiche — devis | `devis_sejour_keyli(...)` | idem |
 | Plafond d'annonces gratuites du pilote (2026-11-14) | `evaluer_publication_keyli` : annonces gratuites EN LIGNE de l'annonceur (`gratuite_pilote and unpublished_at is null`) | `idx_publications_gratuites_en_ligne (owner_id) WHERE gratuite_pilote AND unpublished_at IS NULL` — créé |
 | Recherche par rayon (« Autour de moi », 2026-11-14) | `rechercher_annonces_keyli(p_lat, p_lng, p_rayon_km)` → `annonces_autour_keyli` : `ST_DWithin` sur `geolocation` (présélection, + 700 m) puis filtre et distance sur la position approximative | `idx_properties_geolocation` (GiST) — créé |
+| Accueil mobile par catégories (2026-11-21) | `rechercher_annonces_keyli(p_types => {hotel,auberge})` (« Hôtels & auberges »), `p_type => terrain, p_statut => a_vendre` (« Terrains »), et les autres cartes sur `p_statut`/`p_type`/`p_sejour` | idem Recherche (`p.type = any(p_types)` sur les mêmes lignes filtrées) |
 | Recherche par dates | `rechercher_annonces_keyli(p_arrivee, p_depart, p_voyageurs)` — disponibilité via `occupation_sejour_keyli` (voit toutes les réservations acceptées, renvoie des nombres ; 2026-11-08) | `idx_properties_sejour`, `idx_reservations_occupation`, `idx_types_chambres_property` |
 | Mes séjours | `reservations_keyli` où `voyageur_id = moi`, tri arrivée | `idx_reservations_voyageur` |
 | Demandes reçues | `reservations_keyli` où `owner_id = moi` | `idx_reservations_hote` |

@@ -100,7 +100,9 @@ export function nombreFiltresActifs(f: FiltresRecherche): number {
       f.arrivee,
       f.voyageurs,
       f.autour,
-    ].filter((v) => v !== undefined).length + f.avantages.length
+    ].filter((v) => v !== undefined).length +
+    f.avantages.length +
+    (f.types?.length ? 1 : 0)
   )
 }
 

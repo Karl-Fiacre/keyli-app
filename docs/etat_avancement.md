@@ -15,7 +15,7 @@ conversation précédente, elle ne persiste pas.
   essayer sur le téléphone ; web terminé jusqu'au Sprint 11-12.
   Le détail par sprint est dans « Blocages / questions en attente » (entrées
   « Sprint N ») et dans `docs/MODULES/`.
-- **Dernière session de travail** : 2026-11-19 (Sprint 20 : conformité des boutiques)
+- **Dernière session de travail** : 2026-11-21 (test fermé Android, accueil par catégories, terrains, plantage Android)
 - **Dépôt Git** : dépôt privé
   https://github.com/Karl-Fiacre/keyli-app (`Karl-Fiacre/keyli` = ancien
   pilote, conservé comme référence, ne rien y pousser)
@@ -1168,6 +1168,26 @@ concernés :
   cartes : la recherche ne filtre que sur un type à la fois. Plus tard :
   restaurants partenaires et terrains (évolution du schéma). Effectif à la
   prochaine compilation (n°6).
+- Ensuite (même jour, branche `feature/categories-terrains-crash-android`) :
+  - **Plantage Android à l'ouverture** (« se ferme aussitôt », version 5) :
+    reproduit sur l'émulateur Pixel_7 avec l'APK universel. Cause : Expo
+    SDK 58 active R8 en publication (`android.enableMinifyInReleaseBuilds`),
+    qui casse WorkManager (« Failed to create an instance of class
+    androidx.work.impl.WorkDatabase »). Correctif : plugin
+    `apps/mobile/plugins/sansReductionCodeAndroid.js` (R8 et réduction des
+    ressources désactivés). Effectif à la compilation n°6, qui doit
+    remplacer la 5 dans la release Alpha (accord du porteur).
+  - **Risque restant** : react-native-maps sur Android sans clé Google
+    Maps (`android.config.googleMaps.apiKey` absent de `app.json`) — la
+    carte de la Recherche et le choix de position à la publication
+    risquent de planter. À vérifier sur la n°6 ; clé à créer par le
+    porteur dans Google Cloud si besoin.
+  - Une seule carte « Hôtels & auberges » : nouveau paramètre `p_types`
+    (liste de types) de `rechercher_annonces_keyli` ; carte « Terrains »
+    (type `terrain` ajouté à `property_type_keyli`, à vendre). Migration
+    `20261123120000_terrains_categories_keyli.sql` + test pgTAP. Pour un
+    terrain, la publication masque pièces, salles de bain, meublé et
+    séjour court (web et mobile).
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 

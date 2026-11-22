@@ -15,10 +15,10 @@ import type { ParamsOnglets } from '@mobile/navigation/types'
 const ICONES: Record<IdCategorie, keyof typeof Ionicons.glyphMap> = {
   sejours: 'calendar-outline',
   hotels: 'bed-outline',
-  auberges: 'cafe-outline',
   residences: 'key-outline',
   location: 'home-outline',
   achat: 'pricetag-outline',
+  terrains: 'map-outline',
   bureaux: 'briefcase-outline',
   magasins: 'storefront-outline',
 }

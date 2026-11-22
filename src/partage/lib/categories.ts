@@ -2,17 +2,17 @@ import type { FiltresRecherche } from '@/partage/hooks/useRecherche'
 
 // Catégories de l'accueil (à la manière de Booking, décision du porteur du
 // 2026-11-21) : chaque carte ouvre la recherche avec ses filtres. Seuls des
-// filtres que la base sait appliquer (rechercher_annonces_keyli) — une
-// catégorie qui en demanderait un autre (terrains, restaurants partenaires)
+// filtres que la base sait appliquer (rechercher_annonces_keyli) ; une
+// catégorie qui en demanderait un autre (restaurants partenaires, à venir)
 // attendra son évolution du schéma.
 
 export type IdCategorie =
   | 'sejours'
   | 'hotels'
-  | 'auberges'
   | 'residences'
   | 'location'
   | 'achat'
+  | 'terrains'
   | 'bureaux'
   | 'magasins'
 
@@ -33,8 +33,12 @@ export const GROUPES_CATEGORIES: GroupeCategories[] = [
     titre: 'Séjourner',
     categories: [
       { id: 'sejours', libelle: 'Réserver un séjour', description: 'À la nuit, partout', filtres: { sejour: true } },
-      { id: 'hotels', libelle: 'Hôtels', description: 'Chambres à réserver', filtres: { type: 'hotel' } },
-      { id: 'auberges', libelle: 'Auberges', description: 'Simples et accueillantes', filtres: { type: 'auberge' } },
+      {
+        id: 'hotels',
+        libelle: 'Hôtels & auberges',
+        description: 'Chambres à réserver',
+        filtres: { types: ['hotel', 'auberge'] },
+      },
       {
         id: 'residences',
         libelle: 'Résidences meublées',
@@ -48,6 +52,12 @@ export const GROUPES_CATEGORIES: GroupeCategories[] = [
     categories: [
       { id: 'location', libelle: 'Louer', description: 'Appartements, villas…', filtres: { statut: 'a_louer' } },
       { id: 'achat', libelle: 'Acheter', description: 'Maisons, villas, duplex', filtres: { statut: 'a_vendre' } },
+      {
+        id: 'terrains',
+        libelle: 'Terrains',
+        description: 'À bâtir, en vente',
+        filtres: { type: 'terrain', statut: 'a_vendre' },
+      },
     ],
   },
   {

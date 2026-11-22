@@ -18,6 +18,7 @@ import { useProfil } from '@/partage/hooks/useProfil'
 import { messageErreur } from '@/partage/lib/erreurs'
 import {
   estHotelier,
+  estTerrain,
   LIBELLES_TYPE,
   schemaAnnonce,
   TYPES_BIEN,
@@ -110,8 +111,10 @@ export default function PublierAnnonce() {
   const statut = watch('statut')
   const typeBien = watch('type')
   const hotelier = estHotelier(typeBien)
+  // Terrain : ni pièces, ni meublé, ni séjour à la nuit
+  const terrain = estTerrain(typeBien)
   // Hôtel ou auberge à louer : toujours à la nuit (la base l'impose aussi)
-  const sejour = statut === 'a_louer' && (hotelier || !!watch('sejourCourt'))
+  const sejour = statut === 'a_louer' && !terrain && (hotelier || !!watch('sejourCourt'))
   const latitude = watch('latitude')
   const longitude = watch('longitude')
 
@@ -141,7 +144,8 @@ export default function PublierAnnonce() {
         ...d,
         quartierId: d.quartierId || null,
         accepteDepassement: depassement && d.accepteDepassement,
-        sejourCourt: d.statut === 'a_louer' && (d.sejourCourt || estHotelier(d.type)),
+        sejourCourt: d.statut === 'a_louer' && !estTerrain(d.type) && (d.sejourCourt || estHotelier(d.type)),
+        ...(estTerrain(d.type) ? { pieces: undefined, sallesDeBain: undefined, meuble: false } : {}),
         photos: adresses,
       },
       {
@@ -217,7 +221,7 @@ export default function PublierAnnonce() {
                 </fieldset>
               </div>
 
-              {statut === 'a_louer' && (
+              {statut === 'a_louer' && !terrain && (
                 <div className="space-y-3 rounded-lg border bg-secondary/50 p-4">
                   <label className="flex cursor-pointer items-start gap-3 text-sm">
                     <input
@@ -376,18 +380,24 @@ export default function PublierAnnonce() {
                 <ChampFormulaire libelle="Surface (m²)" erreur={errors.surface?.message}>
                   {(a) => <Input {...a} type="number" inputMode="decimal" min={0} {...register('surface')} />}
                 </ChampFormulaire>
-                <ChampFormulaire libelle="Pièces" erreur={errors.pieces?.message}>
-                  {(a) => <Input {...a} type="number" inputMode="numeric" min={0} {...register('pieces')} />}
-                </ChampFormulaire>
-                <ChampFormulaire libelle="Salles de bain" erreur={errors.sallesDeBain?.message}>
-                  {(a) => <Input {...a} type="number" inputMode="numeric" min={0} {...register('sallesDeBain')} />}
-                </ChampFormulaire>
+                {!terrain && (
+                  <>
+                    <ChampFormulaire libelle="Pièces" erreur={errors.pieces?.message}>
+                      {(a) => <Input {...a} type="number" inputMode="numeric" min={0} {...register('pieces')} />}
+                    </ChampFormulaire>
+                    <ChampFormulaire libelle="Salles de bain" erreur={errors.sallesDeBain?.message}>
+                      {(a) => <Input {...a} type="number" inputMode="numeric" min={0} {...register('sallesDeBain')} />}
+                    </ChampFormulaire>
+                  </>
+                )}
               </div>
 
-              <label className="flex cursor-pointer items-center gap-3 text-sm">
-                <input type="checkbox" className="h-4 w-4 accent-primary" {...register('meuble')} />
-                Bien meublé
-              </label>
+              {!terrain && (
+                <label className="flex cursor-pointer items-center gap-3 text-sm">
+                  <input type="checkbox" className="h-4 w-4 accent-primary" {...register('meuble')} />
+                  Bien meublé
+                </label>
+              )}
 
               <ChampFormulaire libelle="Description" erreur={errors.description?.message}>
                 {(a) => (

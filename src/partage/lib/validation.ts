@@ -78,6 +78,8 @@ const nombreFacultatif = (message: string, entier = false) =>
 
 // Hôtel ou auberge : réservation par types de chambres
 export const estHotelier = (t: string | undefined) => t === 'hotel' || t === 'auberge'
+// Terrain (2026-11-21) : ni pièces, ni meublé, ni séjour à la nuit
+export const estTerrain = (t: string | undefined) => t === 'terrain'
 
 export const TYPES_BIEN = [
   'appartement',
@@ -90,6 +92,7 @@ export const TYPES_BIEN = [
   'magasin',
   'auberge',
   'hotel',
+  'terrain',
 ] as const
 
 export const LIBELLES_TYPE: Record<(typeof TYPES_BIEN)[number], string> = {
@@ -103,6 +106,7 @@ export const LIBELLES_TYPE: Record<(typeof TYPES_BIEN)[number], string> = {
   magasin: 'Magasin',
   auberge: 'Auberge',
   hotel: 'Hôtel',
+  terrain: 'Terrain',
 }
 
 // Publication d'annonce — confort de saisie ; publier_annonce_keyli revalide

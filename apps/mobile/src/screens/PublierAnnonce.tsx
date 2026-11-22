@@ -24,6 +24,7 @@ import { formatXof } from '@/partage/lib/format'
 import { MESSAGE_PLAFOND_PILOTE, messageGratuitePilote, publicationPossible } from '@/partage/lib/publication'
 import {
   estHotelier,
+  estTerrain,
   LIBELLES_TYPE,
   schemaAnnonce,
   TYPES_BIEN,
@@ -153,8 +154,10 @@ export default function PublierAnnonce({ navigation }: Props) {
   const accord = watch('accepteDepassement')
   const statut = watch('statut')
   const hotelier = estHotelier(watch('type'))
+  // Terrain : ni pièces, ni meublé, ni séjour à la nuit
+  const terrain = estTerrain(watch('type'))
   // Hôtel ou auberge à louer : toujours à la nuit (la base l'impose aussi)
-  const sejour = statut === 'a_louer' && (hotelier || !!watch('sejourCourt'))
+  const sejour = statut === 'a_louer' && !terrain && (hotelier || !!watch('sejourCourt'))
   const latitude = watch('latitude')
   // La ville suit le quartier choisi (la base l'impose de toute façon)
   const quartierChoisi = (quartiers.data ?? []).find((q) => q.id === watch('quartierId'))
@@ -186,7 +189,8 @@ export default function PublierAnnonce({ navigation }: Props) {
         ...d,
         quartierId: d.quartierId || null,
         accepteDepassement: depassement && d.accepteDepassement,
-        sejourCourt: d.statut === 'a_louer' && (d.sejourCourt || estHotelier(d.type)),
+        sejourCourt: d.statut === 'a_louer' && !estTerrain(d.type) && (d.sejourCourt || estHotelier(d.type)),
+        ...(estTerrain(d.type) ? { pieces: undefined, sallesDeBain: undefined, meuble: false } : {}),
         photos: adresses,
       },
       {
@@ -261,7 +265,7 @@ export default function PublierAnnonce({ navigation }: Props) {
             )}
           />
 
-          {statut === 'a_louer' ? (
+          {statut === 'a_louer' && !terrain ? (
             <Carte style={{ gap: espaces.m }}>
               <CaseACocher coche={sejour} onChange={(v) => !hotelier && setValue('sejourCourt', v)}>
                 <Text style={styles.texteCase}>Séjour court — réservation à la nuit</Text>
@@ -327,18 +331,21 @@ export default function PublierAnnonce({ navigation }: Props) {
           />
 
           {champ('surface', 'Surface (m²)', { keyboardType: 'decimal-pad' })}
-          {champ('pieces', 'Pièces', nombre)}
-          {champ('sallesDeBain', 'Salles de bain', nombre)}
-
-          <Controller
-            control={control}
-            name="meuble"
-            render={({ field }) => (
-              <CaseACocher coche={field.value} onChange={field.onChange}>
-                <Text style={styles.texteCase}>Bien meublé</Text>
-              </CaseACocher>
-            )}
-          />
+          {terrain ? null : (
+            <>
+              {champ('pieces', 'Pièces', nombre)}
+              {champ('sallesDeBain', 'Salles de bain', nombre)}
+              <Controller
+                control={control}
+                name="meuble"
+                render={({ field }) => (
+                  <CaseACocher coche={field.value} onChange={field.onChange}>
+                    <Text style={styles.texteCase}>Bien meublé</Text>
+                  </CaseACocher>
+                )}
+              />
+            </>
+          )}
 
           {champ('description', 'Description', {
             multiline: true,
