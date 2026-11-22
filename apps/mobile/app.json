@@ -19,7 +19,7 @@
       "package": "com.keyli.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/icone-adaptative.png",
-        "backgroundColor": "#1a1f2e"
+        "backgroundColor": "#ffffff"
       },
       "googleServicesFile": "./google-services.json",
       "config": {

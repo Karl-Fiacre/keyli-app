@@ -42,7 +42,7 @@ import SupprimerCompte from '@mobile/screens/SupprimerCompte'
 import { useNotificationsPush } from '@mobile/composants/NotificationsPush'
 import { optionsBarre } from '@mobile/composants/BarreOnglets'
 import { couleurs } from '@mobile/theme/tokens'
-import { ContexteExplorer } from '@mobile/navigation/explorer'
+import { ContexteExplorer, useExplorer } from '@mobile/navigation/explorer'
 import type { ParamsCompte, ParamsOnglets, ParamsRacine } from '@mobile/navigation/types'
 
 const Pile = createNativeStackNavigator<ParamsRacine>()
@@ -101,13 +101,15 @@ function NavigationOnglets() {
 function NavigationCompte() {
   const { session } = useSession()
   const navigation = useNavigation()
+  const explorer = useExplorer()
   useEffect(() => {
     if (session && navigation.canGoBack()) navigation.goBack()
   }, [session, navigation])
 
   return (
     <PileCompte.Navigator screenOptions={{ headerTintColor: couleurs.primaire, headerBackTitle: 'Retour' }}>
-      <PileCompte.Screen name="Connexion" component={Connexion} options={{ title: 'Connexion' }} />
+      {/* Premier écran (photos en fond) : sans barre de titre */}
+      <PileCompte.Screen name="Connexion" component={Connexion} options={{ title: 'Connexion', headerShown: !explorer }} />
       <PileCompte.Screen name="Inscription" component={Inscription} options={{ title: 'Inscription' }} />
       <PileCompte.Screen
         name="MotDePasseOublie"
