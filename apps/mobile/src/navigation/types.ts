@@ -12,6 +12,8 @@ export type ParamsOnglets = {
 }
 
 export type ParamsRacine = {
+  // Premier écran d'un visiteur non connecté
+  Bienvenue: undefined
   Onglets: NavigatorScreenParams<ParamsOnglets>
   // source : provenance de la visite (statistiques de conversion).
   // arrivee, depart, voyageurs : dates d'une recherche de séjour (Sprint 19)
@@ -37,8 +39,7 @@ export type ParamsRacine = {
   Compte: NavigatorScreenParams<ParamsCompte>
 }
 
-// Parcours de compte (connexion, inscription, mot de passe oublié) : premier
-// écran d'un visiteur non connecté, ou fenêtre ouverte depuis l'application
+// Parcours de compte (connexion, inscription, mot de passe oublié)
 export type ParamsCompte = {
   Connexion: undefined
   Inscription: undefined

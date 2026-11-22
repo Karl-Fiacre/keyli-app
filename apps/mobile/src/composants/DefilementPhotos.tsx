@@ -1,6 +1,5 @@
-// Photos du premier écran (bienvenue jusqu'au 2026-11-22, puis page de
-// connexion) : trois logements réels en défilement (fondu enchaîné + zoom
-// lent). Choix du porteur (2026-11-09).
+// Photos de l'écran de bienvenue : trois logements réels en défilement
+// (fondu enchaîné + zoom lent). Choix du porteur (2026-11-09).
 // Depuis le 2026-11-11, les photos sont en IMAGE DE FOND plein écran, avec un
 // zoom à mi-chemin (ZOOM = 0,5) entre « photo entière » (trop petite) et
 // « écran rempli » (trop recadrée) : demande du porteur. Un dégradé sombre en
