@@ -13,7 +13,8 @@ import * as Crypto from 'expo-crypto'
 import * as WebBrowser from 'expo-web-browser'
 import { supabase } from '@/integrations/supabase/client'
 
-export type FournisseurSocial = 'google' | 'apple' | 'facebook'
+import type { FournisseurSocial } from '@/partage/lib/connexionSociale'
+export type { FournisseurSocial }
 
 // Adresse de retour : à autoriser dans Supabase (Authentication > URL Configuration)
 export const ADRESSE_RETOUR = 'keyli://auth'

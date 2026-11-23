@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client'
 import type { DonneesInscription } from '@/partage/lib/validation'
 import { VERSION_CGU } from '@/partage/lib/juridique'
 import { plateforme } from '@/plateforme'
+import type { FournisseurSocial } from '@/partage/lib/connexionSociale'
 
 // Actions de compte (Supabase Auth). Les pages utilisent ces hooks, jamais
 // le client Supabase directement (docs/CONVENTIONS.md).
@@ -50,8 +51,6 @@ export function useConnexion() {
 // Connexion Google, Apple ou Facebook sur le web : Supabase redirige vers le
 // fournisseur puis revient sur le site, où la session est lue dans l'adresse.
 // (Le mobile a son propre parcours : apps/mobile/src/services/native/connexionSociale.ts)
-export type FournisseurSocial = 'google' | 'apple' | 'facebook'
-
 export function useConnexionFournisseur() {
   return useMutation({
     mutationFn: async ({ fournisseur, retour }: { fournisseur: FournisseurSocial; retour: string }) => {

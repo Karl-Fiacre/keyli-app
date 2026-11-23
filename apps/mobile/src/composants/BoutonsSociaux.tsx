@@ -10,13 +10,16 @@ import {
   type FournisseurSocial,
 } from '@mobile/services/native/connexionSociale'
 import { messageErreur } from '@/partage/lib/erreurs'
+import { FOURNISSEURS_SOCIAUX } from '@/partage/lib/connexionSociale'
 import { couleurs, espaces } from '@mobile/theme/tokens'
 
-const FOURNISSEURS: { id: FournisseurSocial; nom: string; icone: keyof typeof Ionicons.glyphMap }[] = [
-  { id: 'google', nom: 'Google', icone: 'logo-google' },
-  { id: 'apple', nom: 'Apple', icone: 'logo-apple' },
-  { id: 'facebook', nom: 'Facebook', icone: 'logo-facebook' },
-]
+const ICONES: Record<FournisseurSocial, keyof typeof Ionicons.glyphMap> = {
+  google: 'logo-google',
+  apple: 'logo-apple',
+  facebook: 'logo-facebook',
+}
+// Liste commune au web (Facebook masqué tant que Meta n'a pas validé l'app)
+const FOURNISSEURS = FOURNISSEURS_SOCIAUX.map((f) => ({ ...f, icone: ICONES[f.id] }))
 
 export function BoutonsSociaux({ sombre = false }: { sombre?: boolean }) {
   const [enCours, setEnCours] = useState<FournisseurSocial | null>(null)

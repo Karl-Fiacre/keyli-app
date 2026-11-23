@@ -1241,6 +1241,15 @@ concernés :
     clients OAuth Google ; Services ID + clé Apple (et `com.keyli.app` dans
     les Client IDs Apple de Supabase) ; application Meta.
   - Non testé de bout en bout : dépend de cette configuration.
+  - 2026-11-23 : configuration faite. Google : client OAuth « Keyli
+    Supabase » dans le projet Google Cloud Nguessan-IT (partagé avec d'autres
+    apps, choix du porteur), app publiée « En production ». Apple : Services
+    ID + clé, secret généré par `scripts/generer-secret-apple.mjs` (expire
+    tous les 6 mois). Facebook : app Meta `1120244434237385` (email,
+    adresse de retour, liens légaux) NON publiable tant que Nguessan-IT
+    n'est pas immatriculée (vérification d'entreprise + Contrôle app) →
+    bouton masqué (`FACEBOOK_ACTIF` dans `src/partage/lib/connexionSociale.ts`).
+    Codes saisis dans Supabase par le porteur.
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 
