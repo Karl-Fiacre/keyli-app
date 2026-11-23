@@ -6,7 +6,8 @@ import { Input } from '@/components/ui/input'
 import { Alert } from '@/components/ui/alert'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChampFormulaire } from '@/components/ChampFormulaire'
-import { useConnexion } from '@/partage/hooks/useCompte'
+import { useConnexion, useConnexionFournisseur } from '@/partage/hooks/useCompte'
+import { FOURNISSEURS_SOCIAUX as FOURNISSEURS } from '@/partage/lib/connexionSociale'
 import { messageErreur } from '@/partage/lib/erreurs'
 import { schemaConnexion, type DonneesConnexion } from '@/partage/lib/validation'
 import { Revele } from '@/components/animation/Revele'
@@ -16,6 +17,7 @@ import { useTitrePage } from '@/hooks/useTitrePage'
 export default function Connexion() {
   useTitrePage('Se connecter')
   const connexion = useConnexion()
+  const social = useConnexionFournisseur()
   const naviguer = useNavigate()
   const etat = useLocation().state as { depuis?: string } | null
   const {
@@ -66,6 +68,26 @@ export default function Connexion() {
                   <Button type="submit" className="w-full" disabled={connexion.isPending}>
                     {connexion.isPending ? 'Connexion…' : 'Se connecter'}
                   </Button>
+                  <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                    <span className="h-px flex-1 bg-border" />
+                    ou continuer avec
+                    <span className="h-px flex-1 bg-border" />
+                  </div>
+                  <div className={FOURNISSEURS.length === 3 ? 'grid grid-cols-3 gap-3' : 'grid grid-cols-2 gap-3'}>
+                    {FOURNISSEURS.map((f) => (
+                      <Button
+                        key={f.id}
+                        type="button"
+                        variant="outline"
+                        disabled={social.isPending}
+                        onClick={() => social.mutate({ fournisseur: f.id, retour: etat?.depuis ?? '/tableau-de-bord' })}
+                      >
+                        {f.nom}
+                      </Button>
+                    ))}
+                  </div>
+                  {social.isError && <Alert variant="erreur">{messageErreur(social.error)}</Alert>}
+
                   <p className="text-center text-sm text-muted-foreground">
                     Pas encore de compte ?{' '}
                     <Link to="/inscription" className="font-semibold text-primary-glow hover:underline">

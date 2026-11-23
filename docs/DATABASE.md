@@ -342,6 +342,11 @@ laissait un utilisateur modifier son propre `role_keyli` (→ `admin`),
   `role_keyli`, `first_name`, `last_name`, `phone`. Seuls `user`, `owner`,
   `agency` sont acceptés ; `admin` ou rôle inconnu → l'inscription échoue ;
   rôle absent → `user`.
+  Depuis `20261124120000_connexion_sociale_keyli.sql` (connexion Google,
+  Apple, Facebook) : à défaut de `first_name`/`last_name`, le trigger lit
+  `given_name`/`family_name`, sinon découpe `full_name`/`name` (premier mot
+  = prénom). Un compte créé par un fournisseur a donc le rôle `user` et
+  accepte les CGU à l'écran dédié au premier lancement.
 - **Lecture** : son propre profil uniquement (aucune lecture publique pour
   l'instant — à décider avec annonces/notation, sans jamais exposer email,
   téléphone ni pièce d'identité).

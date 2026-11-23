@@ -12,6 +12,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { DefilementPhotos, NOMBRE_PHOTOS } from '@mobile/composants/DefilementPhotos'
 import { BadgeVerifie } from '@mobile/composants/BadgeVerifie'
 import { Bouton, Logo } from '@mobile/composants/base'
+import { BoutonsSociaux } from '@mobile/composants/BoutonsSociaux'
 import { couleurs, espaces, polices } from '@mobile/theme/tokens'
 import type { ParamsRacine } from '@mobile/navigation/types'
 
@@ -77,6 +78,7 @@ export default function Bienvenue({ onExplorer }: { onExplorer: () => void }) {
               variante="contour"
               onPress={() => navigation.navigate('Compte', { screen: 'Connexion' })}
             />
+            <BoutonsSociaux sombre />
             <Pressable onPress={onExplorer} accessibilityRole="button" hitSlop={8} style={styles.explorer}>
               <Text style={styles.texteExplorer}>Découvrir les annonces sans compte</Text>
             </Pressable>
