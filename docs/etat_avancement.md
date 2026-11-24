@@ -1250,6 +1250,13 @@ concernés :
     n'est pas immatriculée (vérification d'entreprise + Contrôle app) →
     bouton masqué (`FACEBOOK_ACTIF` dans `src/partage/lib/connexionSociale.ts`).
     Codes saisis dans Supabase par le porteur.
+  - Compilations : Android #10 réussie, Alpha 10 préparée sur Google Play
+    (bundle 10, remplace 9 ; pas encore envoyée à l'examen). iOS #13 en
+    échec (erreur 65) : le profil chargé à la main `keyli_app_store_push`
+    n'avait pas « Sign in with Apple » → profil régénéré chez Apple et
+    rechargé sous le même nom par le porteur ; iOS (version 15) envoyé sur
+    TestFlight le 2026-11-24. Avertissement Apple 90725 : à partir d'avril
+    2027, compiler avec le SDK iOS 27 (Codemagic est en `xcode: latest`).
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 
