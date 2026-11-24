@@ -1034,7 +1034,14 @@ Migration `20261122120000_conformite_stores_keyli.sql` (détail :
 MODULES/conformite.md). Exigences Google Play / App Store : suppression du
 compte depuis l'app, blocage et signalement d'un utilisateur.
 - `profiles_keyli.compte_supprime_le timestamptz` : date de suppression
-  (null tant que le compte existe).
+  (null tant que le compte existe). Depuis le 2026-11-24, le compte de
+  connexion (`auth.users`) est supprimé « en douceur » par la fonction
+  `supprimer-compte` (`admin.deleteUser(id, true)` : ligne gardée pour les
+  paiements, email masqué, identités Google/Apple effacées, sessions
+  fermées) au lieu d'être banni — un bannissement empêchait le même
+  identifiant Apple/Google de recréer un compte. Comptes supprimés avant :
+  `scripts/finaliser-suppressions.mjs` (lancé par le porteur). Côté app,
+  un profil avec `compte_supprime_le` ferme la session locale (`useProfil`).
 - `blocages_keyli(bloqueur_id, bloque_id, created_at)` : clé primaire sur
   la paire, `check` pas soi-même, index `idx_blocages_bloque`. RLS : chacun
   lit, pose et retire ses propres blocages ; la personne bloquée ne voit

@@ -1276,6 +1276,13 @@ concernés :
     locale au chargement (débloque les téléphones déjà coincés après mise
     à jour). Erreurs de suppression affichées telles quelles
     (`erreurKeyli`) ; déconnexion serveur limitée à 5 s.
+    Troisième retour : suppression toujours bloquée et identifiant Apple
+    refusé ensuite (compte banni = identité Apple liée pour toujours).
+    Fonction redéployée : suppression douce Supabase
+    (`admin.deleteUser(id, true)`), bannissement en simple repli. Comptes
+    déjà bannis : le porteur lance `scripts/finaliser-suppressions.mjs`
+    avec sa clé service_role dans l'environnement. Nouvelles compilations
+    iOS/Android nécessaires pour le code de l'app.
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 
