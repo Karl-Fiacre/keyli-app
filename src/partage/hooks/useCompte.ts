@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client'
 import type { DonneesInscription } from '@/partage/lib/validation'
 import { VERSION_CGU } from '@/partage/lib/juridique'
 import { plateforme } from '@/plateforme'
+import { erreurKeyli } from '@/partage/lib/erreurs'
 import type { FournisseurSocial } from '@/partage/lib/connexionSociale'
 
 // Actions de compte (Supabase Auth). Les pages utilisent ces hooks, jamais
@@ -73,7 +74,11 @@ export function useConnexionFournisseur() {
 export function useDeconnexion() {
   return useMutation({
     mutationFn: async () => {
-      const { error } = await supabase.auth.signOut()
+      // Serveur limité à 5 s ; ensuite la session locale est fermée dans tous les cas
+      const delai = new Promise<{ error: Error }>((ok) =>
+        setTimeout(() => ok({ error: new Error('délai dépassé') }), 5000),
+      )
+      const { error } = await Promise.race([supabase.auth.signOut().catch((e: Error) => ({ error: e })), delai])
       if (error) await supabase.auth.signOut({ scope: 'local' })
     },
   })
@@ -101,9 +106,11 @@ export function useSupprimerCompte() {
         if (contexte?.status === 401 || dejaVide) {
           await supabase.auth.signOut({ scope: 'local' })
         }
-        throw new Error(corps?.erreur ?? 'La suppression du compte a échoué. Réessayez ou contactez Keyli.')
+        // erreurKeyli : le message du serveur s'affiche tel quel (sinon
+        // « erreur inattendue » masquerait la vraie cause)
+        throw erreurKeyli(corps?.erreur ?? 'La suppression du compte a échoué. Réessayez ou contactez Keyli.')
       }
-      if (!data?.supprime) throw new Error(data?.erreur ?? 'La suppression du compte a échoué.')
+      if (!data?.supprime) throw erreurKeyli(data?.erreur ?? 'La suppression du compte a échoué.')
       // Le compte n'existe plus : fermeture locale seulement
       await supabase.auth.signOut({ scope: 'local' })
     },

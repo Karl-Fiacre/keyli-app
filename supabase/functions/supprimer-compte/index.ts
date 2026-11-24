@@ -61,13 +61,10 @@ Deno.serve(async (req) => {
     console.error('Effacement des documents incomplet', id, e)
   }
 
-  // a) Connexion fermée pour toujours : bannissement et mot de passe aléatoire.
-  //    Étape décisive, séparée de l'anonymisation de l'email pour qu'un refus
-  //    sur l'email ne laisse pas le compte utilisable.
-  const motDePasse = crypto.randomUUID() + crypto.randomUUID()
+  // a) Connexion fermée pour toujours : bannissement SEUL. Étape décisive,
+  //    isolée pour qu'aucun autre refus (règles de mot de passe du projet,
+  //    email) ne laisse le compte utilisable.
   const { error: erreurBan } = await serveur.auth.admin.updateUserById(id, {
-    password: motDePasse,
-    user_metadata: {},
     ban_duration: '876000h', // ~100 ans
   })
   if (erreurBan) {
@@ -75,8 +72,16 @@ Deno.serve(async (req) => {
     return json({ erreur: 'Compte vidé, mais la fermeture de la connexion a échoué. Contactez Keyli.' }, 500)
   }
 
-  // b) Email remplacé (donnée personnelle) : un échec est journalisé pour
-  //    reprise manuelle, le compte étant déjà banni
+  // b) Anonymisation (données personnelles) : mot de passe aléatoire
+  //    contenant tous les types de caractères (règles de complexité du
+  //    projet), métadonnées vidées, email remplacé. Un échec est journalisé
+  //    pour reprise manuelle, le compte étant déjà banni.
+  const motDePasse = `Kx9!${crypto.randomUUID()}${crypto.randomUUID()}`
+  const { error: erreurAnonyme } = await serveur.auth.admin.updateUserById(id, {
+    password: motDePasse,
+    user_metadata: {},
+  })
+  if (erreurAnonyme) console.error('Anonymisation du compte de connexion', id, erreurAnonyme.message)
   const { error: erreurEmail } = await serveur.auth.admin.updateUserById(id, {
     email: `supprime-${id}@keyli.invalid`,
     email_confirm: true,

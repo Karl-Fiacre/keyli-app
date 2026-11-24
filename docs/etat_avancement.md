@@ -1267,6 +1267,15 @@ concernés :
     les sessions (`admin.signOut(jeton, 'global')`). Nouveau workflow
     Codemagic `ios-simulateur` (.app non signé) : compile, mais App Preview
     exige un compte « équipe » Codemagic → non utilisé.
+    Second essai du porteur (TestFlight 15, ancien code mobile) : profil
+    vidé mais session restée, erreur masquée en « erreur inattendue ».
+    Cause probable : le bannissement partait dans le même appel que le mot
+    de passe aléatoire (refusable par les règles de mot de passe). Fonction
+    redéployée : bannissement seul d'abord. Filet de sécurité dans
+    `useProfil` : un profil avec `compte_supprime_le` ferme la session
+    locale au chargement (débloque les téléphones déjà coincés après mise
+    à jour). Erreurs de suppression affichées telles quelles
+    (`erreurKeyli`) ; déconnexion serveur limitée à 5 s.
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 

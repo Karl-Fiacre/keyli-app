@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
 import { useSession } from '@/partage/hooks/useSession'
 import type { Database } from '@/integrations/supabase/types'
+import { erreurKeyli } from '@/partage/lib/erreurs'
 
 export type Profil = Database['public']['Tables']['profiles_keyli']['Row']
 
@@ -22,6 +23,13 @@ export function useProfil() {
         .eq('user_id', userId!)
         .single()
       if (error) throw error
+      // Compte supprimé mais session encore présente sur l'appareil (fermeture
+      // interrompue, autre appareil) : la session est fermée ici, sinon la
+      // personne resterait dans un compte vide dont elle ne peut pas sortir.
+      if (data.compte_supprime_le) {
+        await supabase.auth.signOut({ scope: 'local' })
+        throw erreurKeyli('Ce compte a été supprimé.')
+      }
       return data
     },
   })
