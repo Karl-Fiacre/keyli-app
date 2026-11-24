@@ -87,6 +87,45 @@ workflows:
         # Passer à true seulement pour des testeurs externes (relecture Apple).
         submit_to_testflight: false
 
+  ios-simulateur:
+    # Compilation pour le simulateur iPhone de Codemagic (App Preview,
+    # bouton « Quick launch » de la page du build) : .app non signé, même
+    # code et même base de production que TestFlight. Sans signature, la
+    # fenêtre native « Se connecter avec Apple » n'y fonctionne pas.
+    name: Keyli iOS → simulateur (App Preview)
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    working_directory: apps/mobile
+    environment:
+      groups:
+        - keyli_mobile
+      vars:
+        EXPO_PUBLIC_SUPABASE_URL: https://zcqirdowjussoaevqlbd.supabase.co
+        EXPO_PUBLIC_KEYLI_SITE_URL: https://keyli-2gc.pages.dev
+      node: 22.14.0
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - *configuration_publique
+      - name: Installer les dépendances
+        script: npm ci
+      - name: Générer le projet iOS natif
+        script: npx expo prebuild --platform ios --no-install
+      - name: Installer les pods
+        script: cd ios && pod install
+      - name: Compiler pour le simulateur
+        script: |
+          xcodebuild \
+            -workspace ios/Keyli.xcworkspace \
+            -scheme Keyli \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build/ios/simulateur \
+            CODE_SIGNING_ALLOWED=NO
+    artifacts:
+      - build/ios/simulateur/Build/Products/Release-iphonesimulator/*.app
+
   android-play-interne:
     name: Keyli Android → Google Play (test interne)
     max_build_duration: 60
