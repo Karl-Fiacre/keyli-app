@@ -105,8 +105,10 @@ export default function Profil({ navigation }: Props) {
           activerVerrou(false)
           setVerrou(false)
           // Ce téléphone ne reçoit plus les notifications du compte (avant
-          // la fin de la session, que la règle d'accès exige)
-          void desactiverPush()
+          // la fin de la session, que
+          // la règle d'accès exige). Limité à 4 s : un serveur lent ou un
+          // compte refusé ne doit jamais empêcher la déconnexion.
+          void Promise.race([desactiverPush(), new Promise<void>((ok) => setTimeout(ok, 4000))])
             .catch((e: unknown) => console.warn('Retrait du jeton push impossible :', e))
             .finally(() => deconnexion.mutate())
         }}

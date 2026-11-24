@@ -61,18 +61,33 @@ Deno.serve(async (req) => {
     console.error('Effacement des documents incomplet', id, e)
   }
 
+  // a) Connexion fermée pour toujours : bannissement et mot de passe aléatoire.
+  //    Étape décisive, séparée de l'anonymisation de l'email pour qu'un refus
+  //    sur l'email ne laisse pas le compte utilisable.
   const motDePasse = crypto.randomUUID() + crypto.randomUUID()
-  const { error: erreurAuth } = await serveur.auth.admin.updateUserById(id, {
-    email: `supprime-${id}@keyli.invalid`,
-    email_confirm: true,
+  const { error: erreurBan } = await serveur.auth.admin.updateUserById(id, {
     password: motDePasse,
     user_metadata: {},
     ban_duration: '876000h', // ~100 ans
   })
-  if (erreurAuth) {
-    console.error('Anonymisation du compte de connexion', id, erreurAuth.message)
+  if (erreurBan) {
+    console.error('Bannissement du compte de connexion', id, erreurBan.message)
     return json({ erreur: 'Compte vidé, mais la fermeture de la connexion a échoué. Contactez Keyli.' }, 500)
   }
+
+  // b) Email remplacé (donnée personnelle) : un échec est journalisé pour
+  //    reprise manuelle, le compte étant déjà banni
+  const { error: erreurEmail } = await serveur.auth.admin.updateUserById(id, {
+    email: `supprime-${id}@keyli.invalid`,
+    email_confirm: true,
+  })
+  if (erreurEmail) console.error('Anonymisation de l\'email', id, erreurEmail.message)
+
+  // c) Toutes les sessions du compte révoquées (tous les appareils) : sans
+  //    cela, un autre téléphone resterait connecté jusqu'à l'expiration du jeton
+  const jeton = autorisation.replace(/^Bearer\s+/i, '')
+  const { error: erreurSessions } = await serveur.auth.admin.signOut(jeton, 'global')
+  if (erreurSessions) console.error('Révocation des sessions', id, erreurSessions.message)
 
   return json({ supprime: true })
 })

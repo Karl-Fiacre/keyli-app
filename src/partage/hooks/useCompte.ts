@@ -66,11 +66,15 @@ export function useConnexionFournisseur() {
   })
 }
 
+// La déconnexion aboutit toujours sur l'appareil : si le serveur refuse ou
+// ne répond pas (compte supprimé ou banni, réseau coupé, jeton expiré), la
+// session locale est fermée quand même — sinon la personne resterait
+// bloquée dans un compte dont elle ne peut plus sortir.
 export function useDeconnexion() {
   return useMutation({
     mutationFn: async () => {
       const { error } = await supabase.auth.signOut()
-      if (error) throw error
+      if (error) await supabase.auth.signOut({ scope: 'local' })
     },
   })
 }
@@ -90,6 +94,13 @@ export function useSupprimerCompte() {
         // Message métier renvoyé par la fonction (400, 403…)
         const contexte = (error as { context?: Response }).context
         const corps = contexte ? await contexte.json().catch(() => null) : null
+        // 401 : session refusée (compte déjà supprimé ou banni) ; « Compte
+        // vidé… » : données effacées mais connexion non fermée côté serveur. Dans les deux cas
+        // le compte n'est plus utilisable : on ferme la session ici.
+        const dejaVide = typeof corps?.erreur === 'string' && corps.erreur.startsWith('Compte vidé')
+        if (contexte?.status === 401 || dejaVide) {
+          await supabase.auth.signOut({ scope: 'local' })
+        }
         throw new Error(corps?.erreur ?? 'La suppression du compte a échoué. Réessayez ou contactez Keyli.')
       }
       if (!data?.supprime) throw new Error(data?.erreur ?? 'La suppression du compte a échoué.')

@@ -1257,6 +1257,16 @@ concernés :
     rechargé sous le même nom par le porteur ; iOS (version 15) envoyé sur
     TestFlight le 2026-11-24. Avertissement Apple 90725 : à partir d'avril
     2027, compiler avec le SDK iOS 27 (Codemagic est en `xcode: latest`).
+  - Bug signalé (iOS) : compte supprimé resté connecté, déconnexion
+    impossible. Corrections : `useDeconnexion` ferme toujours la session
+    locale même si le serveur refuse ; `useSupprimerCompte` la ferme aussi
+    sur 401 ou « Compte vidé… » ; Profil mobile : retrait du jeton push
+    limité à 4 s avant la déconnexion ; fonction `supprimer-compte`
+    (redéployée le 2026-11-24) : bannissement d'abord, email anonymisé
+    ensuite (échec journalisé, non bloquant), puis révocation de toutes
+    les sessions (`admin.signOut(jeton, 'global')`). Nouveau workflow
+    Codemagic `ios-simulateur` (.app non signé) : compile, mais App Preview
+    exige un compte « équipe » Codemagic → non utilisé.
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 
