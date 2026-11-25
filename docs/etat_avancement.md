@@ -1283,6 +1283,13 @@ concernés :
     déjà bannis : le porteur lance `scripts/finaliser-suppressions.mjs`
     avec sa clé service_role dans l'environnement. Nouvelles compilations
     iOS/Android nécessaires pour le code de l'app.
+- 2026-11-25 : fiche App Store prête à coller
+  (`apps/mobile/fiche-store/textes-app-store.md` : sous-titre, mots-clés,
+  notes de vérification, classification, confidentialité) et 7 captures
+  1290 x 2796 (`fiche-store/captures-iphone-6.7/`, tirées des captures
+  Android). Compilations Android et iOS à lancer par le porteur (commit
+  `65b2dc1` ou plus récent). Reste possible côté Apple : révocation du
+  jeton « Se connecter avec Apple » à la suppression du compte (5.1.1(v)).
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 
