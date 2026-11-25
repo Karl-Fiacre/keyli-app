@@ -68,6 +68,21 @@ async function connexionAppleNative() {
   }
 }
 
+// Suppression d'un compte ouvert avec Apple (règle App Store 5.1.1(v)) :
+// une dernière confirmation Apple fournit un code à usage unique, avec
+// lequel le serveur révoque l'accès de Keyli chez Apple. Hors iPhone :
+// undefined (le compte est supprimé sans cette étape).
+export async function codeApplePourSuppression(): Promise<string | undefined> {
+  if (!(await appleDisponible())) return undefined
+  try {
+    const reponse = await AppleAuthentication.signInAsync({ requestedScopes: [] })
+    return reponse.authorizationCode ?? undefined
+  } catch (e) {
+    if ((e as { code?: string }).code === 'ERR_REQUEST_CANCELED') throw new ConnexionAnnulee()
+    throw e
+  }
+}
+
 // Lit les paramètres de l'adresse de retour (après « ? » ou « # »)
 function parametres(adresse: string) {
   const sortie = new Map<string, string>()

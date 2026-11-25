@@ -40,7 +40,7 @@ export function SupprimerCompte() {
           className="mt-4 space-y-3 rounded-lg border border-destructive/40 p-4"
           onSubmit={(e) => {
             e.preventDefault()
-            if (confirme) suppression.mutate(saisie, { onSuccess: () => navigate('/', { replace: true }) })
+            if (confirme) suppression.mutate({ confirmation: saisie }, { onSuccess: () => navigate('/', { replace: true }) })
           }}
         >
           <label className="block space-y-1.5 text-sm">

@@ -1288,8 +1288,16 @@ concernés :
   notes de vérification, classification, confidentialité) et 7 captures
   1290 x 2796 (`fiche-store/captures-iphone-6.7/`, tirées des captures
   Android). Compilations Android et iOS à lancer par le porteur (commit
-  `65b2dc1` ou plus récent). Reste possible côté Apple : révocation du
-  jeton « Se connecter avec Apple » à la suppression du compte (5.1.1(v)).
+  `65b2dc1` ou plus récent).
+- Révocation « Se connecter avec Apple » à la suppression (App Store
+  5.1.1(v), accord du porteur) : sur iPhone, un compte ouvert avec Apple
+  demande une confirmation Apple (`codeApplePourSuppression`,
+  `connexionSociale.ts`) ; le code part à `supprimer-compte`, qui l'échange
+  puis révoque le jeton chez Apple (`supabase/functions/supprimer-compte/apple.ts`,
+  secret client ES256 généré à chaque appel). Échec non bloquant
+  (journalisé). Fonction déployée. **À faire par le porteur** : secrets
+  `APPLE_TEAM_ID`, `APPLE_KEY_ID`, `APPLE_PRIVATE_KEY` (contenu du .p8)
+  dans Supabase → Edge Functions → Secrets ; sans eux, l'étape est sautée.
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 

@@ -8,11 +8,14 @@
 //      annonces retirées, données personnelles effacées, profil anonymisé
 //      et suspendu, entrée d'audit ;
 //   3. fichiers de vérification effacés du stockage (documents_keyli/<id>/) ;
-//   4. compte de connexion supprimé par Supabase (suppression douce : email
+//   4. compte ouvert avec Apple (code fourni par l'app iPhone) : accès révoqué
+//      chez Apple (apple.ts), sans bloquer la suite ;
+//   5. compte de connexion supprimé par Supabase (suppression douce : email
 //      masqué, liens Google/Apple effacés, sessions fermées) ; repli sur un
 //      bannissement si l'API refuse.
 // Les paiements sont conservés (obligation comptable).
 import { clientServeur, clientUtilisateur, enTetesCors, json, statutErreurSql } from '../_shared/commun.ts'
+import { revoquerApple } from './apple.ts'
 
 const BUCKET = 'documents_keyli'
 
@@ -24,8 +27,11 @@ Deno.serve(async (req) => {
   if (!autorisation) return json({ erreur: 'Connexion requise' }, 401)
 
   let confirmation = ''
+  let codeApple = ''
   try {
-    confirmation = String((await req.json())?.confirmation ?? '')
+    const corps = await req.json()
+    confirmation = String(corps?.confirmation ?? '')
+    codeApple = typeof corps?.codeApple === 'string' ? corps.codeApple : ''
   } catch {
     // corps vide : refusé ci-dessous
   }
@@ -61,6 +67,10 @@ Deno.serve(async (req) => {
     // Le compte est déjà anonymisé : on journalise et on continue
     console.error('Effacement des documents incomplet', id, e)
   }
+
+  // Compte ouvert avec Apple : accès de Keyli révoqué chez Apple (5.1.1(v)),
+  // sans jamais bloquer la suppression
+  if (codeApple) await revoquerApple(codeApple, id)
 
   // Compte de connexion supprimé par Supabase (suppression « douce ») : la
   // ligne auth.users reste (paiements conservés) mais email masqué, liens

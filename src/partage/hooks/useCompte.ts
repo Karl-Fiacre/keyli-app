@@ -90,10 +90,12 @@ export const MOT_CONFIRMATION_SUPPRESSION = 'SUPPRIMER'
 
 export function useSupprimerCompte() {
   return useMutation({
-    mutationFn: async (confirmation: string) => {
+    // codeApple : code à usage unique de « Se connecter avec Apple » (iPhone,
+    // compte ouvert avec Apple) pour révoquer l'accès chez Apple
+    mutationFn: async ({ confirmation, codeApple }: { confirmation: string; codeApple?: string }) => {
       const { data, error } = await supabase.functions.invoke<{ supprime?: boolean; erreur?: string }>(
         'supprimer-compte',
-        { body: { confirmation } },
+        { body: { confirmation, codeApple } },
       )
       if (error) {
         // Message métier renvoyé par la fonction (400, 403…)
