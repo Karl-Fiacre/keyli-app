@@ -62,6 +62,12 @@ export async function desactiverPush(): Promise<void> {
   await retirerAppareilPush(jeton)
 }
 
+// Compte supprimé : le serveur a déjà effacé ses appareils, le téléphone
+// oublie seulement le jeton gardé en mémoire
+export function oublierJetonPush(): void {
+  plateforme.stockage.ecrire(CLE_JETON, '')
+}
+
 // Notification touchée (application ouverte, en arrière-plan ou fermée) :
 // données jointes par le serveur
 export function ecouterOuvertures(rappel: (donnees: Record<string, unknown>) => void): () => void {

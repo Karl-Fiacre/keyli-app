@@ -10,6 +10,7 @@ import { messageErreur } from '@/partage/lib/erreurs'
 import { plateforme } from '@/plateforme'
 import { Bouton, Carte, Champ, Ecran, Message, Texte, Titre } from '@mobile/composants/base'
 import { activerVerrou } from '@mobile/services/native/biometrie'
+import { oublierJetonPush } from '@mobile/services/native/notifications'
 import { espaces } from '@mobile/theme/tokens'
 
 export default function SupprimerCompte() {
@@ -48,7 +49,12 @@ export default function SupprimerCompte() {
         chargement={suppression.isPending}
         onPress={() =>
           // La session se ferme à la fin : la navigation revient d'elle-même à l'accueil
-          suppression.mutate(saisie, { onSuccess: () => activerVerrou(false) })
+          suppression.mutate(saisie, {
+            onSuccess: () => {
+              activerVerrou(false)
+              oublierJetonPush()
+            },
+          })
         }
       />
     </Ecran>
