@@ -49,7 +49,10 @@ async function appelApple(chemin: string, parametres: Record<string, string>) {
 
 // Ne lève jamais : un échec est journalisé, la suppression continue
 export async function revoquerApple(code: string, id: string): Promise<void> {
-  const equipe = Deno.env.get('APPLE_TEAM_ID')?.trim()
+  // Team ID : le même compte développeur que les notifications push (APNS_TEAM_ID)
+  const equipe = (Deno.env.get('APPLE_TEAM_ID') ?? Deno.env.get('APNS_TEAM_ID'))?.trim()
+  // Clé et fichier .p8 : ceux de « Sign in with Apple » (une clé APNs ne
+  // convient que si « Sign in with Apple » a aussi été coché dessus)
   const idCle = Deno.env.get('APPLE_KEY_ID')?.trim()
   const pem = Deno.env.get('APPLE_PRIVATE_KEY')?.trim()
   if (!equipe || !idCle || !pem) {
