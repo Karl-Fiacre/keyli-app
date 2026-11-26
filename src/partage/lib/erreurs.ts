@@ -18,6 +18,10 @@ const MESSAGES_AUTH: Array<[RegExp, string]> = [
   [/nom de l'agence est obligatoire/i, "Le nom de l'agence est obligatoire pour inscrire une agence."],
   [/database error saving new user/i, "L'inscription n'a pas pu aboutir. Vérifiez les informations saisies."],
   [/failed to fetch|network/i, 'Connexion impossible. Vérifiez votre accès à Internet.'],
+  // Double authentification des admins (docs/MODULES/admin.md)
+  [/invalid totp code|mfa verification failed/i, 'Code incorrect ou expiré. Saisissez le code affiché maintenant.'],
+  [/challenge.*expired|expired.*challenge/i, 'Le délai est dépassé. Saisissez le code affiché maintenant.'],
+  [/mfa.*(disabled|not enabled)|enroll is disabled/i, "La double authentification n'est pas activée sur le projet Supabase."],
 ]
 
 // Codes SQLSTATE levés par nos règles en base (voir docs/DATABASE.md)
