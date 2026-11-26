@@ -60,7 +60,7 @@ select results_eq(
 -- ------------------------------------------------------------
 set local role authenticated;
 select set_config('request.jwt.claims',
-  '{"sub": "cccccccc-cccc-cccc-cccc-cccccccccccc", "role": "authenticated"}', true);
+  '{"sub": "cccccccc-cccc-cccc-cccc-cccccccccccc", "role": "authenticated", "aal": "aal2"}', true);
 
 select lives_ok(
   $$ insert into storage.objects (bucket_id, name)
@@ -153,7 +153,7 @@ select results_eq(
 -- Agence A connectée
 -- ------------------------------------------------------------
 select set_config('request.jwt.claims',
-  '{"sub": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "role": "authenticated"}', true);
+  '{"sub": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "role": "authenticated", "aal": "aal2"}', true);
 
 select lives_ok(
   $$ insert into public.documents_keyli (user_id, doc_type, file_url)
@@ -183,7 +183,7 @@ select results_eq(
 -- Chercheur U connecté
 -- ------------------------------------------------------------
 select set_config('request.jwt.claims',
-  '{"sub": "dddddddd-dddd-dddd-dddd-dddddddddddd", "role": "authenticated"}', true);
+  '{"sub": "dddddddd-dddd-dddd-dddd-dddddddddddd", "role": "authenticated", "aal": "aal2"}', true);
 
 select throws_ok(
   $$ insert into storage.objects (bucket_id, name)

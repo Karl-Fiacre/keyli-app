@@ -76,7 +76,7 @@ select throws_ok(
 -- ------------------------------------------------------------
 set local role authenticated;
 select set_config('request.jwt.claims',
-  '{"sub": "77777777-0000-0000-0000-000000000003", "role": "authenticated"}', true);
+  '{"sub": "77777777-0000-0000-0000-000000000003", "role": "authenticated", "aal": "aal2"}', true);
 select results_eq(
   $$ select count(*)::int from public.profiles_keyli where user_id = '77777777-0000-0000-0000-000000000001' $$,
   $$ values (0) $$,

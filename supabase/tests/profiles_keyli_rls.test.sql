@@ -77,7 +77,7 @@ select is(
 -- ------------------------------------------------------------
 set local role authenticated;
 select set_config('request.jwt.claims',
-  '{"sub": "11111111-1111-1111-1111-111111111111", "role": "authenticated"}', true);
+  '{"sub": "11111111-1111-1111-1111-111111111111", "role": "authenticated", "aal": "aal2"}', true);
 
 select results_eq(
   $$ select user_id from public.profiles_keyli $$,

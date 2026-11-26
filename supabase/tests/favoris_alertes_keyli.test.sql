@@ -32,7 +32,7 @@ select set_config('test.villa',  (select id::text from public.properties_keyli w
 create function pg_temp.connecter(uid text) returns void
 language sql as $$
   select set_config('request.jwt.claims',
-    json_build_object('sub', uid, 'role', 'authenticated')::text, true);
+    json_build_object('sub', uid, 'role', 'authenticated', 'aal', 'aal2')::text, true);
 $$;
 
 select is(

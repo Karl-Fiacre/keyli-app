@@ -11,7 +11,7 @@ select plan(15);
 
 create function pg_temp.connecter(uid text) returns void
 language sql as $$
-  select set_config('request.jwt.claims', json_build_object('sub', uid, 'role', 'authenticated')::text, true);
+  select set_config('request.jwt.claims', json_build_object('sub', uid, 'role', 'authenticated', 'aal', 'aal2')::text, true);
 $$;
 
 -- A : sans pièces, inscrit il y a 4 jours ; B : sans pièces, il y a 10 jours ;

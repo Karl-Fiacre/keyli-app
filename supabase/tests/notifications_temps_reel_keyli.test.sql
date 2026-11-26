@@ -23,7 +23,7 @@ select ok(exists (select 1 from pg_publication_tables
   'Les notifications sont diffusées par Supabase Realtime');
 
 set local role authenticated;
-select set_config('request.jwt.claims', '{"sub": "bcbc0000-0000-0000-0000-00000000000a", "role": "authenticated"}', true);
+select set_config('request.jwt.claims', '{"sub": "bcbc0000-0000-0000-0000-00000000000a", "role": "authenticated", "aal": "aal2"}', true);
 
 select is((select count(*)::int from public.notifications_keyli where not lue), 2,
   'Pastille : A compte ses seules notifications non lues');
