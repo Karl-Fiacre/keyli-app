@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
+import { Apparition } from '@/components/animation/Apparition'
 import {
   chargerOutils,
   enregistrerConsentement,
@@ -31,15 +32,15 @@ export function BandeauConsentement() {
     suivrePage()
   }, [pathname])
 
-  if (!visible) return null
-
   const choisir = (choix: 'accepte' | 'refuse') => {
     enregistrerConsentement(choix)
     setVisible(false)
   }
 
   return (
-    <div
+    <Apparition
+      visible={visible}
+      variante="bandeau"
       role="dialog"
       aria-labelledby="titre-consentement"
       aria-describedby="texte-consentement"
@@ -61,6 +62,6 @@ export function BandeauConsentement() {
         </Button>
         <Button onClick={() => choisir('accepte')}>Accepter</Button>
       </div>
-    </div>
+    </Apparition>
   )
 }
