@@ -1313,9 +1313,13 @@ concernés :
     0.1.0, textes, URL, notes de vérification, sous-titre, catégories,
     confidentialité publiée (11 types), classification 13+, droits sur le
     contenu (contenus tiers), prix gratuit, 175 pays.
-  - Reste au porteur : 7 captures (`fiche-store/captures-iphone-6.7/`),
-    compte de test et coordonnées, statut de commerçant UE. Puis
-    « Ajouter pour vérification » et « Soumettre », avec son accord.
+  - Captures (1206 x 2622, `captures-iphone-6.3/`), compte de test et
+    coordonnées saisis par le porteur ; Chine continentale retirée
+    (174 pays) ; statut DSA déclaré « non-commerçant » par le porteur
+    (→ app non distribuée dans l'UE tant que ce statut n'est pas changé).
+  - **iOS 0.1.0 (build 17) envoyée à la vérification d'Apple le
+    2026-11-26**, avec l'accord du porteur. Publication automatique après
+    approbation. Délai annoncé : jusqu'à 48 h.
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 
