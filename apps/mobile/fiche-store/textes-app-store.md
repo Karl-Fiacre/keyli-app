@@ -73,7 +73,11 @@ Keyli est une plateforme d'annonces immobilières et de séjours en Côte d'Ivoi
 - Contenu généré par les utilisateurs / messagerie entre utilisateurs :
   **Oui** (annonces, messages, avis) — avec signalement et blocage.
 - Accès web illimité : **Non**
-- Résultat attendu : 12+ (cohérent avec la classification IARC de Google).
+- Résultat calculé par Apple : 4+ ; relevé à **13+** (remplacement, 2026-11-26)
+  à cause de la messagerie entre utilisateurs — affiché 12+ ou 13+ selon
+  les pays, cohérent avec la classification IARC de Google (12+).
+- Saisi et enregistré dans App Store Connect le 2026-11-26, de même que la
+  confidentialité (publiée).
 
 ## Confidentialité de l'app (App Privacy — « Nutrition label »)
 
