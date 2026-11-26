@@ -24,7 +24,7 @@ select is((select email from public.profiles_keyli where user_id = 'd1100000-000
   'nouvelle@test.local', 'Une autre modification du compte ne touche pas l''adresse');
 
 set local role authenticated;
-select set_config('request.jwt.claims', '{"sub": "d1100000-0000-0000-0000-000000000001", "role": "authenticated"}', true);
+select set_config('request.jwt.claims', '{"sub": "d1100000-0000-0000-0000-000000000001", "role": "authenticated", "aal": "aal2"}', true);
 select throws_ok(
   $$ update public.profiles_keyli set email = 'pirate@test.local' where user_id = 'd1100000-0000-0000-0000-000000000001' $$,
   '42501', null, 'L''utilisateur ne modifie pas lui-même l''adresse de son profil');

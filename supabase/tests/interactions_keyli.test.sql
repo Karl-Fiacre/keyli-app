@@ -114,7 +114,7 @@ select throws_ok($$ select * from public.property_interactions_keyli $$, '42501'
 -- ------------------------------------------------------------
 set local role authenticated;
 select set_config('request.jwt.claims',
-  '{"sub": "66666666-0000-0000-0000-000000000003", "role": "authenticated"}', true);
+  '{"sub": "66666666-0000-0000-0000-000000000003", "role": "authenticated", "aal": "aal2"}', true);
 insert into public.property_interactions_keyli (property_id, session_id, interaction_type, quartier_id)
   values (current_setting('test.villa')::uuid, 'session-chercheur', 'click_gallery', current_setting('test.angre')::uuid);
 
@@ -122,7 +122,7 @@ insert into public.property_interactions_keyli (property_id, session_id, interac
 -- Propriétaire P / propriétaire Q
 -- ------------------------------------------------------------
 select set_config('request.jwt.claims',
-  '{"sub": "66666666-0000-0000-0000-000000000001", "role": "authenticated"}', true);
+  '{"sub": "66666666-0000-0000-0000-000000000001", "role": "authenticated", "aal": "aal2"}', true);
 select results_eq(
   $$ select user_id::text, quartier_id::text from public.property_interactions_keyli where interaction_type = 'click_gallery' $$,
   $$ values ('66666666-0000-0000-0000-000000000003', current_setting('test.riviera')) $$,
@@ -135,7 +135,7 @@ select results_eq(
 );
 
 select set_config('request.jwt.claims',
-  '{"sub": "66666666-0000-0000-0000-000000000002", "role": "authenticated"}', true);
+  '{"sub": "66666666-0000-0000-0000-000000000002", "role": "authenticated", "aal": "aal2"}', true);
 select results_eq($$ select count(*)::int from public.property_interactions_keyli $$, $$ values (0) $$,
   'Un autre propriétaire ne lit pas ces interactions');
 

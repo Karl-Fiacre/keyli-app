@@ -21,7 +21,7 @@ update public.profiles_keyli set role_keyli = 'admin' where user_id = 'adad0000-
 -- Indicateurs de départ : la base (distant compris) peut déjà contenir des
 -- données ; on vérifie les écarts dus à ce test, pas des totaux absolus
 set local role authenticated;
-select set_config('request.jwt.claims', '{"sub": "adad0000-0000-0000-0000-00000000000e", "role": "authenticated"}', true);
+select set_config('request.jwt.claims', '{"sub": "adad0000-0000-0000-0000-00000000000e", "role": "authenticated", "aal": "aal2"}', true);
 create temp table indicateurs_depart as select * from public.admin_indicateurs_keyli();
 set local role postgres;
 select set_config('request.jwt.claims', '', true);
@@ -40,7 +40,7 @@ insert into public.documents_keyli (user_id, doc_type, file_url, created_at) val
 
 create function pg_temp.connecter(uid text) returns void
 language sql as $$
-  select set_config('request.jwt.claims', json_build_object('sub', uid, 'role', 'authenticated')::text, true);
+  select set_config('request.jwt.claims', json_build_object('sub', uid, 'role', 'authenticated', 'aal', 'aal2')::text, true);
 $$;
 
 set local role authenticated;

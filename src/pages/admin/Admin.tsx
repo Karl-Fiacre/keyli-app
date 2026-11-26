@@ -3,6 +3,9 @@ import { NavLink, Outlet } from 'react-router-dom'
 import { Alert } from '@/components/ui/alert'
 import { useEstAdmin } from '@/partage/hooks/useAdmin'
 import { useProfil } from '@/partage/hooks/useProfil'
+import { useEtatDoubleAuth } from '@/partage/hooks/useDoubleAuth'
+import { messageErreur } from '@/partage/lib/erreurs'
+import { DoubleAuthAdmin } from '@/components/admin/DoubleAuthAdmin'
 import { cn } from '@/lib/utils'
 import { ChargementPage } from '@/components/ChargementPage'
 
@@ -24,6 +27,7 @@ const ONGLETS = [
 export default function Admin() {
   const profil = useProfil()
   const estAdmin = useEstAdmin()
+  const doubleAuth = useEtatDoubleAuth(estAdmin)
 
   if (profil.isPending) return <p className="container py-16 text-center text-muted-foreground">Chargement…</p>
   if (!estAdmin) {
@@ -33,6 +37,17 @@ export default function Admin() {
       </section>
     )
   }
+  // Second facteur obligatoire : sans session aal2, la base refuse toute
+  // donnée d'administration (est_admin_keyli)
+  if (doubleAuth.isPending) return <ChargementPage />
+  if (doubleAuth.isError) {
+    return (
+      <section className="container py-12">
+        <Alert variant="erreur">{messageErreur(doubleAuth.error)}</Alert>
+      </section>
+    )
+  }
+  if (doubleAuth.data.etape !== 'verifiee') return <DoubleAuthAdmin etat={doubleAuth.data} />
 
   return (
     <section className="container py-8 md:py-10">

@@ -1348,6 +1348,23 @@ détail dans `docs/ANIMATIONS.md` (section « Animations expressives ») :
 - À faire : regarder les transitions à l'œil sur un vrai écran (le
   navigateur de contrôle était masqué), puis `npm run deploy`.
 
+### Session du 2026-11-26 (suite) — double authentification des admins
+
+Décision du porteur : second facteur obligatoire pour admin et super_admin
+(détail `docs/MODULES/admin.md`, section « Double authentification »).
+- Migration `20261126120000_mfa_admin_keyli.sql` : `est_admin_keyli()` et
+  `est_super_admin_keyli()` exigent `aal2`. **Pas encore appliquée en ligne.**
+- Site : `/admin` guide l'enrôlement (QR code) puis demande le code.
+- Vérifié : tsc, eslint, Vitest (nouveaux tests `doubleAuth`), build ; tests
+  SQL rejoués sur la base distante dans des transactions annulées (Docker
+  indisponible) : 19 fichiers identiques avant/après, 6 nouveaux cas OK.
+  Échecs préexistants liés aux données en ligne : admin_keyli (1),
+  moderation_comptes (1), conversion_annonces (1), audit_securite (1).
+- **Mise en ligne, dans cet ordre** : `npm run deploy`, puis
+  `npx supabase db push --linked`, puis enrôlement du super_admin sur /admin.
+- Suite envisagée : console `admin.keyli.com` + Cloudflare Access après achat
+  du domaine ; rôles intermédiaires (modération, support) à décider.
+
 ## Modèle à copier pour chaque nouvelle entrée de session
 
 ```

@@ -34,7 +34,7 @@ select is(
 -- ------------------------------------------------------------
 set local role authenticated;
 select set_config('request.jwt.claims',
-  '{"sub": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "role": "authenticated"}', true);
+  '{"sub": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "role": "authenticated", "aal": "aal2"}', true);
 
 select lives_ok(
   $$ insert into public.agency_agents_keyli (agency_user_id, nom) values
@@ -83,7 +83,7 @@ update public.agency_agents_keyli set nom = 'Renommé' where agency_user_id = 'b
 -- Propriétaire connecté (pas une agence)
 -- ------------------------------------------------------------
 select set_config('request.jwt.claims',
-  '{"sub": "cccccccc-cccc-cccc-cccc-cccccccccccc", "role": "authenticated"}', true);
+  '{"sub": "cccccccc-cccc-cccc-cccc-cccccccccccc", "role": "authenticated", "aal": "aal2"}', true);
 
 select throws_ok(
   $$ insert into public.agency_agents_keyli (agency_user_id, nom)

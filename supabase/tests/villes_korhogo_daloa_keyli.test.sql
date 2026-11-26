@@ -29,7 +29,7 @@ select is((select count(*)::integer from public.communes_keyli where nom in ('Ko
 select set_config('test.korhogo', (select q.id::text from public.quartiers_keyli q where q.nom = 'Korhogo Centre'), true);
 set local role authenticated;
 select set_config('request.jwt.claims',
-                  json_build_object('sub', 'd1d20000-0000-0000-0000-000000000001', 'role', 'authenticated')::text, true);
+                  json_build_object('sub', 'd1d20000-0000-0000-0000-000000000001', 'role', 'authenticated', 'aal', 'aal2')::text, true);
 
 select lives_ok($q$
   insert into public.properties_keyli (owner_id, title, type, status, price, city, quartier_id, geolocation)

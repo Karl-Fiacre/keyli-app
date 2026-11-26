@@ -64,7 +64,7 @@ values ('acac1111-0000-0000-0000-000000000002', 'acac0000-0000-0000-0000-0000000
 
 create function pg_temp.connecter(uid text) returns void
 language sql as $$
-  select set_config('request.jwt.claims', json_build_object('sub', uid, 'role', 'authenticated')::text, true);
+  select set_config('request.jwt.claims', json_build_object('sub', uid, 'role', 'authenticated', 'aal', 'aal2')::text, true);
 $$;
 
 set local role authenticated;

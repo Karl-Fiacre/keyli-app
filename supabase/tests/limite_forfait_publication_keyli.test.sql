@@ -63,7 +63,7 @@ grant execute on function pg_temp.publier(integer, boolean) to authenticated;
 create function pg_temp.connecter(uid text) returns void
 language sql as $$
   select set_config('request.jwt.claims',
-    json_build_object('sub', uid, 'role', 'authenticated')::text, true);
+    json_build_object('sub', uid, 'role', 'authenticated', 'aal', 'aal2')::text, true);
 $$;
 grant execute on function pg_temp.connecter(text) to authenticated;
 

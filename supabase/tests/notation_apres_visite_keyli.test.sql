@@ -44,7 +44,7 @@ update public.leads_keyli set stage = 'conclu' where contact_user_id = '88888888
 
 create function pg_temp.noter(auteur text, cible text, note integer) returns void
 language sql as $$
-  select set_config('request.jwt.claims', json_build_object('sub', auteur, 'role', 'authenticated')::text, true);
+  select set_config('request.jwt.claims', json_build_object('sub', auteur, 'role', 'authenticated', 'aal', 'aal2')::text, true);
   insert into public.ratings_keyli (property_id, rater_id, rated_user_id, rating)
   values (current_setting('test.maison')::uuid, auteur::uuid, cible::uuid, note);
 $$;

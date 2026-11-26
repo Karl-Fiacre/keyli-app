@@ -12,7 +12,7 @@ select plan(13);
 
 create function pg_temp.connecter(uid text) returns void
 language sql as $$
-  select set_config('request.jwt.claims', json_build_object('sub', uid, 'role', 'authenticated')::text, true);
+  select set_config('request.jwt.claims', json_build_object('sub', uid, 'role', 'authenticated', 'aal', 'aal2')::text, true);
 $$;
 
 -- P propriétaire (forfait actif), Q propriétaire (forfait échu ensuite), C1 et C2

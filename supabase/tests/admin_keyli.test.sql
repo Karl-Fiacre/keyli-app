@@ -8,7 +8,7 @@ create extension if not exists pgtap with schema extensions;
 set local role postgres;
 set local search_path = "$user", public, extensions;
 
-select plan(47);
+select plan(53);
 
 -- ------------------------------------------------------------
 -- Comptes : SA super_admin, AD admin, P propriétaire, A agence, C chercheur
@@ -54,7 +54,7 @@ select set_config('test.sub_agence',   (select id::text from public.subscription
 create function pg_temp.connecter(uid text) returns void
 language sql as $$
   select set_config('request.jwt.claims',
-    json_build_object('sub', uid, 'role', 'authenticated')::text, true);
+    json_build_object('sub', uid, 'role', 'authenticated', 'aal', 'aal2')::text, true);
 $$;
 
 select is(
@@ -230,6 +230,31 @@ select results_eq($$ select admin_response from public.feedback_keyli $$, $$ val
   'L''utilisateur lit la réponse de l''admin');
 select lives_ok($$ update public.onboarding_checklists_keyli set completed = true, completed_at = now() $$,
   'L''utilisateur coche son étape');
+
+-- ------------------------------------------------------------
+-- Double authentification : sans session aal2, aucun pouvoir d'admin
+-- ------------------------------------------------------------
+select set_config('request.jwt.claims',
+  '{"sub": "33333333-0000-0000-0000-0000000000ad", "role": "authenticated", "aal": "aal1"}', true);  -- AD, mot de passe seul
+select is(public.est_admin_keyli(), false, 'Un admin sans second facteur (aal1) n''est pas admin');
+select throws_ok(
+  $$ select public.admin_reviser_document_keyli(current_setting('test.doc_cert')::uuid, 'approved') $$,
+  '42501', null,
+  'Un admin sans second facteur ne valide pas de document'
+);
+select results_eq($$ select count(*)::int from public.audit_logs_keyli $$, $$ values (0) $$,
+  'Un admin sans second facteur ne lit pas le journal d''audit');
+
+select set_config('request.jwt.claims',
+  '{"sub": "33333333-0000-0000-0000-00000000005a", "role": "authenticated", "aal": "aal1"}', true);  -- SA, mot de passe seul
+select is(public.est_super_admin_keyli(), false, 'Un super_admin sans second facteur (aal1) n''est pas super_admin');
+
+select set_config('request.jwt.claims',
+  '{"sub": "33333333-0000-0000-0000-00000000005a", "role": "authenticated"}', true);  -- jeton sans niveau
+select is(public.est_admin_keyli(), false, 'Un jeton sans niveau d''assurance ne donne aucun pouvoir');
+
+select pg_temp.connecter('33333333-0000-0000-0000-00000000005a');  -- SA en aal2
+select is(public.est_super_admin_keyli(), true, 'Un super_admin vérifié (aal2) garde ses pouvoirs');
 
 set local role postgres;
 select * from finish();

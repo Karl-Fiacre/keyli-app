@@ -126,7 +126,7 @@ insert into public.payment_attempts_keyli (user_id, plan_id, amount)
 -- ------------------------------------------------------------
 set local role authenticated;
 select set_config('request.jwt.claims',
-  '{"sub": "cccccccc-cccc-cccc-cccc-cccccccccccc", "role": "authenticated"}', true);
+  '{"sub": "cccccccc-cccc-cccc-cccc-cccccccccccc", "role": "authenticated", "aal": "aal2"}', true);
 
 select results_eq(
   $$ select (select count(*) from public.subscriptions_keyli)::int,

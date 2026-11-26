@@ -33,7 +33,7 @@ select is((select nom_agence from public.profiles_keyli where user_id = 'cccc000
 
 create function pg_temp.connecter(uid text) returns void
 language sql as $$
-  select set_config('request.jwt.claims', json_build_object('sub', uid, 'role', 'authenticated')::text, true);
+  select set_config('request.jwt.claims', json_build_object('sub', uid, 'role', 'authenticated', 'aal', 'aal2')::text, true);
 $$;
 
 set local role authenticated;

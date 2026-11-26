@@ -1,5 +1,34 @@
 # MODULE : Administration
 
+## Double authentification obligatoire (2026-11-26)
+
+Décision du porteur : les comptes `admin` et `super_admin` n'exercent leurs
+pouvoirs qu'avec un second facteur (application d'authentification, TOTP).
+- **Base** (la vraie protection) : migration
+  `20261126120000_mfa_admin_keyli.sql` — `est_admin_keyli()` et
+  `est_super_admin_keyli()` exigent `aal2` dans le jeton. Toutes les policies,
+  lectures et actions d'administration passant par ces deux fonctions, un mot
+  de passe volé ne suffit plus. Tests : fin de
+  `supabase/tests/admin_keyli.test.sql` ; les identités simulées des autres
+  tests portent `"aal": "aal2"`.
+- **Site** : `/admin` (`Admin.tsx`) affiche `DoubleAuthAdmin`
+  (`src/components/admin/`) tant que la session n'est pas en aal2 :
+  enrôlement (QR code + clé, puis premier code) ou saisie du code à chaque
+  connexion. Hooks `src/partage/hooks/useDoubleAuth.ts`, règles pures
+  `src/partage/lib/doubleAuth.ts` (+ tests).
+- **Supabase** : TOTP activé (`[auth.mfa.totp]` dans `config.toml` pour la
+  base locale ; activé par défaut sur le projet hébergé — à vérifier dans
+  Authentication → Multi-Factor si l'enrôlement est refusé).
+- **Mobile** : pas d'administration sur l'application ; rien à changer.
+- **Secours (téléphone perdu)** : le porteur supprime le facteur en SQL
+  direct (tableau de bord Supabase → SQL), puis l'admin se réenrôle :
+  `delete from auth.mfa_factors where user_id = '<uuid>';`
+- **Ordre de mise en ligne** : d'abord `npm run deploy` (l'écran guide déjà
+  l'admin), puis `npx supabase db push --linked`. Dans l'autre ordre, les
+  admins perdraient l'accès jusqu'au déploiement du site.
+- Suite prévue : console séparée sur `admin.keyli.com` derrière Cloudflare
+  Access, une fois le domaine acheté (`docs/MISE_EN_PRODUCTION.md`).
+
 Réalisé le 2026-11-01 (Sprint 3) : `src/pages/admin/` — `Admin.tsx` (onglets,
 accès admin/super_admin ; lien « Admin » dans l'en-tête), `AdminIndicateurs.tsx`,
 `AdminVerifications.tsx`, `AdminSignalements.tsx` ; `src/hooks/useAdmin.ts` ;

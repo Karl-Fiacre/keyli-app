@@ -22,7 +22,7 @@ select u.id, p.id, p.prix_mensuel, now() - interval '1 day', now() + interval '1
 
 create function pg_temp.connecter(uid text) returns void
 language sql as $$
-  select set_config('request.jwt.claims', json_build_object('sub', uid, 'role', 'authenticated')::text, true);
+  select set_config('request.jwt.claims', json_build_object('sub', uid, 'role', 'authenticated', 'aal', 'aal2')::text, true);
 $$;
 
 -- Adresse d'une photo Keyli dans le dossier du compte donné

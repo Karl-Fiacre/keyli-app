@@ -70,7 +70,7 @@ select col_not_null('public', 'properties_keyli', 'geolocation',
 -- ------------------------------------------------------------
 set local role authenticated;
 select set_config('request.jwt.claims',
-  '{"sub": "cccccccc-cccc-cccc-cccc-cccccccccccc", "role": "authenticated"}', true);
+  '{"sub": "cccccccc-cccc-cccc-cccc-cccccccccccc", "role": "authenticated", "aal": "aal2"}', true);
 
 select lives_ok(
   $$ insert into public.properties_keyli (owner_id, title, type, status, price, city, quartier_id, geolocation)
@@ -164,7 +164,7 @@ select results_eq(
 -- Agence A connectée
 -- ------------------------------------------------------------
 select set_config('request.jwt.claims',
-  '{"sub": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "role": "authenticated"}', true);
+  '{"sub": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "role": "authenticated", "aal": "aal2"}', true);
 
 select lives_ok(
   $$ insert into public.properties_keyli (owner_id, agent_id, title, type, status, price, city, geolocation)
@@ -186,7 +186,7 @@ select throws_ok(
 -- Chercheur U connecté
 -- ------------------------------------------------------------
 select set_config('request.jwt.claims',
-  '{"sub": "dddddddd-dddd-dddd-dddd-dddddddddddd", "role": "authenticated"}', true);
+  '{"sub": "dddddddd-dddd-dddd-dddd-dddddddddddd", "role": "authenticated", "aal": "aal2"}', true);
 
 select throws_ok(
   $$ insert into public.properties_keyli (owner_id, title, type, status, price, city, geolocation)

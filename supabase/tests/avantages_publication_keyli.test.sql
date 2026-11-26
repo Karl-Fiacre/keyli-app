@@ -33,7 +33,7 @@ select set_config('test.quartier', (select id::text from public.quartiers_keyli 
 
 create function pg_temp.connecter(uid text) returns void
 language sql as $$
-  select set_config('request.jwt.claims', json_build_object('sub', uid, 'role', 'authenticated')::text, true);
+  select set_config('request.jwt.claims', json_build_object('sub', uid, 'role', 'authenticated', 'aal', 'aal2')::text, true);
 $$;
 
 -- Adresse d'une photo Keyli (dossier Cloudinary du compte connecté),

@@ -59,7 +59,7 @@ select is(current_setting('test.titre_anon'), '1', 'Un visiteur lit toujours les
 select is(current_setting('test.fonction_interne'), '0', 'La fonction d''arrondi n''est pas appelable depuis le client');
 
 set local role authenticated;
-select set_config('request.jwt.claims', json_build_object('sub', 'ca000000-0000-0000-0000-000000000001', 'role', 'authenticated')::text, true);
+select set_config('request.jwt.claims', json_build_object('sub', 'ca000000-0000-0000-0000-000000000001', 'role', 'authenticated', 'aal', 'aal2')::text, true);
 select set_config('test.geo_auth', (select count(*)::text from (select 1) x
   where has_column_privilege('public.properties_keyli', 'geolocation', 'select')), true);
 reset role;

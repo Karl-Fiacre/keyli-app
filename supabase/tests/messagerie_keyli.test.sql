@@ -24,7 +24,7 @@ values ('efef1111-0000-0000-0000-000000000001', 'efef0000-0000-0000-0000-0000000
 
 create function pg_temp.connecter(uid text) returns void
 language sql as $$
-  select set_config('request.jwt.claims', json_build_object('sub', uid, 'role', 'authenticated')::text, true);
+  select set_config('request.jwt.claims', json_build_object('sub', uid, 'role', 'authenticated', 'aal', 'aal2')::text, true);
 $$;
 create function pg_temp.ecrire(de text, a text, corps text, decalage interval) returns void
 language sql as $$
