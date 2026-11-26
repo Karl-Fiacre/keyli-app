@@ -10,6 +10,7 @@ import { messageErreur } from '@/partage/lib/erreurs'
 import { aujourdhuiIso } from '@/partage/lib/sejour'
 import { cn } from '@/lib/utils'
 import { TexteCinema } from '@/components/animation/TexteCinema'
+import { SqueletteLignes } from '@/components/animation/Squelettes'
 
 // Réservations : « Mes séjours » (tout compte) et « Demandes reçues »
 // (propriétaires et agences). À venir d'abord, puis l'historique.
@@ -70,7 +71,7 @@ function Liste({ sens }: { sens: 'voyageur' | 'hote' }) {
   const aVenir = liste.filter(actives)
   const historique = liste.filter((r) => !actives(r)).reverse()
 
-  if (reservations.isPending) return <p className="mt-8 text-muted-foreground">Chargement…</p>
+  if (reservations.isPending) return <SqueletteLignes nombre={3} className="mt-8" />
   if (reservations.isError)
     return (
       <Alert variant="erreur" className="mt-8">

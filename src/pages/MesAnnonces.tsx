@@ -18,6 +18,7 @@ import { messageErreur } from '@/partage/lib/erreurs'
 import { LIBELLES_TYPE } from '@/partage/lib/validation'
 import { formatXof } from '@/partage/lib/format'
 import { TexteCinema } from '@/components/animation/TexteCinema'
+import { SqueletteLignes } from '@/components/animation/Squelettes'
 
 // Annonces du compte (publiées, masquées, archivées)
 export default function MesAnnonces() {
@@ -62,7 +63,7 @@ export default function MesAnnonces() {
           </Alert>
         )}
 
-        {annonces.isPending && <p className="text-muted-foreground">Chargement…</p>}
+        {annonces.isPending && <SqueletteLignes nombre={3} />}
         {annonces.isError && <Alert variant="erreur">{messageErreur(annonces.error)}</Alert>}
         {attribuer.isError && <Alert variant="erreur">{messageErreur(attribuer.error)}</Alert>}
         {annonces.data?.length === 0 && (
