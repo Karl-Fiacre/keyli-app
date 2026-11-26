@@ -69,7 +69,7 @@ export function CarteAnnonce({
               if (photo.current) photo.current.style.viewTransitionName = nomTransitionPhoto(a.id)
             })
           }
-          className="group block overflow-hidden rounded-lg border bg-card shadow-sm transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:hover:translate-y-0"
+          className="group block overflow-hidden rounded-lg border bg-card shadow-sm transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-lift active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100"
         >
           <div
             className="relative aspect-[4/3] overflow-hidden bg-secondary"
