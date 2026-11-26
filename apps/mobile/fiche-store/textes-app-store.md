@@ -110,6 +110,10 @@ publicitaires, identifiant de l'appareil pour la publicité.
 - Enregistré le 2026-11-26 : prix 0,00 $ (pays de base États-Unis, prix
   identique partout), disponible dans les 175 pays ou régions et les
   futurs, sans précommande.
+- Chine continentale retirée le 2026-11-26 (174 pays) : Apple y exige une
+  évaluation de sécurité, une déclaration AIGC et un numéro ICP (entité
+  chinoise). Hong Kong, Macao et Taïwan restent disponibles. Réversible à
+  tout moment dans « Gérer la disponibilité ».
 - Droits sur le contenu (page Informations) : « Oui, contenus tiers et
   droits nécessaires » (annonces et photos publiées par les utilisateurs,
   licence prévue dans les mentions légales), enregistré le 2026-11-26.
