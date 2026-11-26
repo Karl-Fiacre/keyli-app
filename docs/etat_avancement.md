@@ -1302,6 +1302,11 @@ concernés :
   Apple) et `APPLE_PRIVATE_KEY` (posé en une ligne via la CLI, le tableau
   de bord refusant le texte sur plusieurs lignes) ; Team ID repris de
   `APNS_TEAM_ID`. À valider par un essai réel sur TestFlight.
+- 2026-11-26 : compilations iOS et Android lancées par le porteur (commit
+  `d70a4ae`, suppression de compte corrigée + révocation Apple). Suite :
+  nouvelle version Android à la place de l'Alpha 10 puis examen Google ;
+  fiche App Store Connect (`textes-app-store.md`) puis soumission Apple —
+  chaque envoi avec l'accord du porteur.
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 
