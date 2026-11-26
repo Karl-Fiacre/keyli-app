@@ -87,8 +87,10 @@ donnée n'est utilisée pour la publicité ni vendue.
 | Numéro de téléphone | Oui (facultatif) | Oui | Fonctionnalités de l'app |
 | Localisation précise | Oui | Oui | Fonctionnalités de l'app (position du bien publié) |
 | Photos ou vidéos | Oui | Oui | Fonctionnalités de l'app (photos des annonces) |
-| Autre contenu utilisateur (messages, avis, signalements, retours) | Oui | Oui | Fonctionnalités de l'app |
-| Autres données sensibles (pièces d'identité pour la vérification) | Oui | Oui | Fonctionnalités de l'app |
+| Autre contenu utilisateur (messages, avis, signalements) | Oui | Oui | Fonctionnalités de l'app |
+| Assistance client (« Donner mon avis ») | Oui | Oui | Fonctionnalités de l'app |
+| Historique de recherche (alertes de recherche enregistrées) | Oui | Oui | Fonctionnalités de l'app |
+| Autres données (pièces d'identité pour la vérification) | Oui | Oui | Fonctionnalités de l'app |
 | Identifiant utilisateur | Oui | Oui | Fonctionnalités de l'app |
 | Historique d'achats (forfaits réglés sur le site, affichés dans l'app) | Oui | Oui | Fonctionnalités de l'app |
 
