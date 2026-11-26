@@ -50,6 +50,11 @@ email ne part). Ne jamais l'utiliser pour des essais (connexion, suppression
 de compte) : supprimer un compte archive ses annonces — c'est ce qui a vidé
 les 8 démos le 2026-11-24, quand leur ancien propriétaire a servi à tester
 la suppression sur iPhone.
+Abonnement offert à ce compte (accord du porteur, 2026-11-26) : forfait
+`grande_agence` (30 annonces), `amount = 0`, sans paiement Paystack,
+`conditions_negociees` = « Compte de démonstration Keyli — offert, sans
+paiement », valable 1 an. Les 8 démos ont été republiées via le trigger de
+contrôle de publication normal. À exclure des statistiques de revenus.
 
 ## Interactions de test (property_interactions_keyli)
 Générer un volume artificiel d'événements `view` et `search_neighborhood`
