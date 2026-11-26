@@ -238,6 +238,70 @@
   animation: kf-battement var(--kf-base) var(--kf-ease-out-back) 1;
 }
 
+/* Favori ajouté — une onde rouge part du cœur et s'efface (lot 3) */
+@keyframes kf-onde {
+  from { transform: scale(0.6); opacity: 0.55; }
+  to { transform: scale(1.9); opacity: 0; }
+}
+.kf-onde {
+  animation: kf-onde 520ms var(--kf-ease-cinema) 1 both;
+}
+
+/* Champ en erreur — un tressaillement court quand l'erreur apparaît
+   (aria-invalid posé par ChampFormulaire), jamais en boucle (lot 3) */
+@keyframes kf-tressaille {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+}
+input[aria-invalid='true'],
+textarea[aria-invalid='true'],
+select[aria-invalid='true'] {
+  animation: kf-tressaille 320ms ease-out 1;
+}
+
+/* Squelette de chargement — une lueur passe de gauche à droite sur un fond
+   neutre (lot 4, 2026-11-26), à la place des écrans « Chargement… » */
+@keyframes kf-lueur {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+.kf-squelette {
+  position: relative;
+  overflow: hidden;
+  background-color: hsl(var(--secondary));
+}
+.kf-squelette::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, hsl(var(--background) / 0.55), transparent);
+  animation: kf-lueur 1.4s var(--kf-ease-cinema, ease-in-out) infinite;
+}
+
+/* Transitions partagées (API View Transitions, via `viewTransition` de
+   React Router, src/lib/cinema.ts) : la page change en fondu bref, la photo
+   nommée voyage de la carte à la fiche avec la courbe « cinéma » */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.35s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+::view-transition-group(*) {
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* Photo : recadrée (4/3 sur la carte, 16/9 sur la fiche) plutôt
+   qu'étirée pendant l'agrandissement */
+::view-transition-old(*),
+::view-transition-new(*) {
+  height: 100%;
+  object-fit: cover;
+  overflow: clip;
+}
+
 /* Règle OBLIGATOIRE (docs/ANIMATIONS.md) : mouvements réduits → aucune
    animation ni transition décorative (le contenu reste affiché tel quel) */
 @media (prefers-reduced-motion: reduce) {
@@ -253,7 +317,18 @@
   .kf-glisse-gauche,
   .kf-defile-active,
   .kf-defilement-continu,
-  .kf-flotte {
+  .kf-flotte,
+  .kf-squelette::after,
+  .kf-onde,
+  input[aria-invalid='true'],
+  textarea[aria-invalid='true'],
+  select[aria-invalid='true'] {
+    animation: none !important;
+  }
+  /* Transitions partagées : changement de page immédiat */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
     animation: none !important;
   }
   .kf-trace {

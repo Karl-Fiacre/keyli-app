@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'
+import { useRef } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { BedDouble, Home, MapPin, Navigation } from 'lucide-react'
 import { VerifiedBadge } from '@/components/VerifiedBadge'
 import { BoutonFavori } from '@/components/annonce/BoutonFavori'
@@ -9,6 +10,10 @@ import { LIBELLES_TYPE } from '@/partage/lib/validation'
 import { urlPhoto } from '@/lib/cloudinary'
 import { ImageFondu } from '@/components/animation/ImageFondu'
 import { CarteInclinee } from '@/components/animation/CarteInclinee'
+import { usePrechargerFiche } from '@/partage/hooks/useRecherche'
+import { useNavigationPartagee } from '@/hooks/useNavigationPartagee'
+import { chargerFicheAnnonce } from '@/lib/pagesPrechargees'
+import { estRetourAnnonce, nomTransitionPhoto, type EtatTransitionPartagee } from '@/lib/cinema'
 
 export type { ResumeAnnonce }
 
@@ -16,6 +21,8 @@ export type { ResumeAnnonce }
 // les photos), prix, lieu, badge « Vérifié » si l'annonce l'est. Le cœur
 // favori est posé à côté du lien (un bouton ne va pas dans un lien).
 // La carte s'incline sous la souris (registre cinématique, docs/ANIMATIONS.md).
+// Au clic, sa photo s'agrandit jusqu'à la galerie de la fiche (transition
+// partagée) ; la fiche est préchargée dès le survol ou le focus.
 export function CarteAnnonce({
   annonce: a,
   source = 'search',
@@ -32,14 +39,43 @@ export function CarteAnnonce({
     .join(', ')
   // Recherche par rayon : distance arrondie, jamais la position exacte
   const distance = libelleDistance(a.distance_km)
+  const prechargerDonnees = usePrechargerFiche()
+  // Données de la fiche et code de la page, pour qu'elle s'affiche aussitôt
+  const precharger = (id: string) => {
+    prechargerDonnees(id)
+    void chargerFicheAnnonce()
+  }
+  const naviguer = useNavigationPartagee()
+  const lien = `/annonce/${a.id}?source=${source}${a.sejour_court && sejour ? `&${sejour}` : ''}`
+  const etat: EtatTransitionPartagee = { transitionPartagee: true, apercu: a.image }
+  const photo = useRef<HTMLDivElement>(null)
+  // Le nom de transition n'est posé que sur la carte concernée (une même
+  // annonce peut figurer deux fois sur une page, et deux éléments du même
+  // nom annuleraient la transition) : au clic pour l'aller, ou au retour
+  // depuis la fiche de cette annonce.
+  const { state } = useLocation()
+  const retourIci = estRetourAnnonce(state) && state.retourAnnonce === a.id
   return (
     <CarteInclinee intensite={5} arrondi="rounded-lg" className="h-full">
       <div className="relative">
         <Link
-          to={`/annonce/${a.id}?source=${source}${a.sejour_court && sejour ? `&${sejour}` : ''}`}
+          to={lien}
+          state={etat}
+          onPointerEnter={() => precharger(a.id)}
+          onFocus={() => precharger(a.id)}
+          onTouchStart={() => precharger(a.id)}
+          onClick={(e) =>
+            naviguer(e, lien, etat, () => {
+              if (photo.current) photo.current.style.viewTransitionName = nomTransitionPhoto(a.id)
+            })
+          }
           className="group block overflow-hidden rounded-lg border bg-card shadow-sm transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:hover:translate-y-0"
         >
-          <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
+          <div
+            className="relative aspect-[4/3] overflow-hidden bg-secondary"
+            ref={photo}
+            style={retourIci ? { viewTransitionName: nomTransitionPhoto(a.id) } : undefined}
+          >
             {a.image ? (
               <ImageFondu
                 src={urlPhoto(a.image, 640, 480)}

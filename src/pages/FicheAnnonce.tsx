@@ -1,4 +1,4 @@
-import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom'
 import { ArrowLeft, Bath, BedDouble, Home, MapPin, Ruler, Sofa } from 'lucide-react'
 import { Alert } from '@/components/ui/alert'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -18,7 +18,10 @@ import { formatDate, formatXof } from '@/partage/lib/format'
 import { LIBELLES_TYPE } from '@/partage/lib/validation'
 import { pluriel } from '@/partage/lib/sejour'
 import { TexteCinema } from '@/components/animation/TexteCinema'
+import { SqueletteFiche } from '@/components/annonce/SqueletteFiche'
+import { estTransitionPartagee, nomTransitionPhoto, type EtatRetourAnnonce } from '@/lib/cinema'
 import { useTitrePage } from '@/hooks/useTitrePage'
+import { useNavigationPartagee } from '@/hooks/useNavigationPartagee'
 import { AnnoncesSimilaires } from '@/components/annonce/AnnoncesSimilaires'
 import { BandeauContactMobile } from '@/components/annonce/BandeauContactMobile'
 
@@ -34,12 +37,17 @@ export default function FicheAnnonce() {
   const source = parametres.get('source')
   const { session } = useSession()
   const fiche = useFicheAnnonce(id)
+  // Arrivée depuis une carte : la photo de la carte rejoint la galerie
+  const { state } = useLocation()
+  const apercu = estTransitionPartagee(state) ? state.apercu : undefined
+  const nomPhoto = id ? nomTransitionPhoto(id) : undefined
+  const naviguer = useNavigationPartagee()
   // Titre de l'onglet et description (l'aperçu des réseaux sociaux est
   // produit côté serveur : functions/annonce/[id].ts)
   useTitrePage(fiche.data?.annonce.title, fiche.data?.annonce.description?.slice(0, 155))
   useVueAnnonce(fiche.data?.annonce.id, source && SOURCES.includes(source) ? source : 'lien_direct')
 
-  if (fiche.isPending) return <p className="container py-16 text-center text-muted-foreground">Chargement…</p>
+  if (fiche.isPending) return <SqueletteFiche nomTransition={nomPhoto} apercu={apercu} />
   if (fiche.isError) {
     return (
       <section className="container py-12">
@@ -87,6 +95,8 @@ export default function FicheAnnonce() {
       <section className="container py-8 md:py-12">
         <Link
           to="/recherche"
+          state={{ retourAnnonce: a.id } satisfies EtatRetourAnnonce}
+          onClick={(e) => naviguer(e, '/recherche', { retourAnnonce: a.id } satisfies EtatRetourAnnonce)}
           className="mb-5 inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="mr-1 h-4 w-4" aria-hidden />
@@ -99,7 +109,7 @@ export default function FicheAnnonce() {
 
         <div className="grid gap-8 lg:grid-cols-[1fr_22rem]">
           <div className="min-w-0 space-y-6">
-            <GaleriePhotos photos={photos} titre={a.title} />
+            <GaleriePhotos photos={photos} titre={a.title} nomTransition={nomPhoto} apercu={apercu} />
 
             <div className="space-y-2">
               <div className="flex flex-wrap items-center gap-3">

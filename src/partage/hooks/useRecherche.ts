@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
 import { useSession } from '@/partage/hooks/useSession'
 import type { StatutBien, TypeBien } from '@/partage/hooks/useAnnonces'
@@ -86,30 +86,46 @@ export function useCommunes() {
 
 // Fiche d'annonce : annonce, quartier, avantages, médias et profil public de
 // l'annonceur (jamais son téléphone ni son email)
+// Lecture d'une fiche : annonce complète + profil public de l'annonceur
+async function chargerFiche(id: string) {
+  const { data: annonce, error } = await supabase
+    .from('properties_keyli')
+    // Chaîne unique : le client Supabase en déduit le type du résultat
+    .select(
+      'id, owner_id, title, type, status, price, sejour_court, nuits_min, voyageurs_max, description, city, area_m2, rooms, bathrooms, furnished, main_image_url, is_verified, archived_at, created_at, quartiers_keyli(nom, communes_keyli(nom)), property_avantages_keyli(avantages_keyli(id, libelle, categorie, ordre)), property_media_keyli(id, url, media_type, order_index)',
+    )
+    .eq('id', id)
+    .maybeSingle()
+  if (error) throw error
+  if (!annonce) return null
+  const { data: annonceur, error: erreurProfil } = await supabase
+    .from('profils_publics_keyli')
+    .select('user_id, nom_affiche, photo_url, role_keyli, verified, rating_avg, membre_depuis')
+    .eq('user_id', annonce.owner_id)
+    .maybeSingle()
+  if (erreurProfil) throw erreurProfil
+  return { annonce, annonceur }
+}
+
 export function useFicheAnnonce(id: string | undefined) {
   return useQuery({
     queryKey: ['fiche-annonce', id],
     enabled: !!id,
-    queryFn: async () => {
-      const { data: annonce, error } = await supabase
-        .from('properties_keyli')
-        // Chaîne unique : le client Supabase en déduit le type du résultat
-        .select(
-          'id, owner_id, title, type, status, price, sejour_court, nuits_min, voyageurs_max, description, city, area_m2, rooms, bathrooms, furnished, main_image_url, is_verified, archived_at, created_at, quartiers_keyli(nom, communes_keyli(nom)), property_avantages_keyli(avantages_keyli(id, libelle, categorie, ordre)), property_media_keyli(id, url, media_type, order_index)',
-        )
-        .eq('id', id as string)
-        .maybeSingle()
-      if (error) throw error
-      if (!annonce) return null
-      const { data: annonceur, error: erreurProfil } = await supabase
-        .from('profils_publics_keyli')
-        .select('user_id, nom_affiche, photo_url, role_keyli, verified, rating_avg, membre_depuis')
-        .eq('user_id', annonce.owner_id)
-        .maybeSingle()
-      if (erreurProfil) throw erreurProfil
-      return { annonce, annonceur }
-    },
+    queryFn: () => chargerFiche(id as string),
   })
+}
+
+// Précharge une fiche (survol ou focus d'une carte) : au clic, les données
+// sont souvent déjà là et la photo de la carte rejoint directement la
+// galerie de la fiche. Ignoré si la fiche est déjà en cache et récente.
+export function usePrechargerFiche() {
+  const client = useQueryClient()
+  return (id: string) =>
+    void client.prefetchQuery({
+      queryKey: ['fiche-annonce', id],
+      queryFn: () => chargerFiche(id),
+      staleTime: 60_000,
+    })
 }
 
 // Identifiant de session anonyme (statistiques de consultation,
