@@ -42,6 +42,15 @@ de l'équipe".
 - Une annonce avec géolocalisation renseignée, pour tester la recherche par
   rayon (PostGIS) dès qu'elle est implémentée
 
+**Propriétaire des démos (2026-11-26)** : compte dédié « Keyli Démo »
+(`demo@keyli.invalid`, rôle `owner`, user_id
+`6e6191c0-c648-4468-ab70-3f5a4d2b689d`), sans mot de passe (personne ne s'y
+connecte), adresse `.invalid` et `emails_notifications = false` (aucun
+email ne part). Ne jamais l'utiliser pour des essais (connexion, suppression
+de compte) : supprimer un compte archive ses annonces — c'est ce qui a vidé
+les 8 démos le 2026-11-24, quand leur ancien propriétaire a servi à tester
+la suppression sur iPhone.
+
 ## Interactions de test (property_interactions_keyli)
 Générer un volume artificiel d'événements `view` et `search_neighborhood`
 étalés sur 30 jours pour au moins 2 quartiers différents, avec des
