@@ -758,7 +758,11 @@ Migrations `20261002180000_admin_fondations_keyli.sql` et
   - `super_admin_modifier_forfait_keyli(...)` et
     `super_admin_formule_negociee_keyli(...)` (avant/après dans l'audit).
 - Fonctions de rôle `est_admin_keyli()` (admin ou super_admin) et
-  `est_super_admin_keyli()`.
+  `est_super_admin_keyli()`. **Depuis le 2026-11-26** (migration
+  `20261126120000_mfa_admin_keyli.sql`) elles exigent en plus une session
+  vérifiée par second facteur : `auth.jwt() ->> 'aal' = 'aal2'`. Mot de
+  passe seul (aal1) ou jeton sans niveau → aucun pouvoir d'admin. Aucune
+  table ni policy modifiée. Détail : `docs/MODULES/admin.md`.
 - **`audit_logs_keyli`** (colonnes et index du schéma de référence) : écrit
   uniquement par les fonctions d'action (`journaliser_keyli`, interne) ;
   un admin lit ses propres entrées, le super_admin lit tout ; aucune
