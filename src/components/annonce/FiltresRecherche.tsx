@@ -1,3 +1,4 @@
+import { useId } from 'react'
 import type { FiltresRecherche as Filtres } from '@/partage/hooks/useRecherche'
 import { useAvantages, useQuartiers, type TypeBien } from '@/partage/hooks/useAnnonces'
 import { useCommunes } from '@/partage/hooks/useRecherche'
@@ -8,6 +9,8 @@ import { Label } from '@/components/ui/label'
 import { LIBELLES_TYPE, TYPES_BIEN } from '@/partage/lib/validation'
 import { cn } from '@/lib/utils'
 import { DatesSejour } from '@/components/reservation/DatesSejour'
+import { IndicateurActif } from '@/components/animation/IndicateurActif'
+import { Apparition } from '@/components/animation/Apparition'
 
 const champNatif =
   'flex h-11 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
@@ -21,6 +24,8 @@ const nombreSaisi = (v: string) => {
 // s'appliquent à la sortie du champ (ou sur Entrée) pour ne pas relancer la
 // recherche à chaque chiffre tapé.
 export function FiltresRecherche({ filtres: f, onChange }: { filtres: Filtres; onChange: (f: Filtres) => void }) {
+  // Les filtres existent deux fois (colonne et panneau mobile) : groupe unique
+  const groupe = useId()
   const communes = useCommunes()
   const quartiers = useQuartiers()
   const avantages = useAvantages()
@@ -74,25 +79,28 @@ export function FiltresRecherche({ filtres: f, onChange }: { filtres: Filtres; o
                   )
                 }
                 className={cn(
-                  'h-10 rounded-lg border text-sm font-medium transition-colors duration-150',
-                  actif ? 'border-primary bg-primary text-primary-foreground' : 'hover:bg-secondary',
+                  'relative h-10 rounded-lg border text-sm font-medium transition-colors duration-150',
+                  actif ? 'border-primary text-primary-foreground' : 'hover:bg-secondary',
                 )}
               >
-                {l}
+                {/* Fond de l'option active qui glisse (lot 2) */}
+                {actif && <IndicateurActif groupe={groupe} className="-inset-px rounded-lg" />}
+                <span className="relative z-10">{l}</span>
               </button>
             )
           })}
         </div>
       </fieldset>
 
-      {f.sejour && (
+      {/* Dates du séjour : se déplient quand on choisit « Séjour court » (lot 2) */}
+      <Apparition visible={!!f.sejour} variante="volet">
         <DatesSejour
           arrivee={f.arrivee}
           depart={f.depart}
           voyageurs={f.voyageurs}
           onChange={(partiel) => maj(partiel)}
         />
-      )}
+      </Apparition>
 
       <div className="space-y-2">
         <Label htmlFor="filtre-type">Type de bien</Label>

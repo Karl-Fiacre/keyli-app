@@ -56,6 +56,55 @@ parallax et de Framer Motion (règles ci-dessous amendées en conséquence).
   - Mouvements réduits : bandeau immobile (une seule liste qui passe à la
     ligne), pastille et photos sans mouvement.
 
+## Animations expressives — 4 lots (porteur, 2026-11-26)
+
+Branche `feature/animations-expressives`. Tout reste sur Motion et sur
+`dashboard-animations.css` ; aucune nouvelle bibliothèque.
+
+- **Lot 1 — carte → fiche (transition partagée)** : API View Transitions du
+  navigateur. La photo de la carte cliquée s'agrandit jusqu'à la galerie de
+  la fiche ; « Retour à la recherche » la ramène à sa carte.
+  - `useNavigationPartagee` (`src/hooks/`) appelle
+    `document.startViewTransition` + `flushSync`, car l'option
+    `viewTransition` de React Router ne marche pas avec `BrowserRouter`.
+    Clic modifié, navigateur sans l'API ou mouvements réduits : lien normal.
+    Filet de 400 ms : si le navigateur ne dessine pas, on navigue sans
+    transition (un clic ne reste jamais sans effet).
+  - Nom de transition (`nomTransitionPhoto`, `src/lib/cinema.ts`) posé
+    **au clic** sur la seule carte concernée (deux éléments du même nom
+    annuleraient la transition), et au retour via l'état `retourAnnonce`.
+  - Destination toujours présente : données de la fiche préchargées au
+    survol/focus/toucher (`usePrechargerFiche`), code de la page aussi
+    (`src/lib/pagesPrechargees.ts`), et `SqueletteFiche` affiche la photo de
+    la carte (`apercu`) pendant le chargement.
+  - **Rideau** raccourci (~0,7 s) et réservé aux grandes entrées : quand on
+    quitte l'accueil, la connexion ou l'inscription (`GRANDES_ENTREES`,
+    `TransitionPage`). Pendant une transition partagée, `TransitionPage`
+    n'ajoute aucun effet.
+- **Lot 2 — entrées et sorties** : `Apparition` (`src/components/animation/`,
+  variantes `panneau`, `bandeau`, `volet` de `cinema.ts`) remplace les
+  `{ouvert && …kf-panneau-ouvre}` qui se fermaient d'un coup : cloche de
+  notifications, menu Partager, bandeau de consentement, menu mobile, dates
+  de séjour des filtres. `IndicateurActif` (`layoutId` + `RESSORT`) : le fond
+  de l'option active glisse (Liste | Carte, Séjour/Louer/Acheter de
+  l'accueil, Transaction des filtres). Résultats de recherche :
+  `AnimatePresence mode="popLayout"` + `layout="position"` — les cartes
+  glissent à leur nouvelle place quand un filtre ou le tri change.
+- **Lot 3 — réactions au geste** : onde rouge à l'ajout d'un favori
+  (`kf-onde`) ; tressaillement court d'un champ quand son erreur apparaît
+  (`kf-tressaille` sur `[aria-invalid='true']`) ; options de location et de
+  séjour court de « Publier une annonce » qui se déplient (le formulaire
+  reste sur une seule page) ; grille de photos animée (ajout, retrait,
+  déplacement) ; bulles de messagerie qui arrivent depuis leur côté (pas
+  celles déjà présentes à l'ouverture). Les boutons gardent `active:scale`.
+- **Lot 4 — chargements** : `kf-squelette` (lueur qui passe) et
+  `SqueletteCartes` / `SqueletteLignes` / `SqueletteFiche` à la place des
+  « Chargement… » : accueil, recherche, fiche, favoris, mes annonces,
+  réservations, messagerie, tableaux de bord propriétaire et agence.
+- **Mouvements réduits** : transitions partagées, lueur, onde et
+  tressaillement neutralisés dans `dashboard-animations.css` ; Motion coupe
+  les déplacements (`MotionConfig reducedMotion="user"`).
+
 ## Constantes globales
 ```css
 --kf-fast: 150ms;

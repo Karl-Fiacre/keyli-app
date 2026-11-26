@@ -27,6 +27,7 @@ import {
 } from '@/partage/lib/validation'
 import { cn } from '@/lib/utils'
 import { suivre } from '@/lib/suivi'
+import { Apparition } from '@/components/animation/Apparition'
 
 // Mêmes styles que Input pour les listes et la zone de texte natives
 const champNatif =
@@ -221,7 +222,8 @@ export default function PublierAnnonce() {
                 </fieldset>
               </div>
 
-              {statut === 'a_louer' && !terrain && (
+              {/* Options de location : se déplient avec « À louer » (lot 3) */}
+              <Apparition visible={statut === 'a_louer' && !terrain} variante="volet">
                 <div className="space-y-3 rounded-lg border bg-secondary/50 p-4">
                   <label className="flex cursor-pointer items-start gap-3 text-sm">
                     <input
@@ -240,7 +242,8 @@ export default function PublierAnnonce() {
                       </span>
                     </span>
                   </label>
-                  {sejour && (
+                  {/* Réglages du séjour court : se déplient à la coche (lot 3) */}
+                  <Apparition visible={sejour} variante="volet">
                     <div className="grid gap-4 sm:grid-cols-2">
                       <ChampFormulaire libelle="Nuits minimum" erreur={errors.nuitsMin?.message}>
                         {(a) => (
@@ -271,9 +274,9 @@ export default function PublierAnnonce() {
                         </ChampFormulaire>
                       )}
                     </div>
-                  )}
+                  </Apparition>
                 </div>
-              )}
+              </Apparition>
 
               <ChampFormulaire
                 libelle={

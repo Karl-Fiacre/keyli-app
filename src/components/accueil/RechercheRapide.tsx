@@ -9,6 +9,7 @@ import { ecrireFiltres } from '@/partage/lib/recherche'
 import { formatJourCourt } from '@/partage/lib/sejour'
 import { LIBELLES_TYPE, TYPES_BIEN } from '@/partage/lib/validation'
 import { cn } from '@/lib/utils'
+import { IndicateurActif } from '@/components/animation/IndicateurActif'
 
 const CHAMP =
   'h-11 w-full rounded-lg border border-input bg-background px-3 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
@@ -89,11 +90,13 @@ export function RechercheRapide() {
               setCalendrier(false)
             }}
             className={cn(
-              'rounded-pill px-4 py-1.5 text-sm font-semibold transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:px-5',
-              mode === v ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground',
+              'relative rounded-pill px-4 py-1.5 text-sm font-semibold transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:px-5',
+              mode === v ? 'text-primary-foreground' : 'text-muted-foreground hover:text-foreground',
             )}
           >
-            {l}
+            {/* Fond de l'onglet actif qui glisse (lot 2) */}
+            {mode === v && <IndicateurActif groupe="recherche-rapide" className="rounded-pill" />}
+            <span className="relative z-10">{l}</span>
           </button>
         ))}
       </div>

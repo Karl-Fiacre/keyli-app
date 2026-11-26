@@ -14,6 +14,7 @@ import { Revele } from '@/components/animation/Revele'
 import { TexteCinema } from '@/components/animation/TexteCinema'
 import { delaiCinema } from '@/lib/cinema'
 import { cn } from '@/lib/utils'
+import { SqueletteCartes } from '@/components/animation/Squelettes'
 
 // Catalogue des biens disponibles (décision du porteur, 2026-11-04) :
 // toutes les annonces publiées, vérifiées d'abord, en liste ou sur une
@@ -68,11 +69,7 @@ export function CatalogueAccueil() {
       {recherche.isError && <Alert variant="erreur">{messageErreur(recherche.error)}</Alert>}
 
       {recherche.isPending ? (
-        <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" aria-hidden>
-          {Array.from({ length: 4 }, (_, i) => (
-            <li key={i} className="h-80 animate-pulse rounded-lg bg-secondary" />
-          ))}
-        </ul>
+        <SqueletteCartes nombre={4} className="gap-6 lg:grid-cols-3 xl:grid-cols-4" />
       ) : vue === 'carte' ? (
         <CarteCatalogue annonces={annonces} />
       ) : (

@@ -7,6 +7,7 @@ import { useBasculerFavori, useMesFavoris } from '@/partage/hooks/useFavoris'
 import { messageErreur } from '@/partage/lib/erreurs'
 import { formatDate } from '@/partage/lib/format'
 import { TexteCinema } from '@/components/animation/TexteCinema'
+import { SqueletteCartes } from '@/components/animation/Squelettes'
 
 // Annonces mises en favori, de la plus récente à la plus ancienne. Une annonce
 // retirée depuis (archivée, masquée) reste listée pour pouvoir l'enlever.
@@ -29,7 +30,7 @@ export default function MesFavoris() {
           )}
         </div>
 
-        {favoris.isPending && <p className="text-muted-foreground">Chargement…</p>}
+        {favoris.isPending && <SqueletteCartes nombre={3} />}
         {favoris.isError && <Alert variant="erreur">{messageErreur(favoris.error)}</Alert>}
 
         {favoris.data?.length === 0 && (

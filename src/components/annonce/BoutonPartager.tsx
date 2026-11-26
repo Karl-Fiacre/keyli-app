@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Check, Link2, Share2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Apparition } from '@/components/animation/Apparition'
 
 // Partage d'une annonce (Sprint 5) : feuille de partage du téléphone quand
 // elle existe, sinon WhatsApp ou lien copié. Le lien porte la source
@@ -75,8 +76,11 @@ export function BoutonPartager({
       >
         <Share2 className="h-5 w-5" aria-hidden />
       </button>
-      {ouvert && (
-        <div role="menu" className="kf-zoom absolute right-0 z-20 mt-2 w-56 rounded-lg border bg-card p-1 shadow-lg">
+      <Apparition
+        visible={ouvert}
+        role="menu"
+        className="absolute right-0 z-20 mt-2 w-56 origin-top-right rounded-lg border bg-card p-1 shadow-lg"
+      >
           <a
             role="menuitem"
             href={`https://wa.me/?text=${encodeURIComponent(`${texte} ${lien}`)}`}
@@ -92,8 +96,7 @@ export function BoutonPartager({
             {copie ? <Check className="h-4 w-4 text-success" aria-hidden /> : <Link2 className="h-4 w-4" aria-hidden />}
             {copie ? 'Lien copié' : 'Copier le lien'}
           </button>
-        </div>
-      )}
+      </Apparition>
     </div>
   )
 }

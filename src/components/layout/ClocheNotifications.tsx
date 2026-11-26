@@ -10,6 +10,7 @@ import {
 } from '@/partage/hooks/useNotifications'
 import { ilYA, lienNotification } from '@/partage/lib/notifications'
 import { cn } from '@/lib/utils'
+import { Apparition } from '@/components/animation/Apparition'
 
 // Cloche de l'en-tête (docs/KEYLI_DASHBOARD_DESIGN_SPEC.md) : pastille rouge
 // des non lues, oscillation courte à la réception (temps réel), liste des
@@ -72,12 +73,12 @@ export function ClocheNotifications() {
         )}
       </Button>
 
-      {ouvert && (
-        <div
-          role="dialog"
-          aria-label="Notifications"
-          className="kf-panneau-ouvre absolute right-0 top-full z-50 mt-2 w-80 max-w-[calc(100vw-2rem)] overflow-hidden rounded-lg border bg-card shadow-lift"
-        >
+      <Apparition
+        visible={ouvert}
+        role="dialog"
+        aria-label="Notifications"
+        className="absolute right-0 top-full z-50 mt-2 w-80 max-w-[calc(100vw-2rem)] origin-top-right overflow-hidden rounded-lg border bg-card shadow-lift"
+      >
           <div className="flex items-center justify-between border-b px-4 py-3">
             <p className="font-semibold">Notifications</p>
             {nonLues > 0 && (
@@ -122,8 +123,7 @@ export function ClocheNotifications() {
               </li>
             ))}
           </ul>
-        </div>
-      )}
+      </Apparition>
     </div>
   )
 }

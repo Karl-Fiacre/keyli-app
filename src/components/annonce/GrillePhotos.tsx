@@ -1,6 +1,8 @@
 import { useRef } from 'react'
 import { ChevronLeft, ChevronRight, ImagePlus, Star, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { AnimatePresence, motion } from 'motion/react'
+import { RESSORT } from '@/lib/cinema'
 
 export interface PhotoGrille {
   cle: string
@@ -45,8 +47,19 @@ export function GrillePhotos({
   return (
     <div className="space-y-3">
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3" aria-label="Photos de l'annonce">
+        {/* Une photo ajoutée grandit à sa place, une photo retirée s'efface,
+            un déplacement fait glisser les photos (lot 3) */}
+        <AnimatePresence initial={false} mode="popLayout">
         {photos.map((p, i) => (
-          <li key={p.cle} className="group relative aspect-[4/3] overflow-hidden rounded-lg border bg-secondary">
+          <motion.li
+            key={p.cle}
+            layout
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.16 } }}
+            transition={RESSORT}
+            className="group relative aspect-[4/3] overflow-hidden rounded-lg border bg-secondary"
+          >
             <img src={p.src} alt={`Photo ${i + 1}`} className="h-full w-full object-cover" loading="lazy" />
             {i === 0 && (
               <span className="absolute left-2 top-2 flex items-center gap-1 rounded-pill bg-primary px-2 py-0.5 text-[11px] font-semibold text-primary-foreground">
@@ -84,8 +97,9 @@ export function GrillePhotos({
                 <ChevronRight className="h-4 w-4" aria-hidden />
               </button>
             </div>
-          </li>
+          </motion.li>
         ))}
+        </AnimatePresence>
         {restantes > 0 && (
           <li>
             <button

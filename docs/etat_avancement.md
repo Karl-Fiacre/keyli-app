@@ -15,7 +15,7 @@ conversation précédente, elle ne persiste pas.
   essayer sur le téléphone ; web terminé jusqu'au Sprint 11-12.
   Le détail par sprint est dans « Blocages / questions en attente » (entrées
   « Sprint N ») et dans `docs/MODULES/`.
-- **Dernière session de travail** : 2026-11-21 (test fermé Android, accueil par catégories, terrains, plantage Android)
+- **Dernière session de travail** : 2026-11-26 (soumissions stores, compte Keyli Démo, animations expressives du web)
 - **Dépôt Git** : dépôt privé
   https://github.com/Karl-Fiacre/keyli-app (`Karl-Fiacre/keyli` = ancien
   pilote, conservé comme référence, ne rien y pousser)
@@ -1327,6 +1327,26 @@ concernés :
     Apple Developer) pour ouvrir l'UE.
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
+
+### Session du 2026-11-26 — animations expressives du site web
+
+Branche `feature/animations-expressives`, 4 lots validés par le porteur,
+détail dans `docs/ANIMATIONS.md` (section « Animations expressives ») :
+- Lot 1 : la photo de la carte voyage jusqu'à la fiche et revient
+  (API View Transitions, hook `src/hooks/useNavigationPartagee.ts` — l'option
+  `viewTransition` de React Router n'agit pas avec `BrowserRouter`) ;
+  préchargement de la fiche au survol ; squelette de fiche ; rideau
+  raccourci et réservé à l'accueil, la connexion et l'inscription.
+- Lot 2 : `Apparition` (panneau, bandeau, volet) pour notifications,
+  partage, consentement, menu mobile, volets de formulaire.
+- Lot 3 : `IndicateurActif` (pastille qui glisse), onde du favori,
+  réordonnancement animé de la recherche et des photos, bulles de messages.
+- Lot 4 : `Squelettes` (cartes, lignes) à la place de « Chargement… ».
+- Vérifié : tsc, eslint, 73 tests Vitest, build ; aller-retour carte →
+  fiche → recherche dans le navigateur sans erreur. Mouvements réduits
+  respectés partout.
+- À faire : regarder les transitions à l'œil sur un vrai écran (le
+  navigateur de contrôle était masqué), puis `npm run deploy`.
 
 ## Modèle à copier pour chaque nouvelle entrée de session
 

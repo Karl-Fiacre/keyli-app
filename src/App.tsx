@@ -10,6 +10,7 @@ import { RouteProtegee } from '@/components/RouteProtegee'
 import Accueil from '@/pages/Accueil'
 import PageIntrouvable from '@/pages/PageIntrouvable'
 import { BandeauConsentement } from '@/components/suivi/BandeauConsentement'
+import { chargerFicheAnnonce, chargerRecherche } from '@/lib/pagesPrechargees'
 const Inscription = lazy(() => import('@/pages/Inscription'))
 const Connexion = lazy(() => import('@/pages/Connexion'))
 const VerifierEmail = lazy(() => import('@/pages/VerifierEmail'))
@@ -20,8 +21,8 @@ const Abonnement = lazy(() => import('@/pages/Abonnement'))
 const RetourPaiement = lazy(() => import('@/pages/RetourPaiement'))
 const MesAnnonces = lazy(() => import('@/pages/MesAnnonces'))
 const PublierAnnonce = lazy(() => import('@/pages/PublierAnnonce'))
-const Recherche = lazy(() => import('@/pages/Recherche'))
-const FicheAnnonce = lazy(() => import('@/pages/FicheAnnonce'))
+const Recherche = lazy(chargerRecherche)
+const FicheAnnonce = lazy(chargerFicheAnnonce)
 const Messages = lazy(() => import('@/pages/Messages'))
 const MesFavoris = lazy(() => import('@/pages/MesFavoris'))
 const Reservations = lazy(() => import('@/pages/Reservations'))

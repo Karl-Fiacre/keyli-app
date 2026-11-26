@@ -36,10 +36,12 @@ export function BoutonFavori({ propertyId, className }: { propertyId: string; cl
         bascule.mutate({ propertyId, actif: enregistre })
       }}
       className={cn(
-        'inline-flex h-10 w-10 items-center justify-center rounded-pill bg-background/90 shadow-sm transition-[transform,background-color] duration-150 hover:scale-105 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:hover:scale-100',
+        'relative inline-flex h-10 w-10 items-center justify-center rounded-pill bg-background/90 shadow-sm transition-[transform,background-color] duration-150 hover:scale-105 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:hover:scale-100',
         className,
       )}
     >
+      {/* Onde à l'ajout (kf-onde), en même temps que le battement */}
+      {bat && <span className="kf-onde pointer-events-none absolute inset-0 rounded-pill border-2 border-destructive" aria-hidden />}
       <Heart
         className={cn(
           'h-5 w-5 transition-colors duration-150',

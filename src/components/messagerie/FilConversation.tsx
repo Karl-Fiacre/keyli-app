@@ -7,6 +7,8 @@ import { useSession } from '@/partage/hooks/useSession'
 import { useFil, useMarquerLu, useRepondre } from '@/partage/hooks/useMessagerie'
 import { messageErreur } from '@/partage/lib/erreurs'
 import { cn } from '@/lib/utils'
+import { AnimatePresence, motion } from 'motion/react'
+import { RESSORT } from '@/lib/cinema'
 import type { Conversation } from '@/components/messagerie/ListeConversations'
 import { PanneauVisite } from '@/components/messagerie/PanneauVisite'
 import { ActionsInterlocuteur } from '@/components/messagerie/ActionsInterlocuteur'
@@ -92,12 +94,29 @@ export function FilConversation({
       )}
 
       <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4" aria-live="polite">
-        {fil.isPending && <p className="text-sm text-muted-foreground">Chargement…</p>}
+        {/* Squelette : quelques bulles de part et d'autre (lot 4) */}
+        {fil.isPending && (
+          <div className="space-y-3" aria-busy="true" aria-label="Chargement des messages">
+            <div className="kf-squelette h-12 w-2/3 rounded-lg" />
+            <div className="kf-squelette ml-auto h-10 w-1/2 rounded-lg" />
+            <div className="kf-squelette h-16 w-3/5 rounded-lg" />
+          </div>
+        )}
         {fil.isError && <Alert variant="erreur">{messageErreur(fil.error)}</Alert>}
+        {/* Une bulle qui arrive (envoyée ou reçue) monte depuis son côté ;
+            les messages déjà là à l'ouverture ne bougent pas (lot 3) */}
+        <AnimatePresence initial={false}>
         {messages.map((m) => {
           const deMoi = m.from_user === moi
           return (
-            <div key={m.id} className={cn('flex', deMoi ? 'justify-end' : 'justify-start')}>
+            <motion.div
+              key={m.id}
+              initial={{ opacity: 0, y: 12, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={RESSORT}
+              style={{ transformOrigin: deMoi ? 'bottom right' : 'bottom left' }}
+              className={cn('flex', deMoi ? 'justify-end' : 'justify-start')}
+            >
               <div
                 className={cn(
                   'max-w-[80%] rounded-lg px-4 py-2 text-sm',
@@ -110,9 +129,10 @@ export function FilConversation({
                   {deMoi && m.read && ' · Lu'}
                 </p>
               </div>
-            </div>
+            </motion.div>
           )
         })}
+        </AnimatePresence>
         <div ref={bas} />
       </div>
 

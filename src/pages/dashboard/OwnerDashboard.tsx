@@ -15,6 +15,7 @@ import type { Profil } from '@/partage/hooks/useProfil'
 import { etapesVerification, pctSigne, variationPct } from '@/partage/lib/dashboard'
 import { formatXof } from '@/partage/lib/format'
 import { cheminConversation } from '@/partage/lib/messagerie'
+import { SqueletteLignes } from '@/components/animation/Squelettes'
 
 // Écart au-delà duquel un prix est signalé (au-dessus ou en dessous du
 // prix moyen fiable du quartier). Règle simple et affichée telle quelle.
@@ -105,7 +106,7 @@ export default function OwnerDashboard({ profil }: { profil: Profil }) {
         <section className="rounded-lg border bg-card p-5">
           <h2 className="mb-4 font-semibold">Vérification du compte</h2>
           {documents.isPending ? (
-            <p className="text-sm text-muted-foreground">Chargement…</p>
+            <SqueletteLignes nombre={2} />
           ) : (
             <VerificationStepper
               etapes={etapesVerification(agence ? 'agency' : 'owner', documents.data ?? [], !!profil.verified)}
@@ -150,7 +151,7 @@ export default function OwnerDashboard({ profil }: { profil: Profil }) {
             </Link>
           </div>
           {biens.isPending ? (
-            <p className="text-sm text-muted-foreground">Chargement…</p>
+            <SqueletteLignes nombre={3} />
           ) : (biens.data ?? []).length === 0 ? (
             <p className="text-sm text-muted-foreground">Aucune annonce en ligne pour l'instant.</p>
           ) : (

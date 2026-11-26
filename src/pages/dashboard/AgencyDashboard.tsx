@@ -26,6 +26,7 @@ import type { Profil } from '@/partage/hooks/useProfil'
 import { messageErreur } from '@/partage/lib/erreurs'
 import { variationPct } from '@/partage/lib/dashboard'
 import { cheminConversation } from '@/partage/lib/messagerie'
+import { SqueletteLignes } from '@/components/animation/Squelettes'
 
 const PERIODES = [7, 30, 90]
 
@@ -131,7 +132,7 @@ export default function AgencyDashboard({ profil }: { profil: Profil }) {
             {erreurAction && <p className="text-xs text-destructive-texte">{messageErreur(erreurAction)}</p>}
           </div>
           {pipeline.isPending ? (
-            <p className="text-sm text-muted-foreground">Chargement…</p>
+            <SqueletteLignes nombre={4} />
           ) : (
             <LeadPipeline
               leads={(pipeline.data ?? []).map((l) => ({

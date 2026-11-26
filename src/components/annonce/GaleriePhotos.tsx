@@ -6,7 +6,20 @@ import { ImageFondu } from '@/components/animation/ImageFondu'
 
 // Galerie de la fiche d'annonce : grande photo, flèches et vignettes.
 // Images servies par Cloudinary au format et à la taille de l'écran.
-export function GaleriePhotos({ photos, titre }: { photos: { id: string; url: string }[]; titre: string }) {
+// `nomTransition` : destination de la photo de la carte cliquée (transition
+// partagée, src/lib/cinema.ts) ; `apercu` : photo de la carte, déjà en
+// cache, affichée dessous le temps que la grande photo arrive.
+export function GaleriePhotos({
+  photos,
+  titre,
+  nomTransition,
+  apercu,
+}: {
+  photos: { id: string; url: string }[]
+  titre: string
+  nomTransition?: string
+  apercu?: string | null
+}) {
   const [courante, setCourante] = useState(0)
   // Photo affichée avant la dernière bascule (fond du fondu enchaîné)
   const [precedente, setPrecedente] = useState<number | null>(null)
@@ -14,7 +27,10 @@ export function GaleriePhotos({ photos, titre }: { photos: { id: string; url: st
 
   if (n === 0) {
     return (
-      <div className="flex aspect-[16/9] flex-col items-center justify-center gap-2 rounded-lg bg-secondary text-muted-foreground">
+      <div
+        className="flex aspect-[16/9] flex-col items-center justify-center gap-2 rounded-lg bg-secondary text-muted-foreground"
+        style={nomTransition ? { viewTransitionName: nomTransition } : undefined}
+      >
         <Home className="h-12 w-12" aria-hidden />
         <span className="text-sm">Photos bientôt disponibles</span>
       </div>
@@ -31,7 +47,18 @@ export function GaleriePhotos({ photos, titre }: { photos: { id: string; url: st
 
   return (
     <div className="space-y-3">
-      <div className="relative aspect-[16/9] overflow-hidden rounded-lg bg-secondary">
+      <div
+        className="relative aspect-[16/9] overflow-hidden rounded-lg bg-secondary"
+        style={nomTransition ? { viewTransitionName: nomTransition } : undefined}
+      >
+        {apercu && precedente === null && (
+          <img
+            src={urlPhoto(apercu, 640, 480)}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        )}
         {/* Fondu enchaîné : la photo précédente reste dessous pendant que
             la nouvelle apparaît (kf-photo, docs/ANIMATIONS.md) */}
         {precedente !== null && precedente !== i && photos[precedente] && (

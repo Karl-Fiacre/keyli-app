@@ -15,9 +15,11 @@ import { messageErreur } from '@/partage/lib/erreurs'
 import { ecrireFiltres, LIBELLES_TRI, lireFiltres, nombreFiltresActifs } from '@/partage/lib/recherche'
 import { cn } from '@/lib/utils'
 import { listeVilles } from '@/partage/lib/villes'
-import { delaiCascade } from '@/lib/animation'
 import { TexteCinema } from '@/components/animation/TexteCinema'
 import { useTitrePage } from '@/hooks/useTitrePage'
+import { AnimatePresence, motion } from 'motion/react'
+import { DUREE, RESSORT, delaiCinema, transitionCinema } from '@/lib/cinema'
+import { SqueletteCartes } from '@/components/animation/Squelettes'
 
 // Recherche d'annonces par filtres (Sprint 2). Les filtres vivent dans l'URL ;
 // la base filtre et trie (vérifiées d'abord par défaut).
@@ -129,6 +131,9 @@ export default function Recherche() {
           )}
 
           {/* Carte : les annonces de la page en cours, à leur position approximative */}
+          {/* Première recherche : squelettes à la place de la grille (lot 4) */}
+          {recherche.isPending && vue === 'liste' && <SqueletteCartes nombre={6} />}
+
           {vue === 'carte' && recherche.data && total > 0 ? (
             <CarteCatalogue annonces={recherche.data.annonces} sejour={requeteSejour} />
           ) : (
@@ -138,11 +143,23 @@ export default function Recherche() {
                 recherche.isFetching && 'opacity-60',
               )}
             >
-              {recherche.data?.annonces.map((a, i) => (
-                <li key={a.id} className="kf-cascade" style={delaiCascade(i, 50, 300)}>
-                  <CarteAnnonce annonce={a} sejour={requeteSejour} />
-                </li>
-              ))}
+              {/* Les cartes arrivent en cascade, puis glissent à leur nouvelle
+                  place quand un filtre ou le tri change ; celles qui ne
+                  correspondent plus s'effacent (lot 2) */}
+              <AnimatePresence mode="popLayout" initial={false}>
+                {recherche.data?.annonces.map((a, i) => (
+                  <motion.li
+                    key={a.id}
+                    layout="position"
+                    initial={{ opacity: 0, y: 24 }}
+                    animate={{ opacity: 1, y: 0, transition: transitionCinema(delaiCinema(i, 0.05, 0.3), DUREE.base) }}
+                    exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.18 } }}
+                    transition={RESSORT}
+                  >
+                    <CarteAnnonce annonce={a} sejour={requeteSejour} />
+                  </motion.li>
+                ))}
+              </AnimatePresence>
             </ul>
           )}
 

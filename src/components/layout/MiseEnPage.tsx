@@ -7,13 +7,13 @@ import { useSession } from '@/partage/hooks/useSession'
 import { useDeconnexion } from '@/partage/hooks/useCompte'
 import { useProfil } from '@/partage/hooks/useProfil'
 import { useMessagesNonLus, useMessagesTempsReel } from '@/partage/hooks/useMessagerie'
-import { cn } from '@/lib/utils'
 import { ClocheNotifications } from '@/components/layout/ClocheNotifications'
 import { LienEvitement } from '@/components/layout/LienEvitement'
 import { TransitionPage } from '@/components/animation/TransitionPage'
 import { PorteCgu } from '@/components/juridique/PorteCgu'
 import { ChargementPage } from '@/components/ChargementPage'
 import { retirerChoix, suiviConfigure } from '@/lib/suivi'
+import { Apparition } from '@/components/animation/Apparition'
 
 // Mise en page commune : en-tête avec le logotype officiel
 // (public/keyli-logo-*.png, déclinés par docs/keyli_brand_assets/generer-raster.cjs
@@ -118,8 +118,9 @@ export function MiseEnPage() {
             </Button>
           </div>
         </div>
-        <nav id="menu-principal" className={cn('border-t lg:hidden', menuOuvert ? 'kf-panneau-ouvre' : 'hidden')}>
-          <div className="container flex flex-col gap-1 py-3">
+        {/* Menu mobile : se déplie et se replie en hauteur (lot 2) */}
+        <Apparition visible={menuOuvert} variante="volet" className="border-t lg:hidden">
+          <nav id="menu-principal" className="container flex flex-col gap-1 py-3">
             {(session ? liens : liens.slice(0, 2)).map((l) => (
               <Button key={l.vers} variant="ghost" asChild className="justify-start">
                 <Link to={l.vers}>
@@ -142,8 +143,8 @@ export function MiseEnPage() {
                 </Button>
               </>
             )}
-          </div>
-        </nav>
+          </nav>
+        </Apparition>
       </header>
       <main id="contenu" tabIndex={-1} className="flex-1 outline-none">
         <TransitionPage variante="rideau">
