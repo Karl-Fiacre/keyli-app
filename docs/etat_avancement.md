@@ -1318,8 +1318,13 @@ concernés :
     (174 pays) ; statut DSA déclaré « non-commerçant » par le porteur
     (→ app non distribuée dans l'UE tant que ce statut n'est pas changé).
   - **iOS 0.1.0 (build 17) envoyée à la vérification d'Apple le
-    2026-11-26**, avec l'accord du porteur. Publication automatique après
-    approbation. Délai annoncé : jusqu'à 48 h.
+    2026-11-26**, avec l'accord du porteur. Publication **manuelle** après
+    approbation (bouton « Publier cette version » dans App Store Connect).
+    Délai annoncé : jusqu'à 48 h.
+  - Statut DSA : « non-commerçant » faute de mieux — la vérification par
+    SMS d'Apple échouait (3 essais). À refaire en commerçant (voir les
+    pistes : Business → Conformité du compte, autre numéro, assistance
+    Apple Developer) pour ouvrir l'UE.
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 
