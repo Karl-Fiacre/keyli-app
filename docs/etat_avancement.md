@@ -1298,6 +1298,10 @@ concernés :
   (journalisé). Fonction déployée. **À faire par le porteur** : secrets
   `APPLE_TEAM_ID`, `APPLE_KEY_ID`, `APPLE_PRIVATE_KEY` (contenu du .p8)
   dans Supabase → Edge Functions → Secrets ; sans eux, l'étape est sautée.
+  Fait le 2026-11-26 : `APPLE_KEY_ID` (clé `2S8VYWBH83`, Sign in with
+  Apple) et `APPLE_PRIVATE_KEY` (posé en une ligne via la CLI, le tableau
+  de bord refusant le texte sur plusieurs lignes) ; Team ID repris de
+  `APNS_TEAM_ID`. À valider par un essai réel sur TestFlight.
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 
