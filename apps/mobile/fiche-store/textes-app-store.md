@@ -107,6 +107,12 @@ publicitaires, identifiant de l'appareil pour la publicité.
 - Prix : **Gratuit**
 - Pays : tous (comme sur Google Play : Côte d'Ivoire, France et reste du
   monde).
+- Enregistré le 2026-11-26 : prix 0,00 $ (pays de base États-Unis, prix
+  identique partout), disponible dans les 175 pays ou régions et les
+  futurs, sans précommande.
+- Droits sur le contenu (page Informations) : « Oui, contenus tiers et
+  droits nécessaires » (annonces et photos publiées par les utilisateurs,
+  licence prévue dans les mentions légales), enregistré le 2026-11-26.
 
 ## Chiffrement (export)
 

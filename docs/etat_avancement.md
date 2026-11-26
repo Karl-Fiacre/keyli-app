@@ -1307,6 +1307,15 @@ concernés :
   nouvelle version Android à la place de l'Alpha 10 puis examen Google ;
   fiche App Store Connect (`textes-app-store.md`) puis soumission Apple —
   chaque envoi avec l'accord du porteur.
+- 2026-11-26, état des soumissions :
+  - Google Play : Alpha 12 (bundle 12) envoyée à l'examen, avec accord.
+  - App Store Connect (app 6832900979), enregistré : build 17, version
+    0.1.0, textes, URL, notes de vérification, sous-titre, catégories,
+    confidentialité publiée (11 types), classification 13+, droits sur le
+    contenu (contenus tiers), prix gratuit, 175 pays.
+  - Reste au porteur : 7 captures (`fiche-store/captures-iphone-6.7/`),
+    compte de test et coordonnées, statut de commerçant UE. Puis
+    « Ajouter pour vérification » et « Soumettre », avec son accord.
 - Reste : emails des testeurs (porteur). Puis 14 jours de test avec 12 testeurs actifs avant
   de demander l'accès à la production. iOS : non relancé.
 
